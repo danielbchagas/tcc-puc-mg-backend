@@ -19,7 +19,7 @@ namespace WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthConfigurations(Configuration);
+            services.AddAuthenticationConfigurations();
             services.AddKissLogConfigurations();
 
             services.AddControllers();

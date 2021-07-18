@@ -5,7 +5,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Produtos.Middlewares
+namespace Api.Middlewares
 {
     public class KissLogMiddleware
     {

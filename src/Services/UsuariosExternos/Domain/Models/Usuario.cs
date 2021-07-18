@@ -1,4 +1,4 @@
-﻿using SharedKernel.Models;
+﻿using Core.Domain.Models;
 
 namespace Domain.Models
 {

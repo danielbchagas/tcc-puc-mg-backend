@@ -10,7 +10,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace Produtos.Configurations
+namespace Api.Configurations
 {
     public static class KissLogConfigurations
     {

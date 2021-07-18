@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\DomainSharedKernel\DomainSharedKernel.csproj" />
+    <ProjectReference Include="..\..\..\Core\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
