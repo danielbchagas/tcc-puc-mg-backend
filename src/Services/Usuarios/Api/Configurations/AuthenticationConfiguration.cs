@@ -10,7 +10,7 @@ namespace Api.Configurations
                 .AddJwtBearer(options => 
                 {
                     options.Authority = "https://localhost:5001";
-                    options.Audience = "api_usuariosexternos";
+                    options.Audience = "api_usuarios";
                 });
 
             return services;
