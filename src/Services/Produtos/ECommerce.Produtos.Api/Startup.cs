@@ -88,14 +88,24 @@ namespace ECommerce.Produtos.Api
             services.AddScoped<IProdutoQuery, BuscarProdutoQuery>();
             #endregion
 
+            #region Healh Checks
+            services.AddHealthChecks()
+            .AddDbContextCheck<ApplicationDbContext>();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("ProdutosDB"));
+            });
+            #endregion
+
+            services.AddControllers();
+
             #region Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApp", Version = "v1" });
             });
             #endregion
-
-            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -131,6 +141,7 @@ namespace ECommerce.Produtos.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
         }
 
