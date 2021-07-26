@@ -11,6 +11,11 @@ namespace ECommerce.Produtos.Domain.Application.Commands
 {
     public class ExcluirProdutoCommand : IRequest<ValidationResult>
     {
+        // Log do evento
+        public string OrigemRequisicao { get; set; }
+        public string Uri { get; set; }
+
+        // Produto
         public Guid Id { get; set; }
     }
 
@@ -37,7 +42,7 @@ namespace ECommerce.Produtos.Domain.Application.Commands
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new ProdutoCommitNotification(sucesso));
+                    await _mediator.Publish(new ProdutoCommitNotification(request.OrigemRequisicao, request.Uri, request.Id));
             }
 
             return await Task.FromResult(valido);

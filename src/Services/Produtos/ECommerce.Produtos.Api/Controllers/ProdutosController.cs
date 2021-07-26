@@ -46,12 +46,15 @@ namespace ECommerce.Produtos.Api.Controllers
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpPost("novo")]
-        public async Task<IActionResult> Novo(RegistrarProdutoCommand produto)
+        public async Task<IActionResult> Novo(RegistrarProdutoCommand request)
         {
-            var resultado = await _mediator.Send(produto);
+            request.OrigemRequisicao = HttpContext.Connection.RemoteIpAddress.ToString();
+            request.Uri = HttpContext.Request.Path;
+            
+            var resultado = await _mediator.Send(request);
 
             if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.SelectMany(_ => _.ErrorMessage));
+                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
 
             return Ok();
         }
@@ -60,12 +63,15 @@ namespace ECommerce.Produtos.Api.Controllers
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpPut("atualizar")]
-        public async Task<IActionResult> Atualizar(AtualizarProdutoCommand produto)
+        public async Task<IActionResult> Atualizar(AtualizarProdutoCommand request)
         {
-            var resultado = await _mediator.Send(produto);
+            request.OrigemRequisicao = HttpContext.Connection.RemoteIpAddress.ToString();
+            request.Uri = HttpContext.Request.Path;
+
+            var resultado = await _mediator.Send(request);
 
             if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.SelectMany(_ => _.ErrorMessage));
+                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
 
             return Ok();
         }
@@ -76,10 +82,13 @@ namespace ECommerce.Produtos.Api.Controllers
         [HttpDelete("excluir")]
         public async Task<IActionResult> Excluir(ExcluirProdutoCommand request)
         {
+            request.OrigemRequisicao = HttpContext.Connection.RemoteIpAddress.ToString();
+            request.Uri = HttpContext.Request.Path;
+
             var resultado = await _mediator.Send(request);
 
             if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.SelectMany(_ => _.ErrorMessage));
+                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
 
             return NoContent();
         }

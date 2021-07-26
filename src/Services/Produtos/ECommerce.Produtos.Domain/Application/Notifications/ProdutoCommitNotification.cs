@@ -7,14 +7,19 @@ namespace ECommerce.Produtos.Domain.Application.Notifications
 {
     public class ProdutoCommitNotification : INotification
     {
-        public ProdutoCommitNotification(bool sucesso)
+        public ProdutoCommitNotification(string caminhoRequisicao, string uri, Guid produtoId)
         {
             Momento = DateTime.Now;
-            Sucesso = sucesso;
+            CaminhoRequisicao = caminhoRequisicao;
+            Uri = uri;
+            ProdutoId = produtoId;
+
         }
 
         public DateTime Momento { get; private set; }
-        public bool Sucesso { get; private set; }
+        public string CaminhoRequisicao { get; private set; }
+        public string Uri { get; private set; }
+        public Guid ProdutoId { get; private set; }
     }
 
     public class ProdutoCommitNotificationHandler : INotificationHandler<ProdutoCommitNotification>

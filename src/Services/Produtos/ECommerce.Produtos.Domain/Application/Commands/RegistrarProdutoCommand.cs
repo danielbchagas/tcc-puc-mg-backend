@@ -13,7 +13,17 @@ namespace ECommerce.Produtos.Domain.Application.Commands
 {
     public class RegistrarProdutoCommand : IRequest<ValidationResult>
     {
-        public Guid Id { get; set; }
+        public RegistrarProdutoCommand()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        // Log do evento
+        public string OrigemRequisicao { get; set; }
+        public string Uri { get; set; }
+
+        // Produto
+        public Guid Id { get; private set; }
         public string Marca { get; set; }
         public string Nome { get; set; }
         public string Lote { get; set; }
@@ -54,11 +64,11 @@ namespace ECommerce.Produtos.Domain.Application.Commands
             {
                 var produto = _mapper.Map<Produto>(request);
 
-                await _repository.Atualizar(produto);
+                await _repository.Adicionar(produto);
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new ProdutoCommitNotification(sucesso));
+                    await _mediator.Publish(new ProdutoCommitNotification(request.OrigemRequisicao, request.Uri, request.Id));
             }
 
             return await Task.FromResult(valido);
@@ -69,9 +79,9 @@ namespace ECommerce.Produtos.Domain.Application.Commands
     {
         public RegistrarProdutoCommandValidation()
         {
-            RuleFor(_ => _.Marca).NotEmpty().NotEmpty().WithMessage("Informe o marca do produto!");
-            RuleFor(_ => _.Nome).NotEmpty().NotEmpty().WithMessage("Informe o nome do produto!");
-            RuleFor(_ => _.Lote).NotEmpty().NotEmpty().WithMessage("Informe o lote do produto!");
+            RuleFor(_ => _.Marca).NotNull().NotEmpty().WithMessage("Informe o marca do produto!");
+            RuleFor(_ => _.Nome).NotNull().NotEmpty().WithMessage("Informe o nome do produto!");
+            RuleFor(_ => _.Lote).NotNull().NotEmpty().WithMessage("Informe o lote do produto!");
             RuleFor(_ => _.Quantidade).GreaterThanOrEqualTo(0).WithMessage("Limite atingido!");
             RuleFor(_ => _.Fabricacao).LessThanOrEqualTo(DateTime.Now).WithMessage("Data inválida!");
             RuleFor(_ => _.Vencimento).GreaterThanOrEqualTo(DateTime.Now).WithMessage("Produto vencido!");

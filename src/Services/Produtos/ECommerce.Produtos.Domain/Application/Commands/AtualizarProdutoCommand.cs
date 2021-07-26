@@ -13,6 +13,11 @@ namespace ECommerce.Produtos.Domain.Application.Commands
 {
     public class AtualizarProdutoCommand : IRequest<ValidationResult>
     {
+        // Log do evento
+        public string OrigemRequisicao { get; set; }
+        public string Uri { get; set; }
+
+        // Produto
         public Guid Id { get; set; }
         public string Marca { get; set; }
         public string Nome { get; set; }
@@ -57,7 +62,8 @@ namespace ECommerce.Produtos.Domain.Application.Commands
                 await _repository.Atualizar(produto);
                 var sucesso = await _repository.UnitOfWork.Commit();
 
-                await _mediator.Publish(new ProdutoCommitNotification(sucesso));
+                if(sucesso)
+                    await _mediator.Publish(new ProdutoCommitNotification(request.OrigemRequisicao, request.Uri, request.Id));
             }
 
             return await Task.FromResult(valido);
