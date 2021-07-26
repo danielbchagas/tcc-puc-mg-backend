@@ -1,5 +1,7 @@
 using ECommerce.Produtos.Api.Middlewares;
 using ECommerce.Produtos.Domain.Application.Commands;
+using ECommerce.Produtos.Domain.Application.Handlers.Commands;
+using ECommerce.Produtos.Domain.Application.Handlers.Notifications;
 using ECommerce.Produtos.Domain.Application.Notifications;
 using ECommerce.Produtos.Domain.Application.Queries;
 using ECommerce.Produtos.Domain.Interfaces.Queries;

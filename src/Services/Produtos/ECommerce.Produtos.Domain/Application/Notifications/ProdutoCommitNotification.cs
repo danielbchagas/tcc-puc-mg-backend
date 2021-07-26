@@ -1,7 +1,5 @@
 ﻿using MediatR;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ECommerce.Produtos.Domain.Application.Notifications
 {
@@ -20,15 +18,5 @@ namespace ECommerce.Produtos.Domain.Application.Notifications
         public string CaminhoRequisicao { get; private set; }
         public string Uri { get; private set; }
         public Guid ProdutoId { get; private set; }
-    }
-
-    public class ProdutoCommitNotificationHandler : INotificationHandler<ProdutoCommitNotification>
-    {
-        public Task Handle(ProdutoCommitNotification notification, CancellationToken cancellationToken)
-        {
-            // Logar
-
-            return Task.CompletedTask;
-        }
     }
 }

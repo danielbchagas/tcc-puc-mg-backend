@@ -10,9 +10,4 @@
     <PackageReference Include="MediatR" Version="9.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Application\Handlers\Commands\" />
-    <Folder Include="Application\Handlers\Notifications\" />
-  </ItemGroup>
-
 </Project>

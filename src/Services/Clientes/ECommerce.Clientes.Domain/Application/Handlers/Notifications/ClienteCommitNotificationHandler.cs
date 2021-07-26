@@ -13,6 +13,8 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Notifications
     {
         public Task Handle(ClienteCommitNotification notification, CancellationToken cancellationToken)
         {
+            // Logar
+
             throw new NotImplementedException();
         }
     }
