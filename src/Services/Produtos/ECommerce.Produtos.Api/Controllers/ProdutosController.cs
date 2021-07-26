@@ -76,7 +76,7 @@ namespace ECommerce.Produtos.Api.Controllers
             return Ok();
         }
 
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpDelete("excluir")]
@@ -90,7 +90,7 @@ namespace ECommerce.Produtos.Api.Controllers
             if (!resultado.IsValid)
                 return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
 
-            return NoContent();
+            return Ok();
         }
     }
 }

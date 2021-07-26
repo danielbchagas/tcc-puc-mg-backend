@@ -6,7 +6,7 @@ namespace ECommerce.Produtos.Domain.Models
 {
     public class Produto : Entity, IAggregateRoot
     {
-        public Produto(Guid id, string marca, string nome, string lote, DateTime fabricacao, DateTime vencimento, string observacao, long quantidade)
+        public Produto(Guid id, string marca, string nome, string lote, DateTime fabricacao, DateTime vencimento, string observacao, long quantidade, bool ativo = true)
         {
             Id = id;
             Marca = marca;
@@ -16,6 +16,7 @@ namespace ECommerce.Produtos.Domain.Models
             Vencimento = vencimento;
             Observacao = observacao;
             Quantidade = quantidade;
+            Ativo = ativo;
         }
 
         public string Marca { get; private set; }
@@ -25,6 +26,7 @@ namespace ECommerce.Produtos.Domain.Models
         public DateTime Vencimento { get; private set; }
         public string Observacao { get; private set; }
         public long Quantidade { get; private set; }
+        public bool Ativo { get; private set; }
 
         public void Adicionar(int quantidade)
         {
@@ -34,6 +36,16 @@ namespace ECommerce.Produtos.Domain.Models
         public void Remover(int quantidade)
         {
             Quantidade -= quantidade;
+        }
+
+        public void Desabilitar()
+        {
+            Ativo = false;
+        }
+
+        public void Habilitar()
+        {
+            Ativo = true;
         }
     }
 }

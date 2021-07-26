@@ -36,23 +36,23 @@ namespace ECommerce.Produtos.Infrastructure.Repositories
 
         public async Task<Produto> Buscar(Guid id)
         {
-            return await _context.Produtos.FindAsync(id);
+            return await _context.Produtos.Where(p => p.Ativo == true).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Produto>> Buscar(int? pagina, int? linhas)
         {
             if (pagina.HasValue|| linhas.HasValue)
-                return await _context.Produtos.AsNoTracking().Skip((pagina.Value - 1) * linhas.Value).Take(linhas.Value).ToListAsync();
+                return await _context.Produtos.Where(p => p.Ativo == true).AsNoTracking().Skip((pagina.Value - 1) * linhas.Value).Take(linhas.Value).ToListAsync();
 
-            return await _context.Produtos.AsNoTracking().ToListAsync();
+            return await _context.Produtos.Where(p => p.Ativo == true).AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<Produto>> Buscar(Expression<Func<Produto, bool>> filtro, int? pagina, int? linhas)
         {
             if (pagina.HasValue || linhas.HasValue)
-                return await _context.Produtos.Where(filtro).AsNoTracking().Skip((pagina.Value - 1) * linhas.Value).Take(linhas.Value).ToListAsync();
+                return await _context.Produtos.Where(p => p.Ativo == true).Where(filtro).AsNoTracking().Skip((pagina.Value - 1) * linhas.Value).Take(linhas.Value).ToListAsync();
 
-            return await _context.Produtos.Where(filtro).AsNoTracking().ToListAsync();
+            return await _context.Produtos.Where(p => p.Ativo == true).Where(filtro).AsNoTracking().ToListAsync();
         }
 
         public void Dispose()

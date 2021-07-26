@@ -18,6 +18,7 @@ namespace ECommerce.Produtos.Infrastructure.Mappings
             builder.Property(p => p.Quantidade).HasColumnType("int").IsRequired();
             builder.Property(p => p.Vencimento).HasColumnType("date").IsRequired();
             builder.Property(p => p.Fabricacao).HasColumnType("date").IsRequired();
+            builder.Property(p => p.Ativo).HasColumnType("bit").IsRequired();
         }
     }
 }

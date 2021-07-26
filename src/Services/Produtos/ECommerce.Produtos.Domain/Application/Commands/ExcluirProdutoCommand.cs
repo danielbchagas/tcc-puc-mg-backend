@@ -38,7 +38,10 @@ namespace ECommerce.Produtos.Domain.Application.Commands
 
             if (valido.IsValid)
             {
-                await _repository.Excluir(request.Id);
+                var produto = await _repository.Buscar(request.Id);
+
+                produto.Desabilitar();
+
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
