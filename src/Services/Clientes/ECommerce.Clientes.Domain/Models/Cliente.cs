@@ -10,18 +10,20 @@ namespace ECommerce.Clientes.Domain.Models
 
         }
 
-        public Cliente(Guid id, string nomeFantasia, string cnpj, bool ativo = true)
+        public Cliente(Guid id, string nomeFantasia, string cnpj, Endereco endereco, bool ativo = true)
         {
             Id = id;
             NomeFantasia = nomeFantasia;
             Cnpj = cnpj;
+            Endereco = endereco;
             Ativo = ativo;
         }
 
-        public string NomeFantasia { get; private set; }
-        public string Cnpj { get; private set; }
-        public bool Ativo { get; private set; }
+        public string NomeFantasia { get; set; }
+        public string Cnpj { get; set; }
+        public bool Ativo { get; set; }
 
+        public Guid EnderecoId { get; set; }
         public virtual Endereco Endereco { get; set; }
 
         public void Desativar()
