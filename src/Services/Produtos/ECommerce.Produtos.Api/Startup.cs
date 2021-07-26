@@ -77,7 +77,7 @@ namespace ECommerce.Produtos.Api
             // Requisições
             services.AddScoped<IRequestHandler<AtualizarProdutoCommand, ValidationResult>, AtualizarProdutoCommandHandler>();
             services.AddScoped<IRequestHandler<RegistrarProdutoCommand, ValidationResult>, RegistrarProdutoCommandHandler>();
-            services.AddScoped<IRequestHandler<ExcluirProdutoCommand, ValidationResult>, ExcluirProdutoCommandHandler>();
+            services.AddScoped<IRequestHandler<DesabilitarProdutoCommand, ValidationResult>, DesabilitarProdutoCommandHandler>();
             // Notificações
             services.AddScoped<INotificationHandler<ProdutoCommitNotification>, ProdutoCommitNotificationHandler>();
 

@@ -80,7 +80,7 @@ namespace ECommerce.Produtos.Api.Controllers
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpDelete("excluir")]
-        public async Task<IActionResult> Excluir(ExcluirProdutoCommand request)
+        public async Task<IActionResult> Excluir(DesabilitarProdutoCommand request)
         {
             request.OrigemRequisicao = HttpContext.Connection.RemoteIpAddress.ToString();
             request.Uri = HttpContext.Request.Path;

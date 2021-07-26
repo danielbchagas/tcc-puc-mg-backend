@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Produtos.Domain.Application.Commands
 {
-    public class ExcluirProdutoCommand : IRequest<ValidationResult>
+    public class DesabilitarProdutoCommand : IRequest<ValidationResult>
     {
         // Log do evento
         public string OrigemRequisicao { get; set; }
@@ -19,20 +19,20 @@ namespace ECommerce.Produtos.Domain.Application.Commands
         public Guid Id { get; set; }
     }
 
-    public class ExcluirProdutoCommandHandler : IRequestHandler<ExcluirProdutoCommand, ValidationResult>
+    public class DesabilitarProdutoCommandHandler : IRequestHandler<DesabilitarProdutoCommand, ValidationResult>
     {
-        public ExcluirProdutoCommandHandler(IProdutoRepository repository, IMediator mediator)
+        public DesabilitarProdutoCommandHandler(IProdutoRepository repository, IMediator mediator)
         {
             _repository = repository;
             _mediator = mediator;
-            _validacoes = new ExcluirProdutoCommandValidation();
+            _validacoes = new DesabilitarProdutoCommandValidation();
         }
 
         private readonly IProdutoRepository _repository;
         private readonly IMediator _mediator;
-        private readonly ExcluirProdutoCommandValidation _validacoes;
+        private readonly DesabilitarProdutoCommandValidation _validacoes;
 
-        public async Task<ValidationResult> Handle(ExcluirProdutoCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(DesabilitarProdutoCommand request, CancellationToken cancellationToken)
         {
             var valido = _validacoes.Validate(request);
 
@@ -52,9 +52,9 @@ namespace ECommerce.Produtos.Domain.Application.Commands
         }
     }
 
-    public class ExcluirProdutoCommandValidation : AbstractValidator<ExcluirProdutoCommand>
+    public class DesabilitarProdutoCommandValidation : AbstractValidator<DesabilitarProdutoCommand>
     {
-        public ExcluirProdutoCommandValidation()
+        public DesabilitarProdutoCommandValidation()
         {
             RuleFor(_ => _.Id).NotEqual(Guid.Empty).WithMessage("Identificador inválido!");
         }
