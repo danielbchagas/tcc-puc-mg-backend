@@ -59,8 +59,6 @@ namespace ECommerce.Produtos.Api
             {
                 logging.AddKissLog();
             });
-
-
             #endregion
 
             #region Entity Framework

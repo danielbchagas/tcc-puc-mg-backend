@@ -11,6 +11,7 @@ namespace ECommerce.Clientes.Domain.Application.Commands
         public string OrigemRequisicao { get; set; }
         public string Uri { get; set; }
 
+        // Cliente
         public Cliente Cliente { get; set; }
     }
 

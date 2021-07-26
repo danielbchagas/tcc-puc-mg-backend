@@ -14,9 +14,9 @@ namespace ECommerce.Clientes.Infrastructure.Mappings
 
             builder.Property(c => c.NomeFantasia).HasColumnType("varchar(100)").IsRequired();
             builder.Property(c => c.Cnpj).HasColumnType("varchar(18)").IsRequired();
-            builder.Property(c => c.Ativo).HasColumnType("bit").IsRequired();
-
-            builder.HasOne(c => c.Endereco);
+            builder.Property(c => c.Ativo).HasColumnType("bit").HasDefaultValue(true).IsRequired();
+            
+            builder.HasOne(e => e.Endereco).WithOne().HasForeignKey<Cliente>(c => c.Id);
         }
     }
 }

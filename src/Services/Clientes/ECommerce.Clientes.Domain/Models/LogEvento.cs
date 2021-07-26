@@ -4,6 +4,11 @@ namespace ECommerce.Clientes.Domain.Models
 {
     public class LogEvento : Entity
     {
+        public LogEvento()
+        {
+
+        }
+
         public LogEvento(Guid id, string origemRequisicao, DateTime momento, string uri, Guid clienteId)
         {
             Id = id;
