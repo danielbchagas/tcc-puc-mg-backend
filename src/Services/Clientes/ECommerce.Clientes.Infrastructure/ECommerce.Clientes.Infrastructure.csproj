@@ -18,8 +18,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ECommerce.Produtos.Domain\ECommerce.Produtos.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

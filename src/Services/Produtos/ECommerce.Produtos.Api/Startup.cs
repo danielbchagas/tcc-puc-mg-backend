@@ -77,7 +77,7 @@ namespace ECommerce.Produtos.Api
             // Requisições
             services.AddScoped<IRequestHandler<AtualizarProdutoCommand, ValidationResult>, AtualizarProdutoCommandHandler>();
             services.AddScoped<IRequestHandler<RegistrarProdutoCommand, ValidationResult>, RegistrarProdutoCommandHandler>();
-            services.AddScoped<IRequestHandler<DesabilitarProdutoCommand, ValidationResult>, DesabilitarProdutoCommandHandler>();
+            services.AddScoped<IRequestHandler<DesativarProdutoCommand, ValidationResult>, DesativarProdutoCommandHandler>();
             // Notificações
             services.AddScoped<INotificationHandler<ProdutoCommitNotification>, ProdutoCommitNotificationHandler>();
 
@@ -103,7 +103,7 @@ namespace ECommerce.Produtos.Api
             #region Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApp", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.Produtos.Api", Version = "v1" });
             });
             #endregion
         }
@@ -116,7 +116,7 @@ namespace ECommerce.Produtos.Api
 
                 #region Swagger
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApp v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Produtos.Api v1"));
                 #endregion
             }
 

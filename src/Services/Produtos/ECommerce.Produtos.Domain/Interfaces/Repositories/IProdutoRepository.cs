@@ -1,4 +1,4 @@
-﻿using ECommerce.Common.Interfaces.Data;
+﻿using ECommerce.Produtos.Domain.Interfaces.Data;
 using ECommerce.Produtos.Domain.Models;
 using System;
 using System.Collections.Generic;

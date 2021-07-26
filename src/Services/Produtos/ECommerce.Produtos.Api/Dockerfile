@@ -7,16 +7,18 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["Services/Produtos/ProdutosService/ProdutosService.csproj", "Services/Produtos/ProdutosService/"]
-RUN dotnet restore "Services/Produtos/ProdutosService/ProdutosService.csproj"
+COPY ["Services/Produtos/ECommerce.Produtos.Api/ECommerce.Produtos.Api.csproj", "Services/Produtos/ECommerce.Produtos.Api/"]
+COPY ["Services/Produtos/ECommerce.Produtos.Infrastructure/ECommerce.Produtos.Infrastructure.csproj", "Services/Produtos/ECommerce.Produtos.Infrastructure/"]
+COPY ["Services/Produtos/ECommerce.Produtos.Domain/ECommerce.Produtos.Domain.csproj", "Services/Produtos/ECommerce.Produtos.Domain/"]
+RUN dotnet restore "Services/Produtos/ECommerce.Produtos.Api/ECommerce.Produtos.Api.csproj"
 COPY . .
-WORKDIR "/src/Services/Produtos/ProdutosService"
-RUN dotnet build "ProdutosService.csproj" -c Release -o /app/build
+WORKDIR "/src/Services/Produtos/ECommerce.Produtos.Api"
+RUN dotnet build "ECommerce.Produtos.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ProdutosService.csproj" -c Release -o /app/publish
+RUN dotnet publish "ECommerce.Produtos.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ProdutosService.dll"]
+ENTRYPOINT ["dotnet", "ECommerce.Produtos.Api.dll"]

@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ECommerce.Usuarios.Api": {
+    "Selfhost": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

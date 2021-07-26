@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Produtos.Domain.Application.Commands
 {
-    public class DesabilitarProdutoCommand : IRequest<ValidationResult>
+    public class DesativarProdutoCommand : IRequest<ValidationResult>
     {
         // Log do evento
         public string OrigemRequisicao { get; set; }
@@ -19,20 +19,20 @@ namespace ECommerce.Produtos.Domain.Application.Commands
         public Guid Id { get; set; }
     }
 
-    public class DesabilitarProdutoCommandHandler : IRequestHandler<DesabilitarProdutoCommand, ValidationResult>
+    public class DesativarProdutoCommandHandler : IRequestHandler<DesativarProdutoCommand, ValidationResult>
     {
-        public DesabilitarProdutoCommandHandler(IProdutoRepository repository, IMediator mediator)
+        public DesativarProdutoCommandHandler(IProdutoRepository repository, IMediator mediator)
         {
             _repository = repository;
             _mediator = mediator;
-            _validacoes = new DesabilitarProdutoCommandValidation();
+            _validacoes = new DesativarProdutoCommandValidation();
         }
 
         private readonly IProdutoRepository _repository;
         private readonly IMediator _mediator;
-        private readonly DesabilitarProdutoCommandValidation _validacoes;
+        private readonly DesativarProdutoCommandValidation _validacoes;
 
-        public async Task<ValidationResult> Handle(DesabilitarProdutoCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(DesativarProdutoCommand request, CancellationToken cancellationToken)
         {
             var valido = _validacoes.Validate(request);
 
@@ -40,7 +40,7 @@ namespace ECommerce.Produtos.Domain.Application.Commands
             {
                 var produto = await _repository.Buscar(request.Id);
 
-                produto.Desabilitar();
+                produto.Desativar();
 
                 var sucesso = await _repository.UnitOfWork.Commit();
 
@@ -52,9 +52,9 @@ namespace ECommerce.Produtos.Domain.Application.Commands
         }
     }
 
-    public class DesabilitarProdutoCommandValidation : AbstractValidator<DesabilitarProdutoCommand>
+    public class DesativarProdutoCommandValidation : AbstractValidator<DesativarProdutoCommand>
     {
-        public DesabilitarProdutoCommandValidation()
+        public DesativarProdutoCommandValidation()
         {
             RuleFor(_ => _.Id).NotEqual(Guid.Empty).WithMessage("Identificador inválido!");
         }

@@ -32,7 +32,7 @@ namespace ECommerce.Web.Api
                 .AddJwtBearer(options =>
                 {
                     options.Authority = "https://localhost:5001";
-                    options.Audience = "api_webapp";
+                    options.Audience = "ecommerce_clientes_api";
                 });
             #endregion
 
@@ -56,7 +56,7 @@ namespace ECommerce.Web.Api
             #region Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApp", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.Web.Api", Version = "v1" });
             });
             #endregion
         }
@@ -68,7 +68,7 @@ namespace ECommerce.Web.Api
                 app.UseDeveloperExceptionPage();
                 #region Swagger
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApp v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Web.Api v1"));
                 #endregion
             }
 

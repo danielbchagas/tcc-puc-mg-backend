@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ECommerce.Common.Models
+namespace ECommerce.Produtos.Domain.Models
 {
     public abstract class Entity
     {

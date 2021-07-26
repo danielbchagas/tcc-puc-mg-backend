@@ -1,5 +1,4 @@
-﻿using ECommerce.Common.Interfaces.Entities;
-using ECommerce.Common.Models;
+﻿using ECommerce.Produtos.Domain.Interfaces.Entities;
 using System;
 
 namespace ECommerce.Produtos.Domain.Models
@@ -38,12 +37,12 @@ namespace ECommerce.Produtos.Domain.Models
             Quantidade -= quantidade;
         }
 
-        public void Desabilitar()
+        public void Desativar()
         {
             Ativo = false;
         }
 
-        public void Habilitar()
+        public void Ativar()
         {
             Ativo = true;
         }

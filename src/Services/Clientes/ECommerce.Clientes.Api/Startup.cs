@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ECommerce.Usuarios.Api
+namespace ECommerce.Clientes.Api
 {
     public class Startup
     {
@@ -39,7 +39,7 @@ namespace ECommerce.Usuarios.Api
             #region Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.Usuarios.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.Clientes.Api", Version = "v1" });
             });
             #endregion
         }
@@ -53,7 +53,7 @@ namespace ECommerce.Usuarios.Api
 
                 #region Swagger
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Usuarios.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Clientes.Api v1"));
                 #endregion
             }
 
