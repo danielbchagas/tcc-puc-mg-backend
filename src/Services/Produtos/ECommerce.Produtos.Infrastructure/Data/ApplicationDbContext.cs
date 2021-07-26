@@ -10,13 +10,15 @@ namespace ECommerce.Produtos.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext, IUnitOfWork
     {
-        public ApplicationDbContext() { }
+        public ApplicationDbContext() 
+        {
+            
+        }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IMediator mediator) : base(options) 
         {
-            _mediator = mediator;
+            
         }
 
-        private readonly IMediator _mediator;
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<LogEvento> LogEventos { get; set; }
 

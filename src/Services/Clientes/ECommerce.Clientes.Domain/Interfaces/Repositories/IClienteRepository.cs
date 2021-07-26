@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ECommerce.Produtos.Domain.Interfaces.Repositories
+namespace ECommerce.Clientes.Domain.Interfaces.Repositories
 {
     public interface IClienteRepository : IDisposable
     {
         IUnitOfWork UnitOfWork { get; }
-        Task Adicionar(Cliente produto);
-        Task Atualizar(Cliente produto);
+        Task Adicionar(Cliente cliente);
+        Task Atualizar(Cliente cliente);
         Task Excluir(Guid id);
         Task<Cliente> Buscar(Guid id);
         Task<IEnumerable<Cliente>> Buscar(int? pagina, int? linhas);

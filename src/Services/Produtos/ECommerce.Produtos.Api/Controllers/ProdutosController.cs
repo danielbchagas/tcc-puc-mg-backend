@@ -15,12 +15,16 @@ namespace ECommerce.Produtos.Api.Controllers
     [ApiController]
     public class ProdutosController : ControllerBase
     {
-        private readonly IProdutoQuery _query;
+        private readonly IBuscarProdutoPorIdQuery _query;
+        private readonly IBuscarProdutosFiltradosPaginadosQuery _query2;
+        private readonly IBuscarProdutosPaginadosQuery _query3;
         private readonly IMediator _mediator;
 
-        public ProdutosController(IProdutoQuery query, IMediator mediator)
+        public ProdutosController(IBuscarProdutoPorIdQuery query, IBuscarProdutosFiltradosPaginadosQuery query2, IBuscarProdutosPaginadosQuery query3, IMediator mediator)
         {
             _query = query;
+            _query2 = query2;
+            _query3 = query3;
             _mediator = mediator;
         }
 
@@ -29,7 +33,7 @@ namespace ECommerce.Produtos.Api.Controllers
         [HttpGet("buscar-todos")]
         public async Task<IActionResult> BuscarTodos(int? pagina, int? linhas)
         {
-            var produtos = await _query.Buscar(pagina, linhas);
+            var produtos = await _query3.Buscar(pagina, linhas);
             return Ok(produtos);
         }
 

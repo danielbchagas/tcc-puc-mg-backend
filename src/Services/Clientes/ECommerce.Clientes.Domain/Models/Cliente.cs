@@ -5,25 +5,28 @@ namespace ECommerce.Clientes.Domain.Models
 {
     public class Cliente : Entity, IAggregateRoot
     {
-        public Cliente(Guid id, string nome, string sobrenome, Documento documento, Endereco endereco, bool ativo = true)
+        public Cliente(Guid id, string nomeFantasia, string cnpj, Endereco endereco, bool ativo = true)
         {
             Id = id;
-            Nome = nome;
-            Sobrenome = sobrenome;
-            Documento = documento;
+            NomeFantasia = nomeFantasia;
+            Cnpj = cnpj;
             Endereco = endereco;
             Ativo = ativo;
         }
 
-        public string Nome { private get; set; }
-        public string Sobrenome { private get; set; }
-        public Documento Documento { private get; set; }
-        public Endereco Endereco { private get; set; }
-        public bool Ativo { private get; set; }
+        public string NomeFantasia { get; private set; }
+        public string Cnpj { get; private set; }
+        public Endereco Endereco { get; private set; }
+        public bool Ativo { get; private set; }
 
         public void Desativar()
         {
             Ativo = false;
+        }
+
+        public void Ativar()
+        {
+            Ativo = true;
         }
     }
 }

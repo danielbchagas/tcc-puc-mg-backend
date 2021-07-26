@@ -74,18 +74,19 @@ namespace ECommerce.Produtos.Api
             #region Injeção de dependência
             // Mediator
             services.AddMediatR(typeof(Startup));
-            // Requisições
+            // Mediator - Comandos
             services.AddScoped<IRequestHandler<AtualizarProdutoCommand, ValidationResult>, AtualizarProdutoCommandHandler>();
             services.AddScoped<IRequestHandler<RegistrarProdutoCommand, ValidationResult>, RegistrarProdutoCommandHandler>();
             services.AddScoped<IRequestHandler<DesativarProdutoCommand, ValidationResult>, DesativarProdutoCommandHandler>();
-            // Notificações
+            // Mediator - Queries
+            services.AddScoped<IBuscarProdutoPorIdQuery, BuscarProdutoPorIdQuery>();
+            services.AddScoped<IBuscarProdutosFiltradosPaginadosQuery, BuscarProdutosFiltradosPaginadosQuery>();
+            services.AddScoped<IBuscarProdutosPaginadosQuery, BuscarProdutosPaginadosQuery>();
+            // Mediator - Notificações
             services.AddScoped<INotificationHandler<ProdutoCommitNotification>, ProdutoCommitNotificationHandler>();
 
             // Repositórios
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
-
-            // Queries
-            services.AddScoped<IProdutoQuery, BuscarProdutoQuery>();
             #endregion
 
             #region Healh Checks
