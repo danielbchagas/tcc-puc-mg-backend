@@ -22,7 +22,10 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<RegistrarClienteCommand, Cliente>()
-                    .ForMember(dest => dest, opt => opt.MapFrom(c => new Cliente(c.ClienteId, c.NomeFantasia, c.Cnpj, c.Ativo )))
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.ClienteId))
+                    .ForMember(dest => dest.NomeFantasia, opt => opt.MapFrom(c => c.NomeFantasia))
+                    .ForMember(dest => dest.Cnpj, opt => opt.MapFrom(c => c.Cnpj))
+                    .ForMember(dest => dest.Ativo, opt => opt.MapFrom(c => c.Ativo))
                     .ForMember(dest => dest.EnderecoId, opt => opt.MapFrom(_ => _.EnderecoId))
                     .ForMember(dest => dest.Endereco, opt => opt.MapFrom(e => new Endereco(e.EnderecoId, e.Logradouro, e.Bairro, e.Cidade, e.Cep, e.Estados)));
             });
