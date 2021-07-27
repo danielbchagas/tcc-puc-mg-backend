@@ -13,7 +13,7 @@ namespace ECommerce.Clientes.Domain.Application.Commands
         public string Uri { get; set; }
 
         // Cliente
-        public Guid UsuarioId { get; set; }
+        public Guid ClienteId { get; set; }
         public string NomeFantasia { get; set; }
         public string Cnpj { get; set; }
         public bool Ativo { get; set; }

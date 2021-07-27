@@ -21,7 +21,10 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
             #region AutoMapper
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<RegistrarClienteCommand, Cliente>();
+                cfg.CreateMap<RegistrarClienteCommand, Cliente>()
+                    .ForMember(dest => dest, opt => opt.MapFrom(c => new Cliente(c.ClienteId, c.NomeFantasia, c.Cnpj, c.Ativo )))
+                    .ForMember(dest => dest.EnderecoId, opt => opt.MapFrom(_ => _.EnderecoId))
+                    .ForMember(dest => dest.Endereco, opt => opt.MapFrom(e => new Endereco(e.EnderecoId, e.Logradouro, e.Bairro, e.Cidade, e.Cep, e.Estados)));
             });
 
             _mapper = configuration.CreateMapper();
