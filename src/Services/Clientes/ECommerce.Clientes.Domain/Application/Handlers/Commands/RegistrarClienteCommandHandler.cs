@@ -17,21 +17,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
             _repository = repository;
             _validacoes = new RegistrarClienteCommandValidation();
             _mediator = mediator;
-
-            #region AutoMapper
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<RegistrarClienteCommand, Cliente>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.ClienteId))
-                    .ForMember(dest => dest.NomeFantasia, opt => opt.MapFrom(c => c.NomeFantasia))
-                    .ForMember(dest => dest.Cnpj, opt => opt.MapFrom(c => c.Cnpj))
-                    .ForMember(dest => dest.Ativo, opt => opt.MapFrom(c => c.Ativo))
-                    .ForMember(dest => dest.EnderecoId, opt => opt.MapFrom(_ => _.EnderecoId))
-                    .ForMember(dest => dest.Endereco, opt => opt.MapFrom(e => new Endereco(e.EnderecoId, e.Logradouro, e.Bairro, e.Cidade, e.Cep, e.Estados)));
-            });
-
-            _mapper = configuration.CreateMapper();
-            #endregion
+            _mapper = CriaMapeamento();
         }
 
         private readonly IClienteRepository _repository;
@@ -55,6 +41,22 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
             }
 
             return await Task.FromResult(valido);
+        }
+
+        private IMapper CriaMapeamento()
+        {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<RegistrarClienteCommand, Cliente>()
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.ClienteId))
+                    .ForMember(dest => dest.NomeFantasia, opt => opt.MapFrom(c => c.NomeFantasia))
+                    .ForMember(dest => dest.Cnpj, opt => opt.MapFrom(c => c.Cnpj))
+                    .ForMember(dest => dest.Ativo, opt => opt.MapFrom(c => c.ClienteAtivo))
+                    .ForMember(dest => dest.EnderecoId, opt => opt.MapFrom(_ => _.EnderecoId))
+                    .ForMember(dest => dest.Endereco, opt => opt.MapFrom(e => new Endereco(e.EnderecoId, e.Logradouro, e.Bairro, e.Cidade, e.Cep, e.Estados, e.EnderecoAtivo)));
+            });
+
+            return configuration.CreateMapper();
         }
     }
 }

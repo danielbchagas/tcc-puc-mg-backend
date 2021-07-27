@@ -16,7 +16,7 @@ namespace ECommerce.Clientes.Infrastructure.Mappings
             builder.Property(e => e.Bairro).HasColumnType("varchar(50)").IsRequired();
             builder.Property(e => e.Cidade).HasColumnType("varchar(50)").IsRequired();
             builder.Property(e => e.Cep).HasColumnType("varchar(9)").IsRequired();
-            builder.Property(e => e.Estados).HasColumnType("varchar(200)").IsRequired();
+            builder.Property(e => e.Estados).HasColumnType("char(2)").IsRequired();
         }
     }
 }

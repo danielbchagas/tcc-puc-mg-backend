@@ -9,7 +9,7 @@ namespace ECommerce.Clientes.Domain.Models
 
         }
 
-        public Endereco(Guid id, string logradouro, string bairro, string cidade, string cep, Estados estado)
+        public Endereco(Guid id, string logradouro, string bairro, string cidade, string cep, Estados estado, bool ativo = true)
         {
             Id = id;
             Logradouro = logradouro;
@@ -17,6 +17,7 @@ namespace ECommerce.Clientes.Domain.Models
             Cidade = cidade;
             Cep = cep;
             Estados = estado;
+            Ativo = ativo;
         }
 
         public string Logradouro { get; private set; }
@@ -24,9 +25,21 @@ namespace ECommerce.Clientes.Domain.Models
         public string Cidade { get; private set; }
         public string Cep { get; private set; }
         public Estados Estados { get; private set; }
+        public bool Ativo { get; private set; }
 
         // Relacionamento
         public Guid ClienteId { get; set; }
         public virtual Cliente Cliente { get; set; }
+
+        // Métodos auxiliares
+        public void Ativar()
+        {
+            Ativo = true;
+        }
+
+        public void Desativar()
+        {
+            Ativo = false;
+        }
     }
 }

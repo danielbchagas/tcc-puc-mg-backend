@@ -52,9 +52,9 @@ namespace ECommerce.Clientes.Api.Controllers
         [HttpPost("novo")]
         public async Task<IActionResult> Novo(RegistrarClienteCommand request)
         {
-            request.OrigemRequisicao = HttpContext.Connection.RemoteIpAddress.ToString();
-            request.Uri = HttpContext.Request.Path;
-
+            request.AdicionarOrigemRequisicao(HttpContext.Connection.RemoteIpAddress.ToString());
+            request.AdicionarUri(HttpContext.Request.Path);
+            
             var resultado = await _mediator.Send(request);
 
             if (!resultado.IsValid)
@@ -69,8 +69,8 @@ namespace ECommerce.Clientes.Api.Controllers
         [HttpPut("atualizar")]
         public async Task<IActionResult> Atualizar(AtualizarClienteCommand request)
         {
-            request.OrigemRequisicao = HttpContext.Connection.RemoteIpAddress.ToString();
-            request.Uri = HttpContext.Request.Path;
+            request.AdicionarOrigemRequisicao(HttpContext.Connection.RemoteIpAddress.ToString());
+            request.AdicionarUri(HttpContext.Request.Path);
 
             var resultado = await _mediator.Send(request);
 
@@ -86,8 +86,8 @@ namespace ECommerce.Clientes.Api.Controllers
         [HttpDelete("excluir")]
         public async Task<IActionResult> Excluir(DesativarClienteCommand request)
         {
-            request.OrigemRequisicao = HttpContext.Connection.RemoteIpAddress.ToString();
-            request.Uri = HttpContext.Request.Path;
+            request.AdicionarOrigemRequisicao(HttpContext.Connection.RemoteIpAddress.ToString());
+            request.AdicionarUri(HttpContext.Request.Path);
 
             var resultado = await _mediator.Send(request);
 

@@ -8,31 +8,78 @@ namespace ECommerce.Clientes.Domain.Application.Commands
 {
     public class RegistrarClienteCommand : IRequest<ValidationResult>
     {
+        public RegistrarClienteCommand(string nomeFantasia, string cnpj, bool clienteAtivo, string logradouro, string bairro, string cidade, string cep, Estados estado, bool enderecoAtivo)
+        {
+            ClienteId = Guid.NewGuid();
+            NomeFantasia = nomeFantasia;
+            Cnpj = cnpj;
+            ClienteAtivo = clienteAtivo;
+
+            EnderecoId = Guid.NewGuid();
+            Logradouro = logradouro;
+            Bairro = bairro;
+            Cidade = cidade;
+            Cep = cep;
+            Estados = estado;
+            EnderecoAtivo = enderecoAtivo;
+        }
+
         // Log do evento
-        public string OrigemRequisicao { get; set; }
-        public string Uri { get; set; }
+        public string OrigemRequisicao { get; private set; }
+        public string Uri { get; private set; }
 
         // Cliente
-        public Guid ClienteId { get; set; }
-        public string NomeFantasia { get; set; }
-        public string Cnpj { get; set; }
-        public bool Ativo { get; set; }
+        public Guid ClienteId { get; private set; }
+        public string NomeFantasia { get; private set; }
+        public string Cnpj { get; private set; }
+        public bool ClienteAtivo { get; private set; }
 
         // Endereco
-        public Guid EnderecoId { get; set; }
-        public string Logradouro { get; set; }
-        public string Bairro { get; set; }
-        public string Cidade { get; set; }
-        public string Cep { get; set; }
-        public Estados Estados { get; set; }
+        public Guid EnderecoId { get; private set; }
+        public string Logradouro { get; private set; }
+        public string Bairro { get; private set; }
+        public string Cidade { get; private set; }
+        public string Cep { get; private set; }
+        public Estados Estados { get; private set; }
+        public bool EnderecoAtivo { get; private set; }
+
+        // Métodos auxiliares
+        public void AdicionarOrigemRequisicao(string origemRequisicao)
+        {
+            OrigemRequisicao = origemRequisicao;
+        }
+
+        public void AdicionarUri(string uri)
+        {
+            Uri = uri;
+        }
     }
 
     public class RegistrarClienteCommandValidation : AbstractValidator<RegistrarClienteCommand>
     {
         public RegistrarClienteCommandValidation()
         {
-            RuleFor(_ => _.NomeFantasia).NotNull().NotEmpty().WithMessage("Nome inválido!");
-            RuleFor(_ => _.Cnpj).NotNull().NotEmpty().WithMessage("Nome inválido!");
+            RuleFor(_ => _.ClienteId).NotEqual(Guid.Empty).WithMessage("{PropertyName} Inválido!");
+            RuleFor(_ => _.NomeFantasia)
+                .MaximumLength(100).WithMessage("{PropertyName} excedeu o tamanho máximo!")
+                .NotNull().NotEmpty().WithMessage("{PropertyName} inválido!");
+            RuleFor(_ => _.Cnpj)
+                .MaximumLength(18).WithMessage("{PropertyName} excedeu o tamanho máximo!")
+                .NotNull().NotEmpty().WithMessage("{PropertyName} inválido!");
+            
+            RuleFor(_ => _.EnderecoId).NotEqual(Guid.Empty).WithMessage("{PropertyName} Inválido!");
+            RuleFor(_ => _.Logradouro)
+                .MaximumLength(200).WithMessage("{PropertyName} excedeu o tamanho máximo!")
+                .NotNull().NotEmpty().WithMessage("{PropertyName} inválido!");
+            RuleFor(_ => _.Bairro)
+                .MaximumLength(50).WithMessage("{PropertyName} excedeu o tamanho máximo!")
+                .NotNull().NotEmpty().WithMessage("{PropertyName} inválido!");
+            RuleFor(_ => _.Cidade)
+                .MaximumLength(50).WithMessage("{PropertyName} excedeu o tamanho máximo!")
+                .NotNull().NotEmpty().WithMessage("{PropertyName} inválido!");
+            RuleFor(_ => _.Cep)
+                .MaximumLength(9).WithMessage("{PropertyName} excedeu o tamanho máximo!")
+                .NotNull().NotEmpty().WithMessage("{PropertyName} inválido!");
         }
     }
 }
