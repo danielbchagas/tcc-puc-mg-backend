@@ -1,23 +1,18 @@
-﻿using ECommerce.Produtos.Domain.Interfaces.Queries;
-using ECommerce.Produtos.Domain.Interfaces.Repositories;
-using ECommerce.Produtos.Domain.Models;
+﻿using ECommerce.Produtos.Domain.Models;
+using MediatR;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ECommerce.Produtos.Domain.Application.Queries
 {
-    public class BuscarProdutosPaginadosQuery : IBuscarProdutosPaginadosQuery
+    public class BuscarProdutosPaginadosQuery : IRequest<IEnumerable<Produto>>
     {
-        public BuscarProdutosPaginadosQuery(IProdutoRepository repository)
+        public BuscarProdutosPaginadosQuery(int? pagina, int? linhas)
         {
-            _repository = repository;
+            Pagina = pagina;
+            Linhas = linhas;
         }
 
-        private readonly IProdutoRepository _repository;
-
-        public async Task<IEnumerable<Produto>> Buscar(int? pagina, int? linhas)
-        {
-            return await _repository.Buscar(pagina, linhas);
-        }
+        public int? Pagina { get; set; }
+        public int? Linhas { get; set; }
     }
 }

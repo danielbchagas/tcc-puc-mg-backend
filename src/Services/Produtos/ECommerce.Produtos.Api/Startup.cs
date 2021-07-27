@@ -2,10 +2,11 @@ using ECommerce.Produtos.Api.Middlewares;
 using ECommerce.Produtos.Domain.Application.Commands;
 using ECommerce.Produtos.Domain.Application.Handlers.Commands;
 using ECommerce.Produtos.Domain.Application.Handlers.Notifications;
+using ECommerce.Produtos.Domain.Application.Handlers.Queries;
 using ECommerce.Produtos.Domain.Application.Notifications;
 using ECommerce.Produtos.Domain.Application.Queries;
-using ECommerce.Produtos.Domain.Interfaces.Queries;
 using ECommerce.Produtos.Domain.Interfaces.Repositories;
+using ECommerce.Produtos.Domain.Models;
 using ECommerce.Produtos.Infrastructure.Data;
 using ECommerce.Produtos.Infrastructure.Repositories;
 using FluentValidation.Results;
@@ -22,7 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
-
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
@@ -74,14 +75,17 @@ namespace ECommerce.Produtos.Api
             #region Injeção de dependência
             // Mediator
             services.AddMediatR(typeof(Startup));
+            
             // Mediator - Comandos
             services.AddScoped<IRequestHandler<AtualizarProdutoCommand, ValidationResult>, AtualizarProdutoCommandHandler>();
             services.AddScoped<IRequestHandler<RegistrarProdutoCommand, ValidationResult>, RegistrarProdutoCommandHandler>();
             services.AddScoped<IRequestHandler<DesativarProdutoCommand, ValidationResult>, DesativarProdutoCommandHandler>();
+            
             // Mediator - Queries
-            services.AddScoped<IBuscarProdutoPorIdQuery, BuscarProdutoPorIdQuery>();
-            services.AddScoped<IBuscarProdutosFiltradosPaginadosQuery, BuscarProdutosFiltradosPaginadosQuery>();
-            services.AddScoped<IBuscarProdutosPaginadosQuery, BuscarProdutosPaginadosQuery>();
+            services.AddScoped<IRequestHandler<BuscarProdutoPorIdQuery, Produto>, BuscarProdutoPorIdQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarProdutosFiltradosPaginadosQuery, IEnumerable<Produto>>, BuscarProdutosFiltradosPaginadosQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarProdutosPaginadosQuery, IEnumerable<Produto>>, BuscarProdutosPaginadosQueryHandler>();
+
             // Mediator - Notificações
             services.AddScoped<INotificationHandler<ProdutoCommitNotification>, ProdutoCommitNotificationHandler>();
 

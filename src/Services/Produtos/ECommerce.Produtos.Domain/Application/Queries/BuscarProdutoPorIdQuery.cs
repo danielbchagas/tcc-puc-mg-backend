@@ -1,23 +1,16 @@
-﻿using ECommerce.Produtos.Domain.Interfaces.Queries;
-using ECommerce.Produtos.Domain.Interfaces.Repositories;
-using ECommerce.Produtos.Domain.Models;
+﻿using ECommerce.Produtos.Domain.Models;
+using MediatR;
 using System;
-using System.Threading.Tasks;
 
 namespace ECommerce.Produtos.Domain.Application.Queries
 {
-    public class BuscarProdutoPorIdQuery : IBuscarProdutoPorIdQuery
+    public class BuscarProdutoPorIdQuery : IRequest<Produto>
     {
-        public BuscarProdutoPorIdQuery(IProdutoRepository repository)
+        public BuscarProdutoPorIdQuery(Guid id)
         {
-            _repository = repository;
+            Id = id;
         }
 
-        private readonly IProdutoRepository _repository;
-
-        public async Task<Produto> Buscar(Guid id)
-        {
-            return await _repository.Buscar(id);
-        }
+        public Guid Id { get; set; }
     }
 }

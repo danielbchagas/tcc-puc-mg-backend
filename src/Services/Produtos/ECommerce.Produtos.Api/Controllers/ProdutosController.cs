@@ -1,5 +1,5 @@
 ﻿using ECommerce.Produtos.Domain.Application.Commands;
-using ECommerce.Produtos.Domain.Interfaces.Queries;
+using ECommerce.Produtos.Domain.Application.Queries;
 using ECommerce.Produtos.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -15,34 +15,30 @@ namespace ECommerce.Produtos.Api.Controllers
     [ApiController]
     public class ProdutosController : ControllerBase
     {
-        private readonly IBuscarProdutoPorIdQuery _query;
-        private readonly IBuscarProdutosFiltradosPaginadosQuery _query2;
-        private readonly IBuscarProdutosPaginadosQuery _query3;
         private readonly IMediator _mediator;
 
-        public ProdutosController(IBuscarProdutoPorIdQuery query, IBuscarProdutosFiltradosPaginadosQuery query2, IBuscarProdutosPaginadosQuery query3, IMediator mediator)
+        public ProdutosController(IMediator mediator)
         {
-            _query = query;
-            _query2 = query2;
-            _query3 = query3;
             _mediator = mediator;
         }
 
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpGet("buscar-todos")]
         public async Task<IActionResult> BuscarTodos(int? pagina, int? linhas)
         {
-            var produtos = await _query3.Buscar(pagina, linhas);
+            var produtos = await _mediator.Send(new BuscarProdutosPaginadosQuery(pagina, linhas));
             return Ok(produtos);
         }
 
         [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpGet("buscar-por-id/{id:length(36)}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
         {
-            var produto = await _query.Buscar(id);
+            var produto = await _mediator.Send(new BuscarProdutoPorIdQuery(id));
             return Ok(produto);
         }
 
