@@ -24,6 +24,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Diagnostics;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace ECommerce.Clientes.Api
 {
@@ -99,7 +100,9 @@ namespace ECommerce.Clientes.Api
             });
             #endregion
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(
+                opt => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve
+            );
 
             #region Swagger
             services.AddSwaggerGen(c =>
