@@ -1,5 +1,6 @@
 ﻿using ECommerce.Clientes.Domain.Application.Commands.Endereco;
-using ECommerce.Clientes.Domain.Interfaces.Queries;
+using ECommerce.Clientes.Domain.Application.Handlers.Queries.Endereco;
+using ECommerce.Clientes.Domain.Application.Queries.Endereco;
 using ECommerce.Clientes.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -15,34 +16,30 @@ namespace ECommerce.Clientes.Api.Controllers
     [ApiController]
     public class EnderecoController : ControllerBase
     {
-        private readonly IBuscarEnderecoPorIdQuery _query;
-        private readonly IBuscarEnderecosFiltradosPaginadosQuery _query2;
-        private readonly IBuscarEnderecosPaginadosQuery _query3;
         private readonly IMediator _mediator;
 
-        public EnderecoController(IBuscarEnderecoPorIdQuery query, IBuscarEnderecosFiltradosPaginadosQuery query2, IBuscarEnderecosPaginadosQuery query3, IMediator mediator)
+        public EnderecoController(IMediator mediator)
         {
-            _query = query;
-            _query2 = query2;
-            _query3 = query3;
             _mediator = mediator;
         }
 
         [ProducesResponseType(typeof(IEnumerable<Endereco>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Endereco>), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpGet("buscar-todos")]
         public async Task<IActionResult> BuscarTodos(int? pagina, int? linhas)
         {
-            var produtos = await _query3.Buscar(pagina, linhas);
+            var produtos = await _mediator.Send(new BuscarEnderecosPaginadosQuery(pagina, linhas));
             return Ok(produtos);
         }
 
         [ProducesResponseType(typeof(Cliente), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Endereco>), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpGet("buscar-por-id/{id:length(36)}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
         {
-            var produto = await _query.Buscar(id);
+            var produto = await _mediator.Send(new BuscarEnderecoPorIdQuery(id));
             return Ok(produto);
         }
 

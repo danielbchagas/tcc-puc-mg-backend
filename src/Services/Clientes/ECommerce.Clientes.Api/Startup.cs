@@ -1,11 +1,16 @@
 using ECommerce.Clientes.Api.Middlewares;
 using ECommerce.Clientes.Domain.Application.Commands.Cliente;
+using ECommerce.Clientes.Domain.Application.Commands.Endereco;
 using ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente;
+using ECommerce.Clientes.Domain.Application.Handlers.Commands.Endereco;
 using ECommerce.Clientes.Domain.Application.Handlers.Notifications;
+using ECommerce.Clientes.Domain.Application.Handlers.Queries.Cliente;
+using ECommerce.Clientes.Domain.Application.Handlers.Queries.Endereco;
 using ECommerce.Clientes.Domain.Application.Notifications;
-using ECommerce.Clientes.Domain.Application.Queries;
-using ECommerce.Clientes.Domain.Interfaces.Queries;
+using ECommerce.Clientes.Domain.Application.Queries.Cliente;
+using ECommerce.Clientes.Domain.Application.Queries.Endereco;
 using ECommerce.Clientes.Domain.Interfaces.Repositories;
+using ECommerce.Clientes.Domain.Models;
 using ECommerce.Clientes.Infrastructure.Data;
 using ECommerce.Clientes.Infrastructure.Repositories;
 using FluentValidation.Results;
@@ -22,6 +27,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -66,15 +72,27 @@ namespace ECommerce.Clientes.Api
             services.AddScoped<IRequestHandler<AtualizarClienteCommand, ValidationResult>, AtualizarClienteCommandHandler>();
             services.AddScoped<IRequestHandler<CadastrarClienteCommand, ValidationResult>, CadastrarClienteCommandHandler>();
             services.AddScoped<IRequestHandler<DesativarClienteCommand, ValidationResult>, DesativarClienteCommandHandler>();
+
+            services.AddScoped<IRequestHandler<AtualizarEnderecoCommand, ValidationResult>, AtualizarEnderecoCommandHandler>();
+            services.AddScoped<IRequestHandler<CadastrarEnderecoCommand, ValidationResult>, CadastrarEnderecoCommandHandler>();
+            services.AddScoped<IRequestHandler<DesativarEnderecoCommand, ValidationResult>, DesativarEnderecoCommandHandler>();
+            
             // Mediator - Queries
-            services.AddScoped<IBuscarClientePorIdQuery, BuscarClientePorIdQuery>();
-            services.AddScoped<IBuscarClientesFiltradosPaginadosQuery, BuscarClientesFiltradosPaginadosQuery>();
-            services.AddScoped<IBuscarClientesPaginadosQuery, BuscarClientesPaginadosQuery>();
+            services.AddScoped<IRequestHandler<BuscarClientePorIdQuery, Cliente>, BuscarClientesPorIdQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarClientesFiltradosPaginadosQuery, IEnumerable<Cliente>>, BuscarClienteFiltradosPaginadosQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarClientesPaginadosQuery, IEnumerable<Cliente>>, BuscarClientesPaginadosQueryHandler>();
+
+            services.AddScoped<IRequestHandler<BuscarEnderecoPorIdQuery, Endereco>, BuscarEnderecoPorIdQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarEnderecosFiltradosPaginadosQuery, IEnumerable<Endereco>>, BuscarEnderecosFiltradosPaginadosQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarEnderecosPaginadosQuery, IEnumerable<Endereco>>, BuscarEnderecosPaginadosQueryHandler>();
+            
             // Mediator - Notificações
             services.AddScoped<INotificationHandler<ClienteCommitNotification>, ClienteCommitNotificationHandler>();
+            services.AddScoped<INotificationHandler<EnderecoCommitNotification>, EnderecoCommitNotificationHandler>();
 
             // Repositórios
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IEnderecoRepository, EnderecoRepository>();
             #endregion
 
             #region Healh Checks
