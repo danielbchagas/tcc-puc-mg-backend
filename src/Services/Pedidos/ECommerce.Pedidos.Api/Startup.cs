@@ -1,33 +1,19 @@
-using ECommerce.Produtos.Api.Middlewares;
-using ECommerce.Produtos.Domain.Application.Commands;
-using ECommerce.Produtos.Domain.Application.Handlers.Commands;
-using ECommerce.Produtos.Domain.Application.Handlers.Notifications;
-using ECommerce.Produtos.Domain.Application.Handlers.Queries;
-using ECommerce.Produtos.Domain.Application.Notifications;
-using ECommerce.Produtos.Domain.Application.Queries;
-using ECommerce.Produtos.Domain.Interfaces.Repositories;
-using ECommerce.Produtos.Domain.Models;
-using ECommerce.Produtos.Infrastructure.Data;
-using ECommerce.Produtos.Infrastructure.Repositories;
-using FluentValidation.Results;
+using ECommerce.Pedidos.Api.Middlewares;
 using KissLog;
 using KissLog.AspNetCore;
 using KissLog.CloudListeners.RequestLogsListener;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace ECommerce.Produtos.Api
+namespace ECommerce.Pedidos.Api
 {
     public class Startup
     {
@@ -45,7 +31,7 @@ namespace ECommerce.Produtos.Api
                 .AddJwtBearer(options =>
                 {
                     options.Authority = "https://localhost:5001";
-                    options.Audience = "api_produtos";
+                    options.Audience = "api_pedidos";
                 });
             #endregion
 
@@ -62,53 +48,12 @@ namespace ECommerce.Produtos.Api
             });
             #endregion
 
-            #region Entity Framework
-            services.AddDbContext<ApplicationDbContext>(optionsAction =>
-            {
-                optionsAction.UseSqlServer(Configuration.GetConnectionString("ProdutosDB"), sqlServerOptionsAction: options =>
-                {
-                    options.EnableRetryOnFailure(maxRetryCount: 6, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
-                });
-            });
-            #endregion
-
-            #region Injeção de dependência
-            // Mediator
-            services.AddMediatR(typeof(Startup));
-            
-            // Mediator - Comandos
-            services.AddScoped<IRequestHandler<AtualizarProdutoCommand, ValidationResult>, AtualizarProdutoCommandHandler>();
-            services.AddScoped<IRequestHandler<RegistrarProdutoCommand, ValidationResult>, RegistrarProdutoCommandHandler>();
-            services.AddScoped<IRequestHandler<DesativarProdutoCommand, ValidationResult>, DesativarProdutoCommandHandler>();
-            
-            // Mediator - Queries
-            services.AddScoped<IRequestHandler<BuscarProdutoPorIdQuery, Produto>, BuscarProdutoPorIdQueryHandler>();
-            services.AddScoped<IRequestHandler<BuscarProdutosFiltradosPaginadosQuery, IEnumerable<Produto>>, BuscarProdutosFiltradosPaginadosQueryHandler>();
-            services.AddScoped<IRequestHandler<BuscarProdutosPaginadosQuery, IEnumerable<Produto>>, BuscarProdutosPaginadosQueryHandler>();
-
-            // Mediator - Notificações
-            services.AddScoped<INotificationHandler<ProdutoCommitNotification>, ProdutoCommitNotificationHandler>();
-
-            // Repositórios
-            services.AddScoped<IProdutoRepository, ProdutoRepository>();
-            #endregion
-
-            #region Healh Checks
-            services.AddHealthChecks()
-            .AddDbContextCheck<ApplicationDbContext>();
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("ProdutosDB"));
-            });
-            #endregion
-
             services.AddControllers();
 
             #region Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.Produtos.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.Pedidos.Api", Version = "v1" });
             });
             #endregion
         }
@@ -118,18 +63,14 @@ namespace ECommerce.Produtos.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                #region Swagger
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Produtos.Api v1"));
-                #endregion
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Pedidos.Api v1"));
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             #region KissLog
@@ -145,7 +86,6 @@ namespace ECommerce.Produtos.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
 
