@@ -16,7 +16,7 @@ namespace ECommerce.Clientes.Infrastructure.Mappings
             builder.Property(c => c.Cnpj).HasColumnType("varchar(18)").IsRequired();
             builder.Property(c => c.Ativo).HasColumnType("bit").HasDefaultValue(true).IsRequired();
 
-            builder.HasOne(e => e.Endereco).WithOne(c => c.Cliente);
+            builder.HasOne(e => e.Endereco).WithOne(c => c.Cliente).HasForeignKey<Endereco>(c => c.ClienteId);
         }
     }
 }

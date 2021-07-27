@@ -15,7 +15,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Notifications
         {
             // Logar
 
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }
