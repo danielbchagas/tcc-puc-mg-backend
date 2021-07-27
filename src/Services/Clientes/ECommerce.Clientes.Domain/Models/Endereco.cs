@@ -16,7 +16,7 @@ namespace ECommerce.Clientes.Domain.Models
             Bairro = bairro;
             Cidade = cidade;
             Cep = cep;
-            Estados = estado;
+            Estado = estado;
             Ativo = ativo;
         }
 
@@ -24,7 +24,7 @@ namespace ECommerce.Clientes.Domain.Models
         public string Bairro { get; private set; }
         public string Cidade { get; private set; }
         public string Cep { get; private set; }
-        public Estados Estados { get; private set; }
+        public Estados Estado { get; private set; }
         public bool Ativo { get; private set; }
 
         // Relacionamento

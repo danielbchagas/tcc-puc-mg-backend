@@ -3,9 +3,9 @@ using System;
 
 namespace ECommerce.Clientes.Domain.Application.Notifications
 {
-    public class ClienteCommitNotification : INotification
+    public class EnderecoCommitNotification : INotification
     {
-        public ClienteCommitNotification(string caminhoRequisicao, string uri, Guid clienteId)
+        public EnderecoCommitNotification(string caminhoRequisicao, string uri, Guid clienteId)
         {
             Momento = DateTime.Now;
             CaminhoRequisicao = caminhoRequisicao;

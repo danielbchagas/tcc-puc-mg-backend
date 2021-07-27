@@ -1,14 +1,12 @@
-﻿using AutoMapper;
-using ECommerce.Clientes.Domain.Application.Commands;
+﻿using ECommerce.Clientes.Domain.Application.Commands.Cliente;
 using ECommerce.Clientes.Domain.Application.Notifications;
 using ECommerce.Clientes.Domain.Interfaces.Repositories;
-using ECommerce.Clientes.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
+namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente
 {
     public class DesativarClienteCommandHandler : IRequestHandler<DesativarClienteCommand, ValidationResult>
     {
@@ -17,20 +15,10 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
             _repository = repository;
             _validacoes = new DesativarClienteCommandValidation();
             _mediator = mediator;
-
-            #region AutoMapper
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<RegistrarClienteCommand, Cliente>();
-            });
-
-            _mapper = configuration.CreateMapper();
-            #endregion
         }
 
         private readonly IClienteRepository _repository;
         private readonly DesativarClienteCommandValidation _validacoes;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
         public async Task<ValidationResult> Handle(DesativarClienteCommand request, CancellationToken cancellationToken)
@@ -39,14 +27,17 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
 
             if (valido.IsValid)
             {
-                var cliente = _mapper.Map<Cliente>(request);
+                var cliente = await _repository.Buscar(request.Id);
 
-                cliente.Desativar();
+                if(cliente != null)
+                {
+                    cliente.Desativar();
 
-                var sucesso = await _repository.UnitOfWork.Commit();
+                    var sucesso = await _repository.UnitOfWork.Commit();
 
-                if (sucesso)
-                    await _mediator.Publish(new ClienteCommitNotification(request.OrigemRequisicao, request.Uri, cliente.Id));
+                    if (sucesso)
+                        await _mediator.Publish(new ClienteCommitNotification("", "", cliente.Id));
+                }
             }
 
             return await Task.FromResult(valido);

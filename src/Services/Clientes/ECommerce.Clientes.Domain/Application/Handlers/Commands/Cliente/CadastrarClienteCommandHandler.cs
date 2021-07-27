@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
-using ECommerce.Clientes.Domain.Application.Commands;
+using ECommerce.Clientes.Domain.Application.Commands.Cliente;
 using ECommerce.Clientes.Domain.Application.Notifications;
 using ECommerce.Clientes.Domain.Interfaces.Repositories;
-using ECommerce.Clientes.Domain.Models;
+using Dominio = ECommerce.Clientes.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
+namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente
 {
-    public class RegistrarClienteCommandHandler : IRequestHandler<RegistrarClienteCommand, ValidationResult>
+    public class CadastrarClienteCommandHandler : IRequestHandler<CadastrarClienteCommand, ValidationResult>
     {
-        public RegistrarClienteCommandHandler(IClienteRepository repository, IMediator mediator)
+        public CadastrarClienteCommandHandler(IClienteRepository repository, IMediator mediator)
         {
             _repository = repository;
             _validacoes = new RegistrarClienteCommandValidation();
@@ -25,19 +25,19 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public async Task<ValidationResult> Handle(RegistrarClienteCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(CadastrarClienteCommand request, CancellationToken cancellationToken)
         {
             var valido = _validacoes.Validate(request);
 
             if (valido.IsValid)
             {
-                var cliente = _mapper.Map<Cliente>(request);
+                var cliente = _mapper.Map<Dominio.Cliente>(request);
 
                 await _repository.Adicionar(cliente);
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new ClienteCommitNotification(request.OrigemRequisicao, request.Uri, cliente.Id));
+                    await _mediator.Publish(new ClienteCommitNotification("", "", cliente.Id));
             }
 
             return await Task.FromResult(valido);
@@ -47,13 +47,11 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<RegistrarClienteCommand, Cliente>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.ClienteId))
+                cfg.CreateMap<CadastrarClienteCommand, Dominio.Cliente>()
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
                     .ForMember(dest => dest.NomeFantasia, opt => opt.MapFrom(c => c.NomeFantasia))
                     .ForMember(dest => dest.Cnpj, opt => opt.MapFrom(c => c.Cnpj))
-                    .ForMember(dest => dest.Ativo, opt => opt.MapFrom(c => c.ClienteAtivo))
-                    .ForMember(dest => dest.EnderecoId, opt => opt.MapFrom(_ => _.EnderecoId))
-                    .ForMember(dest => dest.Endereco, opt => opt.MapFrom(e => new Endereco(e.EnderecoId, e.Logradouro, e.Bairro, e.Cidade, e.Cep, e.Estados, e.EnderecoAtivo)));
+                    .ForMember(dest => dest.Ativo, opt => opt.MapFrom(c => c.Ativo));
             });
 
             return configuration.CreateMapper();

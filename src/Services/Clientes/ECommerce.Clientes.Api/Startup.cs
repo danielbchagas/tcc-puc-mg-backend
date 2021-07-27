@@ -1,6 +1,6 @@
 using ECommerce.Clientes.Api.Middlewares;
-using ECommerce.Clientes.Domain.Application.Commands;
-using ECommerce.Clientes.Domain.Application.Handlers.Commands;
+using ECommerce.Clientes.Domain.Application.Commands.Cliente;
+using ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente;
 using ECommerce.Clientes.Domain.Application.Handlers.Notifications;
 using ECommerce.Clientes.Domain.Application.Notifications;
 using ECommerce.Clientes.Domain.Application.Queries;
@@ -64,7 +64,7 @@ namespace ECommerce.Clientes.Api
             services.AddMediatR(typeof(Startup));
             // Mediator - Comandos
             services.AddScoped<IRequestHandler<AtualizarClienteCommand, ValidationResult>, AtualizarClienteCommandHandler>();
-            services.AddScoped<IRequestHandler<RegistrarClienteCommand, ValidationResult>, RegistrarClienteCommandHandler>();
+            services.AddScoped<IRequestHandler<CadastrarClienteCommand, ValidationResult>, CadastrarClienteCommandHandler>();
             services.AddScoped<IRequestHandler<DesativarClienteCommand, ValidationResult>, DesativarClienteCommandHandler>();
             // Mediator - Queries
             services.AddScoped<IBuscarClientePorIdQuery, BuscarClientePorIdQuery>();
@@ -101,7 +101,11 @@ namespace ECommerce.Clientes.Api
             #endregion
 
             services.AddControllers().AddJsonOptions(
-                opt => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve
+                opt => 
+                {
+                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                }
             );
 
             #region Swagger

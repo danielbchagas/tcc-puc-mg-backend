@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Clientes.Domain.Application.Handlers.Notifications
 {
-    public class ClienteCommitNotificationHandler : INotificationHandler<ClienteCommitNotification>
+    public class EnderecoCommitNotificationHandler : INotificationHandler<EnderecoCommitNotification>
     {
-        public Task Handle(ClienteCommitNotification notification, CancellationToken cancellationToken)
+        public Task Handle(EnderecoCommitNotification notification, CancellationToken cancellationToken)
         {
             // Logar
 
