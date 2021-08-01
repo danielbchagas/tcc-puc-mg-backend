@@ -75,7 +75,6 @@ namespace ECommerce.Clientes.Api
 
             services.AddScoped<IRequestHandler<AtualizarEnderecoCommand, ValidationResult>, AtualizarEnderecoCommandHandler>();
             services.AddScoped<IRequestHandler<CadastrarEnderecoCommand, ValidationResult>, CadastrarEnderecoCommandHandler>();
-            services.AddScoped<IRequestHandler<DesativarEnderecoCommand, ValidationResult>, DesativarEnderecoCommandHandler>();
             
             // Mediator - Queries
             services.AddScoped<IRequestHandler<BuscarClientePorIdQuery, Cliente>, BuscarClientesPorIdQueryHandler>();

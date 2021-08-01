@@ -52,9 +52,9 @@ namespace ECommerce.Clientes.Infrastructure.Data
                 c.Property(c => c.Nascimento).HasColumnType("date").IsRequired();
                 c.Property(c => c.Ativo).HasColumnType("bit").IsRequired();
 
-                c.HasOne(c => c.Documento).WithOne(d => d.Cliente);
-                c.HasOne(c => c.Endereco).WithOne(e => e.Cliente);
-                c.HasOne(c => c.Email).WithOne(e => e.Cliente);
+                c.HasOne(c => c.Documento).WithOne(d => d.Cliente).OnDelete(DeleteBehavior.Cascade);
+                c.HasOne(c => c.Endereco).WithOne(e => e.Cliente).OnDelete(DeleteBehavior.Cascade);
+                c.HasOne(c => c.Email).WithOne(e => e.Cliente).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Documento>(d =>
@@ -101,20 +101,32 @@ namespace ECommerce.Clientes.Infrastructure.Data
             #endregion
 
             #region Seed
-            var clienteDaviGiovanniFelipe = new Cliente(nome: "Davi Giovanni Felipe", sobrenome: "Fernandes", nascimento: new DateTime(1955, 02, 07));
-            var documentoDaviGiovanniFelipe = new Documento(numero: "903.142.734-92", clienteId: clienteDaviGiovanniFelipe.Id);
-            var enderecoDaviGiovanniFelipe = new Endereco(logradouro: "Colônia Agrícola Águas Claras Chácara 23, 641", bairro: "Guará I", cidade: "Brasília", cep: "71090-265", estado: Estados.DF, clienteId: clienteDaviGiovanniFelipe.Id);
-            var emailDaviGiovanniFelipe = new Email(endereco: "davi_giovanni_felipe@gmail.com", clienteDaviGiovanniFelipe.Id);
+            var clienteDaviGiovanniFelipe = 
+                new Cliente(nome: "Davi Giovanni Felipe", sobrenome: "Fernandes", nascimento: new DateTime(1955, 02, 07));
+            var documentoDaviGiovanniFelipe = 
+                new Documento(numero: "903.142.734-92", clienteId: clienteDaviGiovanniFelipe.Id);
+            var enderecoDaviGiovanniFelipe = 
+                new Endereco(logradouro: "Colônia Agrícola Águas Claras Chácara 23, 641", bairro: "Guará I", cidade: "Brasília", cep: "71090-265", estado: Estados.DF, clienteId: clienteDaviGiovanniFelipe.Id);
+            var emailDaviGiovanniFelipe = 
+                new Email(endereco: "davi_giovanni_felipe@gmail.com", clienteDaviGiovanniFelipe.Id);
 
-            var clienteAylaCarolineAnaGomes = new Cliente(nome: "Ayla Caroline", sobrenome: "Ana Gomes", nascimento: new DateTime(1963, 12, 12));
-            var documentoAylaCarolineAnaGomes = new Documento(numero: "668.154.787-77", clienteId: clienteAylaCarolineAnaGomes.Id);
-            var enderecoAylaCarolineAnaGomes = new Endereco(logradouro: "Praça São Francisco de Assis, 442", bairro: "Tarumã", cidade: "Curitiba", cep: "82530-220", estado: Estados.PR, clienteId: clienteAylaCarolineAnaGomes.Id);
-            var emailAylaCarolineAnaGomes = new Email(endereco: "ayla_caroline_ana_gomes@gmail.com", clienteAylaCarolineAnaGomes.Id);
+            var clienteAylaCarolineAnaGomes = 
+                new Cliente(nome: "Ayla Caroline", sobrenome: "Ana Gomes", nascimento: new DateTime(1963, 12, 12));
+            var documentoAylaCarolineAnaGomes = 
+                new Documento(numero: "668.154.787-77", clienteId: clienteAylaCarolineAnaGomes.Id);
+            var enderecoAylaCarolineAnaGomes = 
+                new Endereco(logradouro: "Praça São Francisco de Assis, 442", bairro: "Tarumã", cidade: "Curitiba", cep: "82530-220", estado: Estados.PR, clienteId: clienteAylaCarolineAnaGomes.Id);
+            var emailAylaCarolineAnaGomes = 
+                new Email(endereco: "ayla_caroline_ana_gomes@gmail.com", clienteAylaCarolineAnaGomes.Id);
 
-            var clienteBetinaFláviaSouza = new Cliente(nome: "BetinaFlávia", sobrenome: "Souza", nascimento: new DateTime(1975, 02, 16));
-            var documentoBetinaFláviaSouza = new Documento(numero: "345.712.047-10", clienteId: clienteBetinaFláviaSouza.Id);
-            var enderecoBetinaFláviaSouza = new Endereco(logradouro: "Rua Neves, 378", bairro: "Abegay", cidade: "Cruz Alta", cep: "98045-115", estado: Estados.RS, clienteId: clienteBetinaFláviaSouza.Id);
-            var emailBetinaFláviaSouza = new Email(endereco: "b_etina_flavia_souza@gmail.com", clienteBetinaFláviaSouza.Id);
+            var clienteBetinaFláviaSouza = 
+                new Cliente(nome: "BetinaFlávia", sobrenome: "Souza", nascimento: new DateTime(1975, 02, 16));
+            var documentoBetinaFláviaSouza = 
+                new Documento(numero: "345.712.047-10", clienteId: clienteBetinaFláviaSouza.Id);
+            var enderecoBetinaFláviaSouza = 
+                new Endereco(logradouro: "Rua Neves, 378", bairro: "Abegay", cidade: "Cruz Alta", cep: "98045-115", estado: Estados.RS, clienteId: clienteBetinaFláviaSouza.Id);
+            var emailBetinaFláviaSouza = 
+                new Email(endereco: "b_etina_flavia_souza@gmail.com", clienteBetinaFláviaSouza.Id);
 
             var usuarioId = Guid.NewGuid();
 
