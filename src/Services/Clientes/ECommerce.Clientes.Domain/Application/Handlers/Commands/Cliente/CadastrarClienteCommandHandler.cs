@@ -2,11 +2,11 @@
 using ECommerce.Clientes.Domain.Application.Commands.Cliente;
 using ECommerce.Clientes.Domain.Application.Notifications;
 using ECommerce.Clientes.Domain.Interfaces.Repositories;
-using Dominio = ECommerce.Clientes.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using Dominio = ECommerce.Clientes.Domain.Models;
 
 namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente
 {
@@ -49,9 +49,13 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente
             {
                 cfg.CreateMap<CadastrarClienteCommand, Dominio.Cliente>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
-                    .ForMember(dest => dest.Nome, opt => opt.MapFrom(c => c.NomeFantasia))
-                    .ForMember(dest => dest.Documento, opt => opt.MapFrom(c => c.Cnpj))
-                    .ForMember(dest => dest.Ativo, opt => opt.MapFrom(c => c.Ativo));
+                    .ForMember(dest => dest.Nome, opt => opt.MapFrom(c => c.Nome))
+                    .ForMember(dest => dest.Sobrenome, opt => opt.MapFrom(c => c.Sobrenome))
+                    .ForMember(dest => dest.Nascimento, opt => opt.MapFrom(c => c.Nascimento))
+                    .ForMember(dest => dest.Documento, opt => opt.MapFrom(c => c.Documento))
+                    .ForMember(dest => dest.Ativo, opt => opt.MapFrom(c => c.Ativo))
+                    .ForMember(dest => dest.Email, opt => opt.MapFrom(c => c.Email))
+                    .ForMember(dest => dest.Endereco, opt => opt.MapFrom(c => c.Endereco));
             });
 
             return configuration.CreateMapper();

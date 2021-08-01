@@ -70,19 +70,5 @@ namespace ECommerce.Clientes.Api.Controllers
 
             return Ok();
         }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        [HttpDelete("excluir")]
-        public async Task<IActionResult> Excluir(DesativarEnderecoCommand request)
-        {
-            var resultado = await _mediator.Send(request);
-
-            if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
-
-            return Ok();
-        }
     }
 }

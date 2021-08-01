@@ -48,9 +48,6 @@ namespace ECommerce.Produtos.Api.Controllers
         [HttpPost("novo")]
         public async Task<IActionResult> Novo(RegistrarProdutoCommand request)
         {
-            request.OrigemRequisicao = HttpContext.Connection.RemoteIpAddress.ToString();
-            request.Uri = HttpContext.Request.Path;
-            
             var resultado = await _mediator.Send(request);
 
             if (!resultado.IsValid)
@@ -65,26 +62,6 @@ namespace ECommerce.Produtos.Api.Controllers
         [HttpPut("atualizar")]
         public async Task<IActionResult> Atualizar(AtualizarProdutoCommand request)
         {
-            request.OrigemRequisicao = HttpContext.Connection.RemoteIpAddress.ToString();
-            request.Uri = HttpContext.Request.Path;
-
-            var resultado = await _mediator.Send(request);
-
-            if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
-
-            return Ok();
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        [HttpDelete("excluir")]
-        public async Task<IActionResult> Excluir(DesativarProdutoCommand request)
-        {
-            request.OrigemRequisicao = HttpContext.Connection.RemoteIpAddress.ToString();
-            request.Uri = HttpContext.Request.Path;
-
             var resultado = await _mediator.Send(request);
 
             if (!resultado.IsValid)

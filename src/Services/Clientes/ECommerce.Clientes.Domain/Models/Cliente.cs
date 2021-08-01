@@ -39,6 +39,11 @@ namespace ECommerce.Clientes.Domain.Models
             Ativo = false;
         }
 
+        public void VincularEmail(Email email)
+        {
+            Email = email;
+        }
+
         public void VincularDocumento(Documento documento)
         {
             Documento = documento;
