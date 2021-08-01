@@ -38,7 +38,6 @@ namespace ECommerce.Clientes.Infrastructure.Repositories
         {
             return await _context.Enderecos
                 .Include(c => c.Cliente)
-                .Where(c => c.Ativo == true)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
@@ -48,12 +47,11 @@ namespace ECommerce.Clientes.Infrastructure.Repositories
                 return await _context.Enderecos
                     .Include(c => c.Cliente)
                     .AsNoTracking()
-                    .Where(c => c.Ativo == true)
                     .Skip((pagina.Value - 1) * linhas.Value)
                     .Take(linhas.Value)
                     .ToListAsync();
 
-            return await _context.Enderecos.Include(c => c.Cliente).AsNoTracking().Where(c => c.Ativo == true).ToListAsync();
+            return await _context.Enderecos.Include(c => c.Cliente).AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<Endereco>> Buscar(Expression<Func<Endereco, bool>> filtro, int? pagina, int? linhas)
@@ -62,7 +60,6 @@ namespace ECommerce.Clientes.Infrastructure.Repositories
                 return await _context.Enderecos
                     .Include(c => c.Cliente)
                     .AsNoTracking()
-                    .Where(c => c.Ativo == true)
                     .Where(filtro)
                     .Skip((pagina.Value - 1) * linhas.Value)
                     .Take(linhas.Value)
@@ -71,7 +68,6 @@ namespace ECommerce.Clientes.Infrastructure.Repositories
             return await _context.Enderecos
                 .Include(c => c.Cliente)
                 .AsNoTracking()
-                .Where(c => c.Ativo == true)
                 .Where(filtro)
                 .ToListAsync();
         }

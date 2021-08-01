@@ -56,7 +56,6 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Endereco
                     .ForMember(dest => dest.Cidade, opt => opt.MapFrom(c => c.Cidade))
                     .ForMember(dest => dest.Estado, opt => opt.MapFrom(_ => _.Estado))
                     .ForMember(dest => dest.Cep, opt => opt.MapFrom(_ => _.Cep))
-                    .ForMember(dest => dest.Ativo, opt => opt.MapFrom(_ => _.Ativo))
                     .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(_ => _.ClienteId));
             });
 

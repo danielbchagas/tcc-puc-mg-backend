@@ -4,14 +4,16 @@ using ECommerce.Clientes.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ECommerce.Clientes.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210801154011_email seed")]
+    partial class emailseed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +48,7 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ba07b2f0-8928-481f-b604-c0bd8b27370a"),
+                            Id = new Guid("7c1469cf-f765-40f2-adb2-c45511e27b4e"),
                             Ativo = true,
                             Nascimento = new DateTime(1955, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nome = "Davi Giovanni Felipe",
@@ -54,7 +56,7 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e80b1055-5d13-4bb4-a940-f449dd099f22"),
+                            Id = new Guid("0df62fab-1b4a-4558-b460-7f42cee0702c"),
                             Ativo = true,
                             Nascimento = new DateTime(1963, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nome = "Ayla Caroline",
@@ -62,7 +64,7 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dbd6065d-e021-43ea-be6f-cf741b530edd"),
+                            Id = new Guid("643cff0f-92f9-4b1f-8871-7efed529dd37"),
                             Ativo = true,
                             Nascimento = new DateTime(1975, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nome = "BetinaFlávia",
@@ -93,20 +95,20 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9f5e38a9-8717-42a4-843a-c62b6b776b10"),
-                            ClienteId = new Guid("ba07b2f0-8928-481f-b604-c0bd8b27370a"),
+                            Id = new Guid("1fb4c6c8-0f8a-4dd5-bed4-5e38791285ef"),
+                            ClienteId = new Guid("7c1469cf-f765-40f2-adb2-c45511e27b4e"),
                             Numero = "903.142.734-92"
                         },
                         new
                         {
-                            Id = new Guid("87dac7c0-f1fe-48e1-a7d0-e15dee5a332d"),
-                            ClienteId = new Guid("e80b1055-5d13-4bb4-a940-f449dd099f22"),
+                            Id = new Guid("e977a1e2-a7cd-4daa-b37b-2ace22393e13"),
+                            ClienteId = new Guid("0df62fab-1b4a-4558-b460-7f42cee0702c"),
                             Numero = "668.154.787-77"
                         },
                         new
                         {
-                            Id = new Guid("0f78ab8a-23d4-41fc-9e25-ff0ceba221d3"),
-                            ClienteId = new Guid("dbd6065d-e021-43ea-be6f-cf741b530edd"),
+                            Id = new Guid("7867833a-95d4-4501-9bf5-6ecb8362edb8"),
+                            ClienteId = new Guid("643cff0f-92f9-4b1f-8871-7efed529dd37"),
                             Numero = "345.712.047-10"
                         });
                 });
@@ -130,26 +132,6 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Emails");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("904f2679-4e43-442e-a65b-cc6ecadda001"),
-                            ClienteId = new Guid("ba07b2f0-8928-481f-b604-c0bd8b27370a"),
-                            Endereco = "davi_giovanni_felipe@gmail.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("0fb67b13-9125-487e-a5d3-aa5fcc1dfe7e"),
-                            ClienteId = new Guid("e80b1055-5d13-4bb4-a940-f449dd099f22"),
-                            Endereco = "ayla_caroline_ana_gomes@gmail.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("da638558-3ccb-48e3-960e-5175ab93047f"),
-                            ClienteId = new Guid("dbd6065d-e021-43ea-be6f-cf741b530edd"),
-                            Endereco = "b_etina_flavia_souza@gmail.com"
-                        });
                 });
 
             modelBuilder.Entity("ECommerce.Clientes.Domain.Models.Endereco", b =>
@@ -191,31 +173,31 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("354f1a68-3765-4e47-8c2c-56311e356009"),
+                            Id = new Guid("f4883cd0-8f7f-4023-ae8d-8799348067af"),
                             Bairro = "Guará I",
                             Cep = "71090-265",
                             Cidade = "Brasília",
-                            ClienteId = new Guid("ba07b2f0-8928-481f-b604-c0bd8b27370a"),
+                            ClienteId = new Guid("7c1469cf-f765-40f2-adb2-c45511e27b4e"),
                             Estado = "DF",
                             Logradouro = "Colônia Agrícola Águas Claras Chácara 23, 641"
                         },
                         new
                         {
-                            Id = new Guid("013c755f-414f-4281-804a-4bc1227499d8"),
+                            Id = new Guid("0e2087ac-297b-48d4-95d6-9cbafba852aa"),
                             Bairro = "Tarumã",
                             Cep = "82530-220",
                             Cidade = "Curitiba",
-                            ClienteId = new Guid("e80b1055-5d13-4bb4-a940-f449dd099f22"),
+                            ClienteId = new Guid("0df62fab-1b4a-4558-b460-7f42cee0702c"),
                             Estado = "PR",
                             Logradouro = "Praça São Francisco de Assis, 442"
                         },
                         new
                         {
-                            Id = new Guid("cbdc9ac1-9b01-4331-88ef-4b9eece177d2"),
+                            Id = new Guid("b650cdb7-2b58-4d8b-8fce-8eebb45f30ca"),
                             Bairro = "Abegay",
                             Cep = "98045-115",
                             Cidade = "Cruz Alta",
-                            ClienteId = new Guid("dbd6065d-e021-43ea-be6f-cf741b530edd"),
+                            ClienteId = new Guid("643cff0f-92f9-4b1f-8871-7efed529dd37"),
                             Estado = "RS",
                             Logradouro = "Rua Neves, 378"
                         });
@@ -245,24 +227,24 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("652ddfe9-cbdf-4aa6-8c5e-58af89044bff"),
-                            ClienteId = "ba07b2f0-8928-481f-b604-c0bd8b27370a",
-                            Momento = new DateTime(2021, 8, 1, 12, 46, 14, 810, DateTimeKind.Local).AddTicks(5573),
-                            UsuarioId = "08303b1f-fa0d-402c-b1a5-88210780107a"
+                            Id = new Guid("7e3d69f7-0286-4cad-8c0c-f4801bd8f459"),
+                            ClienteId = "7c1469cf-f765-40f2-adb2-c45511e27b4e",
+                            Momento = new DateTime(2021, 8, 1, 12, 40, 10, 902, DateTimeKind.Local).AddTicks(4722),
+                            UsuarioId = "003a608e-30c5-4deb-b480-65205cfab9cd"
                         },
                         new
                         {
-                            Id = new Guid("f622ac48-72a0-4a85-a5f0-d6561a4a16d6"),
-                            ClienteId = "e80b1055-5d13-4bb4-a940-f449dd099f22",
-                            Momento = new DateTime(2021, 8, 1, 12, 46, 14, 811, DateTimeKind.Local).AddTicks(6390),
-                            UsuarioId = "08303b1f-fa0d-402c-b1a5-88210780107a"
+                            Id = new Guid("7a8c2a71-916d-4594-9677-a998d31b6915"),
+                            ClienteId = "0df62fab-1b4a-4558-b460-7f42cee0702c",
+                            Momento = new DateTime(2021, 8, 1, 12, 40, 10, 909, DateTimeKind.Local).AddTicks(3850),
+                            UsuarioId = "003a608e-30c5-4deb-b480-65205cfab9cd"
                         },
                         new
                         {
-                            Id = new Guid("4fa86868-a906-4813-ad8a-1406824cffdf"),
-                            ClienteId = "dbd6065d-e021-43ea-be6f-cf741b530edd",
-                            Momento = new DateTime(2021, 8, 1, 12, 46, 14, 811, DateTimeKind.Local).AddTicks(6406),
-                            UsuarioId = "08303b1f-fa0d-402c-b1a5-88210780107a"
+                            Id = new Guid("7b8c82a3-3071-4245-a42d-2641ef7e12fe"),
+                            ClienteId = "643cff0f-92f9-4b1f-8871-7efed529dd37",
+                            Momento = new DateTime(2021, 8, 1, 12, 40, 10, 909, DateTimeKind.Local).AddTicks(3866),
+                            UsuarioId = "003a608e-30c5-4deb-b480-65205cfab9cd"
                         });
                 });
 

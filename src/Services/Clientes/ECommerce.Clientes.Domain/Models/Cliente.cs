@@ -1,4 +1,5 @@
 ﻿using ECommerce.Clientes.Domain.Interfaces.Entities;
+using System;
 
 namespace ECommerce.Clientes.Domain.Models
 {
@@ -9,16 +10,21 @@ namespace ECommerce.Clientes.Domain.Models
 
         }
 
-        public Cliente(string nomeFantasia, bool ativo = true)
+        public Cliente(string nome, string sobrenome, DateTime nascimento, bool ativo = true)
         {
-            NomeFantasia = nomeFantasia;
+            Nome = nome;
+            Sobrenome = sobrenome;
+            Nascimento = nascimento;
             Ativo = ativo;
         }
 
-        public string NomeFantasia { get; private set; }
+        public string Nome { get; private set; }
+        public string Sobrenome { get; private set; }
+        public DateTime Nascimento { get; set; }
         public bool Ativo { get; private set; }
 
         // Relacionamento
+        public Email Email { get; set; }
         public Documento Documento { get; private set; }
         public Endereco Endereco { get; private set; }
 

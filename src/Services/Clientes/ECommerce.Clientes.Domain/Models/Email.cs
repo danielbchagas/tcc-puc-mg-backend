@@ -2,22 +2,22 @@
 
 namespace ECommerce.Clientes.Domain.Models
 {
-    public class Documento : Entity
+    public class Email : Entity
     {
-        protected Documento()
+        protected Email()
         {
 
         }
 
-        public Documento(string numero, Guid clienteId)
+        public Email(string endereco, Guid clienteId)
         {
-            Numero = numero;
+            Endereco = endereco;
             ClienteId = clienteId;
         }
 
-        public string Numero { get; private set; }
+        public string Endereco { get; private set; }
         
-        // Relacionamento
+        // Relacionamentos
         public Guid ClienteId { get; private set; }
         public Cliente Cliente { get; private set; }
     }

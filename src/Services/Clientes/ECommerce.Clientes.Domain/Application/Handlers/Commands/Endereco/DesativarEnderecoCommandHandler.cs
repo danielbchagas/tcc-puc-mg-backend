@@ -33,8 +33,6 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Endereco
 
                 if (endereco != null)
                 {
-                    endereco.Desativar();
-
                     var sucesso = await _repository.UnitOfWork.Commit();
 
                     if (sucesso)
