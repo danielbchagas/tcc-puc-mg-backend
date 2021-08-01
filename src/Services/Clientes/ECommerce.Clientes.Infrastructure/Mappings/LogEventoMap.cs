@@ -13,8 +13,6 @@ namespace ECommerce.Clientes.Infrastructure.Mappings
             builder.HasKey(l => l.Id);
 
             builder.Property(l => l.Momento).HasColumnType("date").IsRequired();
-            builder.Property(l => l.Uri).HasColumnType("varchar(50)").IsRequired();
-            builder.Property(l => l.OrigemRequisicao).HasColumnType("varchar(50)").IsRequired();
             builder.Property(l => l.ClienteId).HasColumnType("varchar(36)").IsRequired();
         }
     }

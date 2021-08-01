@@ -4,19 +4,19 @@ namespace ECommerce.Clientes.Domain.Models
 {
     public class Endereco : Entity
     {
-        public Endereco()
+        protected Endereco()
         {
 
         }
 
-        public Endereco(Guid id, string logradouro, string bairro, string cidade, string cep, Estados estado, bool ativo = true)
+        public Endereco(string logradouro, string bairro, string cidade, string cep, Estados estado, Guid clienteId, bool ativo = true)
         {
-            Id = id;
             Logradouro = logradouro;
             Bairro = bairro;
             Cidade = cidade;
             Cep = cep;
             Estado = estado;
+            ClienteId = clienteId;
             Ativo = ativo;
         }
 
@@ -28,8 +28,8 @@ namespace ECommerce.Clientes.Domain.Models
         public bool Ativo { get; private set; }
 
         // Relacionamento
-        public Guid ClienteId { get; set; }
-        public virtual Cliente Cliente { get; set; }
+        public Guid ClienteId { get; private set; }
+        public Cliente Cliente { get; private set; }
 
         // Métodos auxiliares
         public void Ativar()

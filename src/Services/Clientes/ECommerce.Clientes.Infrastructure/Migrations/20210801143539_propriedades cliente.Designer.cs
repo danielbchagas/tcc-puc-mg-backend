@@ -4,14 +4,16 @@ using ECommerce.Clientes.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ECommerce.Clientes.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210801143539_propriedades cliente")]
+    partial class propriedadescliente
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,15 +52,14 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnType("varchar(18)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId")
                         .IsUnique();
 
-                    b.ToTable("Documentos");
+                    b.ToTable("Documento");
                 });
 
             modelBuilder.Entity("ECommerce.Clientes.Domain.Models.Endereco", b =>
@@ -71,27 +72,22 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Bairro")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cep")
-                        .IsRequired()
-                        .HasColumnType("varchar(9)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cidade")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ClienteId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasColumnType("char(2)");
+                    b.Property<int>("Estado")
+                        .HasColumnType("int");
 
                     b.Property<string>("Logradouro")
-                        .IsRequired()
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -107,16 +103,14 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ClienteId")
-                        .IsRequired()
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("ClienteId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Momento")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("UsuarioId")
-                        .IsRequired()
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

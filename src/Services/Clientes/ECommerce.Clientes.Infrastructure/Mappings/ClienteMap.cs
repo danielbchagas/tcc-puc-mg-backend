@@ -13,10 +13,11 @@ namespace ECommerce.Clientes.Infrastructure.Mappings
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.NomeFantasia).HasColumnType("varchar(100)").IsRequired();
-            builder.Property(c => c.Cnpj).HasColumnType("varchar(18)").IsRequired();
-            builder.Property(c => c.Ativo).HasColumnType("bit").HasDefaultValue(true).IsRequired();
+            builder.Property(c => c.Documento).HasColumnType("varchar(18)").IsRequired();
+            builder.Property(c => c.Ativo).HasColumnType("bit").IsRequired();
 
-            builder.HasOne(e => e.Endereco).WithOne(c => c.Cliente).HasForeignKey<Endereco>(c => c.ClienteId);
+            builder.HasOne(c => c.Documento).WithOne(d => d.Cliente).HasForeignKey<Documento>(d => d.ClienteId);
+            builder.HasOne(c => c.Endereco).WithOne(e => e.Cliente).HasForeignKey<Endereco>(e => e.ClienteId);
         }
     }
 }

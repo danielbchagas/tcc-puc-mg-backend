@@ -35,10 +35,6 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Endereco
             {
                 var endereco = _mapper.Map<Dominio.Endereco>(request);
                 
-                // Vincula o cliente ao endereço
-                endereco.ClienteId = request.ClienteId;
-                endereco.Cliente = await _clienteRepository.Buscar(request.ClienteId);
-
                 await _repository.Adicionar(endereco);
                 var sucesso = await _repository.UnitOfWork.Commit();
 

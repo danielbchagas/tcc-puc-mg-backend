@@ -31,10 +31,6 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Endereco
             {
                 var endereco = await _repository.Buscar(request.Id);
 
-                // Vincula o cliente ao endereço
-                endereco.ClienteId = request.ClienteId;
-                endereco.Cliente = await _clienteRepository.Buscar(request.ClienteId);
-
                 if (endereco != null)
                 {
                     endereco.Desativar();

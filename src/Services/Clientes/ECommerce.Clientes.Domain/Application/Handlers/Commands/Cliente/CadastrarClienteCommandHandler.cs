@@ -50,7 +50,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente
                 cfg.CreateMap<CadastrarClienteCommand, Dominio.Cliente>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
                     .ForMember(dest => dest.NomeFantasia, opt => opt.MapFrom(c => c.NomeFantasia))
-                    .ForMember(dest => dest.Cnpj, opt => opt.MapFrom(c => c.Cnpj))
+                    .ForMember(dest => dest.Documento, opt => opt.MapFrom(c => c.Cnpj))
                     .ForMember(dest => dest.Ativo, opt => opt.MapFrom(c => c.Ativo));
             });
 

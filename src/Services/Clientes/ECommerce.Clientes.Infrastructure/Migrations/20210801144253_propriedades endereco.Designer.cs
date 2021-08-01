@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Clientes.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210727151910_propriedades para endereco")]
-    partial class propriedadesparaendereco
+    [Migration("20210801144253_propriedades endereco")]
+    partial class propriedadesendereco
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,16 +28,7 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Ativo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("Cnpj")
-                        .IsRequired()
-                        .HasColumnType("varchar(18)");
-
-                    b.Property<Guid>("EnderecoId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bit");
 
                     b.Property<string>("NomeFantasia")
                         .IsRequired()
@@ -46,6 +37,30 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("ECommerce.Clientes.Domain.Models.Documento", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ClienteId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasColumnType("varchar(18)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId")
+                        .IsUnique();
+
+                    b.ToTable("Documentos");
                 });
 
             modelBuilder.Entity("ECommerce.Clientes.Domain.Models.Endereco", b =>
@@ -72,7 +87,7 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                     b.Property<Guid>("ClienteId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Estados")
+                    b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("char(2)");
 
@@ -94,24 +109,29 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ClienteId")
-                        .IsRequired()
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("ClienteId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Momento")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("OrigemRequisicao")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Uri")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.ToTable("LogEventos");
+                });
+
+            modelBuilder.Entity("ECommerce.Clientes.Domain.Models.Documento", b =>
+                {
+                    b.HasOne("ECommerce.Clientes.Domain.Models.Cliente", "Cliente")
+                        .WithOne("Documento")
+                        .HasForeignKey("ECommerce.Clientes.Domain.Models.Documento", "ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("ECommerce.Clientes.Domain.Models.Endereco", b =>
@@ -127,6 +147,8 @@ namespace ECommerce.Clientes.Infrastructure.Migrations
 
             modelBuilder.Entity("ECommerce.Clientes.Domain.Models.Cliente", b =>
                 {
+                    b.Navigation("Documento");
+
                     b.Navigation("Endereco");
                 });
 #pragma warning restore 612, 618
