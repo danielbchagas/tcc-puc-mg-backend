@@ -18,9 +18,17 @@ namespace ECommerce.Web.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment environment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", true, true);
+
+            if (environment.IsDevelopment())
+                builder.AddUserSecrets<Startup>();
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }

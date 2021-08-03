@@ -17,6 +17,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,9 +33,17 @@ namespace ECommerce.Produtos.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment environment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", true, true);
+
+            if (environment.IsDevelopment())
+                builder.AddUserSecrets<Startup>();
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -103,6 +112,7 @@ namespace ECommerce.Produtos.Api
             });
             #endregion
 
+            #region Configurações padrão
             services.AddControllers().AddJsonOptions(
                 opt =>
                 {
@@ -110,6 +120,12 @@ namespace ECommerce.Produtos.Api
                     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 }
             );
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+            #endregion
 
             #region Swagger
             services.AddSwaggerGen(c =>
