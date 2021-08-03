@@ -128,7 +128,20 @@ namespace ECommerce.Clientes.Api
             #region Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.Clientes.Api", Version = "v1" });
+                services.AddSwaggerGen(c =>
+                {
+                    services.AddSwaggerGen(c =>
+                    {
+                        c.SwaggerDoc("v1", new OpenApiInfo
+                        {
+                            Title = "ECommerce.Clientes.Api",
+                            Version = "v1",
+                            Description = "TCC PUC Minas - Api de Clientes do E-Commerce",
+                            Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
+                            License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/mit") }
+                        });
+                    });
+                });
             });
             #endregion
         }

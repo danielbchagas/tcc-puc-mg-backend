@@ -12,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Diagnostics;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace ECommerce.Pedidos.Api
 {
@@ -48,12 +49,28 @@ namespace ECommerce.Pedidos.Api
             });
             #endregion
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(
+                opt =>
+                {
+                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                }
+            );
 
             #region Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.Pedidos.Api", Version = "v1" });
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo
+                    {
+                        Title = "ECommerce.Pedidos.Api",
+                        Version = "v1",
+                        Description = "TCC PUC Minas - Api de Pedidos do E-Commerce",
+                        Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
+                        License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/mit") }
+                    });
+                });
             });
             #endregion
         }

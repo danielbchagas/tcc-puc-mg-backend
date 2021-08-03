@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace ECommerce.Produtos.Api
 {
@@ -102,12 +103,25 @@ namespace ECommerce.Produtos.Api
             });
             #endregion
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(
+                opt =>
+                {
+                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                }
+            );
 
             #region Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.Produtos.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "ECommerce.Produtos.Api",
+                    Version = "v1",
+                    Description = "TCC PUC Minas - Api de Produtos do E-Commerce",
+                    Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
+                    License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/mit") }
+                });
             });
             #endregion
         }
