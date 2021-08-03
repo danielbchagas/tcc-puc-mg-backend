@@ -63,6 +63,16 @@ namespace ECommerce.Identity.Api
             });
             #endregion
 
+            #region Healh Checks
+            services.AddHealthChecks()
+            .AddDbContextCheck<ApplicationDbContext>();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("IdentityDB"));
+            });
+            #endregion
+
             services.AddControllers();
 
             #region Swagger

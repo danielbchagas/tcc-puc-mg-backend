@@ -49,6 +49,16 @@ namespace ECommerce.Pedidos.Api
             });
             #endregion
 
+            #region Healh Checks
+            //services.AddHealthChecks()
+            //.AddDbContextCheck<ApplicationDbContext>();
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //{
+            //    options.UseSqlServer(Configuration.GetConnectionString("PedidosDB"));
+            //});
+            #endregion
+
             services.AddControllers().AddJsonOptions(
                 opt =>
                 {
