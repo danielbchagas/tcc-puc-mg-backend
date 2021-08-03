@@ -45,7 +45,7 @@ namespace ECommerce.Identity.Api.Controllers
             }
 
             await _signInManager.SignInAsync(novoUsuario, isPersistent: false);
-            return RedirectToAction("Login", new LoginUsuario { Email = novoUsuario.Email, Senha = usuario.Senha });
+            return Created(nameof(Login), new LoginUsuario { Email = novoUsuario.Email, Senha = usuario.Senha });
         }
 
         [HttpPost("logar")]
