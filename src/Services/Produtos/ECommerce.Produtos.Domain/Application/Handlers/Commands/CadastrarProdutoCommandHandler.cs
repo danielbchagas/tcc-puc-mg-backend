@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Produtos.Domain.Application.Handlers.Commands
 {
-    public class RegistrarProdutoCommandHandler : IRequestHandler<RegistrarProdutoCommand, ValidationResult>
+    public class CadastrarProdutoCommandHandler : IRequestHandler<CadastrarProdutoCommand, ValidationResult>
     {
-        public RegistrarProdutoCommandHandler(IProdutoRepository repository, IMediator mediator)
+        public CadastrarProdutoCommandHandler(IProdutoRepository repository, IMediator mediator)
         {
             _repository = repository;
             _validacoes = new ProdutoValidation();
@@ -26,7 +26,7 @@ namespace ECommerce.Produtos.Domain.Application.Handlers.Commands
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public async Task<ValidationResult> Handle(RegistrarProdutoCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(CadastrarProdutoCommand request, CancellationToken cancellationToken)
         {
             var produto = _mapper.Map<Produto>(request);
 
@@ -48,7 +48,7 @@ namespace ECommerce.Produtos.Domain.Application.Handlers.Commands
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<RegistrarProdutoCommand, Produto>();
+                cfg.CreateMap<CadastrarProdutoCommand, Produto>();
             });
 
             return configuration.CreateMapper();

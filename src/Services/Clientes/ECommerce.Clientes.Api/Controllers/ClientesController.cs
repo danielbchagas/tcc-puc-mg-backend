@@ -1,5 +1,5 @@
-﻿using ECommerce.Clientes.Domain.Application.Commands.Cliente;
-using ECommerce.Clientes.Domain.Application.Queries.Cliente;
+﻿using ECommerce.Clientes.Domain.Application.Commands;
+using ECommerce.Clientes.Domain.Application.Queries;
 using ECommerce.Clientes.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -25,21 +25,28 @@ namespace ECommerce.Clientes.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<Cliente>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<Endereco>), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        [HttpGet("buscar-todos")]
-        public async Task<IActionResult> BuscarTodos(int? pagina, int? linhas)
+        [HttpGet("buscar/{pagina:int}/{linhas:int}")]
+        public async Task<IActionResult> BuscarTodos(int pagina, int linhas)
         {
-            var produtos = await _mediator.Send(new BuscarClientesPaginadosQuery(pagina, linhas));
-            return Ok(produtos);
+            return Ok(await _mediator.Send(new BuscarClientesPaginadosQuery(pagina, linhas)));
+        }
+
+        [ProducesResponseType(typeof(IEnumerable<Cliente>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Endereco>), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [HttpGet("pesquisar/{nome:alpha}/{pagina:int}/{linhas:int}")]
+        public async Task<IActionResult> Pesquisar(string nome, int pagina, int linhas)
+        {
+            return Ok(await _mediator.Send(new BuscarClientesFiltradosPaginadosQuery(c => c.Nome.Contains(nome), pagina, linhas)));
         }
 
         [ProducesResponseType(typeof(Cliente), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<Endereco>), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        [HttpGet("buscar-por-id/{id:length(36)}")]
+        [HttpGet("buscar-por-id/{id:Guid}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
         {
-            var produto = await _mediator.Send(new BuscarClientePorIdQuery(id));
-            return Ok(produto);
+            return Ok(await _mediator.Send(new BuscarClientePorIdQuery(id)));
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -73,8 +80,8 @@ namespace ECommerce.Clientes.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        [HttpDelete("excluir")]
-        public async Task<IActionResult> Excluir(DesativarClienteCommand request)
+        [HttpDelete("desativar")]
+        public async Task<IActionResult> Desativar(DesativarClienteCommand request)
         {
             var resultado = await _mediator.Send(request);
 

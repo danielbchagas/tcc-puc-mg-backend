@@ -5,18 +5,15 @@ namespace ECommerce.Clientes.Domain.Application.Notifications
 {
     public class ClienteCommitNotification : INotification
     {
-        public ClienteCommitNotification(string caminhoRequisicao, string uri, Guid clienteId)
+        public ClienteCommitNotification(Guid clienteId, Guid usuarioId)
         {
             Momento = DateTime.Now;
-            CaminhoRequisicao = caminhoRequisicao;
-            Uri = uri;
             ClienteId = clienteId;
-
+            UsuarioId = usuarioId;
         }
 
         public DateTime Momento { get; private set; }
-        public string CaminhoRequisicao { get; private set; }
-        public string Uri { get; private set; }
         public Guid ClienteId { get; private set; }
+        public Guid UsuarioId { get; private set; }
     }
 }

@@ -1,15 +1,14 @@
 ﻿using ECommerce.Clientes.Domain.Application.Queries;
-using ECommerce.Clientes.Domain.Application.Queries.Cliente;
 using ECommerce.Clientes.Domain.Interfaces.Repositories;
+using ECommerce.Clientes.Domain.Models;
 using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Dominio = ECommerce.Clientes.Domain.Models;
 
-namespace ECommerce.Clientes.Domain.Application.Handlers.Queries.Cliente
+namespace ECommerce.Clientes.Domain.Application.Handlers.Queries
 {
-    public class BuscarClientesPaginadosQueryHandler : IRequestHandler<BuscarClientesPaginadosQuery, IEnumerable<Dominio.Cliente>>
+    public class BuscarClientesPaginadosQueryHandler : IRequestHandler<BuscarClientesPaginadosQuery, IEnumerable<Cliente>>
     {
         public BuscarClientesPaginadosQueryHandler(IClienteRepository repository)
         {
@@ -18,7 +17,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Queries.Cliente
 
         private readonly IClienteRepository _repository;
 
-        public async Task<IEnumerable<Dominio.Cliente>> Handle(BuscarClientesPaginadosQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Cliente>> Handle(BuscarClientesPaginadosQuery request, CancellationToken cancellationToken)
         {
             return await _repository.Buscar(request.Pagina, request.Linhas);
         }

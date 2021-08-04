@@ -1,12 +1,13 @@
-﻿using ECommerce.Clientes.Domain.Application.Commands.Cliente;
+﻿using ECommerce.Clientes.Domain.Application.Commands;
 using ECommerce.Clientes.Domain.Application.Notifications;
 using ECommerce.Clientes.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente
+namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
 {
     public class DesativarClienteCommandHandler : IRequestHandler<DesativarClienteCommand, ValidationResult>
     {
@@ -36,7 +37,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente
                     var sucesso = await _repository.UnitOfWork.Commit();
 
                     if (sucesso)
-                        await _mediator.Publish(new ClienteCommitNotification("", "", cliente.Id));
+                        await _mediator.Publish(new ClienteCommitNotification(clienteId: cliente.Id, usuarioId: Guid.NewGuid()));
                 }
             }
 

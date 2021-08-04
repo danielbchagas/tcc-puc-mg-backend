@@ -20,7 +20,7 @@ namespace ECommerce.Clientes.Domain.Models
 
         public string Nome { get; private set; }
         public string Sobrenome { get; private set; }
-        public DateTime DataNascimento { get; set; }
+        public DateTime DataNascimento { get; private set; }
         public bool Ativo { get; private set; }
 
         public Email Email { get; private set; }

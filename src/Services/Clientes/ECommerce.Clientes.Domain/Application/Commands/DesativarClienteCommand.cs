@@ -3,7 +3,7 @@ using FluentValidation.Results;
 using MediatR;
 using System;
 
-namespace ECommerce.Clientes.Domain.Application.Commands.Cliente
+namespace ECommerce.Clientes.Domain.Application.Commands
 {
     public class DesativarClienteCommand : IRequest<ValidationResult>
     {
@@ -14,7 +14,11 @@ namespace ECommerce.Clientes.Domain.Application.Commands.Cliente
     {
         public DesativarClienteCommandValidation()
         {
-            RuleFor(_ => _.Id).NotEqual(Guid.Empty).WithMessage("{PropertyName} inválido!");
+            var mensagemPropriedadeInvalida = "{PropertyName} é inválido!";
+
+            RuleFor(_ => _.Id)
+                .NotEqual(Guid.Empty)
+                .WithMessage(mensagemPropriedadeInvalida);
         }
     }
 }

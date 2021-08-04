@@ -37,38 +37,29 @@ namespace ECommerce.Clientes.Infrastructure.Repositories
         public async Task<Cliente> Buscar(Guid id)
         {
             return await _context.Clientes
+                .Include(c => c.Documento)
+                .Include(c => c.Email)
                 .Include(c => c.Endereco)
                 .Where(c => c.Ativo == true)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IEnumerable<Cliente>> Buscar(int? pagina, int? linhas)
+        public async Task<IEnumerable<Cliente>> Buscar(int pagina, int linhas)
         {
-            if (pagina.HasValue && linhas.HasValue)
-                return await _context.Clientes
-                    .Include(c => c.Endereco)
-                    .AsNoTracking()
-                    .Where(c => c.Ativo == true)
-                    .Skip((pagina.Value - 1) * linhas.Value)
-                    .Take(linhas.Value)
-                    .ToListAsync();
-
-            return await _context.Clientes.Include(c => c.Endereco).AsNoTracking().Where(c => c.Ativo == true).ToListAsync();
+            return await _context.Clientes
+                .Include(c => c.Documento)
+                .Include(c => c.Email)
+                .Include(c => c.Endereco)
+                .AsNoTracking()
+                .Where(c => c.Ativo == true)
+                .ToListAsync();
         }
 
-        public async Task<IEnumerable<Cliente>> Buscar(Expression<Func<Cliente, bool>> filtro, int? pagina, int? linhas)
+        public async Task<IEnumerable<Cliente>> Buscar(Expression<Func<Cliente, bool>> filtro, int pagina, int linhas)
         {
-            if (pagina.HasValue && linhas.HasValue)
-                return await _context.Clientes
-                    .Include(c => c.Endereco)
-                    .AsNoTracking()
-                    .Where(c => c.Ativo == true)
-                    .Where(filtro)
-                    .Skip((pagina.Value - 1) * linhas.Value)
-                    .Take(linhas.Value)
-                    .ToListAsync();
-
             return await _context.Clientes
+                .Include(c => c.Documento)
+                .Include(c => c.Email)
                 .Include(c => c.Endereco)
                 .AsNoTracking()
                 .Where(c => c.Ativo == true)
@@ -85,6 +76,16 @@ namespace ECommerce.Clientes.Infrastructure.Repositories
         {
             var cliente = await Buscar(id);
             _context.Clientes.Remove(cliente);
+        }
+
+        public async Task<IEnumerable<Cliente>> Buscar()
+        {
+            return await _context.Clientes
+                .Include(c => c.Documento)
+                .Include(c => c.Email)
+                .Include(c => c.Endereco)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

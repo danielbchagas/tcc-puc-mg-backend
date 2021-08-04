@@ -1,55 +1,54 @@
 ﻿using AutoMapper;
-using ECommerce.Clientes.Domain.Application.Commands.Endereco;
+using ECommerce.Clientes.Domain.Application.Commands;
 using ECommerce.Clientes.Domain.Application.Notifications;
 using ECommerce.Clientes.Domain.Interfaces.Repositories;
+using ECommerce.Clientes.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Dominio = ECommerce.Clientes.Domain.Models;
 
-namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Endereco
+namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
 {
-    public class AtualizarEnderecoCommandHandler : IRequestHandler<AtualizarEnderecoCommand, ValidationResult>
+    public class CadastrarEnderecoCommandHandler : IRequestHandler<CadastrarEnderecoCommand, ValidationResult>
     {
-        public AtualizarEnderecoCommandHandler(IEnderecoRepository repository, IClienteRepository clienteRepository, IMediator mediator)
+        public CadastrarEnderecoCommandHandler(IEnderecoRepository repository, IMediator mediator)
         {
             _repository = repository;
-            _clienteRepository = clienteRepository;
-            _validacoes = new AtualizarEnderecoCommandValidation();
             _mediator = mediator;
-            _mapper = CriaMapeamento();
+            _validacoes = new RegistrarEnderecoCommandValidation();
+            _mapper = NovoMapeamento();
         }
 
         private readonly IEnderecoRepository _repository;
-        private readonly IClienteRepository _clienteRepository;
-        private readonly AtualizarEnderecoCommandValidation _validacoes;
+        private readonly RegistrarEnderecoCommandValidation _validacoes;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public async Task<ValidationResult> Handle(AtualizarEnderecoCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(CadastrarEnderecoCommand request, CancellationToken cancellationToken)
         {
             var valido = _validacoes.Validate(request);
 
             if (valido.IsValid)
             {
-                var endereco = _mapper.Map<Dominio.Endereco>(request);
-
-                await _repository.Atualizar(endereco);
+                var endereco = _mapper.Map<Endereco>(request);
+                
+                await _repository.Adicionar(endereco);
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new EnderecoCommitNotification("", "", endereco.Id));
+                    await _mediator.Publish(new EnderecoCommitNotification(enderecoId: endereco.Id, usuarioId: Guid.NewGuid()));
             }
 
             return await Task.FromResult(valido);
         }
 
-        private IMapper CriaMapeamento()
+        private IMapper NovoMapeamento()
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<CadastrarEnderecoCommand, Dominio.Endereco>()
+                cfg.CreateMap<CadastrarEnderecoCommand, Endereco>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
                     .ForMember(dest => dest.Logradouro, opt => opt.MapFrom(c => c.Logradouro))
                     .ForMember(dest => dest.Bairro, opt => opt.MapFrom(c => c.Bairro))

@@ -1,10 +1,13 @@
-﻿using ECommerce.Clientes.Domain.Models;
+﻿using ECommerce.Clientes.Domain.Interfaces.Data;
+using ECommerce.Clientes.Domain.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace ECommerce.Clientes.Domain.Interfaces.Repositories
 {
-    public interface ILogRepository
+    public interface ILogRepository : IDisposable
     {
-        Task<bool> Adicionar(LogEvento log);
+        IUnitOfWork UnitOfWork { get; }
+        Task Adicionar(LogEvento log);
     }
 }

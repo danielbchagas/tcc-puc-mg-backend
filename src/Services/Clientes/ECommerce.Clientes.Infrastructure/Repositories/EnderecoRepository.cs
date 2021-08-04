@@ -4,9 +4,6 @@ using ECommerce.Clientes.Domain.Models;
 using ECommerce.Clientes.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ECommerce.Clientes.Infrastructure.Repositories
@@ -37,50 +34,13 @@ namespace ECommerce.Clientes.Infrastructure.Repositories
         public async Task<Endereco> Buscar(Guid id)
         {
             return await _context.Enderecos
-                .Include(c => c.Cliente)
+                .Include(e => e.Cliente)
                 .FirstOrDefaultAsync(c => c.Id == id);
-        }
-
-        public async Task<IEnumerable<Endereco>> Buscar(int? pagina, int? linhas)
-        {
-            if (pagina.HasValue && linhas.HasValue)
-                return await _context.Enderecos
-                    .Include(c => c.Cliente)
-                    .AsNoTracking()
-                    .Skip((pagina.Value - 1) * linhas.Value)
-                    .Take(linhas.Value)
-                    .ToListAsync();
-
-            return await _context.Enderecos.Include(c => c.Cliente).AsNoTracking().ToListAsync();
-        }
-
-        public async Task<IEnumerable<Endereco>> Buscar(Expression<Func<Endereco, bool>> filtro, int? pagina, int? linhas)
-        {
-            if (pagina.HasValue && linhas.HasValue)
-                return await _context.Enderecos
-                    .Include(c => c.Cliente)
-                    .AsNoTracking()
-                    .Where(filtro)
-                    .Skip((pagina.Value - 1) * linhas.Value)
-                    .Take(linhas.Value)
-                    .ToListAsync();
-
-            return await _context.Enderecos
-                .Include(c => c.Cliente)
-                .AsNoTracking()
-                .Where(filtro)
-                .ToListAsync();
         }
 
         public void Dispose()
         {
             _context?.Dispose();
-        }
-
-        public async Task Excluir(Guid id)
-        {
-            var endereco = await Buscar(id);
-            _context.Enderecos.Remove(endereco);
         }
     }
 }

@@ -5,18 +5,15 @@ namespace ECommerce.Clientes.Domain.Application.Notifications
 {
     public class EnderecoCommitNotification : INotification
     {
-        public EnderecoCommitNotification(string caminhoRequisicao, string uri, Guid clienteId)
+        public EnderecoCommitNotification(Guid enderecoId, Guid usuarioId)
         {
             Momento = DateTime.Now;
-            CaminhoRequisicao = caminhoRequisicao;
-            Uri = uri;
-            ClienteId = clienteId;
-
+            EnderecoId = enderecoId;
+            UsuarioId = usuarioId;
         }
 
         public DateTime Momento { get; private set; }
-        public string CaminhoRequisicao { get; private set; }
-        public string Uri { get; private set; }
-        public Guid ClienteId { get; private set; }
+        public Guid EnderecoId { get; private set; }
+        public Guid UsuarioId { get; private set; }
     }
 }

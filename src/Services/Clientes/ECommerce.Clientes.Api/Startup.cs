@@ -1,14 +1,10 @@
 using ECommerce.Clientes.Api.Middlewares;
-using ECommerce.Clientes.Domain.Application.Commands.Cliente;
-using ECommerce.Clientes.Domain.Application.Commands.Endereco;
-using ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente;
-using ECommerce.Clientes.Domain.Application.Handlers.Commands.Endereco;
+using ECommerce.Clientes.Domain.Application.Commands;
+using ECommerce.Clientes.Domain.Application.Handlers.Commands;
 using ECommerce.Clientes.Domain.Application.Handlers.Notifications;
-using ECommerce.Clientes.Domain.Application.Handlers.Queries.Cliente;
-using ECommerce.Clientes.Domain.Application.Handlers.Queries.Endereco;
+using ECommerce.Clientes.Domain.Application.Handlers.Queries;
 using ECommerce.Clientes.Domain.Application.Notifications;
-using ECommerce.Clientes.Domain.Application.Queries.Cliente;
-using ECommerce.Clientes.Domain.Application.Queries.Endereco;
+using ECommerce.Clientes.Domain.Application.Queries;
 using ECommerce.Clientes.Domain.Interfaces.Repositories;
 using ECommerce.Clientes.Domain.Models;
 using ECommerce.Clientes.Infrastructure.Data;
@@ -91,8 +87,6 @@ namespace ECommerce.Clientes.Api
             services.AddScoped<IRequestHandler<BuscarClientesPaginadosQuery, IEnumerable<Cliente>>, BuscarClientesPaginadosQueryHandler>();
 
             services.AddScoped<IRequestHandler<BuscarEnderecoPorIdQuery, Endereco>, BuscarEnderecoPorIdQueryHandler>();
-            services.AddScoped<IRequestHandler<BuscarEnderecosFiltradosPaginadosQuery, IEnumerable<Endereco>>, BuscarEnderecosFiltradosPaginadosQueryHandler>();
-            services.AddScoped<IRequestHandler<BuscarEnderecosPaginadosQuery, IEnumerable<Endereco>>, BuscarEnderecosPaginadosQueryHandler>();
             
             // Mediator - Notificações
             services.AddScoped<INotificationHandler<ClienteCommitNotification>, ClienteCommitNotificationHandler>();

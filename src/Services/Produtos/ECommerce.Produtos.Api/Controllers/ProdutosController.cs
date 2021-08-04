@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ECommerce.Produtos.Api.Controllers
@@ -25,17 +26,24 @@ namespace ECommerce.Produtos.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        [HttpGet("buscar-todos")]
-        public async Task<IActionResult> BuscarTodos(int? pagina, int? linhas)
+        [HttpGet("buscar-todos/{nome:alpha}/{pagina:int}/{linhas:int}")]
+        public async Task<IActionResult> BuscarTodos(string nome, int? pagina, int? linhas)
         {
-            var produtos = await _mediator.Send(new BuscarProdutosPaginadosQuery(pagina, linhas));
+            Expression<Func<Produto, bool>> filtro = null;
+
+            if (!string.IsNullOrEmpty(nome))
+            {
+                filtro = p => p.Nome.Contains(nome);
+            }
+            
+            var produtos = await _mediator.Send(new BuscarProdutosFiltradosPaginadosQuery(filtro, pagina, linhas));
             return Ok(produtos);
         }
 
         [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        [HttpGet("buscar-por-id/{id:length(36)}")]
+        [HttpGet("buscar-por-id/{id:Guid}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
         {
             var produto = await _mediator.Send(new BuscarProdutoPorIdQuery(id));
@@ -46,7 +54,7 @@ namespace ECommerce.Produtos.Api.Controllers
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpPost("novo")]
-        public async Task<IActionResult> Novo(RegistrarProdutoCommand request)
+        public async Task<IActionResult> Novo(CadastrarProdutoCommand request)
         {
             var resultado = await _mediator.Send(request);
 
