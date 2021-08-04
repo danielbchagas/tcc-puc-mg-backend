@@ -3,13 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{6D2D4254-9597-4F6B-94F2-94F9D0BB7952}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0A3079FD-5893-422F-91AD-EF6CF81CB0F8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{E97A69CC-FC7C-4C3C-9B26-FA7D8EEF7DE7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Web.Api", "Web\ECommerce.Web.Api\ECommerce.Web.Api.csproj", "{8496760A-483F-4F60-A34E-7278F3975E3B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Produtos.Domain", "Services\Produtos\ECommerce.Produtos.Domain\ECommerce.Produtos.Domain.csproj", "{378830C9-4657-44F6-A199-86BA4333689B}"
 EndProject
@@ -31,11 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Clientes.Infrastr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pedidos", "Pedidos", "{B6B1028B-7BDF-42A6-9043-719960185AC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Pedidos.Api", "Services\Pedidos\ECommerce.Pedidos.Api\ECommerce.Pedidos.Api.csproj", "{2AA2FE58-EADB-4FE3-956D-25569736906E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedidos.Api", "Services\Pedidos\ECommerce.Pedidos.Api\ECommerce.Pedidos.Api.csproj", "{2AA2FE58-EADB-4FE3-956D-25569736906E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Pedidos.Domain", "Services\Pedidos\ECommerce.Pedidos.Domain\ECommerce.Pedidos.Domain.csproj", "{DDF1FC92-99C3-43B1-A88D-0E3343BF8CCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedidos.Domain", "Services\Pedidos\ECommerce.Pedidos.Domain\ECommerce.Pedidos.Domain.csproj", "{DDF1FC92-99C3-43B1-A88D-0E3343BF8CCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Pedidos.Infrastructure", "Services\Pedidos\ECommerce.Pedidos.Infrastructure\ECommerce.Pedidos.Infrastructure.csproj", "{05FE1485-2BE1-441B-BCF2-AC42F8A082E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedidos.Infrastructure", "Services\Pedidos\ECommerce.Pedidos.Infrastructure\ECommerce.Pedidos.Infrastructure.csproj", "{05FE1485-2BE1-441B-BCF2-AC42F8A082E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +39,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8496760A-483F-4F60-A34E-7278F3975E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8496760A-483F-4F60-A34E-7278F3975E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8496760A-483F-4F60-A34E-7278F3975E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8496760A-483F-4F60-A34E-7278F3975E3B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{378830C9-4657-44F6-A199-86BA4333689B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{378830C9-4657-44F6-A199-86BA4333689B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{378830C9-4657-44F6-A199-86BA4333689B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,7 +85,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E97A69CC-FC7C-4C3C-9B26-FA7D8EEF7DE7} = {0A3079FD-5893-422F-91AD-EF6CF81CB0F8}
-		{8496760A-483F-4F60-A34E-7278F3975E3B} = {6D2D4254-9597-4F6B-94F2-94F9D0BB7952}
 		{378830C9-4657-44F6-A199-86BA4333689B} = {56963A82-3D2A-415C-9248-E078E1123AA5}
 		{56963A82-3D2A-415C-9248-E078E1123AA5} = {0A3079FD-5893-422F-91AD-EF6CF81CB0F8}
 		{BAC5CCB5-E719-4803-B3C6-B0C7E837A814} = {56963A82-3D2A-415C-9248-E078E1123AA5}
