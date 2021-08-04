@@ -32,9 +32,8 @@ namespace ECommerce.Produtos.Infrastructure.Data
             if (Debugger.IsAttached)
                 optionsBuilder.LogTo(Console.WriteLine);
 
-            // Para rodar migrações
-            if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer("Server=localhost;Database=ProdutosDB;User Id=sa;Password=yourStrong(!)Password;");
+            //if (!optionsBuilder.IsConfigured)
+            //    optionsBuilder.UseSqlServer("Server=localhost;Database=ProdutosDB;User Id=sa;Password=yourStrong(!)Password;");
 
             base.OnConfiguring(optionsBuilder);
         }

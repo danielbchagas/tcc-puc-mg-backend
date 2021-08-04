@@ -17,7 +17,6 @@ namespace ECommerce.Clientes.Domain.Models
 
         public string Numero { get; private set; }
         
-        // Relacionamento
         public Guid ClienteId { get; private set; }
         public Cliente Cliente { get; private set; }
     }

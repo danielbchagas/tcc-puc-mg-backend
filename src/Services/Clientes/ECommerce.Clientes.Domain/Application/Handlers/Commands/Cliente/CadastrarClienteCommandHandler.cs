@@ -51,7 +51,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands.Cliente
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
                     .ForMember(dest => dest.Nome, opt => opt.MapFrom(c => c.Nome))
                     .ForMember(dest => dest.Sobrenome, opt => opt.MapFrom(c => c.Sobrenome))
-                    .ForMember(dest => dest.Nascimento, opt => opt.MapFrom(c => c.Nascimento))
+                    .ForMember(dest => dest.DataNascimento, opt => opt.MapFrom(c => c.Nascimento))
                     .ForMember(dest => dest.Documento, opt => opt.MapFrom(c => c.Documento))
                     .ForMember(dest => dest.Ativo, opt => opt.MapFrom(c => c.Ativo))
                     .ForMember(dest => dest.Email, opt => opt.MapFrom(c => c.Email))

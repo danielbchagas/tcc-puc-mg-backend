@@ -10,25 +10,23 @@ namespace ECommerce.Clientes.Domain.Models
 
         }
 
-        public Cliente(string nome, string sobrenome, DateTime nascimento, bool ativo = true)
+        public Cliente(string nome, string sobrenome, DateTime dataNascimento, bool ativo = true)
         {
             Nome = nome;
             Sobrenome = sobrenome;
-            Nascimento = nascimento;
+            DataNascimento = dataNascimento;
             Ativo = ativo;
         }
 
         public string Nome { get; private set; }
         public string Sobrenome { get; private set; }
-        public DateTime Nascimento { get; set; }
+        public DateTime DataNascimento { get; set; }
         public bool Ativo { get; private set; }
 
-        // Relacionamento
-        public Email Email { get; set; }
+        public Email Email { get; private set; }
         public Documento Documento { get; private set; }
         public Endereco Endereco { get; private set; }
 
-        // Métodos auxiliares
         public void Ativar()
         {
             Ativo = true;

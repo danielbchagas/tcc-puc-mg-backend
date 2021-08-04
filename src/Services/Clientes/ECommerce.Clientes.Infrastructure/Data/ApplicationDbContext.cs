@@ -31,9 +31,8 @@ namespace ECommerce.Clientes.Infrastructure.Data
                     .LogTo(Console.WriteLine, LogLevel.Error)
                     .EnableSensitiveDataLogging();
 
-            // Para rodar migrações
-            if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer("Server=localhost;Database=ClientesDB;User Id=sa;Password=yourStrong(!)Password;");
+            //if (!optionsBuilder.IsConfigured)
+            //    optionsBuilder.UseSqlServer("Server=localhost;Database=ClientesDB;User Id=sa;Password=yourStrong(!)Password;");
 
             base.OnConfiguring(optionsBuilder);
         }
@@ -49,7 +48,7 @@ namespace ECommerce.Clientes.Infrastructure.Data
 
                 c.Property(c => c.Nome).HasColumnType("varchar(50)").IsRequired();
                 c.Property(c => c.Sobrenome).HasColumnType("varchar(100)").IsRequired();
-                c.Property(c => c.Nascimento).HasColumnType("date").IsRequired();
+                c.Property(c => c.DataNascimento).HasColumnType("date").IsRequired();
                 c.Property(c => c.Ativo).HasColumnType("bit").IsRequired();
 
                 c.HasOne(c => c.Documento).WithOne(d => d.Cliente).OnDelete(DeleteBehavior.Cascade);
@@ -102,7 +101,7 @@ namespace ECommerce.Clientes.Infrastructure.Data
 
             #region Seed
             var clienteDaviGiovanniFelipe = 
-                new Cliente(nome: "Davi Giovanni Felipe", sobrenome: "Fernandes", nascimento: new DateTime(1955, 02, 07));
+                new Cliente(nome: "Davi Giovanni Felipe", sobrenome: "Fernandes", dataNascimento: new DateTime(1955, 02, 07));
             var documentoDaviGiovanniFelipe = 
                 new Documento(numero: "903.142.734-92", clienteId: clienteDaviGiovanniFelipe.Id);
             var enderecoDaviGiovanniFelipe = 
@@ -111,7 +110,7 @@ namespace ECommerce.Clientes.Infrastructure.Data
                 new Email(endereco: "davi_giovanni_felipe@gmail.com", clienteDaviGiovanniFelipe.Id);
 
             var clienteAylaCarolineAnaGomes = 
-                new Cliente(nome: "Ayla Caroline", sobrenome: "Ana Gomes", nascimento: new DateTime(1963, 12, 12));
+                new Cliente(nome: "Ayla Caroline", sobrenome: "Ana Gomes", dataNascimento: new DateTime(1963, 12, 12));
             var documentoAylaCarolineAnaGomes = 
                 new Documento(numero: "668.154.787-77", clienteId: clienteAylaCarolineAnaGomes.Id);
             var enderecoAylaCarolineAnaGomes = 
@@ -120,7 +119,7 @@ namespace ECommerce.Clientes.Infrastructure.Data
                 new Email(endereco: "ayla_caroline_ana_gomes@gmail.com", clienteAylaCarolineAnaGomes.Id);
 
             var clienteBetinaFláviaSouza = 
-                new Cliente(nome: "BetinaFlávia", sobrenome: "Souza", nascimento: new DateTime(1975, 02, 16));
+                new Cliente(nome: "BetinaFlávia", sobrenome: "Souza", dataNascimento: new DateTime(1975, 02, 16));
             var documentoBetinaFláviaSouza = 
                 new Documento(numero: "345.712.047-10", clienteId: clienteBetinaFláviaSouza.Id);
             var enderecoBetinaFláviaSouza = 

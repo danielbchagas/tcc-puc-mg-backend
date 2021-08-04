@@ -17,7 +17,6 @@ namespace ECommerce.Clientes.Domain.Models
 
         public string Endereco { get; private set; }
         
-        // Relacionamentos
         public Guid ClienteId { get; private set; }
         public Cliente Cliente { get; private set; }
     }
