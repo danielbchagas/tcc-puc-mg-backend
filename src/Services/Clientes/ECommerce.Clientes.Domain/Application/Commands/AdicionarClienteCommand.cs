@@ -5,9 +5,9 @@ using System;
 
 namespace ECommerce.Clientes.Domain.Application.Commands
 {
-    public class CadastrarClienteCommand : IRequest<ValidationResult>
+    public class AdicionarClienteCommand : IRequest<ValidationResult>
     {
-        public CadastrarClienteCommand()
+        public AdicionarClienteCommand()
         {
             Id = Guid.NewGuid();
         }
@@ -19,10 +19,10 @@ namespace ECommerce.Clientes.Domain.Application.Commands
         public bool Ativo { get; set; }
     }
 
-    public class RegistrarClienteCommandValidation : AbstractValidator<CadastrarClienteCommand>
+    public class RegistrarClienteCommandValidation : AbstractValidator<AdicionarClienteCommand>
     {
-        private string mensagemPropriedadeInvalida = "{PropertyName} é inválido!";
-        private string mensagemPropriedadeExcedeuLimiteMaximo = "{PropertyName} excedeu o tamanho máximo!";
+        private readonly string mensagemPropriedadeInvalida = "{PropertyName} é inválido!";
+        private readonly string mensagemPropriedadeExcedeuLimiteMaximo = "{PropertyName} excedeu o tamanho máximo!";
 
         public RegistrarClienteCommandValidation()
         {

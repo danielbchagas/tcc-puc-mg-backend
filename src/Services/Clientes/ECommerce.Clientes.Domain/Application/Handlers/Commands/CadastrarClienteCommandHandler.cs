@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
 {
-    public class CadastrarClienteCommandHandler : IRequestHandler<CadastrarClienteCommand, ValidationResult>
+    public class CadastrarClienteCommandHandler : IRequestHandler<AdicionarClienteCommand, ValidationResult>
     {
         public CadastrarClienteCommandHandler(IClienteRepository repository, IMediator mediator)
         {
@@ -26,7 +26,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public async Task<ValidationResult> Handle(CadastrarClienteCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(AdicionarClienteCommand request, CancellationToken cancellationToken)
         {
             var valido = _validacoes.Validate(request);
 
@@ -48,7 +48,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<CadastrarClienteCommand, Cliente>()
+                cfg.CreateMap<AdicionarClienteCommand, Cliente>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
                     .ForMember(dest => dest.Nome, opt => opt.MapFrom(c => c.Nome))
                     .ForMember(dest => dest.Sobrenome, opt => opt.MapFrom(c => c.Sobrenome))

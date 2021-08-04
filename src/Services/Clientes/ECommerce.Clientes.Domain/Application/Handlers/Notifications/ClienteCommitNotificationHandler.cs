@@ -9,12 +9,12 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Notifications
 {
     public class ClienteCommitNotificationHandler : INotificationHandler<ClienteCommitNotification>
     {
-        public ClienteCommitNotificationHandler(ILogRepository repository)
+        public ClienteCommitNotificationHandler(ILogEventoRepository repository)
         {
             _repository = repository;
         }
 
-        private readonly ILogRepository _repository;
+        private readonly ILogEventoRepository _repository;
 
         public Task Handle(ClienteCommitNotification notification, CancellationToken cancellationToken)
         {

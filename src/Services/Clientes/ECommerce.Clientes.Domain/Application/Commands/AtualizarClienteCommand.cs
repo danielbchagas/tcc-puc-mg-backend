@@ -16,8 +16,8 @@ namespace ECommerce.Clientes.Domain.Application.Commands
 
     public class AtualizarClienteCommandValidation : AbstractValidator<AtualizarClienteCommand>
     {
-        private string mensagemPropriedadeInvalida = "{PropertyName} é inválido!";
-        private string mensagemPropriedadeExcedeuLimiteMaximo = "{PropertyName} excedeu o tamanho máximo!";
+        private readonly string mensagemPropriedadeInvalida = "{PropertyName} é inválido!";
+        private readonly string mensagemPropriedadeExcedeuLimiteMaximo = "{PropertyName} excedeu o tamanho máximo!";
 
         public AtualizarClienteCommandValidation()
         {

@@ -48,7 +48,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<CadastrarEnderecoCommand, Endereco>()
+                cfg.CreateMap<AdicionarEnderecoCommand, Endereco>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
                     .ForMember(dest => dest.Logradouro, opt => opt.MapFrom(c => c.Logradouro))
                     .ForMember(dest => dest.Bairro, opt => opt.MapFrom(c => c.Bairro))

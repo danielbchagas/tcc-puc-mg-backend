@@ -6,9 +6,9 @@ using System;
 
 namespace ECommerce.Clientes.Domain.Application.Commands
 {
-    public class CadastrarEnderecoCommand : IRequest<ValidationResult>
+    public class AdicionarEnderecoCommand : IRequest<ValidationResult>
     {
-        public CadastrarEnderecoCommand()
+        public AdicionarEnderecoCommand()
         {
             Id = Guid.NewGuid();
         }
@@ -24,10 +24,10 @@ namespace ECommerce.Clientes.Domain.Application.Commands
         public Guid ClienteId { get; set; }
     }
 
-    public class RegistrarEnderecoCommandValidation : AbstractValidator<CadastrarEnderecoCommand>
+    public class RegistrarEnderecoCommandValidation : AbstractValidator<AdicionarEnderecoCommand>
     {
-        private string mensagemPropriedadeInvalida = "{PropertyName} é inválido!";
-        private string mensagemPropriedadeExcedeuLimiteMaximo = "{PropertyName} excedeu o tamanho máximo!";
+        private readonly string mensagemPropriedadeInvalida = "{PropertyName} é inválido!";
+        private readonly string mensagemPropriedadeExcedeuLimiteMaximo = "{PropertyName} excedeu o tamanho máximo!";
 
         public RegistrarEnderecoCommandValidation()
         {

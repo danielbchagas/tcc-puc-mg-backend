@@ -12,10 +12,10 @@ namespace ECommerce.Clientes.Domain.Application.Commands
 
     public class DesativarClienteCommandValidation : AbstractValidator<DesativarClienteCommand>
     {
+        private readonly string mensagemPropriedadeInvalida = "{PropertyName} é inválido!";
+
         public DesativarClienteCommandValidation()
         {
-            var mensagemPropriedadeInvalida = "{PropertyName} é inválido!";
-
             RuleFor(_ => _.Id)
                 .NotEqual(Guid.Empty)
                 .WithMessage(mensagemPropriedadeInvalida);

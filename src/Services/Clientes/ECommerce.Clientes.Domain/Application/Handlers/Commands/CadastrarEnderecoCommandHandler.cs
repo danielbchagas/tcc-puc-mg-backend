@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
 {
-    public class CadastrarEnderecoCommandHandler : IRequestHandler<CadastrarEnderecoCommand, ValidationResult>
+    public class CadastrarEnderecoCommandHandler : IRequestHandler<AdicionarEnderecoCommand, ValidationResult>
     {
         public CadastrarEnderecoCommandHandler(IEnderecoRepository repository, IMediator mediator)
         {
@@ -26,7 +26,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public async Task<ValidationResult> Handle(CadastrarEnderecoCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(AdicionarEnderecoCommand request, CancellationToken cancellationToken)
         {
             var valido = _validacoes.Validate(request);
 
@@ -48,7 +48,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<CadastrarEnderecoCommand, Endereco>()
+                cfg.CreateMap<AdicionarEnderecoCommand, Endereco>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
                     .ForMember(dest => dest.Logradouro, opt => opt.MapFrom(c => c.Logradouro))
                     .ForMember(dest => dest.Bairro, opt => opt.MapFrom(c => c.Bairro))

@@ -9,12 +9,12 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Notifications
 {
     public class EnderecoCommitNotificationHandler : INotificationHandler<EnderecoCommitNotification>
     {
-        public EnderecoCommitNotificationHandler(ILogRepository repository)
+        public EnderecoCommitNotificationHandler(ILogEventoRepository repository)
         {
             _repository = repository;
         }
 
-        private readonly ILogRepository _repository;
+        private readonly ILogEventoRepository _repository;
 
         public Task Handle(EnderecoCommitNotification notification, CancellationToken cancellationToken)
         {

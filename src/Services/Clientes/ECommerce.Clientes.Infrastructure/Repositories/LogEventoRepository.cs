@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Clientes.Infrastructure.Repositories
 {
-    public class LogEventoRepository : ILogRepository
+    public class LogEventoRepository : ILogEventoRepository
     {
         public LogEventoRepository(ApplicationDbContext context)
         {

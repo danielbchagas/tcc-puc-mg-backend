@@ -23,6 +23,8 @@ namespace ECommerce.Clientes.Infrastructure.Data
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<LogEvento> LogEventos { get; set; }
+        public DbSet<Documento> Documentos { get; set; }
+        public DbSet<Email> Emails { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -63,6 +65,7 @@ namespace ECommerce.Clientes.Infrastructure.Data
                 d.HasKey(d => d.Id);
 
                 d.Property(d => d.Numero).HasColumnType("varchar(18)").IsRequired();
+                d.Property(e => e.ClienteId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
             });
 
             modelBuilder.Entity<Endereco>(e => 
@@ -76,6 +79,7 @@ namespace ECommerce.Clientes.Infrastructure.Data
                 e.Property(e => e.Cidade).HasColumnType("varchar(50)").IsRequired();
                 e.Property(e => e.Cep).HasColumnType("varchar(9)").IsRequired();
                 e.Property(e => e.Estado).HasColumnType("char(2)").IsRequired();
+                e.Property(e => e.ClienteId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
             });
 
             modelBuilder.Entity<Email>(e => 
@@ -85,6 +89,7 @@ namespace ECommerce.Clientes.Infrastructure.Data
                 e.HasKey(e => e.Id);
 
                 e.Property(e => e.Endereco).HasColumnType("varchar(100)").IsRequired();
+                e.Property(e => e.ClienteId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
             });
 
             modelBuilder.Entity<LogEvento>(le => 
@@ -94,8 +99,8 @@ namespace ECommerce.Clientes.Infrastructure.Data
                 le.HasKey(le => le.Id);
 
                 le.Property(le => le.Momento).HasColumnType("date").IsRequired();
-                le.Property(l => l.ClienteId).HasColumnType("varchar(36)").IsRequired();
-                le.Property(l => l.UsuarioId).HasColumnType("varchar(36)").IsRequired();
+                le.Property(l => l.ClienteId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
+                le.Property(l => l.UsuarioId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
             });
             #endregion
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Clientes.Domain.Interfaces.Repositories
 {
-    public interface ILogRepository : IDisposable
+    public interface ILogEventoRepository : IDisposable
     {
         IUnitOfWork UnitOfWork { get; }
         Task Adicionar(LogEvento log);

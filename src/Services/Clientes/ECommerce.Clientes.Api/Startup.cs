@@ -75,11 +75,11 @@ namespace ECommerce.Clientes.Api
             services.AddMediatR(typeof(Startup));
             // Mediator - Comandos
             services.AddScoped<IRequestHandler<AtualizarClienteCommand, ValidationResult>, AtualizarClienteCommandHandler>();
-            services.AddScoped<IRequestHandler<CadastrarClienteCommand, ValidationResult>, CadastrarClienteCommandHandler>();
+            services.AddScoped<IRequestHandler<AdicionarClienteCommand, ValidationResult>, CadastrarClienteCommandHandler>();
             services.AddScoped<IRequestHandler<DesativarClienteCommand, ValidationResult>, DesativarClienteCommandHandler>();
 
             services.AddScoped<IRequestHandler<AtualizarEnderecoCommand, ValidationResult>, AtualizarEnderecoCommandHandler>();
-            services.AddScoped<IRequestHandler<CadastrarEnderecoCommand, ValidationResult>, CadastrarEnderecoCommandHandler>();
+            services.AddScoped<IRequestHandler<AdicionarEnderecoCommand, ValidationResult>, CadastrarEnderecoCommandHandler>();
             
             // Mediator - Queries
             services.AddScoped<IRequestHandler<BuscarClientePorIdQuery, Cliente>, BuscarClientesPorIdQueryHandler>();
@@ -95,6 +95,9 @@ namespace ECommerce.Clientes.Api
             // Repositórios
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+            services.AddScoped<ILogEventoRepository, LogEventoRepository>();
+            services.AddScoped<IDocumentoRepository, DocumentoRepository>();
+            services.AddScoped<IEmailRepository, EmailRepository>();
             #endregion
 
             #region Healh Checks
