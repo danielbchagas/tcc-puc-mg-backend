@@ -32,8 +32,8 @@ namespace ECommerce.Produtos.Infrastructure.Data
             if (Debugger.IsAttached)
                 optionsBuilder.LogTo(Console.WriteLine);
 
-            //if (!optionsBuilder.IsConfigured)
-            //    optionsBuilder.UseSqlServer("Server=localhost;Database=ProdutosDB;User Id=sa;Password=yourStrong(!)Password;");
+            if (!optionsBuilder.IsConfigured)
+                optionsBuilder.UseSqlServer("Server=localhost;Database=ProdutosDB;User Id=sa;Password=yourStrong(!)Password;");
 
             base.OnConfiguring(optionsBuilder);
         }
@@ -55,6 +55,8 @@ namespace ECommerce.Produtos.Infrastructure.Data
                 p.Property(p => p.Fabricacao).HasColumnType("date").IsRequired(false);
                 p.Property(p => p.Imagem).HasColumnType("image").IsRequired(false);
                 p.Property(p => p.Lote).HasColumnType("varchar(10)").IsRequired(false);
+                p.Property(p => p.Ativo).HasColumnType("bit").IsRequired();
+                p.Property(p => p.Preco).HasColumnType("money").IsRequired();
             });
 
             modelBuilder.Entity<LogEvento>(le =>
@@ -64,8 +66,8 @@ namespace ECommerce.Produtos.Infrastructure.Data
                 le.HasKey(le => le.Id);
 
                 le.Property(le => le.Momento).HasColumnType("date").IsRequired();
-                le.Property(l => l.ProdutoId).HasColumnType("varchar(36)").IsRequired();
-                le.Property(l => l.UsuarioId).HasColumnType("varchar(36)").IsRequired();
+                le.Property(l => l.EntidadeId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
+                le.Property(l => l.UsuarioId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
             });
             #endregion
 
@@ -76,30 +78,138 @@ namespace ECommerce.Produtos.Infrastructure.Data
             var imagemProdutoBoneManUtd = "PGh0bWwgbGFuZz0icHQtQlIiPjxoZWFkPjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04Ij48dGl0bGU+QXZpc28gZGUgcmVkaXJlY2lvbmFtZW50bzwvdGl0bGU+PHNjcmlwdCB0eXBlPSJ0ZXh0L2phdmFzY3JpcHQiIHNyYz0iaHR0cHM6Ly9tZS5raXMudjIuc2NyLmthc3BlcnNreS1sYWJzLmNvbS9GRDEyNkM0Mi1FQkZBLTRFMTItQjMwOS1CQjNGREQ3MjNBQzEvbWFpbi5qcz9hdHRyPWZ1UXhWWXdTblI4S21zWWtlNWNuOHJXLUZ2Y3RGMGlXalktVU9JNXpfS0N3cWJYVEdlbDFZTXFiVzJzeVRWS0pDd2MtVE9Jb2M4N2poTlJhZmpNVkEteS1jM0NZS2FmRktJenJkNEh6R0RnNUJRTGFIc3F2UWRicGh2VnAxbTBzdVY0M3F3ZzB0ajdTaE5VUmsweHFTcmdZaGpJb3l1RmR2ai1LWHBaamZaak9BRXIzSHprX0RmdURERzlKZHZoUjk5T2k1djAwQ25UMVlJMkl1djVGaC1tZGVWYS1mS2dTandWVVZIM09sVE9xODdZN0FCdW9iY2xaYXdGWVNFOFl2ZUlWUzZsQWczOWNILUNWM2g1elE2WFEzT1hYd0pGVGxEZFhSRTJBemw0RlVpZ1ZrdHpYZFlpZmFwZkJYU3FOWFNWUUZrXy0zOWN1em1wNHpkNmk2QSIgY2hhcnNldD0iVVRGLTgiPjwvc2NyaXB0PjxsaW5rIHJlbD0ic3R5bGVzaGVldCIgY3Jvc3NvcmlnaW49ImFub255bW91cyIgaHJlZj0iaHR0cHM6Ly9tZS5raXMudjIuc2NyLmthc3BlcnNreS1sYWJzLmNvbS9FM0U4OTM0Qy0yMzVBLTRCMEUtODI1QS0zNUEwODM4MUExOTEvYWJuL21haW4uY3NzP2F0dHI9YUhSMGNITTZMeTkzZDNjdVoyOXZaMnhsTG1OdmJTOTFjbXdfYzJFOWFTWjFjbXc5YUhSMGNITWxNMkVsTW1ZbE1tWjNkM2N1Wm5WMFptRnVZWFJwWTNNdVkyOXRMbUp5SlRKbVltOXVaUzFoWkdsa1lYTXRiV0Z1WTJobGMzUmxjaTExYm1sMFpXUXRNM010ZG1WeWJXVnNhRzhtY0hOcFp6MUJUM1pXWVhjemFWUm5lbUZUTW1kbmR6UjFiMjVOUm1KNFVsSXRKblZ6ZEQweE5qSTNPVFF6TnpJMU9EazNNREF3Sm5OdmRYSmpaVDFwYldGblpYTW1ZMlE5ZG1abEpuWmxaRDB3UTBGdlVXcFNlSEZHZDI5VVEwcHBVamxaTTNoclVFbERSbEZCUVVGQlFXUkJRVUZCUVVKQlNnIi8+PHN0eWxlPmJvZHksZGl2LGF7Zm9udC1mYW1pbHk6YXJpYWwsc2Fucy1zZXJpZn1ib2R5e2JhY2tncm91bmQtY29sb3I6I2ZmZjttYXJnaW4tdG9wOjNweH1kaXZ7Y29sb3I6IzAwMH1hOmxpbmt7Y29sb3I6IzRiMTFhOH1hOnZpc2l0ZWR7Y29sb3I6IzRiMTFhOH1hOmFjdGl2ZXtjb2xvcjojZWE0MzM1fWRpdi5teW1Hb3tib3JkZXItdG9wOjFweCBzb2xpZCAjZGFkY2UwO2JvcmRlci1ib3R0b206MXB4IHNvbGlkICNkYWRjZTA7YmFja2dyb3VuZDojZjhmOWZhO21hcmdpbi10b3A6MWVtO3dpZHRoOjEwMCV9ZGl2LmFYZ2FHYntwYWRkaW5nOjAuNWVtIDA7bWFyZ2luLWxlZnQ6MTBweH1kaXYuZlRrN3Zke21hcmdpbi1sZWZ0OjM1cHg7bWFyZ2luLXRvcDozNXB4fTwvc3R5bGU+PC9oZWFkPjxib2R5PjxkaXYgY2xhc3M9Im15bUdvIj48ZGl2IGNsYXNzPSJhWGdhR2IiPjxmb250IHN0eWxlPSJmb250LXNpemU6bGFyZ2VyIj48Yj5BdmlzbyBkZSByZWRpcmVjaW9uYW1lbnRvPC9iPjwvZm9udD48L2Rpdj48L2Rpdj48ZGl2IGNsYXNzPSJmVGs3dmQiPiZuYnNwO0EgcMOhZ2luYSBhbnRlcmlvciBlc3TDoSB0ZW50YW5kbyBsZXZhciB2b2PDqiBwYXJhIDxhIGhyZWY9Imh0dHBzOi8vd3d3LmZ1dGZhbmF0aWNzLmNvbS5ici9ib25lLWFkaWRhcy1tYW5jaGVzdGVyLXVuaXRlZC0zcy12ZXJtZWxobyI+aHR0cHM6Ly93d3cuZnV0ZmFuYXRpY3MuY29tLmJyL2JvbmUtYWRpZGFzLW1hbmNoZXN0ZXItdW5pdGVkLTNzLXZlcm1lbGhvPC9hPi48YnI+PGJyPiZuYnNwO1NlIHZvY8OqIG7Do28gcXVpc2VyIHZpc2l0YXIgZXNzYSBww6FnaW5hLCBwb2RlcsOhIDxhIGhyZWY9IiMiIGlkPSJ0c3VpZDEiPnZvbHRhciDDoCBww6FnaW5hIGFudGVyaW9yPC9hPi48c2NyaXB0IG5vbmNlPSJibUtoWXY3aHVjUThFV3Q1THRxUWJnPT0iPihmdW5jdGlvbigpe3ZhciBpZD0ndHN1aWQxJzsoZnVuY3Rpb24oKXsKZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoaWQpLm9uY2xpY2s9ZnVuY3Rpb24oKXt3aW5kb3cuaGlzdG9yeS5iYWNrKCk7cmV0dXJuITF9O30pLmNhbGwodGhpcyk7fSkoKTsoZnVuY3Rpb24oKXt2YXIgaWQ9J3RzdWlkMSc7dmFyIGN0PSdvcmlnaW5saW5rJzt2YXIgb2k9J3VuYXV0aG9yaXplZHJlZGlyZWN0JzsoZnVuY3Rpb24oKXsKZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoaWQpLm9ubW91c2Vkb3duPWZ1bmN0aW9uKCl7dmFyIGI9ZG9jdW1lbnQmJmRvY3VtZW50LnJlZmVycmVyLGE9d2luZG93JiZ3aW5kb3cuZW5jb2RlVVJJQ29tcG9uZW50P2VuY29kZVVSSUNvbXBvbmVudDplc2NhcGUsYz0iIjtiJiYoYz1hKGIpKTsobmV3IEltYWdlKS5zcmM9Ii91cmw/c2E9VCZ1cmw9IitjKyImb2k9IithKG9pKSsiJmN0PSIrYShjdCk7cmV0dXJuITF9O30pLmNhbGwodGhpcyk7fSkoKTs8L3NjcmlwdD48YnI+PGJyPjxicj48L2Rpdj48L2JvZHk+PC9odG1sPg==";
             #endregion
 
-            var produtoCamisetaManUtd = 
-                new Produto(marca: "Manchester United Football Club", nome: "Camisete", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: imagemProdutoCamisetaManUtd, observacao: null, quantidade: 10);
-            var produtoJaquetaManUtd = 
-                new Produto(marca: "Manchester United Football Club", nome: "Jaqueta", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: imagemprodutoJaquetaManUtd, observacao: null, quantidade: 10);
-            var produtoBoneManUtd = 
-                new Produto(marca: "Manchester United Football Club", nome: "Boné", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: imagemProdutoBoneManUtd, observacao: null, quantidade: 10);
-            var produtoBermudaAdidas = 
-                new Produto(marca: "Adidas", nome: "Bermuda", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: null, observacao: null, quantidade: 10);
-            var produtoBermudaDcShoes = 
-                new Produto(marca: "Dc Shoes", nome: "Bermuda", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: null, observacao: null, quantidade: 10);
-            var produtoCamisetaDcShoes = 
-                new Produto(marca: "Dc Shoes", nome: "Camiseta", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: null, observacao: null, quantidade: 10);
-            var produtoBoneAdidas = 
-                new Produto(marca: "Adidas", nome: "Bone", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: null, observacao: null, quantidade: 10);
-            var produtoTenisAdidas = 
-                new Produto(marca: "Adidas", nome: "Tenis", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: null, observacao: null, quantidade: 10);
-            var produtoCamisaGreenBayPackers = 
-                new Produto(marca: "Green Bay Packers", nome: "Camisa", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: null, observacao: null, quantidade: 10);
-            var produtoBoneGreenBayPackers = 
-                new Produto(marca: "Green Bay Packers", nome: "Bone", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: null, observacao: null, quantidade: 10);
-            var produtoCanecaManUtd =
-                new Produto(marca: "Manchester United Football Club", nome: "Caneca", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: null, observacao: null, quantidade: 10);
-            var produtoMeiaAdidas = 
-                new Produto(marca: "Adidas", nome: "Meia", lote: null, fabricacao: DateTime.Now, vencimento: null, imagem: null, observacao: null, quantidade: 10);
+            var produtoCamisetaManUtd = new Produto(
+                marca: "Manchester United Football Club", 
+                nome: "Camisete", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: imagemProdutoCamisetaManUtd, 
+                observacao: null, 
+                quantidade: 100, 
+                preco: 200.50m
+            );
+            var produtoJaquetaManUtd = new Produto(
+                marca: "Manchester United Football Club", 
+                nome: "Jaqueta", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: imagemprodutoJaquetaManUtd, 
+                observacao: null, 
+                quantidade: 250, 
+                preco: 300.50m
+            );
+            var produtoBoneManUtd =  new Produto(
+                marca: "Manchester United Football Club", 
+                nome: "Boné", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: imagemProdutoBoneManUtd, 
+                observacao: null, 
+                quantidade: 10, 
+                preco: 80.50m
+            );
+            var produtoBermudaAdidas = new Produto(
+                marca: "Adidas", 
+                nome: "Bermuda", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: null, 
+                observacao: null, 
+                quantidade: 10, 
+                preco: 20.50m
+            );
+            var produtoBermudaDcShoes = new Produto(
+                marca: "Dc Shoes", 
+                nome: "Bermuda", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: null, 
+                observacao: null, 
+                quantidade: 10, 
+                preco: 20.50m
+            );
+            var produtoCamisetaDcShoes = new Produto(
+                marca: "Dc Shoes", 
+                nome: "Camiseta", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: null, 
+                observacao: null, 
+                quantidade: 10, 
+                preco: 20.50m
+            );
+            var produtoBoneAdidas = new Produto(
+                marca: "Adidas", 
+                nome: "Bone", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: null, 
+                observacao: null, 
+                quantidade: 10, 
+                preco: 20.50m
+            );
+            var produtoTenisAdidas = new Produto(
+                marca: "Adidas", 
+                nome: "Tenis", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: null, 
+                observacao: null, 
+                quantidade: 10, 
+                preco: 20.50m
+            );
+            var produtoCamisaGreenBayPackers = new Produto(
+                marca: "Green Bay Packers", 
+                nome: "Camisa", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: null, 
+                observacao: null, 
+                quantidade: 10, 
+                preco: 20.50m
+            );
+            var produtoBoneGreenBayPackers = new Produto(
+                marca: "Green Bay Packers", 
+                nome: "Bone", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: null, 
+                observacao: null, 
+                quantidade: 10, 
+                preco: 20.50m
+            );
+            var produtoCanecaManUtd = new Produto(
+                marca: "Manchester United Football Club", 
+                nome: "Caneca", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: null, 
+                observacao: null, 
+                quantidade: 10, 
+                preco: 20.50m
+            );
+            var produtoMeiaAdidas = new Produto(
+                marca: "Adidas", 
+                nome: "Meia", 
+                lote: null, 
+                fabricacao: DateTime.Now, 
+                vencimento: null, 
+                imagem: null, 
+                observacao: null, 
+                quantidade: 10, 
+                preco: 20.50m
+            );
 
             var usuarioId = Guid.NewGuid();
 
@@ -119,18 +229,18 @@ namespace ECommerce.Produtos.Infrastructure.Data
             );
 
             modelBuilder.Entity<LogEvento>().HasData(
-                new LogEvento(produtoId: produtoCamisetaManUtd.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoJaquetaManUtd.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoBoneManUtd.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoBermudaAdidas.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoBermudaDcShoes.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoCamisetaDcShoes.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoBoneAdidas.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoTenisAdidas.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoCamisaGreenBayPackers.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoBoneGreenBayPackers.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoCanecaManUtd.Id, usuarioId: usuarioId),
-                new LogEvento(produtoId: produtoMeiaAdidas.Id, usuarioId: usuarioId)
+                new LogEvento(entidadeId: produtoCamisetaManUtd.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoJaquetaManUtd.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoBoneManUtd.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoBermudaAdidas.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoBermudaDcShoes.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoCamisetaDcShoes.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoBoneAdidas.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoTenisAdidas.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoCamisaGreenBayPackers.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoBoneGreenBayPackers.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoCanecaManUtd.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: produtoMeiaAdidas.Id, usuarioId: usuarioId)
             );
             #endregion
 

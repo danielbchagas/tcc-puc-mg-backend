@@ -1,4 +1,6 @@
-﻿using ECommerce.Clientes.Domain.Interfaces.Entities;
+﻿using ECommerce.Clientes.Domain.Enums;
+using ECommerce.Clientes.Domain.Interfaces.Entities;
+using FluentValidation;
 using System;
 
 namespace ECommerce.Clientes.Domain.Models
@@ -50,6 +52,33 @@ namespace ECommerce.Clientes.Domain.Models
         public void VincularEndereco(Endereco endereco)
         {
             Endereco = endereco;
+        }
+    }
+
+    public class ClienteValidator : AbstractValidator<Cliente>
+    {
+        public ClienteValidator()
+        {
+            RuleFor(_ => _.Id)
+                .NotEqual(Guid.Empty)
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(_ => _.Nome)
+                .MaximumLength(50)
+                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .NotNull()
+                .NotEmpty()
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(_ => _.Sobrenome)
+                .MaximumLength(100)
+                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .NotNull()
+                .NotEmpty()
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(c => c.DataNascimento)
+                .GreaterThan(DateTime.Now)
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString())
+                .NotNull()
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
         }
     }
 }

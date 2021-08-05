@@ -17,23 +17,23 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         {
             _repository = repository;
             _mediator = mediator;
-            _validacoes = new AtualizarEnderecoCommandValidation();
+            _validador = new EnderecoValidator();
             _mapper = NovoMapeamento();
         }
 
         private readonly IEnderecoRepository _repository;
-        private readonly AtualizarEnderecoCommandValidation _validacoes;
+        private readonly EnderecoValidator _validador;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
         public async Task<ValidationResult> Handle(AtualizarEnderecoCommand request, CancellationToken cancellationToken)
         {
-            var valido = _validacoes.Validate(request);
+            var endereco = _mapper.Map<Endereco>(request);
+
+            var valido = _validador.Validate(endereco);
 
             if (valido.IsValid)
             {
-                var endereco = _mapper.Map<Endereco>(request);
-
                 await _repository.Atualizar(endereco);
                 var sucesso = await _repository.UnitOfWork.Commit();
 

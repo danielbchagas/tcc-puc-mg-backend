@@ -1,6 +1,7 @@
 ﻿using ECommerce.Clientes.Domain.Application.Commands;
 using ECommerce.Clientes.Domain.Application.Notifications;
 using ECommerce.Clientes.Domain.Interfaces.Repositories;
+using ECommerce.Clientes.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
 using System;
@@ -14,23 +15,25 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         public DesativarClienteCommandHandler(IClienteRepository repository, IMediator mediator)
         {
             _repository = repository;
-            _validacoes = new DesativarClienteCommandValidation();
+            _validador = new ClienteValidator();
             _mediator = mediator;
         }
 
         private readonly IClienteRepository _repository;
-        private readonly DesativarClienteCommandValidation _validacoes;
+        private readonly ClienteValidator _validador;
         private readonly IMediator _mediator;
 
         public async Task<ValidationResult> Handle(DesativarClienteCommand request, CancellationToken cancellationToken)
         {
-            var valido = _validacoes.Validate(request);
+            var valido = new ValidationResult();
 
-            if (valido.IsValid)
+            var cliente = await _repository.Buscar(request.Id);
+
+            if (cliente != null)
             {
-                var cliente = await _repository.Buscar(request.Id);
+                valido = _validador.Validate(cliente);
 
-                if(cliente != null)
+                if (valido.IsValid)
                 {
                     cliente.Desativar();
 

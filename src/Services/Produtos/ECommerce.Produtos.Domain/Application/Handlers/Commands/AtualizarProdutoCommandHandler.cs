@@ -16,14 +16,14 @@ namespace ECommerce.Produtos.Domain.Application.Handlers.Commands
         public AtualizarProdutoCommandHandler(IProdutoRepository repository, IMediator mediator)
         {
             _repository = repository;
-            _validacoes = new ProdutoValidation();
+            _validacao = new ProdutoValidator();
             _mediator = mediator;
 
             _mapper = NovoMapper();
         }
 
         private readonly IProdutoRepository _repository;
-        private readonly ProdutoValidation _validacoes;
+        private readonly ProdutoValidator _validacao;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
@@ -31,7 +31,7 @@ namespace ECommerce.Produtos.Domain.Application.Handlers.Commands
         {
             var produto = _mapper.Map<Produto>(request);
 
-            var valido = _validacoes.Validate(produto);
+            var valido = _validacao.Validate(produto);
 
             if (valido.IsValid)
             {

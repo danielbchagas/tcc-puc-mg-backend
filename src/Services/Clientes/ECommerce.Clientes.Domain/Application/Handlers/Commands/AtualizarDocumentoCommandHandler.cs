@@ -17,23 +17,23 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         {
             _repository = repository;
             _mediator = mediator;
-            _validacao = new AtualizarDocumentoCommandValidator();
+            _validador = new DocumentoValidator();
             _mapper = NovoMapeamento();
         }
 
         private readonly IDocumentoRepository _repository;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly AtualizarDocumentoCommandValidator _validacao;
+        private readonly DocumentoValidator _validador;
 
         public async Task<ValidationResult> Handle(AtualizarDocumentoCommand request, CancellationToken cancellationToken)
         {
-            var valido = _validacao.Validate(request);
+            var documento = _mapper.Map<Documento>(request);
+
+            var valido = _validador.Validate(documento);
 
             if (valido.IsValid)
             {
-                var documento = _mapper.Map<Documento>(request);
-
                 await _repository.Adicionar(documento);
                 var sucesso = await _repository.UnitOfWork.Commit();
 

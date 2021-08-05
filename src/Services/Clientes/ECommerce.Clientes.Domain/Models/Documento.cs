@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ECommerce.Clientes.Domain.Enums;
+using FluentValidation;
+using System;
 
 namespace ECommerce.Clientes.Domain.Models
 {
@@ -19,5 +21,24 @@ namespace ECommerce.Clientes.Domain.Models
         
         public Guid ClienteId { get; private set; }
         public Cliente Cliente { get; private set; }
+    }
+
+    public class DocumentoValidator : AbstractValidator<Documento>
+    {
+        public DocumentoValidator()
+        {
+            RuleFor(d => d.Id)
+                .NotEqual(Guid.Empty)
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(d => d.Numero)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString())
+                .MaximumLength(18)
+                .WithMessage(ErrosValidacao.MaiorQue.ToString());
+            RuleFor(d => d.ClienteId)
+                .NotEqual(Guid.Empty)
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+        }
     }
 }

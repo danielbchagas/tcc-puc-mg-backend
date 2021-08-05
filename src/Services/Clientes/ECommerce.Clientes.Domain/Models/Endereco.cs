@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ECommerce.Clientes.Domain.Enums;
+using FluentValidation;
+using System;
 
 namespace ECommerce.Clientes.Domain.Models
 {
@@ -28,5 +30,42 @@ namespace ECommerce.Clientes.Domain.Models
         // Relacionamento
         public Guid ClienteId { get; private set; }
         public Cliente Cliente { get; private set; }
+    }
+
+    public class EnderecoValidator : AbstractValidator<Endereco>
+    {
+        public EnderecoValidator()
+        {
+            RuleFor(_ => _.Id)
+                .NotEqual(Guid.Empty)
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(_ => _.Logradouro)
+                .MaximumLength(200)
+                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .NotNull()
+                .NotEmpty()
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(_ => _.Bairro)
+                .MaximumLength(50)
+                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .NotNull()
+                .NotEmpty()
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(_ => _.Cidade)
+                .MaximumLength(50)
+                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .NotNull()
+                .NotEmpty()
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(_ => _.Cep)
+                .MaximumLength(9)
+                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .NotNull()
+                .NotEmpty()
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(_ => _.ClienteId)
+                .NotEqual(Guid.Empty)
+                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+        }
     }
 }

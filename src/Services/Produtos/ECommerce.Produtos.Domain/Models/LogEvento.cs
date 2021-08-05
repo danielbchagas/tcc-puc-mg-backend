@@ -5,24 +5,30 @@ namespace ECommerce.Produtos.Domain.Models
 {
     public class LogEvento : Entity
     {
-        public LogEvento(Guid produtoId, Guid usuarioId)
+        public LogEvento(Guid entidadeId, Guid usuarioId)
         {
-            ProdutoId = produtoId;
+            EntidadeId = entidadeId;
             UsuarioId = usuarioId;
         }
 
         public DateTime Momento { get; private set; }
-        public Guid ProdutoId { get; private set; }
+        public Guid EntidadeId { get; private set; }
         public Guid UsuarioId { get; set; }
     }
 
-    public class LogEventoValidation : AbstractValidator<LogEvento>
+    public class LogEventoValidator : AbstractValidator<LogEvento>
     {
-        public LogEventoValidation()
+        public LogEventoValidator()
         {
-            RuleFor(le => le.Id).NotEqual(Guid.Empty).WithMessage("{PropertyName} é inválido!");
-            RuleFor(le => le.ProdutoId).NotEqual(Guid.Empty).WithMessage("{PropertyName} é inválido!");
-            RuleFor(le => le.UsuarioId).NotEqual(Guid.Empty).WithMessage("{PropertyName} é inválido!");
+            RuleFor(le => le.Id)
+                .NotEqual(Guid.Empty)
+                .WithMessage(Enums.ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(le => le.EntidadeId)
+                .NotEqual(Guid.Empty)
+                .WithMessage(Enums.ErrosValidacao.NuloOuVazio.ToString());
+            RuleFor(le => le.UsuarioId)
+                .NotEqual(Guid.Empty)
+                .WithMessage(Enums.ErrosValidacao.NuloOuVazio.ToString());
         }
     }
 }

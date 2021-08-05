@@ -17,23 +17,23 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
         {
             _repository = repository;
             _mediator = mediator;
-            _validacao = new AdicionarEmailCommandValidator();
+            _validador = new EmailValidator();
             _mapper = NovoMapeamento();
         }
 
         private readonly IEmailRepository _repository;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly AdicionarEmailCommandValidator _validacao;
+        private readonly EmailValidator _validador;
 
         public async Task<ValidationResult> Handle(AdicionarEmailCommand request, CancellationToken cancellationToken)
         {
-            var valido = _validacao.Validate(request);
+            var email = _mapper.Map<Email>(request);
+
+            var valido = _validador.Validate(email);
 
             if (valido.IsValid)
             {
-                var email = _mapper.Map<Email>(request);
-
                 await _repository.Adicionar(email);
                 var sucesso = await _repository.UnitOfWork.Commit();
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ECommerce.Clientes.Domain.Models
+namespace ECommerce.Clientes.Domain.Enums
 {
     public enum Estados
     {
