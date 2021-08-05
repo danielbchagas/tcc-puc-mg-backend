@@ -18,7 +18,7 @@ namespace ECommerce.Clientes.Domain.Application.Handlers.Notifications
 
         public Task Handle(EnderecoCommitNotification notification, CancellationToken cancellationToken)
         {
-            _repository.Adicionar(new LogEvento(clienteId: notification.EnderecoId, usuarioId: notification.UsuarioId));
+            _repository.Adicionar(new LogEvento(entidadeId: notification.EnderecoId, usuarioId: notification.UsuarioId));
             _repository.UnitOfWork.Commit();
 
             return Task.CompletedTask;

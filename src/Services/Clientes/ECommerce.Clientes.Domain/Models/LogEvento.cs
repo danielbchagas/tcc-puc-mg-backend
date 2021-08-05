@@ -9,15 +9,15 @@ namespace ECommerce.Clientes.Domain.Models
 
         }
 
-        public LogEvento(Guid clienteId, Guid usuarioId)
+        public LogEvento(Guid entidadeId, Guid usuarioId)
         {
             Momento = DateTime.Now;
-            ClienteId = clienteId;
+            EntidadeId = entidadeId;
             UsuarioId = usuarioId;
         }
 
         public DateTime Momento { get; private set; }
-        public Guid ClienteId { get; private set; }
+        public Guid EntidadeId { get; private set; }
         public Guid UsuarioId { get; private set; }
     }
 }

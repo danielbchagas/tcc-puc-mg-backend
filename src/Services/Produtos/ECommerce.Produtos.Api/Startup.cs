@@ -88,7 +88,7 @@ namespace ECommerce.Produtos.Api
             
             // Mediator - Comandos
             services.AddScoped<IRequestHandler<AtualizarProdutoCommand, ValidationResult>, AtualizarProdutoCommandHandler>();
-            services.AddScoped<IRequestHandler<CadastrarProdutoCommand, ValidationResult>, CadastrarProdutoCommandHandler>();
+            services.AddScoped<IRequestHandler<AdicionarProdutoCommand, ValidationResult>, AdicionarProdutoCommandHandler>();
             
             // Mediator - Queries
             services.AddScoped<IRequestHandler<BuscarProdutoPorIdQuery, Produto>, BuscarProdutoPorIdQueryHandler>();

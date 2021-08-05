@@ -18,12 +18,12 @@ namespace ECommerce.Clientes.Domain.Application.Commands
         public Guid ClienteId { get; set; }
     }
 
-    public class CadastrarDocumentoCommandValidation : AbstractValidator<AdicionarDocumentoCommand>
+    public class CadastrarDocumentoCommandValidator : AbstractValidator<AdicionarDocumentoCommand>
     {
         private readonly string mensagemPropriedadeInvalida = "{PropertyName} é inválido!";
         private readonly string mensagemPropriedadeExcedeuLimiteMaximo = "{PropertyName} excedeu o tamanho máximo!";
 
-        public CadastrarDocumentoCommandValidation()
+        public CadastrarDocumentoCommandValidator()
         {
             RuleFor(d => d.Id)
                 .NotEqual(Guid.Empty)

@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Clientes.Domain.Application.Handlers.Notifications
 {
-    public class ClienteCommitNotificationHandler : INotificationHandler<ClienteCommitNotification>
+    public class EmailCommitNotificationHandler : INotificationHandler<EmailCommitNotification>
     {
-        public ClienteCommitNotificationHandler(ILogEventoRepository repository)
+        public EmailCommitNotificationHandler(ILogEventoRepository repository)
         {
             _repository = repository;
         }
 
         private readonly ILogEventoRepository _repository;
 
-        public Task Handle(ClienteCommitNotification notification, CancellationToken cancellationToken)
+        public Task Handle(EmailCommitNotification notification, CancellationToken cancellationToken)
         {
-            _repository.Adicionar(new LogEvento(entidadeId: notification.ClienteId, usuarioId: notification.UsuarioId));
+            _repository.Adicionar(new LogEvento(entidadeId: notification.EmailId, usuarioId: notification.UsuarioId));
             _repository.UnitOfWork.Commit();
 
             return Task.CompletedTask;

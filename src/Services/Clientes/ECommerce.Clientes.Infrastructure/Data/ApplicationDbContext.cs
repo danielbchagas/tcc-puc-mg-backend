@@ -99,7 +99,7 @@ namespace ECommerce.Clientes.Infrastructure.Data
                 le.HasKey(le => le.Id);
 
                 le.Property(le => le.Momento).HasColumnType("date").IsRequired();
-                le.Property(l => l.ClienteId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
+                le.Property(l => l.EntidadeId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
                 le.Property(l => l.UsuarioId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
             });
             #endregion
@@ -157,9 +157,18 @@ namespace ECommerce.Clientes.Infrastructure.Data
             );
 
             modelBuilder.Entity<LogEvento>().HasData(
-                new LogEvento(clienteId: clienteDaviGiovanniFelipe.Id, usuarioId: usuarioId),
-                new LogEvento(clienteId: clienteAylaCarolineAnaGomes.Id, usuarioId: usuarioId),
-                new LogEvento(clienteId: clienteBetinaFláviaSouza.Id, usuarioId: usuarioId)
+                new LogEvento(entidadeId: clienteDaviGiovanniFelipe.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: clienteAylaCarolineAnaGomes.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: clienteBetinaFláviaSouza.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: emailDaviGiovanniFelipe.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: emailAylaCarolineAnaGomes.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: emailBetinaFláviaSouza.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: documentoDaviGiovanniFelipe.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: documentoAylaCarolineAnaGomes.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: documentoBetinaFláviaSouza.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: enderecoDaviGiovanniFelipe.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: enderecoAylaCarolineAnaGomes.Id, usuarioId: usuarioId),
+                new LogEvento(entidadeId: documentoBetinaFláviaSouza.Id, usuarioId: usuarioId)
             );
             #endregion
 

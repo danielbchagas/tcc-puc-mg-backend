@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
 {
-    public class CadastrarClienteCommandHandler : IRequestHandler<AdicionarClienteCommand, ValidationResult>
+    public class AdicionarClienteCommandHandler : IRequestHandler<AdicionarClienteCommand, ValidationResult>
     {
-        public CadastrarClienteCommandHandler(IClienteRepository repository, IMediator mediator)
+        public AdicionarClienteCommandHandler(IClienteRepository repository, IMediator mediator)
         {
             _repository = repository;
             _mediator = mediator;

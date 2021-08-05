@@ -71,33 +71,52 @@ namespace ECommerce.Clientes.Api
             #endregion
 
             #region Injeção de dependência
-            // Mediator
             services.AddMediatR(typeof(Startup));
-            // Mediator - Comandos
+
+            #region Mediator - Comandos
             services.AddScoped<IRequestHandler<AtualizarClienteCommand, ValidationResult>, AtualizarClienteCommandHandler>();
-            services.AddScoped<IRequestHandler<AdicionarClienteCommand, ValidationResult>, CadastrarClienteCommandHandler>();
+            services.AddScoped<IRequestHandler<AdicionarClienteCommand, ValidationResult>, AdicionarClienteCommandHandler>();
             services.AddScoped<IRequestHandler<DesativarClienteCommand, ValidationResult>, DesativarClienteCommandHandler>();
 
             services.AddScoped<IRequestHandler<AtualizarEnderecoCommand, ValidationResult>, AtualizarEnderecoCommandHandler>();
-            services.AddScoped<IRequestHandler<AdicionarEnderecoCommand, ValidationResult>, CadastrarEnderecoCommandHandler>();
-            
-            // Mediator - Queries
+            services.AddScoped<IRequestHandler<AdicionarEnderecoCommand, ValidationResult>, AdicionarEnderecoCommandHandler>();
+
+            services.AddScoped<IRequestHandler<AdicionarDocumentoCommand, ValidationResult>, AdicionarDocumentoCommandHandler>();
+            services.AddScoped<IRequestHandler<AtualizarDocumentoCommand, ValidationResult>, AtualizarDocumentoCommandHandler>();
+
+            services.AddScoped<IRequestHandler<AdicionarEmailCommand, ValidationResult>, AdicionarEmailCommandHandler>();
+            services.AddScoped<IRequestHandler<AtualizarEmailCommand, ValidationResult>, AtualizarEmailCommandHandler>();
+            #endregion
+
+            #region Mediator - Queries
             services.AddScoped<IRequestHandler<BuscarClientePorIdQuery, Cliente>, BuscarClientesPorIdQueryHandler>();
             services.AddScoped<IRequestHandler<BuscarClientesFiltradosPaginadosQuery, IEnumerable<Cliente>>, BuscarClienteFiltradosPaginadosQueryHandler>();
             services.AddScoped<IRequestHandler<BuscarClientesPaginadosQuery, IEnumerable<Cliente>>, BuscarClientesPaginadosQueryHandler>();
 
             services.AddScoped<IRequestHandler<BuscarEnderecoPorIdQuery, Endereco>, BuscarEnderecoPorIdQueryHandler>();
-            
-            // Mediator - Notificações
+
+            services.AddScoped<IRequestHandler<BuscarEmailPorIdQuery, Email>, BuscarEmailPorIdQueryHandler>();
+
+            services.AddScoped<IRequestHandler<BuscarDocumentoPorIdQuery, Documento>, BuscarDocumentoPorIdQueryHandler>();
+            #endregion
+
+            #region Mediator - Notificações
             services.AddScoped<INotificationHandler<ClienteCommitNotification>, ClienteCommitNotificationHandler>();
+
             services.AddScoped<INotificationHandler<EnderecoCommitNotification>, EnderecoCommitNotificationHandler>();
 
-            // Repositórios
+            services.AddScoped<INotificationHandler<DocumentoCommitNotification>, DocumentoCommitNotificationHandler>();
+
+            services.AddScoped<INotificationHandler<EmailCommitNotification>, EmailCommitNotificationHandler>();
+            #endregion
+
+            #region Repositórios
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
             services.AddScoped<ILogEventoRepository, LogEventoRepository>();
             services.AddScoped<IDocumentoRepository, DocumentoRepository>();
             services.AddScoped<IEmailRepository, EmailRepository>();
+            #endregion
             #endregion
 
             #region Healh Checks

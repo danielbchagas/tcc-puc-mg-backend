@@ -4,9 +4,9 @@ using System;
 
 namespace ECommerce.Produtos.Domain.Application.Commands
 {
-    public class CadastrarProdutoCommand : IRequest<ValidationResult>
+    public class AdicionarProdutoCommand : IRequest<ValidationResult>
     {
-        public CadastrarProdutoCommand()
+        public AdicionarProdutoCommand()
         {
             Id = Guid.NewGuid();
         }

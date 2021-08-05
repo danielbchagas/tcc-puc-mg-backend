@@ -54,7 +54,7 @@ namespace ECommerce.Produtos.Api.Controllers
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpPost("novo")]
-        public async Task<IActionResult> Novo(CadastrarProdutoCommand request)
+        public async Task<IActionResult> Novo(AdicionarProdutoCommand request)
         {
             var resultado = await _mediator.Send(request);
 

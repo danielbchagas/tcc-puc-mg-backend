@@ -30,7 +30,7 @@ namespace ECommerce.Identity.Api.Controllers
         private readonly ILogger<UsuarioController> _logger;
         private readonly JwtOptions _jwtOptions;
 
-        [HttpPost("novo-usuario")]
+        [HttpPost("novo")]
         public async Task<IActionResult> Novo(NovoUsuario usuario)
         {
             var novoUsuario = new IdentityUser
@@ -53,7 +53,7 @@ namespace ECommerce.Identity.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("logar")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUsuario usuario)
         {
             var resultado = await _signInManager.PasswordSignInAsync(usuario.Email, usuario.Senha, isPersistent: false, lockoutOnFailure: true);

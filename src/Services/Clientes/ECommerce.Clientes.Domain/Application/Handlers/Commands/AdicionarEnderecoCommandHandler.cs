@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Clientes.Domain.Application.Handlers.Commands
 {
-    public class CadastrarEnderecoCommandHandler : IRequestHandler<AdicionarEnderecoCommand, ValidationResult>
+    public class AdicionarEnderecoCommandHandler : IRequestHandler<AdicionarEnderecoCommand, ValidationResult>
     {
-        public CadastrarEnderecoCommandHandler(IEnderecoRepository repository, IMediator mediator)
+        public AdicionarEnderecoCommandHandler(IEnderecoRepository repository, IMediator mediator)
         {
             _repository = repository;
             _mediator = mediator;
