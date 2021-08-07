@@ -75,7 +75,7 @@ namespace ECommerce.Catalogo.Api
             #region Entity Framework
             services.AddDbContext<ApplicationDbContext>(optionsAction =>
             {
-                optionsAction.UseSqlServer(Configuration.GetConnectionString("ProdutosDB"), sqlServerOptionsAction: options =>
+                optionsAction.UseSqlServer(Configuration.GetConnectionString("CatalogoDB"), sqlServerOptionsAction: options =>
                 {
                     options.EnableRetryOnFailure(maxRetryCount: 6, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
                 });

@@ -7,13 +7,11 @@ namespace ECommerce.Catalogo.Domain.Models
 {
     public class Produto : Entity, IAggregateRoot
     {
-        public Produto(string marca, string nome, string lote, string imagem, string observacao, long quantidade, decimal preco, bool ativo = true, DateTime? fabricacao = null, DateTime? vencimento = null)
+        public Produto(string marca, string nome, string lote, string imagem, string observacao, long quantidade, decimal preco, bool ativo = true)
         {
             Marca = marca;
             Nome = nome;
             Lote = lote;
-            Fabricacao = fabricacao;
-            Vencimento = vencimento;
             Imagem = imagem;
             Observacao = observacao;
             Quantidade = quantidade;
@@ -24,8 +22,6 @@ namespace ECommerce.Catalogo.Domain.Models
         public string Marca { get; private set; }
         public string Nome { get; private set; }
         public string Lote { get; private set; }
-        public DateTime? Fabricacao { get; private set; }
-        public DateTime? Vencimento { get; private set; }
         public string Imagem { get; private set; }
         public string Observacao { get; private set; }
         public long Quantidade { get; private set; } // Poderia ser ulong
@@ -76,12 +72,6 @@ namespace ECommerce.Catalogo.Domain.Models
             RuleFor(p => p.Lote)
                 .NotEmpty()
                 .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
-            RuleFor(p => p.Fabricacao)
-                .GreaterThan(DateTime.Now)
-                .WithMessage(ErrosValidacao.MaiorQue.ToString());
-            RuleFor(p => p.Vencimento)
-                .LessThan(DateTime.Now)
-                .WithMessage(ErrosValidacao.MenorQue.ToString());
             RuleFor(p => p.Imagem)
                 .NotEmpty()
                 .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
