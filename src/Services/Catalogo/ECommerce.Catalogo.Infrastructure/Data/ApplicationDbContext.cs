@@ -71,119 +71,134 @@ namespace ECommerce.Catalogo.Infrastructure.Data
             });
             #endregion
 
-            #region Seed
+            Seed(modelBuilder);
 
+            base.OnModelCreating(modelBuilder);
+        }
+
+        private void Seed(ModelBuilder modelBuilder)
+        {
             var rm = new ResourceManager(typeof(ImagensResource));
-                var camisaManUtd = Convert.ToBase64String((byte[])rm.GetObject("camisa_man_utd"));
-                var jaquetaManUtd = Convert.ToBase64String((byte[])rm.GetObject("jaqueta_man_utd"));
-                var boneManUtd = Convert.ToBase64String((byte[])rm.GetObject("bone_man_utd"));
-            
+
+            var imagemCamisaManUtd = Convert.ToBase64String((byte[])rm.GetObject("camisa_man_utd"));
+            var imagemJaquetaManUtd = Convert.ToBase64String((byte[])rm.GetObject("jaqueta_man_utd"));
+            var imagemCanecaManUtd = Convert.ToBase64String((byte[])rm.GetObject("caneca_man_utd"));
+            var imagemBoneManUtd = Convert.ToBase64String((byte[])rm.GetObject("bone_man_utd"));
+            var imagemBermudaAdidas = Convert.ToBase64String((byte[])rm.GetObject("bermuda_adidas"));
+            var imagemBoneAdidas = Convert.ToBase64String((byte[])rm.GetObject("bone_adidas"));
+            var imagemMeiaAdidas = Convert.ToBase64String((byte[])rm.GetObject("meia_adidas"));
+            var imagemTenisAdidas = Convert.ToBase64String((byte[])rm.GetObject("tenis_adidas"));
+            var imagemCamisaGreenBayPackers = Convert.ToBase64String((byte[])rm.GetObject("camisa_green_bay_packers"));
+            var imagemBoneGreenBayPackers = Convert.ToBase64String((byte[])rm.GetObject("bone_green_bay_packers"));
+            var imagemCamisetaDcShoes = Convert.ToBase64String((byte[])rm.GetObject("camiseta_dc_shoes"));
+            var imagemBermudaDcShoes = Convert.ToBase64String((byte[])rm.GetObject("bermuda_dc_shoes"));
+
             var produtoCamisetaManUtd = new Produto(
-                marca: "Manchester United Football Club", 
-                nome: "Camisete", 
-                lote: null, 
-                imagem: camisaManUtd, 
-                observacao: null, 
-                quantidade: 100, 
+                marca: "Manchester United Football Club",
+                nome: "Camisete",
+                lote: null,
+                imagem: imagemCamisaManUtd,
+                observacao: null,
+                quantidade: 100,
                 preco: 200.50m
             );
             var produtoJaquetaManUtd = new Produto(
-                marca: "Manchester United Football Club", 
-                nome: "Jaqueta", 
-                lote: null, 
-                imagem: jaquetaManUtd, 
-                observacao: null, 
-                quantidade: 250, 
+                marca: "Manchester United Football Club",
+                nome: "Jaqueta",
+                lote: null,
+                imagem: imagemJaquetaManUtd,
+                observacao: null,
+                quantidade: 250,
                 preco: 300.50m
             );
-            var produtoBoneManUtd =  new Produto(
-                marca: "Manchester United Football Club", 
-                nome: "Boné", 
-                lote: null, 
-                imagem: boneManUtd, 
-                observacao: null, 
-                quantidade: 10, 
+            var produtoBoneManUtd = new Produto(
+                marca: "Manchester United Football Club",
+                nome: "Boné",
+                lote: null,
+                imagem: imagemBoneManUtd,
+                observacao: null,
+                quantidade: 10,
                 preco: 80.50m
             );
             var produtoBermudaAdidas = new Produto(
-                marca: "Adidas", 
-                nome: "Bermuda", 
-                lote: null, 
-                imagem: null, 
-                observacao: null, 
-                quantidade: 10, 
-                preco: 20.50m
+                marca: "Adidas",
+                nome: "Bermuda",
+                lote: null,
+                imagem: imagemBermudaAdidas,
+                observacao: null,
+                quantidade: 10,
+                preco: 150.50m
             );
             var produtoBermudaDcShoes = new Produto(
-                marca: "Dc Shoes", 
-                nome: "Bermuda", 
-                lote: null, 
-                imagem: null, 
-                observacao: null, 
-                quantidade: 10, 
-                preco: 20.50m
+                marca: "Dc Shoes",
+                nome: "Bermuda",
+                lote: null,
+                imagem: imagemBermudaDcShoes,
+                observacao: null,
+                quantidade: 10,
+                preco: 150.50m
             );
             var produtoCamisetaDcShoes = new Produto(
-                marca: "Dc Shoes", 
-                nome: "Camiseta", 
-                lote: null, 
-                imagem: null, 
-                observacao: null, 
-                quantidade: 10, 
-                preco: 20.50m
+                marca: "Dc Shoes",
+                nome: "Camiseta",
+                lote: null,
+                imagem: imagemCamisetaDcShoes,
+                observacao: null,
+                quantidade: 10,
+                preco: 100.50m
             );
             var produtoBoneAdidas = new Produto(
-                marca: "Adidas", 
-                nome: "Bone", 
-                lote: null, 
-                imagem: null, 
-                observacao: null, 
-                quantidade: 10, 
-                preco: 20.50m
+                marca: "Adidas",
+                nome: "Bone",
+                lote: null,
+                imagem: imagemBoneAdidas,
+                observacao: null,
+                quantidade: 10,
+                preco: 60.50m
             );
             var produtoTenisAdidas = new Produto(
-                marca: "Adidas", 
-                nome: "Tenis", 
-                lote: null, 
-                imagem: null, 
-                observacao: null, 
-                quantidade: 10, 
-                preco: 20.50m
+                marca: "Adidas",
+                nome: "Tenis",
+                lote: null,
+                imagem: imagemTenisAdidas,
+                observacao: null,
+                quantidade: 10,
+                preco: 350.50m
             );
             var produtoCamisaGreenBayPackers = new Produto(
-                marca: "Green Bay Packers", 
-                nome: "Camisa", 
-                lote: null, 
-                imagem: null, 
-                observacao: null, 
-                quantidade: 10, 
-                preco: 20.50m
+                marca: "Green Bay Packers",
+                nome: "Camisa",
+                lote: null,
+                imagem: imagemCamisaGreenBayPackers,
+                observacao: null,
+                quantidade: 10,
+                preco: 400.50m
             );
             var produtoBoneGreenBayPackers = new Produto(
-                marca: "Green Bay Packers", 
-                nome: "Bone", 
-                lote: null, 
-                imagem: null, 
-                observacao: null, 
-                quantidade: 10, 
-                preco: 20.50m
+                marca: "Green Bay Packers",
+                nome: "Bone",
+                lote: null,
+                imagem: imagemBoneGreenBayPackers,
+                observacao: null,
+                quantidade: 10,
+                preco: 150.50m
             );
             var produtoCanecaManUtd = new Produto(
-                marca: "Manchester United Football Club", 
-                nome: "Caneca", 
-                lote: null, 
-                imagem: null, 
-                observacao: null, 
-                quantidade: 10, 
-                preco: 20.50m
+                marca: "Manchester United Football Club",
+                nome: "Caneca",
+                lote: null,
+                imagem: imagemCanecaManUtd,
+                observacao: null,
+                quantidade: 10,
+                preco: 30.50m
             );
             var produtoMeiaAdidas = new Produto(
-                marca: "Adidas", 
-                nome: "Meia", 
-                lote: null, 
-                imagem: null, 
-                observacao: null, 
-                quantidade: 10, 
+                marca: "Adidas",
+                nome: "Meia",
+                lote: null,
+                imagem: imagemMeiaAdidas,
+                observacao: null,
+                quantidade: 10,
                 preco: 20.50m
             );
 
@@ -218,9 +233,6 @@ namespace ECommerce.Catalogo.Infrastructure.Data
                 new LogEvento(entidadeId: produtoCanecaManUtd.Id, usuarioId: usuarioId),
                 new LogEvento(entidadeId: produtoMeiaAdidas.Id, usuarioId: usuarioId)
             );
-            #endregion
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

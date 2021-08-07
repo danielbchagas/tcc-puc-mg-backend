@@ -118,13 +118,40 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="bermuda_adidas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\bermuda_adidas.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bermuda_dc_shoes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\bermuda_dc_shoes.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bone_adidas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\bone_adidas.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="bone_green_bay_packers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\bone_green_bay_packers.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="bone_man_utd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\bone_man_utd.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Resources\bone_man_utd.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="camisa_green_bay_packers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\camisa_green_bay_packers.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="camisa_man_utd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\camisa_man_utd.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Resources\camisa_man_utd.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="camiseta_dc_shoes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\camiseta_dc_shoes.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="caneca_man_utd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\caneca_man_utd.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="jaqueta_man_utd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\jaqueta_man_utd.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Resources\jaqueta_man_utd.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="meia_adidas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\meia_adidas.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tenis_adidas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\tenis_adidas.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

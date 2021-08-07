@@ -63,9 +63,59 @@ namespace ECommerce.Catalogo.Infrastructure {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] bermuda_adidas {
+            get {
+                object obj = ResourceManager.GetObject("bermuda_adidas", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] bermuda_dc_shoes {
+            get {
+                object obj = ResourceManager.GetObject("bermuda_dc_shoes", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] bone_adidas {
+            get {
+                object obj = ResourceManager.GetObject("bone_adidas", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] bone_green_bay_packers {
+            get {
+                object obj = ResourceManager.GetObject("bone_green_bay_packers", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] bone_man_utd {
             get {
                 object obj = ResourceManager.GetObject("bone_man_utd", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] camisa_green_bay_packers {
+            get {
+                object obj = ResourceManager.GetObject("camisa_green_bay_packers", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -83,9 +133,49 @@ namespace ECommerce.Catalogo.Infrastructure {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] camiseta_dc_shoes {
+            get {
+                object obj = ResourceManager.GetObject("camiseta_dc_shoes", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] caneca_man_utd {
+            get {
+                object obj = ResourceManager.GetObject("caneca_man_utd", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] jaqueta_man_utd {
             get {
                 object obj = ResourceManager.GetObject("jaqueta_man_utd", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] meia_adidas {
+            get {
+                object obj = ResourceManager.GetObject("meia_adidas", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] tenis_adidas {
+            get {
+                object obj = ResourceManager.GetObject("tenis_adidas", resourceCulture);
                 return ((byte[])(obj));
             }
         }
