@@ -106,7 +106,10 @@ namespace ECommerce.Cliente.Infrastructure.Data
             #endregion
 
             #region Seed
+            var usuarioId = Guid.NewGuid();
+
             var clienteDaviGiovanniFelipe = new Domain.Models.Cliente(
+                usuarioId: usuarioId,
                 nome: "Davi Giovanni Felipe", 
                 sobrenome: "Fernandes", 
                 dataNascimento: new DateTime(1955, 02, 07)
@@ -129,6 +132,7 @@ namespace ECommerce.Cliente.Infrastructure.Data
             );
 
             var clienteAylaCarolineAnaGomes = new Domain.Models.Cliente(
+                usuarioId: usuarioId,
                 nome: "Ayla Caroline", 
                 sobrenome: "Ana Gomes", 
                 dataNascimento: new DateTime(1963, 12, 12)
@@ -151,6 +155,7 @@ namespace ECommerce.Cliente.Infrastructure.Data
             );
 
             var clienteBetinaFláviaSouza = new Domain.Models.Cliente(
+                usuarioId: usuarioId,
                 nome: "BetinaFlávia", 
                 sobrenome: "Souza", 
                 dataNascimento: new DateTime(1975, 02, 16)
@@ -171,8 +176,6 @@ namespace ECommerce.Cliente.Infrastructure.Data
                 endereco: "b_etina_flavia_souza@gmail.com", 
                 clienteBetinaFláviaSouza.Id
             );
-
-            var usuarioId = Guid.NewGuid();
 
             modelBuilder.Entity<Domain.Models.Cliente>().HasData(
                 clienteDaviGiovanniFelipe, 

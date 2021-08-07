@@ -12,8 +12,9 @@ namespace ECommerce.Cliente.Domain.Models
 
         }
 
-        public Cliente(string nome, string sobrenome, DateTime dataNascimento, bool ativo = true)
+        public Cliente(Guid usuarioId, string nome, string sobrenome, DateTime dataNascimento, bool ativo = true)
         {
+            Id = usuarioId;
             Nome = nome;
             Sobrenome = sobrenome;
             DataNascimento = dataNascimento;
