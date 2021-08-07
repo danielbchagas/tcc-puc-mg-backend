@@ -53,7 +53,7 @@ namespace ECommerce.Catalogo.Infrastructure.Data
                 p.Property(p => p.Nome).HasColumnType("varchar(50)").IsRequired();
                 p.Property(p => p.Observacao).HasColumnType("varchar(200)").IsRequired(false);
                 p.Property(p => p.Quantidade).HasColumnType("int").IsRequired();
-                p.Property(p => p.Imagem).HasColumnType("image").IsRequired(false);
+                p.Property(p => p.Imagem).HasColumnType("text").IsRequired(false);
                 p.Property(p => p.Lote).HasColumnType("varchar(10)").IsRequired(false);
                 p.Property(p => p.Ativo).HasColumnType("bit").IsRequired();
                 p.Property(p => p.Preco).HasColumnType("money").IsRequired();
