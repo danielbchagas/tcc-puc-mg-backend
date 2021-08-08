@@ -1,32 +1,29 @@
-﻿using System;
-using ECommerce.Catalogo.Domain.Enums;
-using ECommerce.Catalogo.Domain.Interfaces.Entities;
+﻿using ECommerce.Catalogo.Domain.Interfaces.Entities;
 using FluentValidation;
+using System;
 
 namespace ECommerce.Catalogo.Domain.Models
 {
     public class Produto : Entity, IAggregateRoot
     {
-        public Produto(string marca, string nome, string lote, string imagem, string observacao, long quantidade, decimal preco, bool ativo = true)
+        public Produto(string descricao, string nome, string imagem, long quantidadeEstoque, decimal preco, bool ativo = true)
         {
-            Marca = marca;
+            Descricao = descricao;
             Nome = nome;
-            Lote = lote;
             Imagem = imagem;
-            Observacao = observacao;
-            Quantidade = quantidade;
+            QuantidadeEstoque = quantidadeEstoque;
             Preco = preco;
             Ativo = ativo;
+            DataCadastro = DateTime.Now;
         }
 
-        public string Marca { get; private set; }
+        public string Descricao { get; private set; }
         public string Nome { get; private set; }
-        public string Lote { get; private set; }
         public string Imagem { get; private set; }
-        public string Observacao { get; private set; }
-        public long Quantidade { get; private set; } // Poderia ser ulong
+        public long QuantidadeEstoque { get; private set; }
         public decimal Preco { get; private set; }
         public bool Ativo { get; private set; }
+        public DateTime DataCadastro { get; private set; }
 
         public void Ativar()
         {
@@ -40,12 +37,12 @@ namespace ECommerce.Catalogo.Domain.Models
         
         public void Adicionar(int quantidade)
         {
-            Quantidade += quantidade;
+            QuantidadeEstoque += quantidade;
         }
 
         public void Remover(int quantidade)
         {
-            Quantidade -= quantidade;
+            QuantidadeEstoque -= quantidade;
         }
 
         public void AlterarPreco(decimal novoPreco)
@@ -60,34 +57,28 @@ namespace ECommerce.Catalogo.Domain.Models
         {
             RuleFor(p => p.Id)
                 .NotEqual(Guid.Empty)
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
-            RuleFor(p => p.Marca)
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio");
+            RuleFor(p => p.Descricao)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio");
             RuleFor(p => p.Nome)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
-            RuleFor(p => p.Lote)
-                .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio");
             RuleFor(p => p.Imagem)
                 .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
-            RuleFor(p => p.Observacao)
-                .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
-            RuleFor(p => p.Quantidade)
-                .LessThan(0)
-                .WithMessage(ErrosValidacao.MenorQue.ToString())
-                .GreaterThan(long.MaxValue)
-                .WithMessage(ErrosValidacao.MenorQue.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio");
+            RuleFor(p => p.QuantidadeEstoque)
+                .GreaterThan(0)
+                .WithMessage("{PropertyName} tem um valor menor do que o esperado!")
+                .LessThan(long.MaxValue)
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!");
             RuleFor(p => p.Preco)
-                .LessThan(0)
-                .WithMessage(ErrosValidacao.MenorQue.ToString())
-                .GreaterThan(decimal.MaxValue)
-                .WithMessage(ErrosValidacao.MaiorQue.ToString());
+                .GreaterThan(0)
+                .WithMessage("{PropertyName} tem um valor menor do que o esperado!")
+                .LessThan(decimal.MaxValue)
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!");
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
+using System;
 
 namespace ECommerce.Catalogo.Domain.Models
 {
@@ -7,6 +7,7 @@ namespace ECommerce.Catalogo.Domain.Models
     {
         public LogEvento(Guid entidadeId, Guid usuarioId)
         {
+            Momento = DateTime.Now;
             EntidadeId = entidadeId;
             UsuarioId = usuarioId;
         }
@@ -22,13 +23,13 @@ namespace ECommerce.Catalogo.Domain.Models
         {
             RuleFor(le => le.Id)
                 .NotEqual(Guid.Empty)
-                .WithMessage(Enums.ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio");
             RuleFor(le => le.EntidadeId)
                 .NotEqual(Guid.Empty)
-                .WithMessage(Enums.ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio");
             RuleFor(le => le.UsuarioId)
                 .NotEqual(Guid.Empty)
-                .WithMessage(Enums.ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio");
         }
     }
 }

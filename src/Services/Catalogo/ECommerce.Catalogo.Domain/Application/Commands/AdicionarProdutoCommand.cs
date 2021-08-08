@@ -1,6 +1,6 @@
-﻿using System;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using MediatR;
+using System;
 
 namespace ECommerce.Catalogo.Domain.Application.Commands
 {
@@ -12,13 +12,12 @@ namespace ECommerce.Catalogo.Domain.Application.Commands
         }
 
         public Guid Id { get; set; }
-        public string Marca { get; set; }
+        public string Descricao { get; set; }
         public string Nome { get; set; }
-        public string Lote { get; set; }
         public string Imagem { get; set; }
-        public string Observacao { get; set; }
-        public long Quantidade { get; set; } // Poderia ser ulong
+        public long QuantidadeEstoque { get; set; }
         public decimal Preco { get; set; }
         public bool Ativo { get; set; }
+        public DateTime DataCadastro { get; set; }
     }
 }

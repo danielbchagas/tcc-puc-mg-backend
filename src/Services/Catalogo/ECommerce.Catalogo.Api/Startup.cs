@@ -51,12 +51,7 @@ namespace ECommerce.Catalogo.Api
         public void ConfigureServices(IServiceCollection services)
         {
             #region Identidade
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = "https://localhost:5001";
-                    options.Audience = "api_produtos";
-                });
+            
             #endregion
 
             #region KissLog
@@ -89,17 +84,20 @@ namespace ECommerce.Catalogo.Api
             // Mediator - Comandos
             services.AddScoped<IRequestHandler<AtualizarProdutoCommand, ValidationResult>, AtualizarProdutoCommandHandler>();
             services.AddScoped<IRequestHandler<AdicionarProdutoCommand, ValidationResult>, AdicionarProdutoCommandHandler>();
-            
+            services.AddScoped<IRequestHandler<SubtrairProdutoCommand, ValidationResult>, SubtrairProdutoCommandHandler>();
+
             // Mediator - Queries
             services.AddScoped<IRequestHandler<BuscarProdutoPorIdQuery, Produto>, BuscarProdutoPorIdQueryHandler>();
             services.AddScoped<IRequestHandler<BuscarProdutosFiltradosPaginadosQuery, IEnumerable<Produto>>, BuscarProdutosFiltradosPaginadosQueryHandler>();
             services.AddScoped<IRequestHandler<BuscarProdutosPaginadosQuery, IEnumerable<Produto>>, BuscarProdutosPaginadosQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarProdutosQuery, IEnumerable<Produto>>, BuscarProdutosQueryHandler>();
 
             // Mediator - Notificações
             services.AddScoped<INotificationHandler<ProdutoCommitNotification>, ProdutoCommitNotificationHandler>();
 
             // Repositórios
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<ILogEventoRepository, LogEventoRepository>();
             #endregion
 
             #region Healh Checks
@@ -132,9 +130,9 @@ namespace ECommerce.Catalogo.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "ECommerce.Produtos.Api",
+                    Title = "ECommerce.Catalogo.Api",
                     Version = "v1",
-                    Description = "TCC PUC Minas - Api de Produtos do E-Commerce",
+                    Description = "TCC PUC Minas - Api de Catalogo do E-Commerce",
                     Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
                     License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/mit") }
                 });
@@ -150,7 +148,7 @@ namespace ECommerce.Catalogo.Api
 
                 #region Swagger
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Produtos.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Catalogo.Api v1"));
                 #endregion
             }
 

@@ -8,7 +8,7 @@ namespace ECommerce.Catalogo.Domain.Application.Queries
 {
     public class BuscarProdutosFiltradosPaginadosQuery : IRequest<IEnumerable<Produto>>
     {
-        public BuscarProdutosFiltradosPaginadosQuery(Expression<Func<Produto, bool>> filtro, int? pagina, int? linhas)
+        public BuscarProdutosFiltradosPaginadosQuery(Expression<Func<Produto, bool>> filtro, int pagina, int linhas)
         {
             Filtro = filtro;
             Pagina = pagina;
@@ -16,7 +16,7 @@ namespace ECommerce.Catalogo.Domain.Application.Queries
         }
 
         public Expression<Func<Produto, bool>> Filtro { get; set; }
-        public int? Pagina { get; set; }
-        public int? Linhas { get; set; }
+        public int Pagina { get; set; }
+        public int Linhas { get; set; }
     }
 }

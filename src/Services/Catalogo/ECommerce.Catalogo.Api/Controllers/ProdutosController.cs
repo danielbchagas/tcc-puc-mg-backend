@@ -7,6 +7,7 @@ using ECommerce.Catalogo.Domain.Application.Commands;
 using ECommerce.Catalogo.Domain.Application.Queries;
 using ECommerce.Catalogo.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,26 +24,45 @@ namespace ECommerce.Catalogo.Api.Controllers
             _mediator = mediator;
         }
 
-        [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar-todos/{nome:alpha}/{pagina:int}/{linhas:int}")]
-        public async Task<IActionResult> BuscarTodos(string nome, int? pagina, int? linhas)
+        public async Task<IActionResult> BuscarTodos(string nome, int pagina, int linhas)
         {
-            Expression<Func<Produto, bool>> filtro = null;
-
-            if (!string.IsNullOrEmpty(nome))
-            {
-                filtro = p => p.Nome.Contains(nome);
-            }
+            var produtos = await _mediator.Send(new BuscarProdutosFiltradosPaginadosQuery(p => p.Nome.Contains(nome), pagina, linhas));
             
-            var produtos = await _mediator.Send(new BuscarProdutosFiltradosPaginadosQuery(filtro, pagina, linhas));
             return Ok(produtos);
         }
 
-        [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
+        [HttpGet("buscar-todos")]
+        public async Task<IActionResult> BuscarTodos()
+        {
+            var produtos = await _mediator.Send(new BuscarProdutosQuery());
+
+            return Ok(produtos);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
+        [HttpGet("buscar-todos/{pagina:int}/{linhas:int}")]
+        public async Task<IActionResult> BuscarTodos(int pagina, int linhas)
+        {
+            var produtos = await _mediator.Send(new BuscarProdutosPaginadosQuery(pagina, linhas));
+            return Ok(produtos);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar-por-id/{id:Guid}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
         {
@@ -50,30 +70,49 @@ namespace ECommerce.Catalogo.Api.Controllers
             return Ok(produto);
         }
 
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("novo")]
         public async Task<IActionResult> Novo(AdicionarProdutoCommand request)
         {
             var resultado = await _mediator.Send(request);
 
             if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
+                return BadRequest(resultado.Errors.Select(e => e.ErrorMessage));
 
             return Ok();
         }
 
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPut("atualizar")]
         public async Task<IActionResult> Atualizar(AtualizarProdutoCommand request)
         {
             var resultado = await _mediator.Send(request);
 
             if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
+                return BadRequest(resultado.Errors.Select(e => e.ErrorMessage));
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
+        [HttpGet("comprar/{id:Guid}/{quantidade:int}")]
+        public async Task<IActionResult> Comprar(Guid id, int quantidade)
+        {
+            var resultado = await _mediator.Send(new SubtrairProdutoCommand(id, quantidade));
+
+            if (!resultado.IsValid)
+                return BadRequest(resultado.Errors.Select(e => e.ErrorMessage));
 
             return Ok();
         }

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.Reflection;
-using System.Threading.Tasks;
-using ECommerce.Catalogo.Domain.Interfaces.Data;
+﻿using ECommerce.Catalogo.Domain.Interfaces.Data;
 using ECommerce.Catalogo.Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Diagnostics;
 using System.Resources;
+using System.Threading.Tasks;
 
 namespace ECommerce.Catalogo.Infrastructure.Data
 {
@@ -49,14 +48,13 @@ namespace ECommerce.Catalogo.Infrastructure.Data
 
                 p.HasKey(p => p.Id);
 
-                p.Property(p => p.Marca).HasColumnType("varchar(50)").IsRequired();
+                p.Property(p => p.Descricao).HasColumnType("varchar(50)").IsRequired();
                 p.Property(p => p.Nome).HasColumnType("varchar(50)").IsRequired();
-                p.Property(p => p.Observacao).HasColumnType("varchar(200)").IsRequired(false);
-                p.Property(p => p.Quantidade).HasColumnType("int").IsRequired();
+                p.Property(p => p.QuantidadeEstoque).HasColumnType("int").IsRequired();
                 p.Property(p => p.Imagem).HasColumnType("text").IsRequired(false);
-                p.Property(p => p.Lote).HasColumnType("varchar(10)").IsRequired(false);
                 p.Property(p => p.Ativo).HasColumnType("bit").IsRequired();
                 p.Property(p => p.Preco).HasColumnType("money").IsRequired();
+                p.Property(p => p.DataCadastro).HasColumnType("datetime").IsRequired();
             });
 
             modelBuilder.Entity<LogEvento>(le =>
@@ -65,7 +63,7 @@ namespace ECommerce.Catalogo.Infrastructure.Data
 
                 le.HasKey(le => le.Id);
 
-                le.Property(le => le.Momento).HasColumnType("date").IsRequired();
+                le.Property(le => le.Momento).HasColumnType("datetime").IsRequired();
                 le.Property(l => l.EntidadeId).HasColumnType("uniqueidentifier").IsRequired();
                 le.Property(l => l.UsuarioId).HasColumnType("uniqueidentifier").IsRequired();
             });
@@ -94,111 +92,87 @@ namespace ECommerce.Catalogo.Infrastructure.Data
             var imagemBermudaDcShoes = Convert.ToBase64String((byte[])rm.GetObject("bermuda_dc_shoes"));
 
             var produtoCamisetaManUtd = new Produto(
-                marca: "Manchester United Football Club",
-                nome: "Camisete",
-                lote: null,
+                descricao: "Manchester United Football Club",
+                nome: "Camiseta",
                 imagem: imagemCamisaManUtd,
-                observacao: null,
-                quantidade: 100,
+                quantidadeEstoque: 100,
                 preco: 200.50m
             );
             var produtoJaquetaManUtd = new Produto(
-                marca: "Manchester United Football Club",
+                descricao: "Manchester United Football Club",
                 nome: "Jaqueta",
-                lote: null,
                 imagem: imagemJaquetaManUtd,
-                observacao: null,
-                quantidade: 250,
+                quantidadeEstoque: 250,
                 preco: 300.50m
             );
             var produtoBoneManUtd = new Produto(
-                marca: "Manchester United Football Club",
+                descricao: "Manchester United Football Club",
                 nome: "Boné",
-                lote: null,
                 imagem: imagemBoneManUtd,
-                observacao: null,
-                quantidade: 10,
+                quantidadeEstoque: 10,
                 preco: 80.50m
             );
             var produtoBermudaAdidas = new Produto(
-                marca: "Adidas",
+                descricao: "Adidas",
                 nome: "Bermuda",
-                lote: null,
                 imagem: imagemBermudaAdidas,
-                observacao: null,
-                quantidade: 10,
+                quantidadeEstoque: 10,
                 preco: 150.50m
             );
             var produtoBermudaDcShoes = new Produto(
-                marca: "Dc Shoes",
+                descricao: "Dc Shoes",
                 nome: "Bermuda",
-                lote: null,
                 imagem: imagemBermudaDcShoes,
-                observacao: null,
-                quantidade: 10,
+                quantidadeEstoque: 10,
                 preco: 150.50m
             );
             var produtoCamisetaDcShoes = new Produto(
-                marca: "Dc Shoes",
+                descricao: "Dc Shoes",
                 nome: "Camiseta",
-                lote: null,
                 imagem: imagemCamisetaDcShoes,
-                observacao: null,
-                quantidade: 10,
+                quantidadeEstoque: 10,
                 preco: 100.50m
             );
             var produtoBoneAdidas = new Produto(
-                marca: "Adidas",
+                descricao: "Adidas",
                 nome: "Bone",
-                lote: null,
                 imagem: imagemBoneAdidas,
-                observacao: null,
-                quantidade: 10,
+                quantidadeEstoque: 10,
                 preco: 60.50m
             );
             var produtoTenisAdidas = new Produto(
-                marca: "Adidas",
+                descricao: "Adidas",
                 nome: "Tenis",
-                lote: null,
                 imagem: imagemTenisAdidas,
-                observacao: null,
-                quantidade: 10,
+                quantidadeEstoque: 10,
                 preco: 350.50m
             );
             var produtoCamisaGreenBayPackers = new Produto(
-                marca: "Green Bay Packers",
+                descricao: "Green Bay Packers",
                 nome: "Camisa",
-                lote: null,
                 imagem: imagemCamisaGreenBayPackers,
-                observacao: null,
-                quantidade: 10,
+                quantidadeEstoque: 10,
                 preco: 400.50m
             );
             var produtoBoneGreenBayPackers = new Produto(
-                marca: "Green Bay Packers",
+                descricao: "Green Bay Packers",
                 nome: "Bone",
-                lote: null,
                 imagem: imagemBoneGreenBayPackers,
-                observacao: null,
-                quantidade: 10,
+                quantidadeEstoque: 10,
                 preco: 150.50m
             );
             var produtoCanecaManUtd = new Produto(
-                marca: "Manchester United Football Club",
+                descricao: "Manchester United Football Club",
                 nome: "Caneca",
-                lote: null,
                 imagem: imagemCanecaManUtd,
-                observacao: null,
-                quantidade: 10,
+                quantidadeEstoque: 10,
                 preco: 30.50m
             );
             var produtoMeiaAdidas = new Produto(
-                marca: "Adidas",
+                descricao: "Adidas",
                 nome: "Meia",
-                lote: null,
                 imagem: imagemMeiaAdidas,
-                observacao: null,
-                quantidade: 10,
+                quantidadeEstoque: 10,
                 preco: 20.50m
             );
 
