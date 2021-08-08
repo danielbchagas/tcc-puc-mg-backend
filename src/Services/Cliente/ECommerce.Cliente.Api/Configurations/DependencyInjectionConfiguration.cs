@@ -33,6 +33,9 @@ namespace ECommerce.Cliente.Api.Configurations
 
             services.AddScoped<IRequestHandler<AdicionarEmailCommand, ValidationResult>, AdicionarEmailCommandHandler>();
             services.AddScoped<IRequestHandler<AtualizarEmailCommand, ValidationResult>, AtualizarEmailCommandHandler>();
+
+            services.AddScoped<IRequestHandler<AdicionarTelefoneCommand, ValidationResult>, AdicionarTelefoneCommandHandler>();
+            services.AddScoped<IRequestHandler<AtualizarTelefoneCommand, ValidationResult>, AtualizarTelefoneCommandHandler>();
             #endregion
 
             #region Mediator - Queries
@@ -45,6 +48,8 @@ namespace ECommerce.Cliente.Api.Configurations
             services.AddScoped<IRequestHandler<BuscarEmailPorIdQuery, Email>, BuscarEmailPorIdQueryHandler>();
 
             services.AddScoped<IRequestHandler<BuscarDocumentoPorIdQuery, Documento>, BuscarDocumentoPorIdQueryHandler>();
+
+            services.AddScoped<IRequestHandler<BuscarTelefonePorIdQuery, Telefone>, BuscarTelefonePorIdQueryHandler>();
             #endregion
 
             #region Mediator - Notificações
@@ -55,6 +60,8 @@ namespace ECommerce.Cliente.Api.Configurations
             services.AddScoped<INotificationHandler<DocumentoCommitNotification>, DocumentoCommitNotificationHandler>();
 
             services.AddScoped<INotificationHandler<EmailCommitNotification>, EmailCommitNotificationHandler>();
+
+            services.AddScoped<INotificationHandler<TelefoneCommitNotification>, TelefoneCommitNotificationHandler>();
             #endregion
 
             #region Repositórios
