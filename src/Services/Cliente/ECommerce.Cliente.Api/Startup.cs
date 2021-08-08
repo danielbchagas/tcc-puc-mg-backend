@@ -166,9 +166,9 @@ namespace ECommerce.Cliente.Api
                     {
                         c.SwaggerDoc("v1", new OpenApiInfo
                         {
-                            Title = "ECommerce.Clientes.Api",
+                            Title = "ECommerce.Cliente.Api",
                             Version = "v1",
-                            Description = "TCC PUC Minas - Api de Clientes do E-Commerce",
+                            Description = "TCC PUC Minas - Api de Cliente do E-Commerce",
                             Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
                             License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/mit") }
                         });
@@ -187,7 +187,7 @@ namespace ECommerce.Cliente.Api
 
                 #region Swagger
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Clientes.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Cliente.Api v1"));
                 #endregion
             }
 

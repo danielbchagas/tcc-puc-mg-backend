@@ -22,27 +22,30 @@ namespace ECommerce.Cliente.Api.Controllers
             _mediator = mediator;
         }
 
-        [ProducesResponseType(typeof(IEnumerable<Domain.Models.Cliente>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IEnumerable<Endereco>), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar/{pagina:int}/{linhas:int}")]
         public async Task<IActionResult> BuscarTodos(int pagina, int linhas)
         {
             return Ok(await _mediator.Send(new BuscarClientesPaginadosQuery(pagina, linhas)));
         }
 
-        [ProducesResponseType(typeof(IEnumerable<Domain.Models.Cliente>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IEnumerable<Endereco>), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("pesquisar/{nome:alpha}/{pagina:int}/{linhas:int}")]
         public async Task<IActionResult> Pesquisar(string nome, int pagina, int linhas)
         {
             return Ok(await _mediator.Send(new BuscarClientesFiltradosPaginadosQuery(c => c.Nome.Contains(nome), pagina, linhas)));
         }
 
-        [ProducesResponseType(typeof(Domain.Models.Cliente), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IEnumerable<Endereco>), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar-por-id/{id:Guid}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
         {
@@ -50,8 +53,9 @@ namespace ECommerce.Cliente.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("novo")]
         public async Task<IActionResult> Novo(AdicionarClienteCommand request)
         {
@@ -64,8 +68,9 @@ namespace ECommerce.Cliente.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPut("atualizar")]
         public async Task<IActionResult> Atualizar(AtualizarClienteCommand request)
         {
@@ -78,8 +83,9 @@ namespace ECommerce.Cliente.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpDelete("desativar")]
         public async Task<IActionResult> Desativar(DesativarClienteCommand request)
         {
