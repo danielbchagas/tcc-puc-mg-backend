@@ -137,13 +137,8 @@ namespace ECommerce.Cliente.Infrastructure.Data
 
         private void Seed(ModelBuilder modelBuilder)
         {
-            var usuario1Id = Guid.NewGuid();
-            var usuario2Id = Guid.NewGuid();
-            var usuario3Id = Guid.NewGuid();
-
             #region Cliente 1
             var cliente1 = new Domain.Models.Cliente(
-                clienteId: usuario1Id,
                 nome: "Davi Giovanni Felipe",
                 sobrenome: "Fernandes",
                 dataNascimento: new DateTime(1955, 02, 07)
@@ -172,7 +167,6 @@ namespace ECommerce.Cliente.Infrastructure.Data
             
             #region Cliente 2
             var cliente2 = new Domain.Models.Cliente(
-                clienteId: usuario2Id,
                 nome: "Ayla Caroline",
                 sobrenome: "Ana Gomes",
                 dataNascimento: new DateTime(1963, 12, 12)
@@ -201,7 +195,6 @@ namespace ECommerce.Cliente.Infrastructure.Data
 
             #region Cliente 3
             var cliente3 = new Domain.Models.Cliente(
-                clienteId: usuario3Id,
                 nome: "BetinaFlávia",
                 sobrenome: "Souza",
                 dataNascimento: new DateTime(1975, 02, 16)

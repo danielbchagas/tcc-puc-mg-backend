@@ -1,5 +1,6 @@
 ﻿using KissLog;
 using KissLog.AspNetCore;
+using KissLog.CloudListeners.Auth;
 using KissLog.CloudListeners.RequestLogsListener;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +10,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace ECommerce.Cliente.Api.Configurations
+namespace ECommerce.WebApi.Core.Extensions
 {
     public static class KissLogConfiguration
     {
@@ -57,22 +58,19 @@ namespace ECommerce.Cliente.Api.Configurations
             {
                 Debug.WriteLine(message);
             };
-            
+
             // register logs output
             RegisterKissLogListeners(options, configuration);
         }
 
         private static void RegisterKissLogListeners(IOptionsBuilder options, IConfiguration configuration)
         {
-            // multiple listeners can be registered using options.Listeners.Add() method
-
-            // register KissLog.net cloud listener
-            options.Listeners.Add(new RequestLogsApiListener(new KissLog.CloudListeners.Auth.Application(
-                    configuration["KissLog.OrganizationId"],    //  "69f89467-88be-439b-af23-79a80d466298"
-                    configuration["KissLog.ApplicationId"])     //  "ec373522-8d35-4fc2-ae32-e5b3a5e99b3a"
+            options.Listeners.Add(new RequestLogsApiListener(new Application(
+                    configuration["KissLog.OrganizationId"],
+                    configuration["KissLog.ApplicationId"])
             )
             {
-                ApiUrl = configuration["KissLog.ApiUrl"]    //  "https://api.kisslog.net"
+                ApiUrl = configuration["KissLog.ApiUrl"]
             });
         }
         #endregion

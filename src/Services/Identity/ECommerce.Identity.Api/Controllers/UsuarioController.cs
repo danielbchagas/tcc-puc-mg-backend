@@ -1,4 +1,5 @@
 ﻿using ECommerce.Identity.Api.Models;
+using ECommerce.WebApi.Core.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

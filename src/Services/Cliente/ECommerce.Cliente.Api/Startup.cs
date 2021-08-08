@@ -1,5 +1,6 @@
 using ECommerce.Cliente.Api.Configurations;
 using ECommerce.Cliente.Api.Middlewares;
+using ECommerce.WebApi.Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
+using ECommerce.Cliente.Infrastructure.Data;
 
 namespace ECommerce.Cliente.Api
 {
@@ -29,10 +31,15 @@ namespace ECommerce.Cliente.Api
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFrameworkConfiguration(Configuration);
-            services.AddDependencyInjectionConfiguration();
+            #region Core
+            services.AddJwtConfiguration(Configuration);
+            services.AddEntityFrameworkConfiguration<ApplicationDbContext>(Configuration);
             services.AddKissLogConfiguration();
-            services.AddHealthCheckConfiguration(Configuration);
+            services.AddHealthCheckConfiguration<ApplicationDbContext>(Configuration);
+            services.AddSwaggerAuthenticationConfiguration();
+            #endregion
+
+            services.AddDependencyInjectionConfiguration();
             services.AddSwaggerConfiguration();
 
             services.AddControllers().AddJsonOptions(
@@ -64,14 +71,14 @@ namespace ECommerce.Cliente.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseKissLogConfiguration(Configuration);
-
+            
             app.UseMiddleware<KissLogMiddleware>();
+            app.UseKissLogConfiguration(Configuration);
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
         }
     }

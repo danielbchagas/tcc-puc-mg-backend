@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KissLog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
@@ -23,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Building Blocks\Services\ECommerce.WebApi.Core\ECommerce.WebApi.Core.csproj" />
     <ProjectReference Include="..\ECommerce.Catalogo.Domain\ECommerce.Catalogo.Domain.csproj" />
     <ProjectReference Include="..\ECommerce.Catalogo.Infrastructure\ECommerce.Catalogo.Infrastructure.csproj" />
   </ItemGroup>

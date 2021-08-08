@@ -1,7 +1,6 @@
-﻿using System;
-using ECommerce.Cliente.Domain.Enums;
-using ECommerce.Cliente.Domain.Interfaces.Entities;
+﻿using ECommerce.Cliente.Domain.Interfaces.Entities;
 using FluentValidation;
+using System;
 
 namespace ECommerce.Cliente.Domain.Models
 {
@@ -12,9 +11,8 @@ namespace ECommerce.Cliente.Domain.Models
 
         }
 
-        public Cliente(Guid clienteId, string nome, string sobrenome, DateTime dataNascimento, bool ativo = true)
+        public Cliente(string nome, string sobrenome, DateTime dataNascimento, bool ativo = true)
         {
-            Id = clienteId;
             Nome = nome;
             Sobrenome = sobrenome;
             DataNascimento = dataNascimento;
