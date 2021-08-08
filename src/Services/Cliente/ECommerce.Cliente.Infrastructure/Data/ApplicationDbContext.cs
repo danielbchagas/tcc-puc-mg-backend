@@ -26,6 +26,7 @@ namespace ECommerce.Cliente.Infrastructure.Data
         public DbSet<LogEvento> LogEventos { get; set; }
         public DbSet<Documento> Documentos { get; set; }
         public DbSet<Email> Emails { get; set; }
+        public DbSet<Telefone> Telefones { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,7 +36,7 @@ namespace ECommerce.Cliente.Infrastructure.Data
                     .EnableSensitiveDataLogging();
 
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer("Server=localhost;Database=ClientesDB;User Id=sa;Password=yourStrong(!)Password;");
+                optionsBuilder.UseSqlServer("Server=localhost;Database=ClienteDB;User Id=sa;Password=yourStrong(!)Password;");
 
             base.OnConfiguring(optionsBuilder);
         }
@@ -54,9 +55,18 @@ namespace ECommerce.Cliente.Infrastructure.Data
                 c.Property(c => c.DataNascimento).HasColumnType("date").IsRequired();
                 c.Property(c => c.Ativo).HasColumnType("bit").IsRequired();
 
-                c.HasOne(c => c.Documento).WithOne(d => d.Cliente).OnDelete(DeleteBehavior.Cascade);
-                c.HasOne(c => c.Endereco).WithOne(e => e.Cliente).OnDelete(DeleteBehavior.Cascade);
-                c.HasOne(c => c.Email).WithOne(e => e.Cliente).OnDelete(DeleteBehavior.Cascade);
+                c.HasOne(c => c.Documento)
+                    .WithOne(d => d.Cliente)
+                    .OnDelete(DeleteBehavior.Cascade);
+                c.HasOne(c => c.Email)
+                    .WithOne(e => e.Cliente)
+                    .OnDelete(DeleteBehavior.Cascade);
+                c.HasOne(c => c.Telefone)
+                    .WithOne(t => t.Cliente)
+                    .OnDelete(DeleteBehavior.Cascade);
+                c.HasOne(c => c.Endereco)
+                    .WithOne(e => e.Cliente)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Documento>(d =>
@@ -66,7 +76,27 @@ namespace ECommerce.Cliente.Infrastructure.Data
                 d.HasKey(d => d.Id);
 
                 d.Property(d => d.Numero).HasColumnType("varchar(18)").IsRequired();
-                d.Property(e => e.ClienteId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
+                d.Property(e => e.ClienteId).HasColumnType("uniqueidentifier").IsRequired();
+            });
+
+            modelBuilder.Entity<Email>(e =>
+            {
+                e.ToTable("Emails");
+
+                e.HasKey(e => e.Id);
+
+                e.Property(e => e.Endereco).HasColumnType("varchar(100)").IsRequired();
+                e.Property(e => e.ClienteId).HasColumnType("uniqueidentifier").IsRequired();
+            });
+
+            modelBuilder.Entity<Telefone>(e =>
+            {
+                e.ToTable("Telefones");
+
+                e.HasKey(e => e.Id);
+
+                e.Property(e => e.Numero).HasColumnType("varchar(20)").IsRequired();
+                e.Property(e => e.ClienteId).HasColumnType("uniqueidentifier").IsRequired();
             });
 
             modelBuilder.Entity<Endereco>(e => 
@@ -80,17 +110,7 @@ namespace ECommerce.Cliente.Infrastructure.Data
                 e.Property(e => e.Cidade).HasColumnType("varchar(50)").IsRequired();
                 e.Property(e => e.Cep).HasColumnType("varchar(9)").IsRequired();
                 e.Property(e => e.Estado).HasColumnType("char(2)").IsRequired();
-                e.Property(e => e.ClienteId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
-            });
-
-            modelBuilder.Entity<Email>(e => 
-            {
-                e.ToTable("Emails");
-
-                e.HasKey(e => e.Id);
-
-                e.Property(e => e.Endereco).HasColumnType("varchar(100)").IsRequired();
-                e.Property(e => e.ClienteId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
+                e.Property(e => e.ClienteId).HasColumnType("uniqueidentifier").IsRequired();
             });
 
             modelBuilder.Entity<LogEvento>(le => 
@@ -100,120 +120,12 @@ namespace ECommerce.Cliente.Infrastructure.Data
                 le.HasKey(le => le.Id);
 
                 le.Property(le => le.Momento).HasColumnType("date").IsRequired();
-                le.Property(l => l.EntidadeId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
-                le.Property(l => l.UsuarioId).HasColumnType("UNIQUEIDENTIFIER").IsRequired();
+                le.Property(l => l.EntidadeId).HasColumnType("uniqueidentifier").IsRequired();
+                le.Property(l => l.UsuarioId).HasColumnType("uniqueidentifier").IsRequired();
             });
             #endregion
 
-            #region Seed
-            var usuarioId = Guid.NewGuid();
-
-            var clienteDaviGiovanniFelipe = new Domain.Models.Cliente(
-                usuarioId: usuarioId,
-                nome: "Davi Giovanni Felipe", 
-                sobrenome: "Fernandes", 
-                dataNascimento: new DateTime(1955, 02, 07)
-            );
-            var documentoDaviGiovanniFelipe = new Documento(
-                numero: "903.142.734-92", 
-                clienteId: clienteDaviGiovanniFelipe.Id
-            );
-            var enderecoDaviGiovanniFelipe = new Endereco(
-                logradouro: "Colônia Agrícola Águas Claras Chácara 23, 641", 
-                bairro: "Guará I", 
-                cidade: "Brasília", 
-                cep: "71090-265", 
-                estado: Estados.DF, 
-                clienteId: clienteDaviGiovanniFelipe.Id
-            );
-            var emailDaviGiovanniFelipe = new Email(
-                endereco: "davi_giovanni_felipe@gmail.com", 
-                clienteDaviGiovanniFelipe.Id
-            );
-
-            var clienteAylaCarolineAnaGomes = new Domain.Models.Cliente(
-                usuarioId: usuarioId,
-                nome: "Ayla Caroline", 
-                sobrenome: "Ana Gomes", 
-                dataNascimento: new DateTime(1963, 12, 12)
-            );
-            var documentoAylaCarolineAnaGomes = new Documento(
-                numero: "668.154.787-77", 
-                clienteId: clienteAylaCarolineAnaGomes.Id
-            );
-            var enderecoAylaCarolineAnaGomes = new Endereco(
-                logradouro: "Praça São Francisco de Assis, 442", 
-                bairro: "Tarumã", 
-                cidade: "Curitiba", 
-                cep: "82530-220", 
-                estado: Estados.PR, 
-                clienteId: clienteAylaCarolineAnaGomes.Id
-            );
-            var emailAylaCarolineAnaGomes = new Email(
-                endereco: "ayla_caroline_ana_gomes@gmail.com", 
-                clienteAylaCarolineAnaGomes.Id
-            );
-
-            var clienteBetinaFláviaSouza = new Domain.Models.Cliente(
-                usuarioId: usuarioId,
-                nome: "BetinaFlávia", 
-                sobrenome: "Souza", 
-                dataNascimento: new DateTime(1975, 02, 16)
-            );
-            var documentoBetinaFláviaSouza = new Documento(
-                numero: "345.712.047-10", 
-                clienteId: clienteBetinaFláviaSouza.Id
-            );
-            var enderecoBetinaFláviaSouza = new Endereco(
-                logradouro: "Rua Neves, 378", 
-                bairro: "Abegay", 
-                cidade: "Cruz Alta", 
-                cep: "98045-115", 
-                estado: Estados.RS, 
-                clienteId: clienteBetinaFláviaSouza.Id
-            );
-            var emailBetinaFláviaSouza = new Email(
-                endereco: "b_etina_flavia_souza@gmail.com", 
-                clienteBetinaFláviaSouza.Id
-            );
-
-            modelBuilder.Entity<Domain.Models.Cliente>().HasData(
-                clienteDaviGiovanniFelipe, 
-                clienteAylaCarolineAnaGomes, 
-                clienteBetinaFláviaSouza
-            );
-            modelBuilder.Entity<Documento>().HasData(
-                documentoDaviGiovanniFelipe, 
-                documentoAylaCarolineAnaGomes, 
-                documentoBetinaFláviaSouza
-            );
-            modelBuilder.Entity<Endereco>().HasData(
-                enderecoDaviGiovanniFelipe, 
-                enderecoAylaCarolineAnaGomes, 
-                enderecoBetinaFláviaSouza
-            );
-
-            modelBuilder.Entity<Email>().HasData(
-                 emailDaviGiovanniFelipe,
-                 emailAylaCarolineAnaGomes,
-                 emailBetinaFláviaSouza
-            );
-
-            modelBuilder.Entity<LogEvento>().HasData(
-                new LogEvento(entidadeId: clienteDaviGiovanniFelipe.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: clienteAylaCarolineAnaGomes.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: clienteBetinaFláviaSouza.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: emailDaviGiovanniFelipe.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: emailAylaCarolineAnaGomes.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: emailBetinaFláviaSouza.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: documentoDaviGiovanniFelipe.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: documentoAylaCarolineAnaGomes.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: documentoBetinaFláviaSouza.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: enderecoDaviGiovanniFelipe.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: enderecoAylaCarolineAnaGomes.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: documentoBetinaFláviaSouza.Id, usuarioId: usuarioId)
-            );
-            #endregion
+            Seed(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -221,6 +133,130 @@ namespace ECommerce.Cliente.Infrastructure.Data
         public async Task<bool> Commit()
         {
             return await base.SaveChangesAsync() > 0;
+        }
+
+        private void Seed(ModelBuilder modelBuilder)
+        {
+            var usuario1Id = Guid.NewGuid();
+            var usuario2Id = Guid.NewGuid();
+            var usuario3Id = Guid.NewGuid();
+
+            #region Cliente 1
+            var cliente1 = new Domain.Models.Cliente(
+                clienteId: usuario1Id,
+                nome: "Davi Giovanni Felipe",
+                sobrenome: "Fernandes",
+                dataNascimento: new DateTime(1955, 02, 07)
+            );
+            var documentoCliente1 = new Documento(
+                numero: "903.142.734-92",
+                clienteId: cliente1.Id
+            );
+            var emailCliente1 = new Email(
+                endereco: "davi_giovanni_felipe@gmail.com",
+                cliente1.Id
+            );
+            var telefoneCliente1 = new Telefone(
+                numero: "(82) 98621-8773",
+                clienteId: cliente1.Id
+            );
+            var enderecoCliente1 = new Endereco(
+                logradouro: "Colônia Agrícola Águas Claras Chácara 23, 641",
+                bairro: "Guará I",
+                cidade: "Brasília",
+                cep: "71090-265",
+                estado: Estados.DF,
+                clienteId: cliente1.Id
+            );
+            #endregion
+            
+            #region Cliente 2
+            var cliente2 = new Domain.Models.Cliente(
+                clienteId: usuario2Id,
+                nome: "Ayla Caroline",
+                sobrenome: "Ana Gomes",
+                dataNascimento: new DateTime(1963, 12, 12)
+            );
+            var documentoCliente2 = new Documento(
+                numero: "668.154.787-77",
+                clienteId: cliente2.Id
+            );
+            var emailCliente2 = new Email(
+                endereco: "ayla_caroline_ana_gomes@gmail.com",
+                cliente2.Id
+            );
+            var telefoneCliente2 = new Telefone(
+                numero: "(91) 98965-5955",
+                clienteId: cliente2.Id
+            );
+            var enderecoCliente2 = new Endereco(
+                logradouro: "Praça São Francisco de Assis, 442",
+                bairro: "Tarumã",
+                cidade: "Curitiba",
+                cep: "82530-220",
+                estado: Estados.PR,
+                clienteId: cliente2.Id
+            );
+            #endregion
+
+            #region Cliente 3
+            var cliente3 = new Domain.Models.Cliente(
+                clienteId: usuario3Id,
+                nome: "BetinaFlávia",
+                sobrenome: "Souza",
+                dataNascimento: new DateTime(1975, 02, 16)
+            );
+            var documentoCliente3 = new Documento(
+                numero: "345.712.047-10",
+                clienteId: cliente3.Id
+            );
+            var emailCliente3 = new Email(
+                endereco: "b_etina_flavia_souza@gmail.com",
+                cliente3.Id
+            );
+            var telefoneCliente3 = new Telefone(
+                numero: "(95) 98234-7636",
+                clienteId: cliente3.Id
+            );
+            var enderecoCliente3 = new Endereco(
+                logradouro: "Rua Neves, 378",
+                bairro: "Abegay",
+                cidade: "Cruz Alta",
+                cep: "98045-115",
+                estado: Estados.RS,
+                clienteId: cliente3.Id
+            );
+            #endregion
+            
+            modelBuilder.Entity<Domain.Models.Cliente>().HasData(
+                cliente1,
+                cliente2,
+                cliente3
+            );
+
+            modelBuilder.Entity<Documento>().HasData(
+                documentoCliente1,
+                documentoCliente2,
+                documentoCliente3
+            );
+
+            modelBuilder.Entity<Email>().HasData(
+                emailCliente1,
+                emailCliente2,
+                emailCliente3
+            );
+
+            modelBuilder.Entity<Telefone>().HasData(
+                telefoneCliente1,
+                telefoneCliente2,
+                telefoneCliente3
+            );
+
+            modelBuilder.Entity<Endereco>().HasData(
+                enderecoCliente1,
+                enderecoCliente2,
+                enderecoCliente3
+            );
         }
     }
 }

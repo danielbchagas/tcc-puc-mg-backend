@@ -1,6 +1,6 @@
-﻿using System;
-using ECommerce.Cliente.Domain.Enums;
+﻿using ECommerce.Cliente.Domain.Enums;
 using FluentValidation;
+using System;
 
 namespace ECommerce.Cliente.Domain.Models
 {
@@ -38,34 +38,34 @@ namespace ECommerce.Cliente.Domain.Models
         {
             RuleFor(_ => _.Id)
                 .NotEqual(Guid.Empty)
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
             RuleFor(_ => _.Logradouro)
                 .MaximumLength(200)
-                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
                 .NotNull()
                 .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
             RuleFor(_ => _.Bairro)
                 .MaximumLength(50)
-                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
                 .NotNull()
                 .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
             RuleFor(_ => _.Cidade)
                 .MaximumLength(50)
-                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
                 .NotNull()
                 .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
             RuleFor(_ => _.Cep)
                 .MaximumLength(9)
-                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
                 .NotNull()
                 .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
             RuleFor(_ => _.ClienteId)
                 .NotEqual(Guid.Empty)
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!");
         }
     }
 }

@@ -12,9 +12,9 @@ namespace ECommerce.Cliente.Domain.Models
 
         }
 
-        public Cliente(Guid usuarioId, string nome, string sobrenome, DateTime dataNascimento, bool ativo = true)
+        public Cliente(Guid clienteId, string nome, string sobrenome, DateTime dataNascimento, bool ativo = true)
         {
-            Id = usuarioId;
+            Id = clienteId;
             Nome = nome;
             Sobrenome = sobrenome;
             DataNascimento = dataNascimento;
@@ -26,8 +26,9 @@ namespace ECommerce.Cliente.Domain.Models
         public DateTime DataNascimento { get; private set; }
         public bool Ativo { get; private set; }
 
-        public Email Email { get; private set; }
         public Documento Documento { get; private set; }
+        public Email Email { get; private set; }
+        public Telefone Telefone { get; private set; }
         public Endereco Endereco { get; private set; }
 
         public void Ativar()
@@ -39,15 +40,20 @@ namespace ECommerce.Cliente.Domain.Models
         {
             Ativo = false;
         }
+        
+        public void VincularDocumento(Documento documento)
+        {
+            Documento = documento;
+        }
 
         public void VincularEmail(Email email)
         {
             Email = email;
         }
 
-        public void VincularDocumento(Documento documento)
+        public void VincularTelefone(Telefone telefone)
         {
-            Documento = documento;
+            Telefone = telefone;
         }
 
         public void VincularEndereco(Endereco endereco)
@@ -62,24 +68,24 @@ namespace ECommerce.Cliente.Domain.Models
         {
             RuleFor(_ => _.Id)
                 .NotEqual(Guid.Empty)
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
             RuleFor(_ => _.Nome)
                 .MaximumLength(50)
-                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
                 .NotNull()
                 .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
             RuleFor(_ => _.Sobrenome)
                 .MaximumLength(100)
-                .WithMessage(ErrosValidacao.MaiorQue.ToString())
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
                 .NotNull()
                 .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
             RuleFor(c => c.DataNascimento)
                 .GreaterThan(DateTime.Now)
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString())
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
                 .NotNull()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
         }
     }
 }

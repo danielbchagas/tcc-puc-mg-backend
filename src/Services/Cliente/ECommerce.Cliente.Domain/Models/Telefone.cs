@@ -3,33 +3,28 @@ using System;
 
 namespace ECommerce.Cliente.Domain.Models
 {
-    public class Email : Entity
+    public class Telefone : Entity
     {
-        protected Email()
+        public Telefone(string numero, Guid clienteId)
         {
-
-        }
-
-        public Email(string endereco, Guid clienteId)
-        {
-            Endereco = endereco;
+            Numero = numero;
             ClienteId = clienteId;
         }
 
-        public string Endereco { get; private set; }
-        
+        public string Numero { get; private set; }
+
         public Guid ClienteId { get; private set; }
         public Cliente Cliente { get; private set; }
     }
 
-    public class EmailValidator : AbstractValidator<Email>
+    public class TelefoneValidator : AbstractValidator<Telefone>
     {
-        public EmailValidator()
+        public TelefoneValidator()
         {
             RuleFor(d => d.Id)
                 .NotEqual(Guid.Empty)
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
-            RuleFor(d => d.Endereco)
+            RuleFor(d => d.Numero)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!")

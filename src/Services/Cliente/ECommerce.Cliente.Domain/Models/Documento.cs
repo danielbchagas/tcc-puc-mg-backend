@@ -1,6 +1,5 @@
-﻿using System;
-using ECommerce.Cliente.Domain.Enums;
-using FluentValidation;
+﻿using FluentValidation;
+using System;
 
 namespace ECommerce.Cliente.Domain.Models
 {
@@ -29,16 +28,16 @@ namespace ECommerce.Cliente.Domain.Models
         {
             RuleFor(d => d.Id)
                 .NotEqual(Guid.Empty)
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
             RuleFor(d => d.Numero)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString())
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!")
                 .MaximumLength(18)
-                .WithMessage(ErrosValidacao.MaiorQue.ToString());
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!");
             RuleFor(d => d.ClienteId)
                 .NotEqual(Guid.Empty)
-                .WithMessage(ErrosValidacao.NuloOuVazio.ToString());
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
         }
     }
 }
