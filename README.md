@@ -10,3 +10,4 @@ Tecnologias empregadas:
 - [KissLog](https://kisslog.net/)
 - [AutoMapper](https://github.com/AutoMapper/AutoMapper)
 - [RabbitMQ](https://www.rabbitmq.com/)
+- [EasyNetQ](https://github.com/EasyNetQ/EasyNetQ)
