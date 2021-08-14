@@ -23,7 +23,6 @@ namespace ECommerce.Cliente.Infrastructure.Data
         
         public DbSet<Domain.Models.Cliente> Clientes { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
-        public DbSet<LogEvento> LogEventos { get; set; }
         public DbSet<Documento> Documentos { get; set; }
         public DbSet<Email> Emails { get; set; }
         public DbSet<Telefone> Telefones { get; set; }
@@ -52,7 +51,6 @@ namespace ECommerce.Cliente.Infrastructure.Data
 
                 c.Property(c => c.Nome).HasColumnType("varchar(50)").IsRequired();
                 c.Property(c => c.Sobrenome).HasColumnType("varchar(100)").IsRequired();
-                c.Property(c => c.DataNascimento).HasColumnType("date").IsRequired();
                 c.Property(c => c.Ativo).HasColumnType("bit").IsRequired();
 
                 c.HasOne(c => c.Documento)
@@ -112,17 +110,6 @@ namespace ECommerce.Cliente.Infrastructure.Data
                 e.Property(e => e.Estado).HasColumnType("char(2)").IsRequired();
                 e.Property(e => e.ClienteId).HasColumnType("uniqueidentifier").IsRequired();
             });
-
-            modelBuilder.Entity<LogEvento>(le => 
-            {
-                le.ToTable("LogEventos");
-
-                le.HasKey(le => le.Id);
-
-                le.Property(le => le.Momento).HasColumnType("date").IsRequired();
-                le.Property(l => l.EntidadeId).HasColumnType("uniqueidentifier").IsRequired();
-                le.Property(l => l.UsuarioId).HasColumnType("uniqueidentifier").IsRequired();
-            });
             #endregion
 
             Seed(modelBuilder);
@@ -138,10 +125,12 @@ namespace ECommerce.Cliente.Infrastructure.Data
         private void Seed(ModelBuilder modelBuilder)
         {
             #region Cliente 1
+            var aspNetUser1Id = Guid.NewGuid();
+
             var cliente1 = new Domain.Models.Cliente(
+                id: aspNetUser1Id,
                 nome: "Davi Giovanni Felipe",
-                sobrenome: "Fernandes",
-                dataNascimento: new DateTime(1955, 02, 07)
+                sobrenome: "Fernandes"
             );
             var documentoCliente1 = new Documento(
                 numero: "903.142.734-92",
@@ -164,12 +153,14 @@ namespace ECommerce.Cliente.Infrastructure.Data
                 clienteId: cliente1.Id
             );
             #endregion
-            
+
             #region Cliente 2
+            var aspNetUser2Id = Guid.NewGuid();
+
             var cliente2 = new Domain.Models.Cliente(
+                id: aspNetUser2Id,
                 nome: "Ayla Caroline",
-                sobrenome: "Ana Gomes",
-                dataNascimento: new DateTime(1963, 12, 12)
+                sobrenome: "Ana Gomes"
             );
             var documentoCliente2 = new Documento(
                 numero: "668.154.787-77",
@@ -194,10 +185,12 @@ namespace ECommerce.Cliente.Infrastructure.Data
             #endregion
 
             #region Cliente 3
+            var aspNetUser3Id = Guid.NewGuid();
+
             var cliente3 = new Domain.Models.Cliente(
+                id: aspNetUser3Id,
                 nome: "BetinaFlávia",
-                sobrenome: "Souza",
-                dataNascimento: new DateTime(1975, 02, 16)
+                sobrenome: "Souza"
             );
             var documentoCliente3 = new Documento(
                 numero: "345.712.047-10",

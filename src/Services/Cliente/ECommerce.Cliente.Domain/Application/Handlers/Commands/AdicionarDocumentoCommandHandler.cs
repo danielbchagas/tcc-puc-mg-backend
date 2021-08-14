@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using ECommerce.Cliente.Domain.Application.Commands;
+﻿using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 {
@@ -18,17 +16,15 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
             _repository = repository;
             _mediator = mediator;
             _validador = new DocumentoValidator();
-            _mapper = NovoMapeamento();
         }
 
         private readonly IDocumentoRepository _repository;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly DocumentoValidator _validador;
 
         public async Task<ValidationResult> Handle(AdicionarDocumentoCommand request, CancellationToken cancellationToken)
         {
-            var documento = _mapper.Map<Documento>(request);
+            var documento = new Documento(request.Numero, request.ClienteId);
 
             var valido = _validador.Validate(documento);
 
@@ -38,23 +34,10 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new DocumentoCommitNotification(documentoId: documento.Id, usuarioId: Guid.NewGuid()));
+                    await _mediator.Publish(new DocumentoCommitNotification(documentoId: documento.Id, usuarioId: request.ClienteId));
             }
 
             return await Task.FromResult(valido);
-        }
-
-        private IMapper NovoMapeamento()
-        {
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AdicionarDocumentoCommand, Documento>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
-                    .ForMember(dest => dest.Numero, opt => opt.MapFrom(c => c.Numero))
-                    .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(c => c.ClienteId));
-            });
-
-            return configuration.CreateMapper();
         }
     }
 }

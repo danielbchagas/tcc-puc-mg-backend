@@ -34,7 +34,8 @@ namespace ECommerce.Cliente.Domain.Models
                 .NotEmpty()
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!")
                 .MaximumLength(100)
-                .WithMessage("{PropertyName} tem um valor maior do que o esperado!");
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
+                .EmailAddress();
             RuleFor(d => d.ClienteId)
                 .NotEqual(Guid.Empty)
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!");

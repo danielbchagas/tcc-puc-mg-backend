@@ -1,13 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 {
@@ -28,7 +27,8 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 
         public async Task<ValidationResult> Handle(AtualizarEnderecoCommand request, CancellationToken cancellationToken)
         {
-            var endereco = _mapper.Map<Endereco>(request);
+            var endereco = await _repository.Buscar(request.Id);
+            endereco = _mapper.Map<Endereco>(request);
 
             var valido = _validador.Validate(endereco);
 
@@ -38,7 +38,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new EnderecoCommitNotification(enderecoId: endereco.Id, usuarioId: Guid.NewGuid()));
+                    await _mediator.Publish(new EnderecoCommitNotification(enderecoId: endereco.Id, usuarioId: request.ClienteId));
             }
 
             return await Task.FromResult(valido);
@@ -48,8 +48,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         {
             var configuration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<AdicionarEnderecoCommand, Endereco>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
+                cfg.CreateMap<AtualizarEnderecoCommand, Endereco>()
                     .ForMember(dest => dest.Logradouro, opt => opt.MapFrom(c => c.Logradouro))
                     .ForMember(dest => dest.Bairro, opt => opt.MapFrom(c => c.Bairro))
                     .ForMember(dest => dest.Cidade, opt => opt.MapFrom(c => c.Cidade))

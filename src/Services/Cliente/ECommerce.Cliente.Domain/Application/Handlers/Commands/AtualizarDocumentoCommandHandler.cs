@@ -1,13 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 {
@@ -28,7 +27,8 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 
         public async Task<ValidationResult> Handle(AtualizarDocumentoCommand request, CancellationToken cancellationToken)
         {
-            var documento = _mapper.Map<Documento>(request);
+            var documento = await _repository.Buscar(request.Id);
+            documento = _mapper.Map<Documento>(request);
 
             var valido = _validador.Validate(documento);
 
@@ -38,7 +38,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new DocumentoCommitNotification(documentoId: documento.Id, usuarioId: Guid.NewGuid()));
+                    await _mediator.Publish(new DocumentoCommitNotification(documentoId: documento.Id, usuarioId: request.ClienteId));
             }
 
             return await Task.FromResult(valido);
@@ -49,7 +49,6 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AtualizarDocumentoCommand, Documento>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
                     .ForMember(dest => dest.Numero, opt => opt.MapFrom(c => c.Numero))
                     .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(c => c.ClienteId));
             });

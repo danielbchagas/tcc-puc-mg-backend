@@ -18,17 +18,15 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
             _repository = repository;
             _mediator = mediator;
             _validador = new EmailValidator();
-            _mapper = NovoMapeamento();
         }
 
         private readonly IEmailRepository _repository;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly EmailValidator _validador;
 
         public async Task<ValidationResult> Handle(AdicionarEmailCommand request, CancellationToken cancellationToken)
         {
-            var email = _mapper.Map<Email>(request);
+            var email = new Email(request.Endereco, request.ClienteId);
 
             var valido = _validador.Validate(email);
 
@@ -38,23 +36,10 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new EmailCommitNotification(emailId: email.Id, usuarioId: Guid.NewGuid()));
+                    await _mediator.Publish(new EmailCommitNotification(emailId: email.Id, usuarioId: request.ClienteId));
             }
 
             return await Task.FromResult(valido);
-        }
-
-        private IMapper NovoMapeamento()
-        {
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AdicionarEmailCommand, Email>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
-                    .ForMember(dest => dest.Endereco, opt => opt.MapFrom(c => c.Endereco))
-                    .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(c => c.ClienteId));
-            });
-
-            return configuration.CreateMapper();
         }
     }
 }

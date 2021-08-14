@@ -1,5 +1,8 @@
-﻿using ECommerce.Identity.Api.Models;
+﻿using EasyNetQ;
+using ECommerce.Identity.Api.Models;
+using ECommerce.WebApi.Core.DTOs;
 using ECommerce.WebApi.Core.Options;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,18 +21,25 @@ namespace ECommerce.Identity.Api.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        public UsuarioController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<UsuarioController> logger, IOptions<JwtOptions> jwtOptions)
+        private const string ClienteNaoPodeSerCriado = "Não foi possível efetivar o seu cadastro!";
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<UsuarioController> _logger;
+        private readonly JwtOptions _jwtOptions;
+        private readonly RabbitMQOptions _rabbitMQOptions;
+        
+        public UsuarioController(SignInManager<IdentityUser> signInManager, 
+            UserManager<IdentityUser> userManager, 
+            ILogger<UsuarioController> logger, 
+            IOptions<JwtOptions> jwtOptions, 
+            IOptions<RabbitMQOptions> rabbitMQOptions)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _jwtOptions = jwtOptions.Value;
+            _rabbitMQOptions = rabbitMQOptions.Value;
         }
-
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<UsuarioController> _logger;
-        private readonly JwtOptions _jwtOptions;
 
         [HttpPost("novo")]
         public async Task<IActionResult> Novo(NovoUsuario usuario)
@@ -37,7 +47,8 @@ namespace ECommerce.Identity.Api.Controllers
             var novoUsuario = new IdentityUser
             {
                 UserName = usuario.Email,
-                Email = usuario.Email
+                Email = usuario.Email,
+                PhoneNumber = usuario.Telefone
             };
 
             var resultado = await _userManager.CreateAsync(novoUsuario, usuario.Senha);
@@ -47,10 +58,26 @@ namespace ECommerce.Identity.Api.Controllers
                 var erros = resultado.Errors.Select(e => e.Description);
                 _logger.LogError($"Erro em: {HttpContext.Request.Path}", erros);
 
-                return BadRequest();
+                return BadRequest(resultado.Errors.Select(e => e.Description));
             }
 
-            await _signInManager.SignInAsync(novoUsuario, isPersistent: false);
+            try
+            {
+                // Coloca o usuário na fila
+                var clienteCriadoComSucesso = await CriarCliente(usuario);
+
+                if (!clienteCriadoComSucesso.IsValid)
+                    return BadRequest(clienteCriadoComSucesso.Errors.Select(e => e.ErrorMessage));
+
+                // Autentica o usuário
+                await _signInManager.SignInAsync(novoUsuario, isPersistent: false);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError($"Erro em: {HttpContext.Request.Path}", e.InnerException?.Message);
+                return BadRequest(ClienteNaoPodeSerCriado);
+            }
+
             return Ok();
         }
 
@@ -65,6 +92,28 @@ namespace ECommerce.Identity.Api.Controllers
             return Ok(await GerarToken(usuario.Email));
         }
 
+        private async Task<ValidationResult> CriarCliente(NovoUsuario usuario)
+        {
+            var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
+
+            var cliente = new ClienteDTO(id: Guid.Parse(identityUser.Id),
+                nome: usuario.Nome,
+                sobrenome: usuario.Sobrenome,
+                documento: usuario.Documento,
+                telefone: usuario.Telefone,
+                email: usuario.Email
+            );
+
+            using var bus = RabbitHutch.CreateBus($"host={_rabbitMQOptions.Endereco}:{_rabbitMQOptions.Porta}");
+            var resultado = await bus.Rpc.RequestAsync<ClienteDTO, ValidationResult>(cliente);
+
+            if(!resultado.IsValid)
+                await _userManager.DeleteAsync(identityUser);
+
+            return resultado;
+        }
+
+        #region JWT
         private async Task<UsuarioJwt> GerarToken(string email)
         {
             var usuario = await _userManager.FindByEmailAsync(email);
@@ -116,5 +165,6 @@ namespace ECommerce.Identity.Api.Controllers
 
         private long ToUnixEpochDate(DateTime data) 
             => (long)Math.Round((data.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+        #endregion
     }
 }

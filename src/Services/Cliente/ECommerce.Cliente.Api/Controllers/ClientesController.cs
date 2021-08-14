@@ -24,45 +24,10 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar/{pagina:int}/{linhas:int}")]
-        public async Task<IActionResult> BuscarTodos(int pagina, int linhas)
-        {
-            return Ok(await _mediator.Send(new BuscarClientesPaginadosQuery(pagina, linhas)));
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("pesquisar/{nome:alpha}/{pagina:int}/{linhas:int}")]
-        public async Task<IActionResult> Pesquisar(string nome, int pagina, int linhas)
-        {
-            return Ok(await _mediator.Send(new BuscarClientesFiltradosPaginadosQuery(c => c.Nome.Contains(nome), pagina, linhas)));
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar-por-id/{id:Guid}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
         {
             return Ok(await _mediator.Send(new BuscarClientePorIdQuery(id)));
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("novo")]
-        public async Task<IActionResult> Novo(AdicionarClienteCommand request)
-        {
-            var resultado = await _mediator.Send(request);
-
-            if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
-
-            return Ok();
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]

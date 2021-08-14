@@ -1,25 +1,20 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using ECommerce.Cliente.Domain.Application.Notifications;
-using ECommerce.Cliente.Domain.Interfaces.Repositories;
-using ECommerce.Cliente.Domain.Models;
+﻿using ECommerce.Cliente.Domain.Application.Notifications;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Domain.Application.Handlers.Notifications
 {
     public class EmailCommitNotificationHandler : INotificationHandler<EmailCommitNotification>
     {
-        public EmailCommitNotificationHandler(ILogEventoRepository repository)
+        public EmailCommitNotificationHandler()
         {
-            _repository = repository;
+            
         }
-
-        private readonly ILogEventoRepository _repository;
 
         public Task Handle(EmailCommitNotification notification, CancellationToken cancellationToken)
         {
-            _repository.Adicionar(new LogEvento(entidadeId: notification.EmailId, usuarioId: notification.UsuarioId));
-            _repository.UnitOfWork.Commit();
+            // Logar
 
             return Task.CompletedTask;
         }

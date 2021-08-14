@@ -1,17 +1,17 @@
-﻿using System;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using MediatR;
+using System;
 
 namespace ECommerce.Cliente.Domain.Application.Commands
 {
     public class AdicionarTelefoneCommand : IRequest<ValidationResult>
     {
-        public AdicionarTelefoneCommand()
+        public AdicionarTelefoneCommand(string numero, Guid clienteId)
         {
-            Id = Guid.NewGuid();
+            Numero = numero;
+            ClienteId = clienteId;
         }
 
-        public Guid Id { get; set; }
         public string Numero { get; set; }
 
         public Guid ClienteId { get; set; }

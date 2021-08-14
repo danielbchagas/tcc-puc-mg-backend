@@ -28,7 +28,8 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 
         public async Task<ValidationResult> Handle(AtualizarEmailCommand request, CancellationToken cancellationToken)
         {
-            var email = _mapper.Map<Email>(request);
+            var email = await _repository.Buscar(request.Id);
+            email = _mapper.Map<Email>(request);
 
             var valido = _validador.Validate(email);
 
@@ -38,7 +39,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new EmailCommitNotification(emailId: email.Id, usuarioId: Guid.NewGuid()));
+                    await _mediator.Publish(new EmailCommitNotification(emailId: email.Id, usuarioId: request.ClienteId));
             }
 
             return await Task.FromResult(valido);
@@ -49,7 +50,6 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AtualizarEmailCommand, Email>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
                     .ForMember(dest => dest.Endereco, opt => opt.MapFrom(c => c.Endereco))
                     .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(c => c.ClienteId));
             });

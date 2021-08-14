@@ -18,17 +18,15 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
             _repository = repository;
             _mediator = mediator;
             _validacoes = new TelefoneValidator();
-            _mapper = NovoMapeamento();
         }
 
         private readonly ITelefoneRepository _repository;
         private readonly IMediator _mediator;
         private readonly TelefoneValidator _validacoes;
-        private readonly IMapper _mapper;
-
+        
         public async Task<ValidationResult> Handle(AdicionarTelefoneCommand request, CancellationToken cancellationToken)
         {
-            var telefone = _mapper.Map<Telefone>(request);
+            var telefone = new Telefone(request.Numero, request.ClienteId);
 
             var valido = _validacoes.Validate(telefone);
 
@@ -38,23 +36,10 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new TelefoneCommitNotification(telefoneId: telefone.Id, usuarioId: Guid.NewGuid()));
+                    await _mediator.Publish(new TelefoneCommitNotification(telefoneId: telefone.Id, usuarioId: request.ClienteId));
             }
 
             return await Task.FromResult(valido);
-        }
-
-        private IMapper NovoMapeamento()
-        {
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AdicionarTelefoneCommand, Telefone>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(t => t.Id))
-                    .ForMember(dest => dest.Numero, opt => opt.MapFrom(t => t.ClienteId))
-                    .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(t => t.ClienteId));
-            });
-
-            return configuration.CreateMapper();
         }
     }
 }

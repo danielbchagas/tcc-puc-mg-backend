@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
 using ECommerce.Cliente.Infrastructure.Data;
+using ECommerce.Cliente.Api.Models;
 
 namespace ECommerce.Cliente.Api
 {
@@ -54,6 +55,8 @@ namespace ECommerce.Cliente.Api
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+
+            services.Configure<RabbitMQOptions>(options => Configuration.GetSection("RabbitMQ").Bind(options));
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -5,7 +5,6 @@ using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,7 +27,8 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 
         public async Task<ValidationResult> Handle(AtualizarTelefoneCommand request, CancellationToken cancellationToken)
         {
-            var telefone = _mapper.Map<Telefone>(request);
+            var telefone = await _repository.Buscar(request.Id);
+            telefone = _mapper.Map<Telefone>(request);
 
             var valido = _validacoes.Validate(telefone);
 
@@ -38,7 +38,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new TelefoneCommitNotification(telefoneId: telefone.Id, usuarioId: Guid.NewGuid()));
+                    await _mediator.Publish(new TelefoneCommitNotification(telefoneId: telefone.Id, usuarioId: request.ClienteId));
             }
 
             return await Task.FromResult(valido);
@@ -49,8 +49,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AtualizarTelefoneCommand, Telefone>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(t => t.Id))
-                    .ForMember(dest => dest.Numero, opt => opt.MapFrom(t => t.ClienteId))
+                    .ForMember(dest => dest.Numero, opt => opt.MapFrom(t => t.Numero))
                     .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(t => t.ClienteId));
             });
 

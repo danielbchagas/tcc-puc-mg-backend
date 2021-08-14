@@ -1,17 +1,17 @@
-﻿using System;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using MediatR;
+using System;
 
 namespace ECommerce.Cliente.Domain.Application.Commands
 {
     public class AdicionarEmailCommand : IRequest<ValidationResult>
     {
-        public AdicionarEmailCommand()
+        public AdicionarEmailCommand(string endereco, Guid clienteId)
         {
-            Id = Guid.NewGuid();
+            Endereco = endereco;
+            ClienteId = clienteId;
         }
 
-        public Guid Id { get; set; }
         public string Endereco { get; set; }
 
         public Guid ClienteId { get; set; }

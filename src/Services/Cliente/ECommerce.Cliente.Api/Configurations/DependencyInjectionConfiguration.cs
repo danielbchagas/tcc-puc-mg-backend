@@ -1,4 +1,5 @@
-﻿using ECommerce.Cliente.Domain.Application.Commands;
+﻿using ECommerce.Cliente.Api.Services;
+using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Handlers.Commands;
 using ECommerce.Cliente.Domain.Application.Handlers.Notifications;
 using ECommerce.Cliente.Domain.Application.Handlers.Queries;
@@ -67,12 +68,13 @@ namespace ECommerce.Cliente.Api.Configurations
             #region Repositórios
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
-            services.AddScoped<ILogEventoRepository, LogEventoRepository>();
             services.AddScoped<IDocumentoRepository, DocumentoRepository>();
             services.AddScoped<IEmailRepository, EmailRepository>();
             services.AddScoped<ITelefoneRepository, TelefoneRepository>();
 
             #endregion
+
+            services.AddHostedService<AdicionarClienteIntegrationHandler>();
         }
     }
 }

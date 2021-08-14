@@ -11,17 +11,16 @@ namespace ECommerce.Cliente.Domain.Models
 
         }
 
-        public Cliente(string nome, string sobrenome, DateTime dataNascimento, bool ativo = true)
+        public Cliente(Guid id, string nome, string sobrenome, bool ativo = true)
         {
+            Id = id;
             Nome = nome;
             Sobrenome = sobrenome;
-            DataNascimento = dataNascimento;
             Ativo = ativo;
         }
 
         public string Nome { get; private set; }
         public string Sobrenome { get; private set; }
-        public DateTime DataNascimento { get; private set; }
         public bool Ativo { get; private set; }
 
         public Documento Documento { get; private set; }
@@ -78,11 +77,6 @@ namespace ECommerce.Cliente.Domain.Models
                 .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
-            RuleFor(c => c.DataNascimento)
-                .GreaterThan(DateTime.Now)
-                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
-                .NotNull()
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
         }
     }

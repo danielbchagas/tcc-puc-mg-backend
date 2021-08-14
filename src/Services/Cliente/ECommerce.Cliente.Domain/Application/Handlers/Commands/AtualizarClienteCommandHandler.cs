@@ -1,13 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 {
@@ -17,19 +16,19 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         {
             _repository = repository;
             _mediator = mediator;
-
             _validador = new ClienteValidator();
             _mapper = NovoMapeamento();
         }
 
         private readonly IClienteRepository _repository;
         private readonly ClienteValidator _validador;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         public async Task<ValidationResult> Handle(AtualizarClienteCommand request, CancellationToken cancellationToken)
         {
-            var cliente = _mapper.Map<Models.Cliente>(request);
+            var cliente = await _repository.Buscar(request.Id);
+            cliente = _mapper.Map<Models.Cliente>(request);
 
             var valido = _validador.Validate(cliente);
 
@@ -39,7 +38,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                 var sucesso = await _repository.UnitOfWork.Commit();
 
                 if (sucesso)
-                    await _mediator.Publish(new ClienteCommitNotification(clienteId: cliente.Id, usuarioId: Guid.NewGuid()));
+                    await _mediator.Publish(new ClienteCommitNotification(clienteId: cliente.Id, usuarioId: request.Id));
             }
 
             return await Task.FromResult(valido);
@@ -50,11 +49,8 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AtualizarClienteCommand, Models.Cliente>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(c => c.Id))
                     .ForMember(dest => dest.Nome, opt => opt.MapFrom(c => c.Nome))
-                    .ForMember(dest => dest.Sobrenome, opt => opt.MapFrom(c => c.Sobrenome))
-                    .ForMember(dest => dest.DataNascimento, opt => opt.MapFrom(c => c.DataNascimento))
-                    .ForMember(dest => dest.Ativo, opt => opt.MapFrom(c => c.Ativo));
+                    .ForMember(dest => dest.Sobrenome, opt => opt.MapFrom(c => c.Sobrenome));
             });
 
             return configuration.CreateMapper();

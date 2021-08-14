@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using ECommerce.Cliente.Domain.Application.Commands;
+﻿using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 {
@@ -40,7 +39,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                     var sucesso = await _repository.UnitOfWork.Commit();
 
                     if (sucesso)
-                        await _mediator.Publish(new ClienteCommitNotification(clienteId: cliente.Id, usuarioId: Guid.NewGuid()));
+                        await _mediator.Publish(new ClienteCommitNotification(clienteId: cliente.Id, usuarioId: request.Id));
                 }
             }
 
