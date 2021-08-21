@@ -38,7 +38,6 @@ namespace ECommerce.Catalogo.Api.Configurations
 
             // Repositórios
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
-            services.AddScoped<ILogEventoRepository, LogEventoRepository>();
             #endregion
         }
     }

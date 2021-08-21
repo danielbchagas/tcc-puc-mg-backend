@@ -33,7 +33,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                 await _repository.Adicionar(cliente);
                 var sucesso = await _repository.UnitOfWork.Commit();
 
-                #region Agregações
+                #region Composições
                 // Documento
                 var documentoValido = await _mediator.Send(new AdicionarDocumentoCommand(request.Documento, request.Id));
                 
@@ -47,13 +47,19 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                 var telefoneValido = await _mediator.Send(new AdicionarTelefoneCommand(request.Telefone, request.Id));
                 
                 if (!telefoneValido.IsValid)
+                {
+                    await _repository.Excluir(cliente.Id);
                     return await Task.FromResult(telefoneValido);
+                }
                 
                 // Email
                 var emailValido = await _mediator.Send(new AdicionarEmailCommand(request.Email, request.Id));
 
                 if (!emailValido.IsValid)
+                {
+                    await _repository.Excluir(cliente.Id);
                     return await Task.FromResult(emailValido);
+                }
                 #endregion
 
                 if (sucesso)

@@ -21,7 +21,6 @@ namespace ECommerce.Catalogo.Infrastructure.Data
         }
 
         public DbSet<Produto> Produtos { get; set; }
-        public DbSet<LogEvento> LogEventos { get; set; }
 
         public async Task<bool> Commit()
         {
@@ -55,17 +54,6 @@ namespace ECommerce.Catalogo.Infrastructure.Data
                 p.Property(p => p.Ativo).HasColumnType("bit").IsRequired();
                 p.Property(p => p.Preco).HasColumnType("money").IsRequired();
                 p.Property(p => p.DataCadastro).HasColumnType("datetime").IsRequired();
-            });
-
-            modelBuilder.Entity<LogEvento>(le =>
-            {
-                le.ToTable("LogEventos");
-
-                le.HasKey(le => le.Id);
-
-                le.Property(le => le.Momento).HasColumnType("datetime").IsRequired();
-                le.Property(l => l.EntidadeId).HasColumnType("uniqueidentifier").IsRequired();
-                le.Property(l => l.UsuarioId).HasColumnType("uniqueidentifier").IsRequired();
             });
             #endregion
 
@@ -191,21 +179,6 @@ namespace ECommerce.Catalogo.Infrastructure.Data
                 produtoBoneGreenBayPackers,
                 produtoCanecaManUtd,
                 produtoMeiaAdidas
-            );
-
-            modelBuilder.Entity<LogEvento>().HasData(
-                new LogEvento(entidadeId: produtoCamisetaManUtd.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoJaquetaManUtd.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoBoneManUtd.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoBermudaAdidas.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoBermudaDcShoes.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoCamisetaDcShoes.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoBoneAdidas.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoTenisAdidas.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoCamisaGreenBayPackers.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoBoneGreenBayPackers.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoCanecaManUtd.Id, usuarioId: usuarioId),
-                new LogEvento(entidadeId: produtoMeiaAdidas.Id, usuarioId: usuarioId)
             );
         }
     }
