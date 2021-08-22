@@ -3,6 +3,7 @@ using ECommerce.Identity.Api.Models;
 using ECommerce.WebApi.Core.DTOs;
 using ECommerce.WebApi.Core.Options;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,9 +26,13 @@ namespace ECommerce.Identity.Api.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<UsuarioController> _logger;
+        private IBus _bus;
+
+        #region Options
         private readonly JwtOptions _jwtOptions;
         private readonly RabbitMQOptions _rabbitMQOptions;
-        
+        #endregion
+
         public UsuarioController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
             ILogger<UsuarioController> logger, 
@@ -74,6 +79,8 @@ namespace ECommerce.Identity.Api.Controllers
             }
             catch(Exception e)
             {
+                await DesfazerOperacao(usuario);
+
                 _logger.LogError($"Erro em: {HttpContext.Request.Path}", e.InnerException?.Message);
                 return BadRequest(ClienteNaoPodeSerCriado);
             }
@@ -104,13 +111,19 @@ namespace ECommerce.Identity.Api.Controllers
                 email: usuario.Email
             );
 
-            using var bus = RabbitHutch.CreateBus($"host={_rabbitMQOptions.Endereco}:{_rabbitMQOptions.Porta}");
-            var resultado = await bus.Rpc.RequestAsync<ClienteDTO, ValidationResult>(cliente);
+            _bus = _bus = RabbitHutch.CreateBus($"host={_rabbitMQOptions.Endereco}:{_rabbitMQOptions.Porta}");
+            var resultado = await _bus.Rpc.RequestAsync<ClienteDTO, ValidationResult>(cliente);
 
             if(!resultado.IsValid)
                 await _userManager.DeleteAsync(identityUser);
 
             return resultado;
+        }
+
+        private async Task DesfazerOperacao(NovoUsuario usuario)
+        {
+            var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
+            await _userManager.DeleteAsync(identityUser);
         }
 
         #region JWT

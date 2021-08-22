@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Identity.Api.Models
+﻿namespace ECommerce.WebApi.Core.Options
 {
     public class RabbitMQOptions
     {

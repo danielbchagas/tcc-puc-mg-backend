@@ -1,6 +1,11 @@
+using EasyNetQ;
 using ECommerce.Identity.Api.Configurations;
+using ECommerce.Identity.Api.Data;
+using ECommerce.Identity.Api.Models;
 using ECommerce.WebApi.Core.Extensions;
 using ECommerce.WebApi.Core.Helpers;
+using ECommerce.WebApi.Core.Middlewares;
+using ECommerce.WebApi.Core.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -8,8 +13,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
-using ECommerce.Identity.Api.Data;
-using ECommerce.Identity.Api.Models;
 
 namespace ECommerce.Identity.Api
 {
@@ -28,11 +31,12 @@ namespace ECommerce.Identity.Api
             services.AddJwtConfiguration(Configuration);
             services.AddKissLogConfiguration();
             services.AddHealthCheckConfiguration<ApplicationDbContext>(Configuration);
+            services.AddSwaggerConfiguration("v1", "ECommerce.Identidade.Api", "TCC PUC Minas - Api de Identidade do E-Commerce");
+            services.AddOptionsConfiguration(Configuration);
             #endregion
 
             services.AddIdentityConfiguration(Configuration);
-            services.AddSwaggerConfiguration();
-
+            
             services.AddControllers().AddJsonOptions(
                 opt =>
                 {
@@ -45,8 +49,6 @@ namespace ECommerce.Identity.Api
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-
-            services.Configure<RabbitMQOptions>(options => Configuration.GetSection("RabbitMQ").Bind(options));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -55,7 +57,7 @@ namespace ECommerce.Identity.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration("ECommerce.Identidade.Api v1");
             }
 
             app.UseHttpsRedirection();
@@ -64,6 +66,8 @@ namespace ECommerce.Identity.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<CustomExceptionHandler>();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,5 +1,4 @@
 using ECommerce.Catalogo.Api.Configurations;
-using ECommerce.Catalogo.Api.Middlewares;
 using ECommerce.Catalogo.Infrastructure.Data;
 using ECommerce.WebApi.Core.Extensions;
 using ECommerce.WebApi.Core.Helpers;
@@ -28,13 +27,12 @@ namespace ECommerce.Catalogo.Api
             services.AddJwtConfiguration(Configuration);
             services.AddEntityFrameworkConfiguration<ApplicationDbContext>(Configuration);
             services.AddHealthCheckConfiguration<ApplicationDbContext>(Configuration);
-            services.AddKissLogConfiguration();
-            services.AddSwaggerAuthenticationConfiguration();
+            services.AddOptionsConfiguration(Configuration);
+            services.AddSwaggerConfiguration("v1", "ECommerce.Catalogo.Api", "TCC PUC Minas - Api de Catalogo do E-Commerce");
             #endregion
 
             services.AddDependencyInjectionConfiguration();
-            services.AddSwaggerConfiguration();
-
+            
             services.AddControllers().AddJsonOptions(
                 opt =>
                 {
@@ -55,7 +53,7 @@ namespace ECommerce.Catalogo.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration("ECommerce.Catalogo.Api v1");
             }
 
             app.UseHttpsRedirection();
@@ -64,9 +62,6 @@ namespace ECommerce.Catalogo.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseMiddleware<KissLogMiddleware>();
-            app.UseKissLogConfiguration(Configuration);
 
             app.UseEndpoints(endpoints =>
             {

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json.Serialization;
 using ECommerce.Pedido.Api.Middlewares;
+using ECommerce.WebApi.Core.Extensions;
 using KissLog;
 using KissLog.AspNetCore;
 using KissLog.CloudListeners.RequestLogsListener;
@@ -36,36 +37,12 @@ namespace ECommerce.Pedido.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            #region Identidade
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = "https://localhost:5001";
-                    options.Audience = "api_pedidos";
-                });
-            #endregion
-
-            #region KissLog
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped((context) =>
-            {
-                return Logger.Factory.Get();
-            });
-
-            services.AddLogging(logging =>
-            {
-                logging.AddKissLog();
-            });
-            #endregion
-
-            #region Healh Checks
-            //services.AddHealthChecks()
-            //.AddDbContextCheck<ApplicationDbContext>();
-
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("PedidosDB"));
-            //});
+            #region Core
+            services.AddJwtConfiguration(Configuration);
+            //services.AddEntityFrameworkConfiguration<ApplicationDbContext>(Configuration);
+            //services.AddHealthCheckConfiguration<ApplicationDbContext>(Configuration);
+            services.AddSwaggerConfiguration("v1", "ECommerce.Pedido.Api", "TCC PUC Minas - Api de Pedido do E-Commerce");
+            services.AddOptionsConfiguration(Configuration);
             #endregion
 
             #region Configurações padrão
@@ -82,23 +59,6 @@ namespace ECommerce.Pedido.Api
                 options.SuppressModelStateInvalidFilter = true;
             });
             #endregion
-
-            #region Swagger
-            services.AddSwaggerGen(c =>
-            {
-                services.AddSwaggerGen(c =>
-                {
-                    c.SwaggerDoc("v1", new OpenApiInfo
-                    {
-                        Title = "ECommerce.Pedidos.Api",
-                        Version = "v1",
-                        Description = "TCC PUC Minas - Api de Pedidos do E-Commerce",
-                        Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
-                        License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/mit") }
-                    });
-                });
-            });
-            #endregion
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -106,8 +66,8 @@ namespace ECommerce.Pedido.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Pedidos.Api v1"));
+
+                app.UseSwaggerConfiguration("ECommerce.Pedido.Api v1");
             }
 
             app.UseHttpsRedirection();
@@ -116,19 +76,10 @@ namespace ECommerce.Pedido.Api
 
             app.UseAuthorization();
 
-            #region KissLog
-            // Meu middleware
-            app.UseMiddleware<KissLogMiddleware>();
-
-            app.UseKissLogMiddleware(options =>
-            {
-                ConfigureKissLog(options);
-            });
-            #endregion
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
         }
 

@@ -1,5 +1,6 @@
 using ECommerce.Cliente.Api.Configurations;
-using ECommerce.Cliente.Api.Middlewares;
+using ECommerce.Cliente.Api.Models;
+using ECommerce.Cliente.Infrastructure.Data;
 using ECommerce.WebApi.Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,8 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
-using ECommerce.Cliente.Infrastructure.Data;
-using ECommerce.Cliente.Api.Models;
 
 namespace ECommerce.Cliente.Api
 {
@@ -35,14 +34,13 @@ namespace ECommerce.Cliente.Api
             #region Core
             services.AddJwtConfiguration(Configuration);
             services.AddEntityFrameworkConfiguration<ApplicationDbContext>(Configuration);
-            services.AddKissLogConfiguration();
             services.AddHealthCheckConfiguration<ApplicationDbContext>(Configuration);
-            services.AddSwaggerAuthenticationConfiguration();
+            services.AddSwaggerConfiguration("v1", "ECommerce.Cliente.Api", "TCC PUC Minas - Api de Cliente do E-Commerce");
+            services.AddOptionsConfiguration(Configuration);
             #endregion
 
             services.AddDependencyInjectionConfiguration();
-            services.AddSwaggerConfiguration();
-
+            
             services.AddControllers().AddJsonOptions(
                 opt =>
                 {
@@ -55,17 +53,15 @@ namespace ECommerce.Cliente.Api
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-
-            services.Configure<RabbitMQOptions>(options => Configuration.GetSection("RabbitMQ").Bind(options));
         }
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
-                app.UseSwaggerConfiguration();
+
+                app.UseSwaggerConfiguration("ECommerce.Cliente.Api v1");
             }
 
             app.UseHttpsRedirection();
@@ -75,9 +71,6 @@ namespace ECommerce.Cliente.Api
             app.UseAuthentication();
             app.UseAuthorization();
             
-            app.UseMiddleware<KissLogMiddleware>();
-            app.UseKissLogConfiguration(Configuration);
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
