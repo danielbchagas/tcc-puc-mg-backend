@@ -1,7 +1,4 @@
 using ECommerce.Catalogo.Api.Configurations;
-using ECommerce.Catalogo.Infrastructure.Data;
-using ECommerce.WebApi.Core.Extensions;
-using ECommerce.WebApi.Core.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -16,21 +13,26 @@ namespace ECommerce.Catalogo.Api
     {
         public Startup(IWebHostEnvironment environment)
         {
-            Configuration = new ConfigurationBuilderHelper(environment).Build<Startup>();
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", true, true);
+
+            if (environment.IsDevelopment())
+                builder.AddUserSecrets<Startup>();
+            
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            #region Core
             services.AddJwtConfiguration(Configuration);
-            services.AddEntityFrameworkConfiguration<ApplicationDbContext>(Configuration);
-            services.AddHealthCheckConfiguration<ApplicationDbContext>(Configuration);
+            services.AddEntityFrameworkConfiguration(Configuration);
+            services.AddHealthCheckConfiguration(Configuration);
             services.AddOptionsConfiguration(Configuration);
-            services.AddSwaggerConfiguration("v1", "ECommerce.Catalogo.Api", "TCC PUC Minas - Api de Catalogo do E-Commerce");
-            #endregion
-
+            services.AddSwaggerConfiguration();
             services.AddDependencyInjectionConfiguration();
             
             services.AddControllers().AddJsonOptions(
@@ -53,7 +55,11 @@ namespace ECommerce.Catalogo.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwaggerConfiguration("ECommerce.Catalogo.Api v1");
+                app.UseSwaggerConfiguration();
+            }
+            else
+            {
+                app.UseSwaggerConfiguration();
             }
 
             app.UseHttpsRedirection();

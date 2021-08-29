@@ -1,6 +1,7 @@
 ﻿using ECommerce.Cliente.Domain.Enums;
 using FluentValidation;
 using System;
+using System.Text.Json.Serialization;
 
 namespace ECommerce.Cliente.Domain.Models
 {
@@ -29,6 +30,7 @@ namespace ECommerce.Cliente.Domain.Models
 
         // Relacionamento
         public Guid ClienteId { get; private set; }
+        [JsonIgnore]
         public Cliente Cliente { get; private set; }
     }
 

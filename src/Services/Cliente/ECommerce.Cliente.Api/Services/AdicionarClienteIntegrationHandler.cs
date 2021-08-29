@@ -1,7 +1,7 @@
 ﻿using EasyNetQ;
 using ECommerce.Cliente.Api.Models;
 using ECommerce.Cliente.Domain.Application.Commands;
-using ECommerce.WebApi.Core.DTOs;
+using ECommerce.Common.Dtos;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,12 +32,12 @@ namespace ECommerce.Cliente.Api.Services
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             TryConnect();
-            _bus.Rpc.RespondAsync<ClienteDTO, ValidationResult>(async request => await AdicionarCliente(request), stoppingToken);
+            _bus.Rpc.RespondAsync<ClienteDto, ValidationResult>(async request => await AdicionarCliente(request), stoppingToken);
             
             return Task.CompletedTask;
         }
 
-        private async Task<ValidationResult> AdicionarCliente(ClienteDTO request)
+        private async Task<ValidationResult> AdicionarCliente(ClienteDto request)
         {
             var clienteCommand = new AdicionarClienteCommand(
                 id: request.Id, 

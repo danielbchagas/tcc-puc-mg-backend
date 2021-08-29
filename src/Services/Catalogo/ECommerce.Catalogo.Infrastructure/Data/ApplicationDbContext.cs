@@ -33,7 +33,7 @@ namespace ECommerce.Catalogo.Infrastructure.Data
                 optionsBuilder.LogTo(Console.WriteLine);
 
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer("Server=localhost;Database=CatalogoDB;User Id=sa;Password=yourStrong(!)Password;");
+                optionsBuilder.UseSqlite("Data Source=Database\\CatalogoDB.db");
 
             base.OnConfiguring(optionsBuilder);
         }

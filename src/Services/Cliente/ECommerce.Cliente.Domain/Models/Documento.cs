@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using System;
+using System.Text.Json.Serialization;
 
 namespace ECommerce.Cliente.Domain.Models
 {
@@ -19,6 +20,7 @@ namespace ECommerce.Cliente.Domain.Models
         public string Numero { get; private set; }
         
         public Guid ClienteId { get; private set; }
+        [JsonIgnore]
         public Cliente Cliente { get; private set; }
     }
 

@@ -1,7 +1,4 @@
 using ECommerce.Cliente.Api.Configurations;
-using ECommerce.Cliente.Api.Models;
-using ECommerce.Cliente.Infrastructure.Data;
-using ECommerce.WebApi.Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -31,14 +28,11 @@ namespace ECommerce.Cliente.Api
         
         public void ConfigureServices(IServiceCollection services)
         {
-            #region Core
             services.AddJwtConfiguration(Configuration);
-            services.AddEntityFrameworkConfiguration<ApplicationDbContext>(Configuration);
-            services.AddHealthCheckConfiguration<ApplicationDbContext>(Configuration);
-            services.AddSwaggerConfiguration("v1", "ECommerce.Cliente.Api", "TCC PUC Minas - Api de Cliente do E-Commerce");
+            services.AddEntityFrameworkConfiguration(Configuration);
+            services.AddHealthCheckConfiguration(Configuration);
+            services.AddSwaggerConfiguration();
             services.AddOptionsConfiguration(Configuration);
-            #endregion
-
             services.AddDependencyInjectionConfiguration();
             
             services.AddControllers().AddJsonOptions(
@@ -61,7 +55,7 @@ namespace ECommerce.Cliente.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwaggerConfiguration("ECommerce.Cliente.Api v1");
+                app.UseSwaggerConfiguration();
             }
 
             app.UseHttpsRedirection();

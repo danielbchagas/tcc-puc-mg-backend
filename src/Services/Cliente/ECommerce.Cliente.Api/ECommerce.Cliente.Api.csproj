@@ -8,15 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="10.3.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
-	  <PackageReference Include="EasyNetQ" Version="6.3.1" />
+	  <PackageReference Include="FluentValidation" Version="10.3.0" />
+	  <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
 	  <PackageReference Include="Polly" Version="7.2.2" />
+	  <PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+	  <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="5.0.8" />
+	  <PackageReference Include="EasyNetQ" Version="6.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Building Blocks\Services\ECommerce.WebApi.Core\ECommerce.WebApi.Core.csproj" />
+    <ProjectReference Include="..\..\..\Common\ECommerce.Common\ECommerce.Common.csproj" />
     <ProjectReference Include="..\ECommerce.Cliente.Domain\ECommerce.Cliente.Domain.csproj" />
     <ProjectReference Include="..\ECommerce.Cliente.Infrastructure\ECommerce.Cliente.Infrastructure.csproj" />
   </ItemGroup>

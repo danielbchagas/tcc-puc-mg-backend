@@ -7,11 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ECommerce.WebApi.Core.Filters;
 
 namespace ECommerce.Catalogo.Api.Controllers
 {
-    [ClaimsAuthorize("catalogo", "cadastrar, atualizar")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProdutosController : ControllerBase
