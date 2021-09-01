@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Carrinho.Api.Interfaces.Repositories
 {
-    public interface ICarrinhoClienteRepository : IDisposable
+    public interface IItemCarrinhoRepository : IDisposable
     {
         IUnitOfWork UnitOfWork { get; }
-        Task<CarrinhoCliente> BuscarPorId(Guid id);
-        Task Adicionar(CarrinhoCliente carrinho);
-        Task Atualizar(CarrinhoCliente carrinho);
+        Task<ItemCarrinho> BuscarPorProdutoId(Guid id);
+        Task ExcluirPorProdutoId(Guid id);
     }
 }

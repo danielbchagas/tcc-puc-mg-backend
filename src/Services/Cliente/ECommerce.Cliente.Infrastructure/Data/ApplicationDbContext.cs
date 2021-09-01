@@ -35,7 +35,7 @@ namespace ECommerce.Cliente.Infrastructure.Data
                     .EnableSensitiveDataLogging();
 
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer("Server=localhost;Database=ClienteDB;User Id=sa;Password=yourStrong(!)Password;");
+                optionsBuilder.UseSqlite("Data Source=Database\\ClienteDB.db");
 
             base.OnConfiguring(optionsBuilder);
         }
@@ -54,17 +54,13 @@ namespace ECommerce.Cliente.Infrastructure.Data
                 c.Property(c => c.Ativo).HasColumnType("bit").IsRequired();
 
                 c.HasOne(c => c.Documento)
-                    .WithOne(d => d.Cliente)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .WithOne(d => d.Cliente);
                 c.HasOne(c => c.Email)
-                    .WithOne(e => e.Cliente)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .WithOne(e => e.Cliente);
                 c.HasOne(c => c.Telefone)
-                    .WithOne(t => t.Cliente)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .WithOne(t => t.Cliente);
                 c.HasOne(c => c.Endereco)
-                    .WithOne(e => e.Cliente)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .WithOne(e => e.Cliente);
             });
 
             modelBuilder.Entity<Documento>(d =>

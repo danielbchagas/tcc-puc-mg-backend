@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace ECommerce.Catalogo.Api.Configurations
+namespace ECommerce.Carrinho.Api.Configurations
 {
     public static class JwtConfiguration
     {

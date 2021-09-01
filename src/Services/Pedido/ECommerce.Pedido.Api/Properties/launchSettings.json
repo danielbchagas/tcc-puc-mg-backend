@@ -41,7 +41,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      "applicationUrl": "https://localhost:5009;http://localhost:5008"
     },
     "Selfhosting - Staging": {
       "commandName": "Project",
@@ -51,7 +51,7 @@
         "ASPNETCORE_ENVIRONMENT": "Staging"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      "applicationUrl": "https://localhost:5009;http://localhost:5008"
     },
     "Selfhosting - Production": {
       "commandName": "Project",
@@ -61,7 +61,7 @@
         "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      "applicationUrl": "https://localhost:5009;http://localhost:5008"
     },
     "Docker": {
       "commandName": "Docker",

@@ -8,29 +8,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Carrinho.Api.Repositories
 {
-    public class CarrinhoClienteRepository : ICarrinhoClienteRepository
+    public class CarrinhoRepository : ICarrinhoRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public CarrinhoClienteRepository(ApplicationDbContext context)
+        public CarrinhoRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public async Task Adicionar(CarrinhoCliente carrinho)
+        public async Task Adicionar(Models.Carrinho carrinho)
         {
             await _context.CarrinhosClientes.AddAsync(carrinho);
         }
 
-        public Task Atualizar(CarrinhoCliente carrinho)
+        public Task Atualizar(Models.Carrinho carrinho)
         {
             _context.CarrinhosClientes.Update(carrinho);
             return Task.CompletedTask;
         }
 
-        public async Task<CarrinhoCliente> BuscarPorId(Guid id)
+        public async Task<Models.Carrinho> BuscarPorId(Guid id)
         {
             return await _context.CarrinhosClientes
                 .Include(cc => cc.Itens)

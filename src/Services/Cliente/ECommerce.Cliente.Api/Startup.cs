@@ -1,4 +1,5 @@
 using ECommerce.Cliente.Api.Configurations;
+using ECommerce.Cliente.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -64,6 +65,8 @@ namespace ECommerce.Cliente.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<ExceptionMiddleware>();
             
             app.UseEndpoints(endpoints =>
             {

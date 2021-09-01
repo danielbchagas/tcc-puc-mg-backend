@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace ECommerce.Cliente.Api.Configurations
 {
@@ -10,12 +9,11 @@ namespace ECommerce.Cliente.Api.Configurations
     {
         public static void AddEntityFrameworkConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
             services.AddDbContext<ApplicationDbContext>(optionsAction =>
             {
-                optionsAction.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), sqlServerOptionsAction: options =>
-                {
-                    options.EnableRetryOnFailure(maxRetryCount: 6, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
-                });
+                optionsAction.UseSqlite(connectionString);
             });
         }
     }

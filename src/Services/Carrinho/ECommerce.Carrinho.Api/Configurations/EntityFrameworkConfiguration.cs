@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace ECommerce.Carrinho.Api.Configurations
 {
@@ -12,10 +11,7 @@ namespace ECommerce.Carrinho.Api.Configurations
         {
             services.AddDbContext<ApplicationDbContext>(optionsAction =>
             {
-                optionsAction.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), sqlServerOptionsAction: options =>
-                {
-                    options.EnableRetryOnFailure(maxRetryCount: 6, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
-                });
+                optionsAction.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
             });
         }
     }

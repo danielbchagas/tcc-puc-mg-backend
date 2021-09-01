@@ -9,12 +9,19 @@ namespace ECommerce.Cliente.Api.Configurations
     {
         public static void AddHealthCheckConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<ApplicationDbContext>(optionsAction =>
+            {
+                optionsAction.UseSqlite(connectionString);
+            });
+
             services.AddHealthChecks()
                 .AddDbContextCheck<ApplicationDbContext>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlite(connectionString);
             });
         }
     }

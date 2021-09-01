@@ -4,6 +4,8 @@ using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,30 +37,49 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 
                 #region Composições
                 // Documento
-                var documentoValido = await _mediator.Send(new AdicionarDocumentoCommand(request.Documento, request.Id));
-                
-                if (!documentoValido.IsValid)
+                try
                 {
-                    await _repository.Excluir(cliente.Id);
-                    return await Task.FromResult(documentoValido);
-                }
+                    var documentoValido = await _mediator.Send(new AdicionarDocumentoCommand(request.Documento, request.Id));
 
-                // Telefone
-                var telefoneValido = await _mediator.Send(new AdicionarTelefoneCommand(request.Telefone, request.Id));
-                
-                if (!telefoneValido.IsValid)
-                {
-                    await _repository.Excluir(cliente.Id);
-                    return await Task.FromResult(telefoneValido);
-                }
-                
-                // Email
-                var emailValido = await _mediator.Send(new AdicionarEmailCommand(request.Email, request.Id));
+                    if (!documentoValido.IsValid)
+                    {
+                        await _repository.Excluir(cliente.Id);
+                        await _repository.UnitOfWork.Commit();
 
-                if (!emailValido.IsValid)
+                        return await Task.FromResult(documentoValido);
+                    }
+
+                    // Telefone
+                    var telefoneValido = await _mediator.Send(new AdicionarTelefoneCommand(request.Telefone, request.Id));
+
+                    if (!telefoneValido.IsValid)
+                    {
+                        await _repository.Excluir(cliente.Id);
+                        await _repository.UnitOfWork.Commit();
+
+                        return await Task.FromResult(telefoneValido);
+                    }
+
+                    // Email
+                    var emailValido = await _mediator.Send(new AdicionarEmailCommand(request.Email, request.Id));
+
+                    if (!emailValido.IsValid)
+                    {
+                        await _repository.Excluir(cliente.Id);
+                        await _repository.UnitOfWork.Commit();
+
+                        return await Task.FromResult(emailValido);
+                    }
+                }
+                catch (Exception)
                 {
-                    await _repository.Excluir(cliente.Id);
-                    return await Task.FromResult(emailValido);
+                    if (sucesso)
+                    {
+                        await _repository.Excluir(cliente.Id);
+                        await _repository.UnitOfWork.Commit();
+                    }
+
+                    throw;
                 }
                 #endregion
 

@@ -13,7 +13,7 @@ namespace ECommerce.Carrinho.Api.Data
         }
 
         public DbSet<ItemCarrinho> ItensCarrinhos { get; set; }
-        public DbSet<CarrinhoCliente> CarrinhosClientes { get; set; }
+        public DbSet<Models.Carrinho> CarrinhosClientes { get; set; }
 
         public async Task<bool> Commit()
         {
@@ -34,9 +34,9 @@ namespace ECommerce.Carrinho.Api.Data
                 ic.Property(ic => ic.Quantidade).HasColumnType("int").IsRequired();
             });
 
-            modelBuilder.Entity<CarrinhoCliente>(cc => 
+            modelBuilder.Entity<Models.Carrinho>(cc => 
             {
-                cc.ToTable("CarrinhoCliente");
+                cc.ToTable("Carrinho");
 
                 cc.HasKey(cc => cc.Id);
 
