@@ -16,7 +16,7 @@ namespace ECommerce.Carrinho.Api.Models
             ClienteId = clienteId;
             Itens = new List<ItemCarrinho>();
 
-            Validacao = new CarrinhoValidator().Validate(this);
+            Validacao = new ValidationResult();
         }
 
         internal const int MAX_QUANTIDADE_ITEM = 5;
@@ -29,10 +29,14 @@ namespace ECommerce.Carrinho.Api.Models
         public ICollection<ItemCarrinho> Itens { get; private set; }
 
         #region Métodos auxiliares
-        internal ValidationResult AtualizarItem(ItemCarrinho item)
+        public ValidationResult AtualizarItem(ItemCarrinho item)
         {
             // Valida se o item é válido
-            if (!item.Validacao.IsValid) return item.Validacao;
+            if (!item.Validacao.IsValid)
+            {
+                Validacao = item.Validacao;
+                return Validacao;
+            }
 
             // Verifica se o item já existe no carrinho
             // Soma o item existente
@@ -55,17 +59,17 @@ namespace ECommerce.Carrinho.Api.Models
 
             ValorTotal += Itens.Sum(i => i.CalcularValor());
 
-            return Validacao;
+            return Validacao = new CarrinhoValidator().Validate(this);
         }
 
-        internal void ExcluirItem(Guid itemId)
+        public void ExcluirItem(Guid itemId)
         {
             if (!ItemExiste(itemId)) return;
 
             Itens.Remove(Itens.First(ic => ic.ProdutoId == itemId));
         }
 
-        internal bool ItemExiste(Guid itemId)
+        public bool ItemExiste(Guid itemId)
         {
             return Itens.Any(i => i.ProdutoId == itemId);
         }

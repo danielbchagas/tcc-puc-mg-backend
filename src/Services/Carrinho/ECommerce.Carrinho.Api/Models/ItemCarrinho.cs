@@ -65,11 +65,7 @@ namespace ECommerce.Carrinho.Api.Models
                 .WithMessage("O nome do produto não foi informado");
 
             RuleFor(ic => ic.Quantidade)
-                .GreaterThan(0)
-                .WithMessage(item => $"A quantidade miníma para o {item.Nome} é 1");
-
-            RuleFor(ic => ic.Quantidade)
-                .LessThanOrEqualTo(Carrinho.MAX_QUANTIDADE_ITEM)
+                .ExclusiveBetween(-1, Carrinho.MAX_QUANTIDADE_ITEM + 1)
                 .WithMessage(item => $"A quantidade máxima do {item.Nome} é {Carrinho.MAX_QUANTIDADE_ITEM}");
 
             RuleFor(ic => ic.Valor)
