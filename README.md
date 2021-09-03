@@ -11,3 +11,5 @@ Tecnologias empregadas:
 - [AutoMapper](https://github.com/AutoMapper/AutoMapper)
 - [RabbitMQ](https://www.rabbitmq.com/)
 - [EasyNetQ](https://github.com/EasyNetQ/EasyNetQ)
+- [Refit](https://github.com/reactiveui/refit)
+- [Bogus](https://github.com/bchavez/Bogus)
