@@ -30,7 +30,7 @@ namespace ECommerce.Carrinho.Api.Controllers
         [HttpGet("buscar")]
         public async Task<IActionResult> Buscar()
         {
-            var carrinho = await BuscarCarrinho() ?? new Models.Carrinho();
+            var carrinho = await BuscarCarrinho() ?? new Models.Carrinho(Guid.Parse(UserId()));
 
             return Ok(carrinho);
         }
@@ -39,22 +39,26 @@ namespace ECommerce.Carrinho.Api.Controllers
         public async Task<IActionResult> Adicionar(ItemCarrinhoViewModel item)
         {
             var carrinho = await BuscarCarrinho();
+            var novoItem = new ItemCarrinho(nome: item.Nome, quantidade: item.Quantidade, valor: item.Valor, imagem: item.Imagem, produtoId: item.ProdutoId, carrinhoId: item.CarrinhoId);
 
             if (carrinho == null)
             {
                 var novoCarrinho = new Models.Carrinho(Guid.Parse(UserId()));
-                novoCarrinho.AtualizarItem(new ItemCarrinho(nome: item.Nome, quantidade: item.Quantidade, valor: item.Valor, imagem: item.Imagem, produtoId: item.ProdutoId, carrinhoId: item.CarrinhoId));
+                novoCarrinho.AtualizarItem(novoItem);
 
-                var validacao = novoCarrinho.ValidacaoObjeto();
-
-                if (!validacao.IsValid)
-                    return BadRequest(validacao.Errors.Select(e => e.ErrorMessage));
+                if (!novoCarrinho.Validacao.IsValid)
+                    return BadRequest(novoCarrinho.Validacao.Errors.Select(e => e.ErrorMessage));
 
                 await _carrinhoRepository.Adicionar(novoCarrinho);
             }
             else
             {
-                
+                carrinho.AtualizarItem(novoItem);
+
+                if (!carrinho.Validacao.IsValid)
+                    return BadRequest(carrinho.Validacao.Errors.Select(e => e.ErrorMessage));
+
+                await _carrinhoRepository.Atualizar(carrinho);
             }
 
             await _carrinhoRepository.UnitOfWork.Commit();

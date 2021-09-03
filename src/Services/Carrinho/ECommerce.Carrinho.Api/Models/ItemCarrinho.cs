@@ -17,10 +17,10 @@ namespace ECommerce.Carrinho.Api.Models
             ProdutoId = produtoId;
             CarrinhoId = carrinhoId;
 
-            Validacao = new ItemCarrinhoValidator();
+            Validacao = new ItemCarrinhoValidator().Validate(this);
         }
 
-        private ItemCarrinhoValidator Validacao { get; }
+        public ValidationResult Validacao { get; private set; }
 
         public Guid Id { get; private set; }
         public string Nome { get; private set; }
@@ -48,11 +48,6 @@ namespace ECommerce.Carrinho.Api.Models
         internal void AtualizarQuantidade(int quantidade)
         {
             Quantidade = quantidade;
-        }
-
-        internal ValidationResult ValidacaoObjeto()
-        {
-            return Validacao.Validate(this);
         }
         #endregion
     }

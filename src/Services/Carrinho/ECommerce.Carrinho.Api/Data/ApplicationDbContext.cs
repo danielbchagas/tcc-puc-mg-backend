@@ -1,5 +1,6 @@
 ﻿using ECommerce.Carrinho.Api.Interfaces.Data;
 using ECommerce.Carrinho.Api.Models;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -22,6 +23,8 @@ namespace ECommerce.Carrinho.Api.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<ValidationResult>();
+
             modelBuilder.Entity<ItemCarrinho>(ic => 
             {
                 ic.ToTable("ItemCarrinho");

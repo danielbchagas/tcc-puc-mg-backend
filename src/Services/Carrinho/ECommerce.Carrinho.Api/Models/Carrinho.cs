@@ -8,30 +8,34 @@ namespace ECommerce.Carrinho.Api.Models
 {
     public class Carrinho
     {
-        public Carrinho()
-        {
-        }
+        protected Carrinho() { }
 
         public Carrinho(Guid clienteId)
         {
             Id = Guid.NewGuid();
             ClienteId = clienteId;
             Itens = new List<ItemCarrinho>();
-            Validacao = new CarrinhoValidator();
+
+            Validacao = new CarrinhoValidator().Validate(this);
         }
 
         internal const int MAX_QUANTIDADE_ITEM = 5;
-        private CarrinhoValidator Validacao { get; }
+        public ValidationResult Validacao { get; private set; }
 
-        public Guid Id { get; set; }
-        public decimal ValorTotal { get; set; }
-        public Guid ClienteId { get; set; }
+        public Guid Id { get; private set; }
+        public decimal ValorTotal { get; private set; }
+        public Guid ClienteId { get; private set; }
 
-        public ICollection<ItemCarrinho> Itens { get; set; }
+        public ICollection<ItemCarrinho> Itens { get; private set; }
 
         #region Métodos auxiliares
         internal ValidationResult AtualizarItem(ItemCarrinho item)
         {
+            // Valida se o item é válido
+            if (!item.Validacao.IsValid) return item.Validacao;
+
+            // Verifica se o item já existe no carrinho
+            // Soma o item existente
             if (ItemExiste(item.Id))
             {
                 var itemAntigo = Itens.First(i => i.ProdutoId == item.ProdutoId);
@@ -41,17 +45,17 @@ namespace ECommerce.Carrinho.Api.Models
 
                 Itens.Remove(itemAntigo);
             }
+            // Associa o novo item ao carrinho
             else
+            {
                 item.AssociarCarrinho(Id);
-
-            if (!item.ValidacaoObjeto().IsValid) 
-                return item.ValidacaoObjeto();
+            }
 
             Itens.Add(item);
 
             ValorTotal += Itens.Sum(i => i.CalcularValor());
 
-            return ValidacaoObjeto();
+            return Validacao;
         }
 
         internal void ExcluirItem(Guid itemId)
@@ -64,11 +68,6 @@ namespace ECommerce.Carrinho.Api.Models
         internal bool ItemExiste(Guid itemId)
         {
             return Itens.Any(i => i.ProdutoId == itemId);
-        }
-
-        internal ValidationResult ValidacaoObjeto()
-        {
-            return Validacao.Validate(this);
         }
         #endregion
     }

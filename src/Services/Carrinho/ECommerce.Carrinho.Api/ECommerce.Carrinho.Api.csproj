@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Database\CarrinhoDB.db" />
+    <None Remove="Databases\CarrinhoDB.db" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Database\CarrinhoDB.db">
+    <EmbeddedResource Include="Databases\CarrinhoDB.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
