@@ -1,13 +1,11 @@
-using ECommerce.Cliente.Api.Configurations;
+using ECommerce.Compras.Gateway.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Text.Json.Serialization;
 
-namespace ECommerce.Cliente.Api
+namespace ECommerce.Compras.Gateway
 {
     public class Startup
     {
@@ -25,28 +23,13 @@ namespace ECommerce.Cliente.Api
         }
 
         public IConfiguration Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJwtConfiguration(Configuration);
-            services.AddEntityFrameworkConfiguration(Configuration);
-            services.AddHealthCheckConfiguration(Configuration);
-            services.AddSwaggerConfiguration();
-            services.AddOptionsConfiguration(Configuration);
             services.AddDependencyInjectionConfiguration();
-            
-            services.AddControllers().AddJsonOptions(
-                opt =>
-                {
-                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                }
-            );
+            services.AddSwaggerConfiguration();
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -68,7 +51,6 @@ namespace ECommerce.Cliente.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
     }

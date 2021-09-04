@@ -1,4 +1,4 @@
-﻿using ECommerce.Identidade.Api.Models;
+﻿using ECommerce.Common.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace ECommerce.Pedido.Api.Configurations
+namespace ECommerce.Compras.Gateway.Configurations
 {
     public static class JwtConfiguration
     {

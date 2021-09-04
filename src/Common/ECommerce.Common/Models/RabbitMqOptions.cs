@@ -1,6 +1,6 @@
-﻿namespace ECommerce.Pedido.Api.Models
+﻿namespace ECommerce.Common.Models
 {
-    public class RabbitMQOptions
+    public class RabbitMqOptions
     {
         public string Usuario { get; set; }
         public string Senha { get; set; }

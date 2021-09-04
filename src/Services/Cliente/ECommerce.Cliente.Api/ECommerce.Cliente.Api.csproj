@@ -31,4 +31,8 @@
     <ProjectReference Include="..\ECommerce.Cliente.Infrastructure\ECommerce.Cliente.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

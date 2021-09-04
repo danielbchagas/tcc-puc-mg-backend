@@ -24,6 +24,11 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\ECommerce.Common\ECommerce.Common.csproj" />
   </ItemGroup>
 
 </Project>

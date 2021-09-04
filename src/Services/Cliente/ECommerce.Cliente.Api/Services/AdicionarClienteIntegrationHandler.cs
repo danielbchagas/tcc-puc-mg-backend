@@ -1,6 +1,6 @@
 ﻿using EasyNetQ;
-using ECommerce.Cliente.Api.Models;
 using ECommerce.Cliente.Domain.Application.Commands;
+using ECommerce.Common.Models;
 using ECommerce.Common.Dtos;
 using FluentValidation.Results;
 using MediatR;
@@ -17,11 +17,11 @@ namespace ECommerce.Cliente.Api.Services
 {
     class AdicionarClienteIntegrationHandler : BackgroundService
     {
-        private readonly RabbitMQOptions _rabbitMQOptions;
+        private readonly RabbitMqOptions _rabbitMQOptions;
         private readonly IServiceProvider _serviceProvider;
         private IBus _bus;
         
-        public AdicionarClienteIntegrationHandler(IOptions<RabbitMQOptions> rabbitMQOptions, IServiceProvider serviceProvider)
+        public AdicionarClienteIntegrationHandler(IOptions<RabbitMqOptions> rabbitMQOptions, IServiceProvider serviceProvider)
         {
             _rabbitMQOptions = rabbitMQOptions.Value;
             _serviceProvider = serviceProvider;

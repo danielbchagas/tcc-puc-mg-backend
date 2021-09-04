@@ -1,5 +1,6 @@
 ﻿using EasyNetQ;
 using ECommerce.Common.Dtos;
+using ECommerce.Common.Models;
 using ECommerce.Identidade.Api.Models;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
@@ -28,14 +29,14 @@ namespace ECommerce.Identidade.Api.Controllers
 
         #region Options
         private readonly JwtOptions _jwtOptions;
-        private readonly RabbitMQOptions _rabbitMQOptions;
+        private readonly RabbitMqOptions _rabbitMQOptions;
         #endregion
 
         public UsuarioController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
             ILogger<UsuarioController> logger, 
             IOptions<JwtOptions> jwtOptions, 
-            IOptions<RabbitMQOptions> rabbitMQOptions)
+            IOptions<RabbitMqOptions> rabbitMQOptions)
         {
             _signInManager = signInManager;
             _userManager = userManager;
