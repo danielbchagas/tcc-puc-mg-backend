@@ -54,5 +54,21 @@ namespace ECommerce.Carrinho.Test
             // Assert
             Assert.True(Carrinho.Validacao.IsValid);
         }
+
+        [Fact]
+        public void AdicionarItemCarrinho_ValorDoCarrinhoDeveSer1000()
+        {
+            // Arrange
+            var faker = new Faker<Api.Models.ItemCarrinho>()
+                .CustomInstantiator(set => new Api.Models.ItemCarrinho(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+
+            var item = faker.Generate();
+
+            // Act
+            Carrinho.AtualizarItem(item);
+
+            // Assert
+            Assert.Equal(1000, Carrinho.ValorTotal);
+        }
     }
 }
