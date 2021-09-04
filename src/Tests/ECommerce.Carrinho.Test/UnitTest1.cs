@@ -1,5 +1,6 @@
 using Bogus;
 using System;
+using System.Linq;
 using Xunit;
 namespace ECommerce.Carrinho.Test
 {
@@ -69,6 +70,30 @@ namespace ECommerce.Carrinho.Test
 
             // Assert
             Assert.Equal(1000, Carrinho.ValorTotal);
+        }
+
+        [Fact]
+        public void DiminuirQuantidadeItemCarrinho_QuantidadeDeItensCarrinhoDeveSer3()
+        {
+            // Arrange
+            var produtoId = Guid.NewGuid();
+
+            var faker = new Faker<Api.Models.ItemCarrinho>()
+                .CustomInstantiator(set => new Api.Models.ItemCarrinho(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+
+            var primeiroItem = faker.Generate();
+
+            var faker2 = new Faker<Api.Models.ItemCarrinho>()
+                .CustomInstantiator(set => new Api.Models.ItemCarrinho(nome: primeiroItem.Nome, quantidade: 3, valor: primeiroItem.Valor, imagem: primeiroItem.Imagem, produtoId: primeiroItem.ProdutoId, carrinhoId: Carrinho.Id));
+
+            var segundoItem = faker2.Generate();
+
+            // Act
+            Carrinho.AtualizarItem(primeiroItem);
+            Carrinho.AtualizarItem(segundoItem);
+
+            // Assert
+            Assert.Contains(Carrinho.Itens, ic => ic.Quantidade == 3);
         }
     }
 }

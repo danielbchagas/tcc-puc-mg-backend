@@ -40,7 +40,7 @@ namespace ECommerce.Carrinho.Api.Models
 
             // Verifica se o item já existe no carrinho
             // Soma o item existente
-            if (ItemExiste(item.Id))
+            if (ItemExiste(item.ProdutoId))
             {
                 var itemAntigo = Itens.First(i => i.ProdutoId == item.ProdutoId);
                 itemAntigo.AtualizarQuantidade(item.Quantidade);
