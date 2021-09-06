@@ -1,6 +1,5 @@
 ﻿using EasyNetQ;
-using ECommerce.Common.Dtos;
-using ECommerce.Common.Models;
+using ECommerce.Identidade.Api.Interfaces;
 using ECommerce.Identidade.Api.Models;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
@@ -24,25 +23,23 @@ namespace ECommerce.Identidade.Api.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        
         private readonly ILogger<UsuarioController> _logger;
-        private IBus _bus;
 
-        #region Options
+        private IBus _bus;
+        private readonly IHttpService _httpService;
+
         private readonly JwtOptions _jwtOptions;
         private readonly RabbitMqOptions _rabbitMQOptions;
-        #endregion
-
-        public UsuarioController(SignInManager<IdentityUser> signInManager, 
-            UserManager<IdentityUser> userManager, 
-            ILogger<UsuarioController> logger, 
-            IOptions<JwtOptions> jwtOptions, 
-            IOptions<RabbitMqOptions> rabbitMQOptions)
+        
+        public UsuarioController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<UsuarioController> logger, IOptions<JwtOptions> jwtOptions, IOptions<RabbitMqOptions> rabbitMQOptions, IHttpService httpService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _jwtOptions = jwtOptions.Value;
             _rabbitMQOptions = rabbitMQOptions.Value;
+            _httpService = httpService;
         }
 
         [HttpPost("novo")]
@@ -68,7 +65,7 @@ namespace ECommerce.Identidade.Api.Controllers
             try
             {
                 // Coloca o usuário na fila
-                var clienteCriadoComSucesso = await CriarCliente(usuario);
+                var clienteCriadoComSucesso = await CriarClienteRabbitMq(usuario);
 
                 if (!clienteCriadoComSucesso.IsValid)
                     return BadRequest(clienteCriadoComSucesso.Errors.Select(e => e.ErrorMessage));
@@ -98,7 +95,7 @@ namespace ECommerce.Identidade.Api.Controllers
             return Ok(await GerarToken(usuario.Email));
         }
 
-        private async Task<ValidationResult> CriarCliente(NovoUsuario usuario)
+        private async Task<ValidationResult> CriarClienteRabbitMq(NovoUsuario usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
 
@@ -110,10 +107,10 @@ namespace ECommerce.Identidade.Api.Controllers
                 email: usuario.Email
             );
 
-            _bus = _bus = RabbitHutch.CreateBus($"host={_rabbitMQOptions.Endereco}:{_rabbitMQOptions.Porta}");
+            _bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus);
             var resultado = await _bus.Rpc.RequestAsync<ClienteDto, ValidationResult>(cliente);
 
-            if(!resultado.IsValid)
+            if (!resultado.IsValid)
                 await _userManager.DeleteAsync(identityUser);
 
             return resultado;

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
 
 namespace ECommerce.Compras.Gateway
 {
@@ -29,7 +30,13 @@ namespace ECommerce.Compras.Gateway
             services.AddDependencyInjectionConfiguration();
             services.AddSwaggerConfiguration();
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(
+                opt =>
+                {
+                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                }
+            );
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

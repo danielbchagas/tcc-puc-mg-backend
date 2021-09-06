@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Common.Models
+﻿namespace ECommerce.Catalogo.Api.Models
 {
     public class JwtOptions
     {

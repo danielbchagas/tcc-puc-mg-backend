@@ -33,7 +33,8 @@ namespace ECommerce.Identidade.Api
             services.AddSwaggerConfiguration();
             services.AddOptionsConfiguration(Configuration);
             services.AddIdentityConfiguration(Configuration);
-            
+
+
             services.AddControllers().AddJsonOptions(
                 opt =>
                 {

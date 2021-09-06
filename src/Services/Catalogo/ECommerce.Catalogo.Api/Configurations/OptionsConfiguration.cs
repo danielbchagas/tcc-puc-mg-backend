@@ -1,4 +1,4 @@
-﻿using ECommerce.Common.Models;
+﻿using ECommerce.Catalogo.Api.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

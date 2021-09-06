@@ -1,7 +1,6 @@
 ﻿using EasyNetQ;
+using ECommerce.Cliente.Api.Models;
 using ECommerce.Cliente.Domain.Application.Commands;
-using ECommerce.Common.Models;
-using ECommerce.Common.Dtos;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +24,7 @@ namespace ECommerce.Cliente.Api.Services
         {
             _rabbitMQOptions = rabbitMQOptions.Value;
             _serviceProvider = serviceProvider;
-            _bus = RabbitHutch.CreateBus($"host={_rabbitMQOptions.Endereco}:{_rabbitMQOptions.Porta}");
+            _bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus);
             _bus.Advanced.Disconnected += OnDisconnect;
         }
 
@@ -67,7 +66,7 @@ namespace ECommerce.Cliente.Api.Services
 
             policy.Execute(() =>
             {
-                _bus = RabbitHutch.CreateBus($"host={_rabbitMQOptions.Endereco}:{_rabbitMQOptions.Porta}");
+                _bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus);
             });
         }
 

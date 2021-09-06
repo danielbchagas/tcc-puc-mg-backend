@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Carrinho.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CarrinhosController : ControllerBase
@@ -30,7 +30,7 @@ namespace ECommerce.Carrinho.Api.Controllers
         [HttpGet("buscar")]
         public async Task<IActionResult> Buscar()
         {
-            var carrinho = await BuscarCarrinho() ?? new Models.Carrinho(Guid.Parse(UserId()));
+            var carrinho = await BuscarCarrinho();
 
             return Ok(carrinho);
         }

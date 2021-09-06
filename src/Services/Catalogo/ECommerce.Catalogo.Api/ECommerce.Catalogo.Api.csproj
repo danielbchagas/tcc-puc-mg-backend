@@ -18,13 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\ECommerce.Common\ECommerce.Common.csproj" />
     <ProjectReference Include="..\ECommerce.Catalogo.Domain\ECommerce.Catalogo.Domain.csproj" />
     <ProjectReference Include="..\ECommerce.Catalogo.Infrastructure\ECommerce.Catalogo.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

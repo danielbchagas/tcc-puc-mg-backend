@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ECommerce.Common.Dtos
+namespace ECommerce.Identidade.Api.Models
 {
     public class ClienteDto
     {
@@ -14,11 +14,11 @@ namespace ECommerce.Common.Dtos
             Email = email;
         }
 
-        public Guid Id { get; private set; }
-        public string Nome { get; private set; }
-        public string Sobrenome { get; private set; }
-        public string Documento { get; private set; }
-        public string Telefone { get; private set; }
-        public string Email { get; private set; }
+        public Guid Id { get; set; }
+        public string Nome { get; set; }
+        public string Sobrenome { get; set; }
+        public string Documento { get; set; }
+        public string Telefone { get; set; }
+        public string Email { get; set; }
     }
 }

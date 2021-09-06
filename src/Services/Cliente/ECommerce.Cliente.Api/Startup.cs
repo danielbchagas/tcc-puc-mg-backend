@@ -11,6 +11,8 @@ namespace ECommerce.Cliente.Api
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IWebHostEnvironment environment)
         {
             var builder = new ConfigurationBuilder()
@@ -24,8 +26,6 @@ namespace ECommerce.Cliente.Api
             Configuration = builder.Build();
         }
 
-        public IConfiguration Configuration { get; }
-        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddJwtConfiguration(Configuration);

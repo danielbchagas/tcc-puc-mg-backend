@@ -26,13 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\ECommerce.Common\ECommerce.Common.csproj" />
     <ProjectReference Include="..\ECommerce.Cliente.Domain\ECommerce.Cliente.Domain.csproj" />
     <ProjectReference Include="..\ECommerce.Cliente.Infrastructure\ECommerce.Cliente.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

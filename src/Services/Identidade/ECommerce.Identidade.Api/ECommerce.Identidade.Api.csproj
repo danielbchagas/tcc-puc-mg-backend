@@ -7,6 +7,10 @@
     <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Database\IdentidadeDB.db" />
   </ItemGroup>
@@ -27,15 +31,12 @@
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
 	  <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="5.0.8" />
+	  <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="5.0.1" />
 	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
 	  <PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
 	  <PackageReference Include="EasyNetQ" Version="6.3.1" />
 	  <PackageReference Include="FluentValidation" Version="10.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\ECommerce.Common\ECommerce.Common.csproj" />
   </ItemGroup>
 
 </Project>

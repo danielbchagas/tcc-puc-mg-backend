@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ECommerce.Common.Models
+namespace ECommerce.Common.Dtos
 {
     public class ItemCarrinhoDto
     {

@@ -10,8 +10,13 @@ using ECommerce.Cliente.Domain.Models;
 using ECommerce.Cliente.Infrastructure.Repositories;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Api.Configurations
 {
