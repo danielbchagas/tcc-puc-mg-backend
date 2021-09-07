@@ -1,5 +1,4 @@
 ﻿using EasyNetQ;
-using ECommerce.Identidade.Api.Interfaces;
 using ECommerce.Identidade.Api.Models;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
@@ -27,19 +26,17 @@ namespace ECommerce.Identidade.Api.Controllers
         private readonly ILogger<UsuarioController> _logger;
 
         private IBus _bus;
-        private readonly IHttpService _httpService;
 
         private readonly JwtOptions _jwtOptions;
         private readonly RabbitMqOptions _rabbitMQOptions;
         
-        public UsuarioController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<UsuarioController> logger, IOptions<JwtOptions> jwtOptions, IOptions<RabbitMqOptions> rabbitMQOptions, IHttpService httpService)
+        public UsuarioController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<UsuarioController> logger, IOptions<JwtOptions> jwtOptions, IOptions<RabbitMqOptions> rabbitMQOptions)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _jwtOptions = jwtOptions.Value;
             _rabbitMQOptions = rabbitMQOptions.Value;
-            _httpService = httpService;
         }
 
         [HttpPost("novo")]
@@ -107,13 +104,16 @@ namespace ECommerce.Identidade.Api.Controllers
                 email: usuario.Email
             );
 
-            _bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus);
-            var resultado = await _bus.Rpc.RequestAsync<ClienteDto, ValidationResult>(cliente);
+            using (_bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus))
+            {
+                var resultado = await _bus.Rpc.RequestAsync<ClienteDto, ValidationResult>(cliente);
 
-            if (!resultado.IsValid)
-                await _userManager.DeleteAsync(identityUser);
+                if (!resultado.IsValid)
+                    await _userManager.DeleteAsync(identityUser);
 
-            return resultado;
+                return resultado;
+            } 
+            
         }
 
         private async Task DesfazerOperacao(NovoUsuario usuario)

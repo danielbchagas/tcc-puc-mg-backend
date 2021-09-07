@@ -34,7 +34,6 @@ namespace ECommerce.Identidade.Api
             services.AddOptionsConfiguration(Configuration);
             services.AddIdentityConfiguration(Configuration);
 
-
             services.AddControllers().AddJsonOptions(
                 opt =>
                 {
