@@ -28,12 +28,12 @@ namespace ECommerce.Cliente.Api.Services
             _bus.Advanced.Disconnected += OnDisconnect;
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             TryConnect();
-            _bus.Rpc.RespondAsync<ClienteDto, ValidationResult>(async request => await AdicionarCliente(request), stoppingToken);
+            await _bus.Rpc.RespondAsync<ClienteDto, ValidationResult>(async request => await AdicionarCliente(request), stoppingToken);
             
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
         private async Task<ValidationResult> AdicionarCliente(ClienteDto request)

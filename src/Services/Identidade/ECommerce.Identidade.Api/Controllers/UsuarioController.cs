@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Polly;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Exceptions;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -28,8 +32,6 @@ namespace ECommerce.Identidade.Api.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         
         private readonly ILogger<UsuarioController> _logger;
-
-        private IBus _bus;
 
         private readonly JwtOptions _jwtOptions;
         private readonly RabbitMqOptions _rabbitMQOptions;
@@ -119,15 +121,12 @@ namespace ECommerce.Identidade.Api.Controllers
                 email: usuario.Email
             );
 
-            using (_bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus))
-            {
-                var resultado = await _bus.Rpc.RequestAsync<ClienteDto, ValidationResult>(cliente);
+            var bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus);
+            bus.Advanced.Disconnected += OnDisconnect;
 
-                if (!resultado.IsValid)
-                    await _userManager.DeleteAsync(identityUser);
+            var resultado = await bus.Rpc.RequestAsync<ClienteDto, ValidationResult>(cliente);
 
-                return resultado;
-            }
+            return resultado;
         }
 
         private async Task<ClienteResponseMessage> CriarClienteRest(NovoUsuario usuario)
@@ -148,7 +147,7 @@ namespace ECommerce.Identidade.Api.Controllers
             var resultado = await _clienteService.Novo(cliente);
 
             if (!resultado.Ok)
-                await _userManager.DeleteAsync(identityUser);
+                await DesfazerOperacao(usuario);
 
             return resultado;
         }
@@ -159,7 +158,14 @@ namespace ECommerce.Identidade.Api.Controllers
             await _userManager.DeleteAsync(identityUser);
         }
 
-#region JWT
+        private void OnDisconnect(object source, EventArgs e)
+        {
+            Policy.Handle<EasyNetQException>()
+                .Or<BrokerUnreachableException>()
+                .Retry(10);
+        }
+
+        #region JWT
         private async Task<UsuarioJwt> GerarToken(string email)
         {
             var usuario = await _userManager.FindByEmailAsync(email);

@@ -35,18 +35,13 @@ namespace ECommerce.Identidade.Api.Services
 
             var response = await Client.PostAsync("/api/clientes/novo", content);
 
-            if (!response.IsSuccessStatusCode)
-                throw new HttpRequestException("Erro na requisição para a api de clientes.");
-
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                return new ClienteResponseMessage(false, (int)response.StatusCode, JsonSerializer.Deserialize<List<string>>(result));
-            }
-            else if (response.StatusCode == HttpStatusCode.InternalServerError)
-            {
-                return new ClienteResponseMessage(false, (int)response.StatusCode, new List<string>() { "Erro no servidor." });
+                var errors = JsonSerializer.Deserialize<List<string>>(result);
+
+                return new ClienteResponseMessage(false, response.StatusCode, errors);
             }
 
             return new ClienteResponseMessage();

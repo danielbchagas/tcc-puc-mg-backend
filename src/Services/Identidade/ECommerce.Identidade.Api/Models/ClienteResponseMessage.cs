@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 
 namespace ECommerce.Identidade.Api.Models
 {
@@ -9,14 +10,14 @@ namespace ECommerce.Identidade.Api.Models
             Ok = true;
         }
 
-        public ClienteResponseMessage(bool ok, int status)
+        public ClienteResponseMessage(bool ok, HttpStatusCode status)
         {
             Ok = ok;
             Status = status;
             Errors = new List<string>();
         }
 
-        public ClienteResponseMessage(bool ok, int status, List<string> errors)
+        public ClienteResponseMessage(bool ok, HttpStatusCode status, List<string> errors)
         {
             Ok = ok;
             Status = status;
@@ -24,7 +25,7 @@ namespace ECommerce.Identidade.Api.Models
         }
 
         public bool Ok { get; set; }
-        public int Status { get; set; }
+        public HttpStatusCode Status { get; set; }
         public IEnumerable<string> Errors { get; set; }
     }
 }
