@@ -1,4 +1,8 @@
-﻿using EasyNetQ;
+﻿#define REST
+//#define RABBITMQ
+
+using EasyNetQ;
+using ECommerce.Identidade.Api.Interfaces;
 using ECommerce.Identidade.Api.Models;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
@@ -29,14 +33,17 @@ namespace ECommerce.Identidade.Api.Controllers
 
         private readonly JwtOptions _jwtOptions;
         private readonly RabbitMqOptions _rabbitMQOptions;
-        
-        public UsuarioController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<UsuarioController> logger, IOptions<JwtOptions> jwtOptions, IOptions<RabbitMqOptions> rabbitMQOptions)
+
+        private readonly IClienteService _clienteService;
+
+        public UsuarioController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<UsuarioController> logger, IOptions<JwtOptions> jwtOptions, IOptions<RabbitMqOptions> rabbitMQOptions, IClienteService clienteService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _jwtOptions = jwtOptions.Value;
             _rabbitMQOptions = rabbitMQOptions.Value;
+            _clienteService = clienteService;
         }
 
         [HttpPost("novo")]
@@ -61,11 +68,19 @@ namespace ECommerce.Identidade.Api.Controllers
 
             try
             {
+#if RABBITMQ
                 // Coloca o usuário na fila
                 var clienteCriadoComSucesso = await CriarClienteRabbitMq(usuario);
 
                 if (!clienteCriadoComSucesso.IsValid)
                     return BadRequest(clienteCriadoComSucesso.Errors.Select(e => e.ErrorMessage));
+
+#elif REST
+                var clienteCriadoComSucesso = await CriarClienteRest(usuario);
+
+                if (!clienteCriadoComSucesso.Ok)
+                    return BadRequest(clienteCriadoComSucesso.Errors.Select(e => e));
+#endif
 
                 // Autentica o usuário
                 await _signInManager.SignInAsync(novoUsuario, isPersistent: false);
@@ -112,8 +127,30 @@ namespace ECommerce.Identidade.Api.Controllers
                     await _userManager.DeleteAsync(identityUser);
 
                 return resultado;
-            } 
-            
+            }
+        }
+
+        private async Task<ClienteResponseMessage> CriarClienteRest(NovoUsuario usuario)
+        {
+            var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
+
+            var cliente = new ClienteDto(id: Guid.Parse(identityUser.Id),
+                nome: usuario.Nome,
+                sobrenome: usuario.Sobrenome,
+                documento: usuario.Documento,
+                telefone: usuario.Telefone,
+                email: usuario.Email
+            );
+
+            var token = await GerarToken(usuario.Email);
+
+            _clienteService.AddToken(token.Token);
+            var resultado = await _clienteService.Novo(cliente);
+
+            if (!resultado.Ok)
+                await _userManager.DeleteAsync(identityUser);
+
+            return resultado;
         }
 
         private async Task DesfazerOperacao(NovoUsuario usuario)
@@ -122,7 +159,7 @@ namespace ECommerce.Identidade.Api.Controllers
             await _userManager.DeleteAsync(identityUser);
         }
 
-        #region JWT
+#region JWT
         private async Task<UsuarioJwt> GerarToken(string email)
         {
             var usuario = await _userManager.FindByEmailAsync(email);
@@ -174,6 +211,6 @@ namespace ECommerce.Identidade.Api.Controllers
 
         private long ToUnixEpochDate(DateTime data) 
             => (long)Math.Round((data.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
-        #endregion
+#endregion
     }
 }

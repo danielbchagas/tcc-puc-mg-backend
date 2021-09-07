@@ -28,6 +28,7 @@ namespace ECommerce.Identidade.Api
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDependencyInjectionConfiguration();
             services.AddJwtConfiguration(Configuration);
             services.AddHealthCheckConfiguration(Configuration);
             services.AddSwaggerConfiguration();

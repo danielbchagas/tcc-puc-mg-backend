@@ -33,21 +33,6 @@ namespace ECommerce.Cliente.Api.Controllers
             return Ok(await _mediator.Send(new BuscarClientePorIdQuery(id)));
         }
 
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //[ProducesErrorResponseType(typeof(ProblemDetails))]
-        //[HttpPost("novo")]
-        //public async Task<IActionResult> Novo(AdicionarClienteCommand request)
-        //{
-        //    var resultado = await _mediator.Send(request);
-
-        //    if (!resultado.IsValid)
-        //        return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
-
-        //    return Ok();
-        //}
-
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
