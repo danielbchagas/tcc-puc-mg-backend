@@ -1,9 +1,9 @@
-﻿using ECommerce.Carrinho.Api.Interfaces.Data;
-using ECommerce.Carrinho.Api.Models;
+﻿using ECommerce.Carrinho.Domain.Interfaces.Data;
+using ECommerce.Carrinho.Domain.Models;
 using System;
 using System.Threading.Tasks;
 
-namespace ECommerce.Carrinho.Api.Interfaces.Repositories
+namespace ECommerce.Carrinho.Domain.Interfaces.Repositories
 {
     public interface IItemCarrinhoRepository : IDisposable
     {

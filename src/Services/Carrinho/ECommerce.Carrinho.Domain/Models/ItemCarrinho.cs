@@ -3,7 +3,7 @@ using FluentValidation.Results;
 using System;
 using System.Text.Json.Serialization;
 
-namespace ECommerce.Carrinho.Api.Models
+namespace ECommerce.Carrinho.Domain.Models
 {
     public class ItemCarrinho
     {

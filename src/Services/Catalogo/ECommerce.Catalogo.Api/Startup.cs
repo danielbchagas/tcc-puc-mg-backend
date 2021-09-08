@@ -1,4 +1,5 @@
 using ECommerce.Catalogo.Api.Configurations;
+using ECommerce.Catalogo.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -68,6 +69,8 @@ namespace ECommerce.Catalogo.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

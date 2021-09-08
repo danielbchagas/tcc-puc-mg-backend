@@ -1,6 +1,5 @@
-﻿using ECommerce.Carrinho.Api.Interfaces.Repositories;
-using ECommerce.Carrinho.Api.Models;
-using ECommerce.Carrinho.Api.ViewModels;
+﻿using ECommerce.Carrinho.Domain.Interfaces.Repositories;
+using ECommerce.Carrinho.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +26,9 @@ namespace ECommerce.Carrinho.Api.Controllers
             _itemRepository = itemRepository;
         }
 
-        [HttpGet("buscar")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
+        [HttpGet("buscar-carrinho")]
         public async Task<IActionResult> Buscar()
         {
             var carrinho = await BuscarCarrinho();
@@ -35,6 +36,9 @@ namespace ECommerce.Carrinho.Api.Controllers
             return Ok(carrinho);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("adicionar-item")]
         public async Task<IActionResult> Adicionar(ItemCarrinho item)
         {
@@ -42,7 +46,7 @@ namespace ECommerce.Carrinho.Api.Controllers
             
             if (carrinho == null)
             {
-                var novoCarrinho = new Models.Carrinho(Guid.Parse(UserId()));
+                var novoCarrinho = new Domain.Models.Carrinho(Guid.Parse(UserId()));
                 novoCarrinho.AtualizarItem(item);
 
                 if (!novoCarrinho.Validacao.IsValid)
@@ -65,7 +69,9 @@ namespace ECommerce.Carrinho.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete("remover/{produtoId:Guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
+        [HttpDelete("remover-item/{produtoId:Guid}")]
         public async Task<IActionResult> Remover(Guid produtoId)
         {
             await _itemRepository.ExcluirPorProdutoId(produtoId);
@@ -77,11 +83,11 @@ namespace ECommerce.Carrinho.Api.Controllers
         #region Métodos auxiliares
         private string UserId() => _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-        private async Task<Models.Carrinho> BuscarCarrinho()
+        private async Task<Domain.Models.Carrinho> BuscarCarrinho()
         {
             var userId = UserId();
 
-            return await _carrinhoRepository.BuscarPorId(Guid.Parse(userId)) ?? new Models.Carrinho(Guid.Parse(userId));
+            return await _carrinhoRepository.BuscarPorId(Guid.Parse(userId)) ?? new Domain.Models.Carrinho(Guid.Parse(userId));
         }
         #endregion
     }

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ECommerce.Carrinho.Api.Models
+namespace ECommerce.Carrinho.Domain.Models
 {
     public class Carrinho
     {

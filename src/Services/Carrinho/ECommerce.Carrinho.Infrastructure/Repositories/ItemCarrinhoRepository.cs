@@ -1,14 +1,12 @@
-﻿using ECommerce.Carrinho.Api.Data;
-using ECommerce.Carrinho.Api.Interfaces.Data;
-using ECommerce.Carrinho.Api.Interfaces.Repositories;
-using ECommerce.Carrinho.Api.Models;
+﻿using ECommerce.Carrinho.Domain.Interfaces.Data;
+using ECommerce.Carrinho.Domain.Interfaces.Repositories;
+using ECommerce.Carrinho.Domain.Models;
+using ECommerce.Carrinho.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace ECommerce.Carrinho.Api.Repositories
+namespace ECommerce.Carrinho.Infrastructure.Repositories
 {
     public class ItemCarrinhoRepository : IItemCarrinhoRepository
     {

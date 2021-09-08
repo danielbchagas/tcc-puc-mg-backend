@@ -1,3 +1,4 @@
+using ECommerce.Pedido.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -60,7 +61,10 @@ namespace ECommerce.Pedido.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\Carrinho\ECommerce.Carrinho.Api\ECommerce.Carrinho.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Carrinho\ECommerce.Carrinho.Domain\ECommerce.Carrinho.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
-﻿using ECommerce.Carrinho.Api.Interfaces.Data;
-using ECommerce.Carrinho.Api.Models;
+﻿using ECommerce.Carrinho.Domain.Interfaces.Data;
+using ECommerce.Carrinho.Domain.Models;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace ECommerce.Carrinho.Api.Data
+namespace ECommerce.Carrinho.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext, IUnitOfWork
     {
@@ -14,7 +14,7 @@ namespace ECommerce.Carrinho.Api.Data
         }
 
         public DbSet<ItemCarrinho> ItensCarrinhos { get; set; }
-        public DbSet<Models.Carrinho> CarrinhosClientes { get; set; }
+        public DbSet<Domain.Models.Carrinho> CarrinhosClientes { get; set; }
 
         public async Task<bool> Commit()
         {
@@ -37,7 +37,7 @@ namespace ECommerce.Carrinho.Api.Data
                 ic.Property(ic => ic.Quantidade).HasColumnType("int").IsRequired();
             });
 
-            modelBuilder.Entity<Models.Carrinho>(cc => 
+            modelBuilder.Entity<Domain.Models.Carrinho>(cc => 
             {
                 cc.ToTable("Carrinho");
 

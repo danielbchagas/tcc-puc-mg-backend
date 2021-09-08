@@ -25,7 +25,6 @@ namespace ECommerce.Cliente.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar-por-id/{id:Guid}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
@@ -35,7 +34,6 @@ namespace ECommerce.Cliente.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("novo")]
         public async Task<IActionResult> Novo(ClienteDto cliente)
@@ -50,7 +48,6 @@ namespace ECommerce.Cliente.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPut("atualizar")]
         public async Task<IActionResult> Atualizar(AtualizarClienteCommand request)
@@ -65,7 +62,6 @@ namespace ECommerce.Cliente.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpDelete("desativar")]
         public async Task<IActionResult> Desativar(DesativarClienteCommand request)

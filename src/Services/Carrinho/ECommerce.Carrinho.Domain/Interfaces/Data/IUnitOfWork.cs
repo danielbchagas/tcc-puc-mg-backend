@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ECommerce.Carrinho.Api.Interfaces.Data
+namespace ECommerce.Carrinho.Domain.Interfaces.Data
 {
     public interface IUnitOfWork
     {

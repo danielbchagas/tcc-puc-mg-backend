@@ -1,5 +1,5 @@
-﻿using ECommerce.Carrinho.Api.Interfaces.Repositories;
-using ECommerce.Carrinho.Api.Repositories;
+﻿using ECommerce.Carrinho.Domain.Interfaces.Repositories;
+using ECommerce.Carrinho.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -24,7 +24,6 @@ namespace ECommerce.Catalogo.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar-todos/{nome:alpha}/{pagina:int}/{linhas:int}")]
         public async Task<IActionResult> BuscarTodos(string nome, int pagina, int linhas)
@@ -37,7 +36,6 @@ namespace ECommerce.Catalogo.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar-todos")]
         public async Task<IActionResult> BuscarTodos()
@@ -50,7 +48,6 @@ namespace ECommerce.Catalogo.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar-todos/{pagina:int}/{linhas:int}")]
         public async Task<IActionResult> BuscarTodos(int pagina, int linhas)
@@ -62,7 +59,6 @@ namespace ECommerce.Catalogo.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar-por-id/{id:Guid}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
@@ -71,9 +67,9 @@ namespace ECommerce.Catalogo.Api.Controllers
             return Ok(produto);
         }
         
+        [Authorize("Administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("cadastrar")]
         public async Task<IActionResult> Cadastrar(AdicionarProdutoCommand request)
@@ -85,10 +81,10 @@ namespace ECommerce.Catalogo.Api.Controllers
 
             return Ok();
         }
-        
+
+        [Authorize("Administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPut("atualizar")]
         public async Task<IActionResult> Atualizar(AtualizarProdutoCommand request)

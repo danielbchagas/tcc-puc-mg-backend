@@ -48,6 +48,9 @@ namespace ECommerce.Identidade.Api.Controllers
             _clienteService = clienteService;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("novo")]
         public async Task<IActionResult> Novo(NovoUsuario usuario)
         {
@@ -95,6 +98,9 @@ namespace ECommerce.Identidade.Api.Controllers
             return Ok();
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUsuario usuario)
         {
