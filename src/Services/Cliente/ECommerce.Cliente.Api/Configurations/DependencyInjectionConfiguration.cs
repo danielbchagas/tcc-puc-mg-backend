@@ -1,4 +1,6 @@
-﻿using ECommerce.Cliente.Api.Services;
+﻿#define REST
+
+using ECommerce.Cliente.Api.Services;
 using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Handlers.Commands;
 using ECommerce.Cliente.Domain.Application.Handlers.Notifications;
@@ -73,7 +75,9 @@ namespace ECommerce.Cliente.Api.Configurations
 
             #endregion
 
+#if RABBITMQ
             services.AddHostedService<AdicionarClienteIntegrationHandler>();
+#endif
         }
     }
 }

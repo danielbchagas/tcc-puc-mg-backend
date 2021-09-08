@@ -1,5 +1,4 @@
 ﻿#define REST
-//#define RABBITMQ
 
 using EasyNetQ;
 using ECommerce.Identidade.Api.Interfaces;
@@ -12,8 +11,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Polly;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -136,7 +133,8 @@ namespace ECommerce.Identidade.Api.Controllers
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
 
-            var cliente = new ClienteDto(id: Guid.Parse(identityUser.Id),
+            var cliente = new ClienteDto(
+                id: Guid.Parse(identityUser.Id),
                 nome: usuario.Nome,
                 sobrenome: usuario.Sobrenome,
                 documento: usuario.Documento,

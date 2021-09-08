@@ -1,12 +1,10 @@
-﻿using ECommerce.Cliente.Api.Models;
-using ECommerce.Cliente.Domain.Application.Commands;
+﻿using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Api.Controllers
@@ -27,7 +25,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar/{id:Guid}")]
-        public async Task<IActionResult> BuscarPorId(Guid id)
+        public async Task<IActionResult> Buscar(Guid id)
         {
             return Ok(await _mediator.Send(new BuscarClientePorIdQuery(id)));
         }
@@ -36,12 +34,12 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("novo")]
-        public async Task<IActionResult> Novo(ClienteDto cliente)
+        public async Task<IActionResult> Novo(AdicionarClienteCommand command)
         {
-            var resultado = await _mediator.Send(new AdicionarClienteCommand(cliente.Id, cliente.Nome, cliente.Sobrenome, cliente.Documento, cliente.Telefone, cliente.Email));
+            var result = await _mediator.Send(command);
 
-            if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
+            if (!result.IsValid)
+                return BadRequest(result);
 
             return Ok();
         }
@@ -49,13 +47,13 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpDelete("desativar")]
+        [HttpDelete("desativar/{id:Guid}")]
         public async Task<IActionResult> Desativar(Guid id)
         {
-            var resultado = await _mediator.Send(new DesativarClienteCommand(id));
+            var result = await _mediator.Send(new DesativarClienteCommand(id));
 
-            if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
+            if (!result.IsValid)
+                return BadRequest(result);
 
             return Ok();
         }

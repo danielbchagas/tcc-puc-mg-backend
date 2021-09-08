@@ -31,26 +31,17 @@ namespace ECommerce.Cliente.Api.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             TryConnect();
-            await _bus.Rpc.RespondAsync<ClienteDto, ValidationResult>(async request => await AdicionarCliente(request), stoppingToken);
+            await _bus.Rpc.RespondAsync<AdicionarClienteCommand, ValidationResult>(async request => await AdicionarCliente(request), stoppingToken);
             
             await Task.CompletedTask;
         }
 
-        private async Task<ValidationResult> AdicionarCliente(ClienteDto request)
+        private async Task<ValidationResult> AdicionarCliente(AdicionarClienteCommand request)
         {
-            var clienteCommand = new AdicionarClienteCommand(
-                id: request.Id, 
-                nome: request.Nome, 
-                sobrenome: request.Sobrenome, 
-                documento: request.Documento, 
-                telefone: request.Telefone,
-                email: request.Email
-            );
-
             using (var scope = _serviceProvider.CreateScope())
             {
                 var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                ValidationResult valido = await mediator.Send(clienteCommand);
+                ValidationResult valido = await mediator.Send(request);
 
                 return await Task.FromResult(valido);
             }

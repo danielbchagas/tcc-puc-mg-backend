@@ -1,11 +1,10 @@
 ﻿using ECommerce.Compras.Gateway.Interfaces;
 using ECommerce.Compras.Gateway.Models.Cliente;
+using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,26 +26,17 @@ namespace ECommerce.Compras.Gateway.Services
             _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
         }
 
-        public async Task<ClienteResponseMessage> Atualizar(ClienteDto cliente)
+        public async Task<ClienteDto> Buscar(Guid id)
         {
-            var json = JsonSerializer.Serialize(cliente);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync("/api/clientes/novo", content);
+            var response = await _client.GetAsync($"/api/clientes/buscar/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
-            {
-                var result = await response.Content.ReadAsStringAsync();
+                return null;
 
-                var errors = JsonSerializer.Deserialize<List<string>>(result);
-
-                return new ClienteResponseMessage(false, response.StatusCode, errors);
-            }
-
-            return new ClienteResponseMessage();
+            return JsonSerializer.Deserialize<ClienteDto>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<ClienteResponseMessage> Desativar(Guid id)
+        public async Task<ValidationResult> Desativar(Guid id)
         {
             var response = await _client.DeleteAsync("/api/clientes/desativar/" + id);
 
@@ -54,12 +44,10 @@ namespace ECommerce.Compras.Gateway.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                var errors = JsonSerializer.Deserialize<List<string>>(result);
-
-                return new ClienteResponseMessage(false, response.StatusCode, errors);
+                return JsonSerializer.Deserialize<ValidationResult>(result);
             }
 
-            return new ClienteResponseMessage();
+            return new ValidationResult();
         }
     }
 
