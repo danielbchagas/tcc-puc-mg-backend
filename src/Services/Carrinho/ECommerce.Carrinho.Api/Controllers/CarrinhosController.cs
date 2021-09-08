@@ -36,15 +36,14 @@ namespace ECommerce.Carrinho.Api.Controllers
         }
 
         [HttpPost("adicionar-item")]
-        public async Task<IActionResult> Adicionar(ItemCarrinhoViewModel item)
+        public async Task<IActionResult> Adicionar(ItemCarrinho item)
         {
             var carrinho = await BuscarCarrinho();
-            var novoItem = new ItemCarrinho(nome: item.Nome, quantidade: item.Quantidade, valor: item.Valor, imagem: item.Imagem, produtoId: item.ProdutoId, carrinhoId: item.CarrinhoId);
-
+            
             if (carrinho == null)
             {
                 var novoCarrinho = new Models.Carrinho(Guid.Parse(UserId()));
-                novoCarrinho.AtualizarItem(novoItem);
+                novoCarrinho.AtualizarItem(item);
 
                 if (!novoCarrinho.Validacao.IsValid)
                     return BadRequest(novoCarrinho.Validacao.Errors.Select(e => e.ErrorMessage));
@@ -53,7 +52,7 @@ namespace ECommerce.Carrinho.Api.Controllers
             }
             else
             {
-                carrinho.AtualizarItem(novoItem);
+                carrinho.AtualizarItem(item);
 
                 if (!carrinho.Validacao.IsValid)
                     return BadRequest(carrinho.Validacao.Errors.Select(e => e.ErrorMessage));
@@ -82,7 +81,7 @@ namespace ECommerce.Carrinho.Api.Controllers
         {
             var userId = UserId();
 
-            return await _carrinhoRepository.BuscarPorId(Guid.Parse(userId));
+            return await _carrinhoRepository.BuscarPorId(Guid.Parse(userId)) ?? new Models.Carrinho(Guid.Parse(userId));
         }
         #endregion
     }

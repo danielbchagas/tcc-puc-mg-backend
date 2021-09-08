@@ -20,19 +20,19 @@ namespace ECommerce.Carrinho.Api.Models
             Validacao = new ItemCarrinhoValidator().Validate(this);
         }
 
-        public ValidationResult Validacao { get; private set; }
+        public ValidationResult Validacao { get; set; }
 
-        public Guid Id { get; private set; }
-        public string Nome { get; private set; }
-        public int Quantidade { get; private set; }
-        public decimal Valor { get; private set; }
-        public string Imagem { get; private set; }
+        public Guid Id { get; set; }
+        public string Nome { get; set; }
+        public int Quantidade { get; set; }
+        public decimal Valor { get; set; }
+        public string Imagem { get; set; }
 
-        public Guid ProdutoId { get; private set; }
-        public Guid CarrinhoId { get; private set; }
+        public Guid ProdutoId { get; set; }
+        public Guid CarrinhoId { get; set; }
 
         [JsonIgnore]
-        public Carrinho CarrinhoCliente { get; private set; }
+        public Carrinho CarrinhoCliente { get; set; }
 
         #region Métodos auxiliares
         internal void AssociarCarrinho(Guid carrinhoId)

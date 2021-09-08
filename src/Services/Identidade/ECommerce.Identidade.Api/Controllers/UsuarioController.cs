@@ -83,9 +83,6 @@ namespace ECommerce.Identidade.Api.Controllers
                 if (!clienteCriadoComSucesso.Ok)
                     return BadRequest(clienteCriadoComSucesso.Errors.Select(e => e));
 #endif
-
-                // Autentica o usuário
-                await _signInManager.SignInAsync(novoUsuario, isPersistent: false);
             }
             catch(Exception e)
             {
