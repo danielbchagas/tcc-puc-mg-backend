@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Identidade.Api.Models
 {
-    public class HttpOptions
+    public class ClienteServiceOptions
     {
         public string BaseAddress { get; set; }
     }

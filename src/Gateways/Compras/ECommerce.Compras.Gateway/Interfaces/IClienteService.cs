@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Compras.Gateway.Interfaces
 {
-    public interface IHttpService
+    public interface IClienteService
     {
         
     }

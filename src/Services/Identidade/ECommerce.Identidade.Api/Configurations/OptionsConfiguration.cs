@@ -10,7 +10,7 @@ namespace ECommerce.Identidade.Api.Configurations
         {
             services.Configure<RabbitMqOptions>(config => configuration.GetSection("RabbitMqOptions").Bind(config));
             services.Configure<JwtOptions>(config => configuration.GetSection("JwtOptions").Bind(config));
-            services.Configure<HttpOptions>(config => configuration.GetSection("HttpOptions").Bind(config));
+            services.Configure<ClienteServiceOptions>(config => configuration.GetSection("ClienteServiceOptions").Bind(config));
 
             return services;
         }

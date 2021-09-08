@@ -15,7 +15,7 @@ namespace ECommerce.Compras.Gateway.Configurations
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddHttpClient<IHttpService, HttpService>()
+            services.AddHttpClient<IClienteService, ClienteService>()
                 .AddHttpMessageHandler<ValidateHeaderHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));

@@ -1,5 +1,5 @@
-﻿using ECommerce.Identidade.Api.Interfaces;
-using ECommerce.Identidade.Api.Models;
+﻿using ECommerce.Compras.Gateway.Interfaces;
+using ECommerce.Identidade.Api.Models.Cliente;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -10,16 +10,15 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECommerce.Identidade.Api.Services
+namespace ECommerce.Compras.Gateway.Services
 {
     public class ClienteService : IClienteService
     {
         private readonly HttpClient _client;
 
-        public ClienteService(HttpClient client, IOptions<ClienteServiceOptions> options)
+        public ClienteService(IOptions<ClienteServiceOptions> clienteServiceOptions)
         {
-            _client = client;
-            _client.BaseAddress = new Uri(options.Value.BaseAddress);
+            _client.BaseAddress = new Uri(clienteServiceOptions.Value.BaseAddress);
         }
 
         public void AddToken(string token)
