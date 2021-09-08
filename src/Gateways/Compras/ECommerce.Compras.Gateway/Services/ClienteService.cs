@@ -1,5 +1,5 @@
 ﻿using ECommerce.Compras.Gateway.Interfaces;
-using ECommerce.Identidade.Api.Models.Cliente;
+using ECommerce.Compras.Gateway.Models.Cliente;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -16,8 +16,9 @@ namespace ECommerce.Compras.Gateway.Services
     {
         private readonly HttpClient _client;
 
-        public ClienteService(IOptions<ClienteServiceOptions> clienteServiceOptions)
+        public ClienteService(HttpClient client, IOptions<ClienteServiceOptions> clienteServiceOptions)
         {
+            _client = client;
             _client.BaseAddress = new Uri(clienteServiceOptions.Value.BaseAddress);
         }
 
@@ -26,12 +27,28 @@ namespace ECommerce.Compras.Gateway.Services
             _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
         }
 
-        public async Task<ClienteResponseMessage> Novo(ClienteDto cliente)
+        public async Task<ClienteResponseMessage> Atualizar(ClienteDto cliente)
         {
             var json = JsonSerializer.Serialize(cliente);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("/api/clientes/novo", content);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+
+                var errors = JsonSerializer.Deserialize<List<string>>(result);
+
+                return new ClienteResponseMessage(false, response.StatusCode, errors);
+            }
+
+            return new ClienteResponseMessage();
+        }
+
+        public async Task<ClienteResponseMessage> Desativar(Guid id)
+        {
+            var response = await _client.DeleteAsync("/api/clientes/desativar/" + id);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {

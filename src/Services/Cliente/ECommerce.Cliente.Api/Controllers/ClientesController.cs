@@ -26,7 +26,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar-por-id/{id:Guid}")]
+        [HttpGet("buscar/{id:Guid}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
         {
             return Ok(await _mediator.Send(new BuscarClientePorIdQuery(id)));
@@ -49,24 +49,10 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPut("atualizar")]
-        public async Task<IActionResult> Atualizar(AtualizarClienteCommand request)
-        {
-            var resultado = await _mediator.Send(request);
-
-            if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));
-
-            return Ok();
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpDelete("desativar")]
-        public async Task<IActionResult> Desativar(DesativarClienteCommand request)
+        public async Task<IActionResult> Desativar(Guid id)
         {
-            var resultado = await _mediator.Send(request);
+            var resultado = await _mediator.Send(new DesativarClienteCommand(id));
 
             if (!resultado.IsValid)
                 return BadRequest(resultado.Errors.Select(_ => _.ErrorMessage));

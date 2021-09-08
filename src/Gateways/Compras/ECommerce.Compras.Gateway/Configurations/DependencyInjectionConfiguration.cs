@@ -6,6 +6,7 @@ using Polly;
 using Polly.Extensions.Http;
 using System;
 using System.Net.Http;
+using MediatR;
 
 namespace ECommerce.Compras.Gateway.Configurations
 {
@@ -13,6 +14,8 @@ namespace ECommerce.Compras.Gateway.Configurations
     {
         public static void AddDependencyInjectionConfiguration(this IServiceCollection services)
         {
+            services.AddMediatR(typeof(Startup));
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddHttpClient<IClienteService, ClienteService>()

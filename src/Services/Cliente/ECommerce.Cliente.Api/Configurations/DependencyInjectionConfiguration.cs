@@ -22,12 +22,11 @@ namespace ECommerce.Cliente.Api.Configurations
             services.AddMediatR(typeof(Startup));
 
             #region Mediator - Comandos
-            services.AddScoped<IRequestHandler<AtualizarClienteCommand, ValidationResult>, AtualizarClienteCommandHandler>();
             services.AddScoped<IRequestHandler<AdicionarClienteCommand, ValidationResult>, AdicionarClienteCommandHandler>();
             services.AddScoped<IRequestHandler<DesativarClienteCommand, ValidationResult>, DesativarClienteCommandHandler>();
 
-            services.AddScoped<IRequestHandler<AtualizarEnderecoCommand, ValidationResult>, AtualizarEnderecoCommandHandler>();
             services.AddScoped<IRequestHandler<AdicionarEnderecoCommand, ValidationResult>, AdicionarEnderecoCommandHandler>();
+            services.AddScoped<IRequestHandler<AtualizarEnderecoCommand, ValidationResult>, AtualizarEnderecoCommandHandler>();
 
             services.AddScoped<IRequestHandler<AdicionarDocumentoCommand, ValidationResult>, AdicionarDocumentoCommandHandler>();
             services.AddScoped<IRequestHandler<AtualizarDocumentoCommand, ValidationResult>, AtualizarDocumentoCommandHandler>();

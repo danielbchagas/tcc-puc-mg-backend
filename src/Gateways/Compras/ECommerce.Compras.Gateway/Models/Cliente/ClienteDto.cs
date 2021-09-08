@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ECommerce.Identidade.Api.Models.Cliente
+namespace ECommerce.Compras.Gateway.Models.Cliente
 {
     public class ClienteDto
     {
