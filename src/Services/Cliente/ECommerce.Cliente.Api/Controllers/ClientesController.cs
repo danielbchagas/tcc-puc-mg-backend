@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientesController : ControllerBase

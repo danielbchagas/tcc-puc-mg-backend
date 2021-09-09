@@ -17,10 +17,10 @@ namespace ECommerce.Compras.Gateway.Services
     {
         private readonly HttpClient _client;
 
-        public ClienteService(HttpClient client, IOptions<ClienteServiceOptions> clienteServiceOptions)
+        public ClienteService(HttpClient client, IOptions<ServiceOptions> clienteServiceOptions)
         {
             _client = client;
-            _client.BaseAddress = new Uri(clienteServiceOptions.Value.BaseAddress);
+            _client.BaseAddress = new Uri(clienteServiceOptions.Value.ClienteUrl);
         }
 
         public void AddToken(string token)

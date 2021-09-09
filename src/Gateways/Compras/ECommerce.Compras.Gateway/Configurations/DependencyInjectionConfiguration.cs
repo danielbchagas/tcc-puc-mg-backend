@@ -1,4 +1,5 @@
-﻿using ECommerce.Compras.Gateway.Interfaces;
+﻿using ECommerce.Compras.Gateway.Extensions;
+using ECommerce.Compras.Gateway.Interfaces;
 using ECommerce.Compras.Gateway.Services;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +17,13 @@ namespace ECommerce.Compras.Gateway.Configurations
         {
             services.AddMediatR(typeof(Startup));
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IAspNetUser, AspNetUser>();
+
+            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+
             services.AddHttpClient<IClienteService, ClienteService>()
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
         }

@@ -9,7 +9,7 @@ namespace ECommerce.Compras.Gateway.Configurations
         public static IServiceCollection AddOptionsConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<JwtOptions>(config => configuration.GetSection("JwtOptions").Bind(config));
-            services.Configure<ClienteServiceOptions>(config => configuration.GetSection("ClienteServiceOptions").Bind(config));
+            services.Configure<ServiceOptions>(config => configuration.GetSection("ServiceOptions").Bind(config));
 
             return services;
         }
