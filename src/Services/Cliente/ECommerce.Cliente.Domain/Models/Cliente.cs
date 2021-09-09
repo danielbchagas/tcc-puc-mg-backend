@@ -1,5 +1,6 @@
 ﻿using ECommerce.Cliente.Domain.Interfaces.Entities;
 using FluentValidation;
+using FluentValidation.Results;
 using System;
 
 namespace ECommerce.Cliente.Domain.Models
@@ -18,44 +19,19 @@ namespace ECommerce.Cliente.Domain.Models
             Sobrenome = sobrenome;
             Ativo = ativo;
         }
-
-        public string Nome { get; private set; }
-        public string Sobrenome { get; private set; }
-        public bool Ativo { get; private set; }
-
-        public Documento Documento { get; private set; }
-        public Email Email { get; private set; }
-        public Telefone Telefone { get; private set; }
-        public Endereco Endereco { get; private set; }
-
-        public void Ativar()
-        {
-            Ativo = true;
-        }
-
-        public void Desativar()
-        {
-            Ativo = false;
-        }
         
-        public void VincularDocumento(Documento documento)
-        {
-            Documento = documento;
-        }
+        public string Nome { get; set; }
+        public string Sobrenome { get; set; }
+        public bool Ativo { get; set; }
 
-        public void VincularEmail(Email email)
-        {
-            Email = email;
-        }
+        public Documento Documento { get; set; }
+        public Email Email { get; set; }
+        public Telefone Telefone { get; set; }
+        public Endereco Endereco { get; set; }
 
-        public void VincularTelefone(Telefone telefone)
+        public ValidationResult Validar()
         {
-            Telefone = telefone;
-        }
-
-        public void VincularEndereco(Endereco endereco)
-        {
-            Endereco = endereco;
+            return new ClienteValidator().Validate(this);
         }
     }
 

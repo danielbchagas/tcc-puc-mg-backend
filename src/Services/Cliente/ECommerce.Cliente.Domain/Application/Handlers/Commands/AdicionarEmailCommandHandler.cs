@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using ECommerce.Cliente.Domain.Application.Commands;
+﻿using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 {
@@ -17,18 +15,16 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         {
             _repository = repository;
             _mediator = mediator;
-            _validador = new EmailValidator();
         }
 
         private readonly IEmailRepository _repository;
         private readonly IMediator _mediator;
-        private readonly EmailValidator _validador;
-
+        
         public async Task<ValidationResult> Handle(AdicionarEmailCommand request, CancellationToken cancellationToken)
         {
             var email = new Email(request.Endereco, request.ClienteId);
 
-            var valido = _validador.Validate(email);
+            var valido = email.Validar();
 
             if (valido.IsValid)
             {

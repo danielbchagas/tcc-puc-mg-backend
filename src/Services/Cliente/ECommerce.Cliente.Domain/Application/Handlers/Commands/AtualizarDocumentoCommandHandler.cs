@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ECommerce.Cliente.Domain.Application.Commands;
+﻿using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
@@ -16,21 +15,17 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         {
             _repository = repository;
             _mediator = mediator;
-            _validador = new DocumentoValidator();
-            _mapper = NovoMapeamento();
         }
 
         private readonly IDocumentoRepository _repository;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly DocumentoValidator _validador;
 
         public async Task<ValidationResult> Handle(AtualizarDocumentoCommand request, CancellationToken cancellationToken)
         {
             var documento = await _repository.Buscar(request.Id);
-            documento = _mapper.Map<Documento>(request);
+            documento.Numero = request.Numero;
 
-            var valido = _validador.Validate(documento);
+            var valido = documento.Validar();
 
             if (valido.IsValid)
             {
@@ -42,18 +37,6 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
             }
 
             return await Task.FromResult(valido);
-        }
-
-        private IMapper NovoMapeamento()
-        {
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AtualizarDocumentoCommand, Documento>()
-                    .ForMember(dest => dest.Numero, opt => opt.MapFrom(c => c.Numero))
-                    .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(c => c.ClienteId));
-            });
-
-            return configuration.CreateMapper();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using ECommerce.Catalogo.Domain.Application.Commands;
 using ECommerce.Catalogo.Domain.Application.Notifications;
 using ECommerce.Catalogo.Domain.Interfaces.Repositories;
-using ECommerce.Catalogo.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
 using System;
@@ -16,19 +15,17 @@ namespace ECommerce.Catalogo.Domain.Application.Handlers.Commands
         {
             _repository = repository;
             _mediator = mediator;
-            _validacao = new ProdutoValidator();
         }
 
         private readonly IProdutoRepository _repository;
         private readonly IMediator _mediator;
-        private readonly ProdutoValidator _validacao;
-
+        
         public async Task<ValidationResult> Handle(SubtrairProdutoCommand request, CancellationToken cancellationToken)
         {
             var produto = await _repository.Buscar(request.Id);
             produto.Remover(request.Quantidade);
 
-            var valido = _validacao.Validate(produto);
+            var valido = produto.Validar();
 
             if (valido.IsValid)
             {

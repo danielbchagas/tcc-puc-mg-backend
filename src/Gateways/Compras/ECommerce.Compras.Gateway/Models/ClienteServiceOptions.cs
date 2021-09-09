@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Compras.Gateway.Models.Cliente
+﻿namespace ECommerce.Compras.Gateway.Models
 {
     public class ClienteServiceOptions
     {

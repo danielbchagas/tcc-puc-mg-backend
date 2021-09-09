@@ -1,12 +1,12 @@
 ﻿using ECommerce.Compras.Gateway.Interfaces;
 using ECommerce.Compras.Gateway.Services;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
 using System;
 using System.Net.Http;
-using MediatR;
 
 namespace ECommerce.Compras.Gateway.Configurations
 {
@@ -16,10 +16,7 @@ namespace ECommerce.Compras.Gateway.Configurations
         {
             services.AddMediatR(typeof(Startup));
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             services.AddHttpClient<IClienteService, ClienteService>()
-                .AddHttpMessageHandler<ValidateHeaderHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
         }

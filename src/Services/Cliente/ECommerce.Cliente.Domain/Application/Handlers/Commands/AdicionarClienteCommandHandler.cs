@@ -1,11 +1,9 @@
 ﻿using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
-using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
 using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,20 +15,18 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         {
             _repository = repository;
             _mediator = mediator;
-            _clienteValidador = new ClienteValidator();
         }
 
         private readonly IClienteRepository _repository;
-        private readonly ClienteValidator _clienteValidador;
         private readonly IMediator _mediator;
 
         public async Task<ValidationResult> Handle(AdicionarClienteCommand request, CancellationToken cancellationToken)
         {
-            var cliente = new Models.Cliente(id: request.Id, nome: request.Nome, sobrenome: request.Sobrenome);
+            var cliente = new Models.Cliente(id: request.Id, nome: request.Nome, sobrenome: request.Sobrenome, request.Ativo);
 
-            var clienteValido = _clienteValidador.Validate(cliente);
+            var validacao = cliente.Validar();
 
-            if (clienteValido.IsValid)
+            if (validacao.IsValid)
             {
                 await _repository.Adicionar(cliente);
                 var sucesso = await _repository.UnitOfWork.Commit();
@@ -87,7 +83,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                     await _mediator.Publish(new ClienteCommitNotification(clienteId: cliente.Id, usuarioId: request.Id));
             }
 
-            return await Task.FromResult(clienteValido);
+            return await Task.FromResult(validacao);
         }
     }
 }

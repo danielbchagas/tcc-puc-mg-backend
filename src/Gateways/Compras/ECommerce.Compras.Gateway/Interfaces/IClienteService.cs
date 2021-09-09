@@ -7,7 +7,8 @@ namespace ECommerce.Compras.Gateway.Interfaces
 {
     public interface IClienteService
     {
+        Task<ValidationResult> Atualizar(AtualizarClienteDto cliente);
         Task<ValidationResult> Desativar(Guid id);
-        Task<ClienteDto> Buscar(Guid id);
+        Task<BuscarClienteDto> Buscar(Guid id);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using System;
 using System.Text.Json.Serialization;
 
@@ -17,11 +18,16 @@ namespace ECommerce.Cliente.Domain.Models
             ClienteId = clienteId;
         }
 
-        public string Numero { get; private set; }
+        public string Numero { get; set; }
         
-        public Guid ClienteId { get; private set; }
+        public Guid ClienteId { get; set; }
         [JsonIgnore]
-        public Cliente Cliente { get; private set; }
+        public Cliente Cliente { get; set; }
+
+        public ValidationResult Validar()
+        {
+            return new DocumentoValidator().Validate(this);
+        }
     }
 
     public class DocumentoValidator : AbstractValidator<Documento>

@@ -1,5 +1,6 @@
 ﻿using ECommerce.Catalogo.Domain.Interfaces.Entities;
 using FluentValidation;
+using FluentValidation.Results;
 using System;
 
 namespace ECommerce.Catalogo.Domain.Models
@@ -17,13 +18,13 @@ namespace ECommerce.Catalogo.Domain.Models
             DataCadastro = DateTime.Now;
         }
 
-        public string Descricao { get; private set; }
-        public string Nome { get; private set; }
-        public string Imagem { get; private set; }
-        public long QuantidadeEstoque { get; private set; }
-        public decimal Preco { get; private set; }
-        public bool Ativo { get; private set; }
-        public DateTime DataCadastro { get; private set; }
+        public string Descricao { get; set; }
+        public string Nome { get; set; }
+        public string Imagem { get; set; }
+        public long QuantidadeEstoque { get; set; }
+        public decimal Preco { get; set; }
+        public bool Ativo { get; set; }
+        public DateTime DataCadastro { get; set; }
 
         public void Ativar()
         {
@@ -48,6 +49,11 @@ namespace ECommerce.Catalogo.Domain.Models
         public void AlterarPreco(decimal novoPreco)
         {
             Preco = novoPreco;
+        }
+
+        public ValidationResult Validar()
+        {
+            return new ProdutoValidator().Validate(this);
         }
     }
 

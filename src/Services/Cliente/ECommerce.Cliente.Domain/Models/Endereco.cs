@@ -1,5 +1,6 @@
 ﻿using ECommerce.Cliente.Domain.Enums;
 using FluentValidation;
+using FluentValidation.Results;
 using System;
 using System.Text.Json.Serialization;
 
@@ -22,16 +23,21 @@ namespace ECommerce.Cliente.Domain.Models
             ClienteId = clienteId;
         }
 
-        public string Logradouro { get; private set; }
-        public string Bairro { get; private set; }
-        public string Cidade { get; private set; }
-        public string Cep { get; private set; }
-        public Estados Estado { get; private set; }
+        public string Logradouro { get; set; }
+        public string Bairro { get; set; }
+        public string Cidade { get; set; }
+        public string Cep { get; set; }
+        public Estados Estado { get; set; }
 
         // Relacionamento
-        public Guid ClienteId { get; private set; }
+        public Guid ClienteId { get; set; }
         [JsonIgnore]
-        public Cliente Cliente { get; private set; }
+        public Cliente Cliente { get; set; }
+
+        public ValidationResult Validar()
+        {
+            return new EnderecoValidator().Validate(this);
+        }
     }
 
     public class EnderecoValidator : AbstractValidator<Endereco>

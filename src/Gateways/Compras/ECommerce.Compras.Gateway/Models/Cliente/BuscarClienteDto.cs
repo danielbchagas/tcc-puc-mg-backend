@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Text.Json.Serialization;
 
 namespace ECommerce.Compras.Gateway.Models.Cliente
 {
-    public class ClienteDto
+    public class BuscarClienteDto
     {
         public Guid Id { get; set; }
         public string Nome { get; set; }
@@ -20,46 +19,29 @@ namespace ECommerce.Compras.Gateway.Models.Cliente
     public class Documento
     {
         public Guid Id { get; set; }
-        public string Numero { get; private set; }
-
-        public Guid ClienteId { get; private set; }
-        [JsonIgnore]
-        public ClienteDto Cliente { get; private set; }
+        public string Numero { get;  set; }
     }
 
     public class Email
     {
         public Guid Id { get; set; }
-        public string Endereco { get; private set; }
-
-        public Guid ClienteId { get; private set; }
-        [JsonIgnore]
-        public ClienteDto Cliente { get; private set; }
+        public string Endereco { get; set; }
     }
 
     public class Endereco
     {
         public Guid Id { get; set; }
-        public string Logradouro { get; private set; }
-        public string Bairro { get; private set; }
-        public string Cidade { get; private set; }
-        public string Cep { get; private set; }
-        public Estados Estado { get; private set; }
-
-        // Relacionamento
-        public Guid ClienteId { get; private set; }
-        [JsonIgnore]
-        public ClienteDto Cliente { get; private set; }
+        public string Logradouro { get; set; }
+        public string Bairro { get; set; }
+        public string Cidade { get; set; }
+        public string Cep { get; set; }
+        public Estados Estado { get; set; }
     }
 
     public class Telefone
     {
         public Guid Id { get; set; }
-        public string Numero { get; private set; }
-
-        public Guid ClienteId { get; private set; }
-        [JsonIgnore]
-        public ClienteDto Cliente { get; private set; }
+        public string Numero { get; set; }
     }
 
     public enum Estados

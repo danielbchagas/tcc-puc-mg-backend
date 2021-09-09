@@ -80,8 +80,8 @@ namespace ECommerce.Identidade.Api.Controllers
 #elif REST
                 var clienteCriadoComSucesso = await CriarClienteRest(usuario);
 
-                if (!clienteCriadoComSucesso.Ok)
-                    return BadRequest(clienteCriadoComSucesso.Errors.Select(e => e));
+                if (!clienteCriadoComSucesso.IsValid)
+                    return BadRequest(clienteCriadoComSucesso.Errors.Select(e => e.ErrorMessage));
 #endif
             }
             catch(Exception e)
@@ -116,6 +116,7 @@ namespace ECommerce.Identidade.Api.Controllers
             var cliente = new ClienteDto(id: Guid.Parse(identityUser.Id),
                 nome: usuario.Nome,
                 sobrenome: usuario.Sobrenome,
+                ativo: true,
                 documento: usuario.Documento,
                 telefone: usuario.Telefone,
                 email: usuario.Email
@@ -129,7 +130,7 @@ namespace ECommerce.Identidade.Api.Controllers
             return resultado;
         }
 
-        private async Task<ClienteResponseMessage> CriarClienteRest(NovoUsuario usuario)
+        private async Task<ValidationResult> CriarClienteRest(NovoUsuario usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
 
@@ -137,6 +138,7 @@ namespace ECommerce.Identidade.Api.Controllers
                 id: Guid.Parse(identityUser.Id),
                 nome: usuario.Nome,
                 sobrenome: usuario.Sobrenome,
+                ativo: true,
                 documento: usuario.Documento,
                 telefone: usuario.Telefone,
                 email: usuario.Email
@@ -147,7 +149,7 @@ namespace ECommerce.Identidade.Api.Controllers
             _clienteService.AddToken(token.Token);
             var resultado = await _clienteService.Novo(cliente);
 
-            if (!resultado.Ok)
+            if (!resultado.IsValid)
                 await DesfazerOperacao(usuario);
 
             return resultado;

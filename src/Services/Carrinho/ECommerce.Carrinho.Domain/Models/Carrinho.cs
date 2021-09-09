@@ -15,12 +15,9 @@ namespace ECommerce.Carrinho.Domain.Models
             Id = Guid.NewGuid();
             ClienteId = clienteId;
             Itens = new List<ItemCarrinho>();
-
-            Validacao = new ValidationResult();
         }
 
         internal const int MAX_QUANTIDADE_ITEM = 5;
-        public ValidationResult Validacao { get; private set; }
 
         public Guid Id { get; private set; }
         public decimal ValorTotal { get; private set; }
@@ -32,10 +29,11 @@ namespace ECommerce.Carrinho.Domain.Models
         public ValidationResult AtualizarItem(ItemCarrinho item)
         {
             // Valida se o item é válido
-            if (!item.Validacao.IsValid)
+            var itemValido = item.Validar();
+
+            if (!itemValido.IsValid)
             {
-                Validacao = item.Validacao;
-                return Validacao;
+                return itemValido;
             }
 
             // Verifica se o item já existe no carrinho
@@ -59,7 +57,7 @@ namespace ECommerce.Carrinho.Domain.Models
 
             ValorTotal += Itens.Sum(i => i.CalcularValor());
 
-            return Validacao = new CarrinhoValidator().Validate(this);
+            return Validar();
         }
 
         public void ExcluirItem(Guid itemId)
@@ -72,6 +70,11 @@ namespace ECommerce.Carrinho.Domain.Models
         public bool ItemExiste(Guid itemId)
         {
             return Itens.Any(i => i.ProdutoId == itemId);
+        }
+
+        public ValidationResult Validar()
+        {
+            return new CarrinhoValidator().Validate(this);
         }
         #endregion
     }

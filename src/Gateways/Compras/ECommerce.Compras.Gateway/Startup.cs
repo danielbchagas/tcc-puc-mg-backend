@@ -1,4 +1,5 @@
 using ECommerce.Compras.Gateway.Configurations;
+using ECommerce.Compras.Gateway.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +29,9 @@ namespace ECommerce.Compras.Gateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDependencyInjectionConfiguration();
+            services.AddJwtConfiguration(Configuration);
             services.AddSwaggerConfiguration();
+            services.AddOptionsConfiguration(Configuration);
 
             services.AddControllers().AddJsonOptions(
                 opt =>
@@ -54,6 +57,8 @@ namespace ECommerce.Compras.Gateway
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

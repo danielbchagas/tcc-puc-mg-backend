@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using ECommerce.Cliente.Domain.Application.Commands;
+﻿using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
-using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
 using System.Threading;
@@ -16,21 +14,17 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         {
             _repository = repository;
             _mediator = mediator;
-            _validacoes = new TelefoneValidator();
-            _mapper = NovoMapeamento();
         }
 
         private readonly ITelefoneRepository _repository;
         private readonly IMediator _mediator;
-        private readonly TelefoneValidator _validacoes;
-        private readonly IMapper _mapper;
 
         public async Task<ValidationResult> Handle(AtualizarTelefoneCommand request, CancellationToken cancellationToken)
         {
             var telefone = await _repository.Buscar(request.Id);
-            telefone = _mapper.Map<Telefone>(request);
-
-            var valido = _validacoes.Validate(telefone);
+            telefone.Numero = request.Numero;
+            
+            var valido = telefone.Validar();
 
             if (valido.IsValid)
             {
@@ -42,18 +36,6 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
             }
 
             return await Task.FromResult(valido);
-        }
-
-        private IMapper NovoMapeamento()
-        {
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AtualizarTelefoneCommand, Telefone>()
-                    .ForMember(dest => dest.Numero, opt => opt.MapFrom(t => t.Numero))
-                    .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(t => t.ClienteId));
-            });
-
-            return configuration.CreateMapper();
         }
     }
 }

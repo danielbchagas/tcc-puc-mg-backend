@@ -49,8 +49,10 @@ namespace ECommerce.Carrinho.Api.Controllers
                 var novoCarrinho = new Domain.Models.Carrinho(Guid.Parse(UserId()));
                 novoCarrinho.AtualizarItem(item);
 
-                if (!novoCarrinho.Validacao.IsValid)
-                    return BadRequest(novoCarrinho.Validacao.Errors.Select(e => e.ErrorMessage));
+                var validacao = novoCarrinho.Validar();
+
+                if (!validacao.IsValid)
+                    return BadRequest(validacao.Errors.Select(e => e.ErrorMessage));
 
                 await _carrinhoRepository.Adicionar(novoCarrinho);
             }
@@ -58,8 +60,10 @@ namespace ECommerce.Carrinho.Api.Controllers
             {
                 carrinho.AtualizarItem(item);
 
-                if (!carrinho.Validacao.IsValid)
-                    return BadRequest(carrinho.Validacao.Errors.Select(e => e.ErrorMessage));
+                var validacao = carrinho.Validar();
+
+                if (!validacao.IsValid)
+                    return BadRequest(validacao.Errors.Select(e => e.ErrorMessage));
 
                 await _carrinhoRepository.Atualizar(carrinho);
             }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientesController : ControllerBase
@@ -22,12 +22,13 @@ namespace ECommerce.Cliente.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar/{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
-            return Ok(await _mediator.Send(new BuscarClientePorIdQuery(id)));
+            var cliente = await _mediator.Send(new BuscarClientePorIdQuery(id));
+
+            return Ok(cliente);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -37,6 +38,20 @@ namespace ECommerce.Cliente.Api.Controllers
         public async Task<IActionResult> Novo(AdicionarClienteCommand command)
         {
             var result = await _mediator.Send(command);
+
+            if (!result.IsValid)
+                return BadRequest(result);
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
+        [HttpPut("atualizar")]
+        public async Task<IActionResult> Atualizar(AtualizarClienteCommand request)
+        {
+            var result = await _mediator.Send(request);
 
             if (!result.IsValid)
                 return BadRequest(result);

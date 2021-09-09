@@ -1,11 +1,9 @@
-﻿using AutoMapper;
-using ECommerce.Cliente.Domain.Application.Commands;
+﻿using ECommerce.Cliente.Domain.Application.Commands;
 using ECommerce.Cliente.Domain.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,18 +15,16 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         {
             _repository = repository;
             _mediator = mediator;
-            _validacoes = new TelefoneValidator();
         }
 
         private readonly ITelefoneRepository _repository;
         private readonly IMediator _mediator;
-        private readonly TelefoneValidator _validacoes;
         
         public async Task<ValidationResult> Handle(AdicionarTelefoneCommand request, CancellationToken cancellationToken)
         {
             var telefone = new Telefone(request.Numero, request.ClienteId);
 
-            var valido = _validacoes.Validate(telefone);
+            var valido = telefone.Validar();
 
             if (valido.IsValid)
             {

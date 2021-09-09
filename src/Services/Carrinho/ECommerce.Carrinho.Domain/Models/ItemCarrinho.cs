@@ -16,11 +16,7 @@ namespace ECommerce.Carrinho.Domain.Models
             Imagem = imagem;
             ProdutoId = produtoId;
             CarrinhoId = carrinhoId;
-
-            Validacao = new ItemCarrinhoValidator().Validate(this);
         }
-
-        public ValidationResult Validacao { get; set; }
 
         public Guid Id { get; set; }
         public string Nome { get; set; }
@@ -48,6 +44,11 @@ namespace ECommerce.Carrinho.Domain.Models
         internal void AtualizarQuantidade(int quantidade)
         {
             Quantidade = quantidade;
+        }
+
+        public ValidationResult Validar()
+        {
+            return new ItemCarrinhoValidator().Validate(this);
         }
         #endregion
     }

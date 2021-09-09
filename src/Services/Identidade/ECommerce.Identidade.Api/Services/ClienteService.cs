@@ -1,5 +1,6 @@
 ﻿using ECommerce.Identidade.Api.Interfaces;
 using ECommerce.Identidade.Api.Models;
+using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace ECommerce.Identidade.Api.Services
             _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
         }
 
-        public async Task<ClienteResponseMessage> Novo(ClienteDto cliente)
+        public async Task<ValidationResult> Novo(ClienteDto cliente)
         {
             var json = JsonSerializer.Serialize(cliente);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -38,12 +39,10 @@ namespace ECommerce.Identidade.Api.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                var errors = JsonSerializer.Deserialize<List<string>>(result);
-
-                return new ClienteResponseMessage(false, response.StatusCode, errors);
+                return JsonSerializer.Deserialize<ValidationResult>(result);
             }
 
-            return new ClienteResponseMessage();
+            return new ValidationResult();
         }
     }
 

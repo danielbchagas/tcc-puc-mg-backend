@@ -67,7 +67,7 @@ namespace ECommerce.Catalogo.Api.Controllers
             return Ok(produto);
         }
         
-        [Authorize("Administrador")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
@@ -82,7 +82,7 @@ namespace ECommerce.Catalogo.Api.Controllers
             return Ok();
         }
 
-        [Authorize("Administrador")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]

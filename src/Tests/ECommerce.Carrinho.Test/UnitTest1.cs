@@ -33,7 +33,7 @@ namespace ECommerce.Carrinho.Test
             Carrinho.AtualizarItem(item);
 
             // Assert
-            Assert.False(Carrinho.Validacao.IsValid);
+            Assert.False(Carrinho.Validar().IsValid);
         }
 
         [Theory]
@@ -54,7 +54,7 @@ namespace ECommerce.Carrinho.Test
             Carrinho.AtualizarItem(item);
 
             // Assert
-            Assert.True(Carrinho.Validacao.IsValid);
+            Assert.True(Carrinho.Validar().IsValid);
         }
 
         [Fact]
