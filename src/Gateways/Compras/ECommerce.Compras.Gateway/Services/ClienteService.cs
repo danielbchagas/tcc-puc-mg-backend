@@ -23,11 +23,6 @@ namespace ECommerce.Compras.Gateway.Services
             _client.BaseAddress = new Uri(clienteServiceOptions.Value.ClienteUrl);
         }
 
-        public void AddToken(string token)
-        {
-            _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
-        }
-
         public async Task<ValidationResult> Atualizar(AtualizarClienteDto cliente)
         {
             var json = JsonSerializer.Serialize(cliente);

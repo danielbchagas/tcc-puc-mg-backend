@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.Catalogo.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProdutosController : ControllerBase
@@ -25,8 +25,8 @@ namespace ECommerce.Catalogo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar-todos/{nome:alpha}/{pagina:int}/{linhas:int}")]
-        public async Task<IActionResult> BuscarTodos(string nome, int pagina, int linhas)
+        [HttpGet("buscar/{nome:alpha}/{pagina:int}/{linhas:int}")]
+        public async Task<IActionResult> Buscar(string nome, int pagina, int linhas)
         {
             var produtos = await _mediator.Send(new BuscarProdutosFiltradosPaginadosQuery(p => p.Nome.Contains(nome), pagina, linhas));
             
@@ -37,20 +37,8 @@ namespace ECommerce.Catalogo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar-todos")]
-        public async Task<IActionResult> BuscarTodos()
-        {
-            var produtos = await _mediator.Send(new BuscarProdutosQuery());
-
-            return Ok(produtos);
-        }
-
-        [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar-todos/{pagina:int}/{linhas:int}")]
-        public async Task<IActionResult> BuscarTodos(int pagina, int linhas)
+        [HttpGet("buscar/{pagina:int}/{linhas:int}")]
+        public async Task<IActionResult> Buscar(int pagina, int linhas)
         {
             var produtos = await _mediator.Send(new BuscarProdutosPaginadosQuery(pagina, linhas));
             return Ok(produtos);
@@ -60,8 +48,8 @@ namespace ECommerce.Catalogo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar-por-id/{id:Guid}")]
-        public async Task<IActionResult> BuscarPorId(Guid id)
+        [HttpGet("buscar/{id:Guid}")]
+        public async Task<IActionResult> Buscar(Guid id)
         {
             var produto = await _mediator.Send(new BuscarProdutoPorIdQuery(id));
             return Ok(produto);
@@ -77,7 +65,7 @@ namespace ECommerce.Catalogo.Api.Controllers
             var resultado = await _mediator.Send(request);
 
             if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(resultado);
 
             return Ok();
         }
@@ -92,7 +80,7 @@ namespace ECommerce.Catalogo.Api.Controllers
             var resultado = await _mediator.Send(request);
 
             if (!resultado.IsValid)
-                return BadRequest(resultado.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(resultado);
 
             return Ok();
         }
