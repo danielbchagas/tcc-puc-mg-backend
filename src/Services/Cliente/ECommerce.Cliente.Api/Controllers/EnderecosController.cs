@@ -23,7 +23,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar/{id:Guid}")]
-        public async Task<IActionResult> BuscarPorId(Guid id)
+        public async Task<IActionResult> Buscar(Guid id)
         {
             var endereco = await _mediator.Send(new BuscarEnderecoPorIdQuery(id));
 

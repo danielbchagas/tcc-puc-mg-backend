@@ -40,7 +40,7 @@ namespace ECommerce.Cliente.Api.Controllers
             if (!result.IsValid)
                 return BadRequest(result);
 
-            return Ok(result);
+            return Ok();
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -54,7 +54,7 @@ namespace ECommerce.Cliente.Api.Controllers
             if (!result.IsValid)
                 return BadRequest(result);
 
-            return Ok(result);
+            return Ok();
         }
     }
 }
