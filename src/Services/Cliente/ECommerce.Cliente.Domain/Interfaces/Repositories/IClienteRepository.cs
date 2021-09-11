@@ -14,6 +14,7 @@ namespace ECommerce.Cliente.Domain.Interfaces.Repositories
         Task Excluir(Guid id);
         Task<Models.Cliente> Buscar(Guid id);
         Task<IEnumerable<Models.Cliente>> Buscar();
+        Task<IEnumerable<Models.Cliente>> Buscar(Expression<Func<Models.Cliente, bool>> filtro);
         Task<IEnumerable<Models.Cliente>> Buscar(int pagina, int linhas);
         Task<IEnumerable<Models.Cliente>> Buscar(Expression<Func<Models.Cliente, bool>> filtro, int pagina, int linhas);
     }

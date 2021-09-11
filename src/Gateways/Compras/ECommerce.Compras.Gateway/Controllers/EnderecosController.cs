@@ -11,11 +11,11 @@ namespace ECommerce.Compras.Gateway.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientesController : ControllerBase
+    public class EnderecosController : ControllerBase
     {
         private readonly IClienteService _clienteService;
-        
-        public ClientesController(IClienteService clienteService)
+
+        public EnderecosController(IClienteService clienteService)
         {
             _clienteService = clienteService;
         }
@@ -25,7 +25,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         [HttpGet("buscar/{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
-            var response = await _clienteService.BuscarCliente(id);
+            var response = await _clienteService.BuscarEndereco(id);
 
             return Ok(response);
         }
@@ -33,10 +33,10 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPut("atualizar")]
-        public async Task<IActionResult> Atualizar(ClienteDto cliente)
+        [HttpPost("novo")]
+        public async Task<IActionResult> Adicionar(EnderecoDto endereco)
         {
-            var result = await _clienteService.AtualizarCliente(cliente);
+            var result = await _clienteService.AdicionarEndereco(endereco);
 
             if (!result.IsValid)
                 return BadRequest(result);
@@ -47,10 +47,10 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpDelete("desativar/{id:Guid}")]
-        public async Task<IActionResult> Desativar(Guid id)
+        [HttpPut("atualizar")]
+        public async Task<IActionResult> Atualizar(EnderecoDto endereco)
         {
-            var result = await _clienteService.DesativarCliente(id);
+            var result = await _clienteService.AtualizarEndereco(endereco);
 
             if (!result.IsValid)
                 return BadRequest(result);

@@ -1,23 +1,24 @@
-﻿using ECommerce.Compras.Gateway.Interfaces;
-using ECommerce.Compras.Gateway.Models.Cliente;
+﻿using ECommerce.Cliente.Domain.Application.Commands;
+using ECommerce.Cliente.Domain.Application.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace ECommerce.Compras.Gateway.Controllers
+namespace ECommerce.Cliente.Api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientesController : ControllerBase
+    public class EmailsController : ControllerBase
     {
-        private readonly IClienteService _clienteService;
-        
-        public ClientesController(IClienteService clienteService)
+        private readonly IMediator _mediator;
+
+        public EmailsController(IMediator mediator)
         {
-            _clienteService = clienteService;
+            _mediator = mediator;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -25,37 +26,37 @@ namespace ECommerce.Compras.Gateway.Controllers
         [HttpGet("buscar/{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
-            var response = await _clienteService.BuscarCliente(id);
+            var documento = await _mediator.Send(new BuscarEmailPorIdQuery(id));
 
-            return Ok(response);
+            return Ok(documento);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
+        [HttpPost("novo")]
+        public async Task<IActionResult> Novo(AdicionarEmailCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValid)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPut("atualizar")]
-        public async Task<IActionResult> Atualizar(ClienteDto cliente)
+        public async Task<IActionResult> Atualizar(AtualizarEmailCommand command)
         {
-            var result = await _clienteService.AtualizarCliente(cliente);
+            var result = await _mediator.Send(command);
 
             if (!result.IsValid)
                 return BadRequest(result);
 
-            return Ok();
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpDelete("desativar/{id:Guid}")]
-        public async Task<IActionResult> Desativar(Guid id)
-        {
-            var result = await _clienteService.DesativarCliente(id);
-
-            if (!result.IsValid)
-                return BadRequest(result);
-
-            return Ok();
+            return Ok(result);
         }
     }
 }

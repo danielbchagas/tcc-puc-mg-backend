@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Api.Services
 {
-    class AdicionarClienteIntegrationHandler : BackgroundService
+    public class AdicionarEmailIntegrationHandler : BackgroundService
     {
         private readonly RabbitMqOptions _rabbitMQOptions;
         private readonly IServiceProvider _serviceProvider;
         private IBus _bus;
-        
-        public AdicionarClienteIntegrationHandler(IOptions<RabbitMqOptions> rabbitMQOptions, IServiceProvider serviceProvider)
+
+        public AdicionarEmailIntegrationHandler(IOptions<RabbitMqOptions> rabbitMQOptions, IServiceProvider serviceProvider)
         {
             _rabbitMQOptions = rabbitMQOptions.Value;
             _serviceProvider = serviceProvider;
@@ -32,12 +32,12 @@ namespace ECommerce.Cliente.Api.Services
         {
             TryConnect();
 
-            await _bus.Rpc.RespondAsync<AdicionarClienteCommand, ValidationResult>(async request => await AdicionarCliente(request), stoppingToken);
-            
+            await _bus.Rpc.RespondAsync<AdicionarEmailCommand, ValidationResult>(async request => await AdicionarEmail(request), stoppingToken);
+
             await Task.CompletedTask;
         }
 
-        private async Task<ValidationResult> AdicionarCliente(AdicionarClienteCommand request)
+        private async Task<ValidationResult> AdicionarEmail(AdicionarEmailCommand request)
         {
             using (var scope = _serviceProvider.CreateScope())
             {

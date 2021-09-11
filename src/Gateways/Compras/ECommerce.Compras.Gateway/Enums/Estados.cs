@@ -1,49 +1,7 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace ECommerce.Compras.Gateway.Models.Cliente
+namespace ECommerce.Compras.Gateway.Enums
 {
-    public class BuscarClienteDto
-    {
-        public Guid Id { get; set; }
-        public string Nome { get; set; }
-        public string Sobrenome { get; set; }
-        public bool Ativo { get; set; }
-
-        public Documento Documento { get; set; }
-        public Email Email { get; set; }
-        public Telefone Telefone { get; set; }
-        public Endereco Endereco { get; set; }
-    }
-
-    public class Documento
-    {
-        public Guid Id { get; set; }
-        public string Numero { get;  set; }
-    }
-
-    public class Email
-    {
-        public Guid Id { get; set; }
-        public string Endereco { get; set; }
-    }
-
-    public class Endereco
-    {
-        public Guid Id { get; set; }
-        public string Logradouro { get; set; }
-        public string Bairro { get; set; }
-        public string Cidade { get; set; }
-        public string Cep { get; set; }
-        public Estados Estado { get; set; }
-    }
-
-    public class Telefone
-    {
-        public Guid Id { get; set; }
-        public string Numero { get; set; }
-    }
-
     public enum Estados
     {
         [Description("Acre")]

@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Api.Services
 {
-    class AdicionarClienteIntegrationHandler : BackgroundService
+    public class AdicionarDocumentoIntegrationHandler : BackgroundService
     {
         private readonly RabbitMqOptions _rabbitMQOptions;
         private readonly IServiceProvider _serviceProvider;
         private IBus _bus;
-        
-        public AdicionarClienteIntegrationHandler(IOptions<RabbitMqOptions> rabbitMQOptions, IServiceProvider serviceProvider)
+
+        public AdicionarDocumentoIntegrationHandler(IOptions<RabbitMqOptions> rabbitMQOptions, IServiceProvider serviceProvider)
         {
             _rabbitMQOptions = rabbitMQOptions.Value;
             _serviceProvider = serviceProvider;
@@ -32,12 +32,12 @@ namespace ECommerce.Cliente.Api.Services
         {
             TryConnect();
 
-            await _bus.Rpc.RespondAsync<AdicionarClienteCommand, ValidationResult>(async request => await AdicionarCliente(request), stoppingToken);
-            
+            await _bus.Rpc.RespondAsync<AdicionarDocumentoCommand, ValidationResult>(async request => await AdicionarDocumento(request), stoppingToken);
+
             await Task.CompletedTask;
         }
 
-        private async Task<ValidationResult> AdicionarCliente(AdicionarClienteCommand request)
+        private async Task<ValidationResult> AdicionarDocumento(AdicionarDocumentoCommand request)
         {
             using (var scope = _serviceProvider.CreateScope())
             {

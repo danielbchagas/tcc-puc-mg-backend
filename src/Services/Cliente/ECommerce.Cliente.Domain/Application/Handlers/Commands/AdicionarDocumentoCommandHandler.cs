@@ -6,6 +6,7 @@ using FluentValidation.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 {
@@ -24,11 +25,23 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 
         public async Task<ValidationResult> Handle(AdicionarDocumentoCommand request, CancellationToken cancellationToken)
         {
+            var validation = new ValidationResult();
+
+            var documentoJaExiste = await _repository.Buscar(d => d.Numero == request.Numero);
+
+            if(documentoJaExiste.Count() > 0)
+            {
+                validation = new ValidationResult();
+                validation.Errors.Add(new ValidationFailure("", "O documento informado já está em uso."));
+
+                return validation;
+            }
+
             var documento = new Documento(request.Numero, request.ClienteId);
 
-            var valido = _validador.Validate(documento);
+            validation = _validador.Validate(documento);
 
-            if (valido.IsValid)
+            if (validation.IsValid)
             {
                 await _repository.Adicionar(documento);
                 var sucesso = await _repository.UnitOfWork.Commit();
@@ -37,7 +50,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                     await _mediator.Publish(new DocumentoCommitNotification(documentoId: documento.Id, usuarioId: request.ClienteId));
             }
 
-            return await Task.FromResult(valido);
+            return await Task.FromResult(validation);
         }
     }
 }

@@ -3,7 +3,6 @@ using ECommerce.Identidade.Api.Models;
 using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -34,6 +33,57 @@ namespace ECommerce.Identidade.Api.Services
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("/api/clientes/novo", content);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+
+                return JsonSerializer.Deserialize<ValidationResult>(result);
+            }
+
+            return new ValidationResult();
+        }
+
+        public async Task<ValidationResult> Novo(DocumentoDto documento)
+        {
+            var json = JsonSerializer.Serialize(documento);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync("/api/documentos/novo", content);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+
+                return JsonSerializer.Deserialize<ValidationResult>(result);
+            }
+
+            return new ValidationResult();
+        }
+
+        public async Task<ValidationResult> Novo(TelefoneDto telefone)
+        {
+            var json = JsonSerializer.Serialize(telefone);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync("/api/telefones/novo", content);
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+
+                return JsonSerializer.Deserialize<ValidationResult>(result);
+            }
+
+            return new ValidationResult();
+        }
+
+        public async Task<ValidationResult> Novo(EmailDto email)
+        {
+            var json = JsonSerializer.Serialize(email);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync("/api/emails/novo", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {

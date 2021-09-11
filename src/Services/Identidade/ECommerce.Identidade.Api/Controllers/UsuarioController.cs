@@ -113,46 +113,132 @@ namespace ECommerce.Identidade.Api.Controllers
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
 
-            var cliente = new ClienteDto(id: Guid.Parse(identityUser.Id),
-                nome: usuario.Nome,
-                sobrenome: usuario.Sobrenome,
-                ativo: true,
-                documento: usuario.Documento,
-                telefone: usuario.Telefone,
-                email: usuario.Email
-            );
+            #region Novos objetos
+            var cliente = new ClienteDto 
+            {
+                Id = Guid.Parse(identityUser.Id),
+                Nome = usuario.Nome,
+                Sobrenome = usuario.Sobrenome,
+                Ativo = true
+            };
 
+            var documento = new DocumentoDto 
+            {
+                Numero = usuario.Documento,
+                ClienteId = cliente.Id
+            };
+
+            var email = new EmailDto 
+            {
+                Endereco = usuario.Email,
+                ClienteId = cliente.Id
+            };
+
+            var telefone = new TelefoneDto 
+            {
+                Numero = usuario.Telefone,
+                ClienteId = cliente.Id
+            };
+            #endregion
+
+            #region Filas
             var bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus);
             bus.Advanced.Disconnected += OnDisconnect;
 
-            var resultado = await bus.Rpc.RequestAsync<ClienteDto, ValidationResult>(cliente);
+            var clienteResult = await bus.Rpc.RequestAsync<ClienteDto, ValidationResult>(cliente);
+            var documentoResult = await bus.Rpc.RequestAsync<DocumentoDto, ValidationResult>(documento);
+            var emailResult = await bus.Rpc.RequestAsync<EmailDto, ValidationResult>(email);
+            var telefoneResult = await bus.Rpc.RequestAsync<TelefoneDto, ValidationResult>(telefone);
+            #endregion
 
-            return resultado;
+            #region Validações
+            var result = new ValidationResult();
+
+            if (!clienteResult.IsValid)
+                result.Errors.AddRange(clienteResult.Errors);
+            
+            if (!documentoResult.IsValid)
+                result.Errors.AddRange(documentoResult.Errors);
+            
+            if (!emailResult.IsValid)
+                result.Errors.AddRange(emailResult.Errors);
+            
+            if (!telefoneResult.IsValid)
+                result.Errors.AddRange(telefoneResult.Errors);
+            #endregion
+
+            // Falta criar a regra para excluir todos os relacionamentos
+            if (!result.IsValid)
+                await DesfazerOperacao(usuario);
+
+            return result;
         }
 
         private async Task<ValidationResult> CriarClienteRest(NovoUsuario usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
 
-            var cliente = new ClienteDto(
-                id: Guid.Parse(identityUser.Id),
-                nome: usuario.Nome,
-                sobrenome: usuario.Sobrenome,
-                ativo: true,
-                documento: usuario.Documento,
-                telefone: usuario.Telefone,
-                email: usuario.Email
-            );
+            #region Novos objetos
+            var cliente = new ClienteDto 
+            {
+                Id = Guid.Parse(identityUser.Id),
+                Nome = usuario.Nome,
+                Sobrenome = usuario.Sobrenome,
+                Ativo = true
+            };
 
-            var token = await GerarToken(usuario.Email);
+            var documento = new DocumentoDto
+            {
+                Numero = usuario.Documento,
+                ClienteId = cliente.Id
+            };
 
-            _clienteService.AddToken(token.Token);
-            var resultado = await _clienteService.Novo(cliente);
+            var email = new EmailDto
+            {
+                Endereco = usuario.Email,
+                ClienteId = cliente.Id
+            };
 
-            if (!resultado.IsValid)
+            var telefone = new TelefoneDto
+            {
+                Numero = usuario.Telefone,
+                ClienteId = cliente.Id
+            };
+            #endregion
+
+            #region Requisições
+            _clienteService.AddToken((await GerarToken(usuario.Email)).Token);
+
+            var clienteResult = await _clienteService.Novo(cliente);
+            var documentoResult = await _clienteService.Novo(documento);
+            var emailResult = await _clienteService.Novo(email);
+            var telefoneResult = await _clienteService.Novo(telefone);
+            #endregion
+
+            #region Validações
+            var result = new ValidationResult();
+
+            if (!clienteResult.IsValid)
+                result.Errors.AddRange(clienteResult.Errors);
+
+            
+            if (!documentoResult.IsValid)
+                result.Errors.AddRange(documentoResult.Errors);
+
+            
+            if (!emailResult.IsValid)
+                result.Errors.AddRange(emailResult.Errors);
+
+            
+            if (!telefoneResult.IsValid)
+                result.Errors.AddRange(telefoneResult.Errors);
+            #endregion
+
+            // Falta criar a regra para excluir todos os relacionamentos
+            if (!result.IsValid)
                 await DesfazerOperacao(usuario);
 
-            return resultado;
+            return result;
         }
 
         private async Task DesfazerOperacao(NovoUsuario usuario)

@@ -10,6 +10,7 @@ namespace ECommerce.Cliente.Domain.Application.Commands
         {
             Id = id;
             Numero = numero;
+
             ClienteId = clienteId;
         }
 

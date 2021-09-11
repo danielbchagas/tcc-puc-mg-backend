@@ -4,6 +4,9 @@ using ECommerce.Cliente.Domain.Models;
 using ECommerce.Cliente.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Infrastructure.Repositories
@@ -39,6 +42,14 @@ namespace ECommerce.Cliente.Infrastructure.Repositories
         public void Dispose()
         {
             _context?.Dispose();
+        }
+
+        public async Task<IEnumerable<Telefone>> Buscar(Expression<Func<Telefone, bool>> filtro)
+        {
+            return await _context.Telefones
+                .Include(t => t.Cliente)
+                .Where(filtro)
+                .ToListAsync();
         }
     }
 }

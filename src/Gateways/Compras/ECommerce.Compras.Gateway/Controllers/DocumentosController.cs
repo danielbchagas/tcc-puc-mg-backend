@@ -5,17 +5,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ECommerce.Compras.Gateway.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientesController : ControllerBase
+    public class DocumentosController : ControllerBase
     {
         private readonly IClienteService _clienteService;
-        
-        public ClientesController(IClienteService clienteService)
+
+        public DocumentosController(IClienteService clienteService)
         {
             _clienteService = clienteService;
         }
@@ -25,7 +26,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         [HttpGet("buscar/{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
-            var response = await _clienteService.BuscarCliente(id);
+            var response = await _clienteService.BuscarDocumento(id);
 
             return Ok(response);
         }
@@ -33,13 +34,13 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPut("atualizar")]
-        public async Task<IActionResult> Atualizar(ClienteDto cliente)
+        [HttpPost("novo")]
+        public async Task<IActionResult> Adicionar(DocumentoDto documento)
         {
-            var result = await _clienteService.AtualizarCliente(cliente);
+            var result = await _clienteService.AdicionarDocumento(documento);
 
             if (!result.IsValid)
-                return BadRequest(result);
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
             return Ok();
         }
@@ -47,13 +48,13 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpDelete("desativar/{id:Guid}")]
-        public async Task<IActionResult> Desativar(Guid id)
+        [HttpPut("atualizar")]
+        public async Task<IActionResult> Atualizar(DocumentoDto documento)
         {
-            var result = await _clienteService.DesativarCliente(id);
+            var result = await _clienteService.AtualizarDocumento(documento);
 
             if (!result.IsValid)
-                return BadRequest(result);
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
             return Ok();
         }

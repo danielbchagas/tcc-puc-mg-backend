@@ -7,16 +7,19 @@ namespace ECommerce.Cliente.Domain.Application.Commands
 {
     public class AdicionarEnderecoCommand : IRequest<ValidationResult>
     {
-        public AdicionarEnderecoCommand(string logradouro, string bairro, string cidade, string cep, Estados estado, Guid clienteId)
+        public AdicionarEnderecoCommand(Guid id, string logradouro, string bairro, string cidade, string cep, Estados estado, Guid clienteId)
         {
+            Id = id;
             Logradouro = logradouro;
             Bairro = bairro;
             Cidade = cidade;
             Cep = cep;
             Estado = estado;
+
             ClienteId = clienteId;
         }
 
+        public Guid Id { get; set; }
         public string Logradouro { get; set; }
         public string Bairro { get; set; }
         public string Cidade { get; set; }

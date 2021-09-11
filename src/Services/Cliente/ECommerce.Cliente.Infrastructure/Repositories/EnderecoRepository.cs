@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ECommerce.Cliente.Domain.Interfaces.Data;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using ECommerce.Cliente.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace ECommerce.Cliente.Infrastructure.Repositories
 {
@@ -41,6 +44,14 @@ namespace ECommerce.Cliente.Infrastructure.Repositories
         public void Dispose()
         {
             _context?.Dispose();
+        }
+
+        public async Task<IEnumerable<Endereco>> Buscar(Expression<Func<Endereco, bool>> filtro)
+        {
+            return await _context.Enderecos
+                .Include(e => e.Cliente)
+                .Where(filtro)
+                .ToListAsync();
         }
     }
 }

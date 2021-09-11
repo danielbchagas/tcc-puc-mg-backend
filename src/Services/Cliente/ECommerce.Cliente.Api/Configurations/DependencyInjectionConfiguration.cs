@@ -77,6 +77,9 @@ namespace ECommerce.Cliente.Api.Configurations
 
 #if RABBITMQ
             services.AddHostedService<AdicionarClienteIntegrationHandler>();
+            services.AddHostedService<AdicionarDocumentoIntegrationHandler>();
+            services.AddHostedService<AdicionarEmailIntegrationHandler>();
+            services.AddHostedService<AdicionarTelefoneIntegrationHandler>();
 #endif
         }
     }

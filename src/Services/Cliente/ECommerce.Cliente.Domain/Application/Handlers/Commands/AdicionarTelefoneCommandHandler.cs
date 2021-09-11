@@ -6,6 +6,7 @@ using FluentValidation.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 {
@@ -22,11 +23,22 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         
         public async Task<ValidationResult> Handle(AdicionarTelefoneCommand request, CancellationToken cancellationToken)
         {
+            var validation = new ValidationResult();
+
+            var telefoneJaExiste = await _repository.Buscar(t => t.Numero == request.Numero);
+
+            if(telefoneJaExiste.Count() > 0)
+            {
+                validation.Errors.Add(new ValidationFailure("", "O telefone informado já está em uso."));
+
+                return validation;
+            }
+
             var telefone = new Telefone(request.Numero, request.ClienteId);
 
-            var valido = telefone.Validar();
+            validation = telefone.Validar();
 
-            if (valido.IsValid)
+            if (validation.IsValid)
             {
                 await _repository.Adicionar(telefone);
                 var sucesso = await _repository.UnitOfWork.Commit();
@@ -35,7 +47,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                     await _mediator.Publish(new TelefoneCommitNotification(telefoneId: telefone.Id, usuarioId: request.ClienteId));
             }
 
-            return await Task.FromResult(valido);
+            return await Task.FromResult(validation);
         }
     }
 }

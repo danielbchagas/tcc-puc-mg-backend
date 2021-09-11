@@ -15,6 +15,7 @@ namespace ECommerce.Cliente.Domain.Application.Commands
             Cidade = cidade;
             Cep = cep;
             Estado = estado;
+
             ClienteId = clienteId;
         }
 

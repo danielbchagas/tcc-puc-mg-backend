@@ -8,5 +8,8 @@ namespace ECommerce.Identidade.Api.Interfaces
     {
         void AddToken(string token);
         Task<ValidationResult> Novo(ClienteDto cliente);
+        Task<ValidationResult> Novo(DocumentoDto documento);
+        Task<ValidationResult> Novo(TelefoneDto telefone);
+        Task<ValidationResult> Novo(EmailDto email);
     }
 }

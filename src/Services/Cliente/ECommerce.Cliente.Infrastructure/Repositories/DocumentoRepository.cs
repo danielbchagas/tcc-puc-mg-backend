@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ECommerce.Cliente.Domain.Interfaces.Data;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
@@ -40,6 +43,14 @@ namespace ECommerce.Cliente.Infrastructure.Repositories
         public void Dispose()
         {
             _context?.Dispose();
+        }
+
+        public async Task<IEnumerable<Documento>> Buscar(Expression<Func<Documento, bool>> filtro)
+        {
+            return await _context.Documentos
+                .Include(d => d.Cliente)
+                .Where(filtro)
+                .ToListAsync();
         }
     }
 }

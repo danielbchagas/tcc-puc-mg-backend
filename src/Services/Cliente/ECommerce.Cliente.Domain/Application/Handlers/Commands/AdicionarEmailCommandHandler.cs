@@ -4,6 +4,7 @@ using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,11 +23,23 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         
         public async Task<ValidationResult> Handle(AdicionarEmailCommand request, CancellationToken cancellationToken)
         {
+            var validation = new ValidationResult();
+
+            var emailJaExiste = await _repository.Buscar(e => e.Endereco == request.Endereco);
+
+            if (emailJaExiste.Count() > 0)
+            {
+                validation = new ValidationResult();
+                validation.Errors.Add(new ValidationFailure("", "O e-mail informado já está em uso."));
+
+                return validation;
+            }
+
             var email = new Email(request.Endereco, request.ClienteId);
 
-            var valido = email.Validar();
+            validation = email.Validar();
 
-            if (valido.IsValid)
+            if (validation.IsValid)
             {
                 await _repository.Adicionar(email);
                 var sucesso = await _repository.UnitOfWork.Commit();
@@ -35,7 +48,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                     await _mediator.Publish(new EmailCommitNotification(emailId: email.Id, usuarioId: request.ClienteId));
             }
 
-            return await Task.FromResult(valido);
+            return await Task.FromResult(validation);
         }
     }
 }

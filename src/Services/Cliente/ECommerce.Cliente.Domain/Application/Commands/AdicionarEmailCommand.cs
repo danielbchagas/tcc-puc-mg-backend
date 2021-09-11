@@ -6,12 +6,15 @@ namespace ECommerce.Cliente.Domain.Application.Commands
 {
     public class AdicionarEmailCommand : IRequest<ValidationResult>
     {
-        public AdicionarEmailCommand(string endereco, Guid clienteId)
+        public AdicionarEmailCommand(Guid id, string endereco, Guid clienteId)
         {
+            Id = id;
             Endereco = endereco;
+
             ClienteId = clienteId;
         }
 
+        public Guid Id { get; set; }
         public string Endereco { get; set; }
 
         public Guid ClienteId { get; set; }

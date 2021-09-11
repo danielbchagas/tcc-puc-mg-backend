@@ -39,6 +39,7 @@ namespace ECommerce.Cliente.Infrastructure.Repositories
                 .Include(c => c.Documento)
                 .Include(c => c.Email)
                 .Include(c => c.Endereco)
+                .Include(c => c.Telefone)
                 .Where(c => c.Ativo == true)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
@@ -49,6 +50,7 @@ namespace ECommerce.Cliente.Infrastructure.Repositories
                 .Include(c => c.Documento)
                 .Include(c => c.Email)
                 .Include(c => c.Endereco)
+                .Include(c => c.Telefone)
                 .AsNoTracking()
                 .Where(c => c.Ativo == true)
                 .ToListAsync();
@@ -60,6 +62,7 @@ namespace ECommerce.Cliente.Infrastructure.Repositories
                 .Include(c => c.Documento)
                 .Include(c => c.Email)
                 .Include(c => c.Endereco)
+                .Include(c => c.Telefone)
                 .AsNoTracking()
                 .Where(c => c.Ativo == true)
                 .Where(filtro)
@@ -83,7 +86,19 @@ namespace ECommerce.Cliente.Infrastructure.Repositories
                 .Include(c => c.Documento)
                 .Include(c => c.Email)
                 .Include(c => c.Endereco)
+                .Include(c => c.Telefone)
                 .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Domain.Models.Cliente>> Buscar(Expression<Func<Domain.Models.Cliente, bool>> filtro)
+        {
+            return await _context.Clientes
+                .Include(c => c.Documento)
+                .Include(c => c.Email)
+                .Include(c => c.Endereco)
+                .Include(c => c.Telefone)
+                .Where(filtro)
                 .ToListAsync();
         }
     }
