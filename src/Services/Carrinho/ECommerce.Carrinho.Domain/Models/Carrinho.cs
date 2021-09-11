@@ -19,11 +19,11 @@ namespace ECommerce.Carrinho.Domain.Models
 
         internal const int MAX_QUANTIDADE_ITEM = 5;
 
-        public Guid Id { get; private set; }
-        public decimal ValorTotal { get; private set; }
-        public Guid ClienteId { get; private set; }
+        public Guid Id { get; set; }
+        public decimal ValorTotal { get; set; }
+        public Guid ClienteId { get; set; }
 
-        public ICollection<ItemCarrinho> Itens { get; private set; }
+        public ICollection<ItemCarrinho> Itens { get; set; }
 
         #region Métodos auxiliares
         public ValidationResult AtualizarItem(ItemCarrinho item)
