@@ -2,7 +2,7 @@
 
 namespace ECommerce.Compras.Gateway.Models.Catalogo
 {
-    public class AtualizarProdutoDto
+    public class ProdutoDto
     {
         public Guid Id { get; set; }
         public string Descricao { get; set; }

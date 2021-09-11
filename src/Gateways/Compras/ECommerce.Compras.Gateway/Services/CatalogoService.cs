@@ -1,7 +1,6 @@
 ﻿using ECommerce.Compras.Gateway.Interfaces;
 using ECommerce.Compras.Gateway.Models;
 using ECommerce.Compras.Gateway.Models.Catalogo;
-using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace ECommerce.Compras.Gateway.Services
             _client.BaseAddress = new Uri(clienteServiceOptions.Value.CatalogoUrl);
         }
 
-        public async Task<ValidationResult> Atualizar(AtualizarProdutoDto produto)
+        public async Task<ServiceResponse> Atualizar(ProdutoDto produto)
         {
             var json = JsonSerializer.Serialize(produto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -35,13 +34,13 @@ namespace ECommerce.Compras.Gateway.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                return JsonSerializer.Deserialize<ValidationResult>(result);
+                return JsonSerializer.Deserialize<ServiceResponse>(result, GetOptions());
             }
 
-            return new ValidationResult();
+            return new ServiceResponse();
         }
 
-        public async Task<BuscarProdutoDto> Buscar(Guid id)
+        public async Task<ProdutoDto> Buscar(Guid id)
         {
             var response = await _client.GetAsync($"/api/produtos/buscar/{id}");
 
@@ -50,10 +49,10 @@ namespace ECommerce.Compras.Gateway.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<BuscarProdutoDto>(content, GetOptions());
+            return JsonSerializer.Deserialize<ProdutoDto>(content, GetOptions());
         }
 
-        public async Task<IEnumerable<BuscarProdutoDto>> Buscar(int pagina, int linhas)
+        public async Task<IEnumerable<ProdutoDto>> Buscar(int pagina, int linhas)
         {
             var response = await _client.GetAsync($"/api/produtos/buscar/{pagina}/{linhas}");
 
@@ -62,10 +61,10 @@ namespace ECommerce.Compras.Gateway.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<IEnumerable<BuscarProdutoDto>>(content, GetOptions());
+            return JsonSerializer.Deserialize<IEnumerable<ProdutoDto>>(content, GetOptions());
         }
 
-        public async Task<IEnumerable<BuscarProdutoDto>> Buscar(string nome, int pagina, int linhas)
+        public async Task<IEnumerable<ProdutoDto>> Buscar(string nome, int pagina, int linhas)
         {
             var response = await _client.GetAsync($"/api/produtos/buscar/{nome}/{pagina}/{linhas}");
 
@@ -74,10 +73,10 @@ namespace ECommerce.Compras.Gateway.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<IEnumerable<BuscarProdutoDto>>(content, GetOptions());
+            return JsonSerializer.Deserialize<IEnumerable<ProdutoDto>>(content, GetOptions());
         }
 
-        public async Task<ValidationResult> Cadastrar(CadastrarProdutoDto produto)
+        public async Task<ServiceResponse> Cadastrar(ProdutoDto produto)
         {
             var json = JsonSerializer.Serialize(produto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -88,10 +87,10 @@ namespace ECommerce.Compras.Gateway.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                return JsonSerializer.Deserialize<ValidationResult>(result);
+                return JsonSerializer.Deserialize<ServiceResponse>(result, GetOptions());
             }
 
-            return new ValidationResult();
+            return new ServiceResponse();
         }
 
         private JsonSerializerOptions GetOptions()

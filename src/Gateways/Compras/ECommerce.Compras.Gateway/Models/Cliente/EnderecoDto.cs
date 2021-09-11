@@ -11,5 +11,7 @@ namespace ECommerce.Compras.Gateway.Models.Cliente
         public string Cidade { get; set; }
         public string Cep { get; set; }
         public Estados Estado { get; set; }
+
+        public Guid ClienteId { get; set; }
     }
 }

@@ -34,20 +34,6 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("novo")]
-        public async Task<IActionResult> Adicionar(DocumentoDto documento)
-        {
-            var result = await _clienteService.AdicionarDocumento(documento);
-
-            if (!result.IsValid)
-                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
-
-            return Ok();
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPut("atualizar")]
         public async Task<IActionResult> Atualizar(DocumentoDto documento)
         {

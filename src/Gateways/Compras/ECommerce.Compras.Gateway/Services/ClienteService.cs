@@ -1,7 +1,6 @@
 ﻿using ECommerce.Compras.Gateway.Interfaces;
 using ECommerce.Compras.Gateway.Models;
 using ECommerce.Compras.Gateway.Models.Cliente;
-using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using System;
 using System.Net;
@@ -9,7 +8,6 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace ECommerce.Compras.Gateway.Services
@@ -24,75 +22,7 @@ namespace ECommerce.Compras.Gateway.Services
             _client.BaseAddress = new Uri(clienteServiceOptions.Value.ClienteUrl);
         }
 
-        public async Task<ValidationResult> AdicionarDocumento(DocumentoDto documento)
-        {
-            var json = JsonSerializer.Serialize(documento);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync("/api/documentos/novo", content);
-
-            if (response.StatusCode == HttpStatusCode.BadRequest)
-            {
-                var result = await response.Content.ReadAsStringAsync();
-
-                return JsonSerializer.Deserialize<ValidationResult>(result);
-            }
-
-            return new ValidationResult();
-        }
-
-        public async Task<ValidationResult> AdicionarEmail(EmailDto email)
-        {
-            var json = JsonSerializer.Serialize(email);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync("/api/emails/novo", content);
-
-            if (response.StatusCode == HttpStatusCode.BadRequest)
-            {
-                var result = await response.Content.ReadAsStringAsync();
-
-                return JsonSerializer.Deserialize<ValidationResult>(result);
-            }
-
-            return new ValidationResult();
-        }
-
-        public async Task<ValidationResult> AdicionarEndereco(EnderecoDto endereco)
-        {
-            var json = JsonSerializer.Serialize(endereco);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync("/api/enderecos/novo", content);
-
-            if (response.StatusCode == HttpStatusCode.BadRequest)
-            {
-                var result = await response.Content.ReadAsStringAsync();
-
-                return JsonSerializer.Deserialize<ValidationResult>(result);
-            }
-
-            return new ValidationResult();
-        }
-
-        public async Task<ValidationResult> AdicionarTelefone(TelefoneDto telefone)
-        {
-            var json = JsonSerializer.Serialize(telefone);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync("/api/telefones/novo", content);
-
-            if (response.StatusCode == HttpStatusCode.BadRequest)
-            {
-                var result = await response.Content.ReadAsStringAsync();
-
-                return JsonSerializer.Deserialize<ValidationResult>(result);
-            }
-
-            return new ValidationResult();
-        }
-
-        public async Task<ValidationResult> AtualizarCliente(ClienteDto cliente)
+        public async Task<ServiceResponse> AtualizarCliente(ClienteDto cliente)
         {
             var json = JsonSerializer.Serialize(cliente);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -103,13 +33,13 @@ namespace ECommerce.Compras.Gateway.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                return JsonSerializer.Deserialize<ValidationResult>(result);
+                return JsonSerializer.Deserialize<ServiceResponse>(result, GetOptions());
             }
 
-            return new ValidationResult();
+            return new ServiceResponse();
         }
 
-        public async Task<ValidationResult> AtualizarDocumento(DocumentoDto documento)
+        public async Task<ServiceResponse> AtualizarDocumento(DocumentoDto documento)
         {
             var json = JsonSerializer.Serialize(documento);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -120,13 +50,13 @@ namespace ECommerce.Compras.Gateway.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                return JsonSerializer.Deserialize<ValidationResult>(result);
+                return JsonSerializer.Deserialize<ServiceResponse>(result, GetOptions());
             }
 
-            return new ValidationResult();
+            return new ServiceResponse();
         }
 
-        public async Task<ValidationResult> AtualizarEmail(EmailDto email)
+        public async Task<ServiceResponse> AtualizarEmail(EmailDto email)
         {
             var json = JsonSerializer.Serialize(email);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -137,13 +67,13 @@ namespace ECommerce.Compras.Gateway.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                return JsonSerializer.Deserialize<ValidationResult>(result);
+                return JsonSerializer.Deserialize<ServiceResponse>(result, GetOptions());
             }
 
-            return new ValidationResult();
+            return new ServiceResponse();
         }
 
-        public async Task<ValidationResult> AtualizarEndereco(EnderecoDto endereco)
+        public async Task<ServiceResponse> AtualizarEndereco(EnderecoDto endereco)
         {
             var json = JsonSerializer.Serialize(endereco);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -154,13 +84,13 @@ namespace ECommerce.Compras.Gateway.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                return JsonSerializer.Deserialize<ValidationResult>(result);
+                return JsonSerializer.Deserialize<ServiceResponse>(result, GetOptions());
             }
 
-            return new ValidationResult();
+            return new ServiceResponse();
         }
 
-        public async Task<ValidationResult> AtualizarTelefone(TelefoneDto telefone)
+        public async Task<ServiceResponse> AtualizarTelefone(TelefoneDto telefone)
         {
             var json = JsonSerializer.Serialize(telefone);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -171,10 +101,10 @@ namespace ECommerce.Compras.Gateway.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                return JsonSerializer.Deserialize<ValidationResult>(result);
+                return JsonSerializer.Deserialize<ServiceResponse>(result, GetOptions());
             }
 
-            return new ValidationResult();
+            return new ServiceResponse();
         }
 
         public async Task<ClienteDto> BuscarCliente(Guid id)
@@ -227,7 +157,7 @@ namespace ECommerce.Compras.Gateway.Services
             return JsonSerializer.Deserialize<TelefoneDto>(await response.Content.ReadAsStringAsync(), GetOptions());
         }
 
-        public async Task<ValidationResult> DesativarCliente(Guid id)
+        public async Task<ServiceResponse> DesativarCliente(Guid id)
         {
             var response = await _client.DeleteAsync($"/api/clientes/desativar/{id}");
 
@@ -235,10 +165,10 @@ namespace ECommerce.Compras.Gateway.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
 
-                return JsonSerializer.Deserialize<ValidationResult>(result);
+                return JsonSerializer.Deserialize<ServiceResponse>(result, GetOptions());
             }
 
-            return new ValidationResult();
+            return new ServiceResponse();
         }
 
         private JsonSerializerOptions GetOptions()

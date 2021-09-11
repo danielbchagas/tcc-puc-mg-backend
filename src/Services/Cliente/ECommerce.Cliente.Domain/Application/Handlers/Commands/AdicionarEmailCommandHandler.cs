@@ -25,12 +25,14 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         {
             var validation = new ValidationResult();
 
-            var emailJaExiste = await _repository.Buscar(e => e.Endereco == request.Endereco);
+            var emailJaExiste = await _repository.Buscar(e => e.ClienteId == request.ClienteId);
 
             if (emailJaExiste.Count() > 0)
             {
-                validation = new ValidationResult();
-                validation.Errors.Add(new ValidationFailure("", "O e-mail informado já está em uso."));
+                validation.Errors.Add(new ValidationFailure("", "O cliente já possui um documento cadastrado."));
+
+                if(emailJaExiste.Any(e => e.Endereco == request.Endereco))
+                    validation.Errors.Add(new ValidationFailure("", "O e-mail informado já está em uso."));
 
                 return validation;
             }

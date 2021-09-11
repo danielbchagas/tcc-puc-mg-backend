@@ -6,5 +6,7 @@ namespace ECommerce.Compras.Gateway.Models.Cliente
     {
         public Guid Id { get; set; }
         public string Endereco { get; set; }
+
+        public Guid ClienteId { get; set; }
     }
 }

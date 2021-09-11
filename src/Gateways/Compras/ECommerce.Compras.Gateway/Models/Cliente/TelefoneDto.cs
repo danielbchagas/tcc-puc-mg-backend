@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 
 namespace ECommerce.Compras.Gateway.Models.Cliente
 {
@@ -9,7 +8,5 @@ namespace ECommerce.Compras.Gateway.Models.Cliente
         public string Numero { get; set; }
 
         public Guid ClienteId { get; set; }
-        [JsonIgnore]
-        public ClienteDto Cliente { get; set; }
     }
 }

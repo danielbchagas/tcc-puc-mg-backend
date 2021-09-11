@@ -1,5 +1,5 @@
-﻿using ECommerce.Compras.Gateway.Models.Cliente;
-using FluentValidation.Results;
+﻿using ECommerce.Compras.Gateway.Models;
+using ECommerce.Compras.Gateway.Models.Cliente;
 using System;
 using System.Threading.Tasks;
 
@@ -7,24 +7,20 @@ namespace ECommerce.Compras.Gateway.Interfaces
 {
     public interface IClienteService
     {
-        Task<ValidationResult> AtualizarCliente(ClienteDto cliente);
-        Task<ValidationResult> DesativarCliente(Guid id);
+        Task<ServiceResponse> AtualizarCliente(ClienteDto cliente);
         Task<ClienteDto> BuscarCliente(Guid id);
+        Task<ServiceResponse> DesativarCliente(Guid id);
 
-        Task<ValidationResult> AdicionarDocumento(DocumentoDto documento);
-        Task<ValidationResult> AtualizarDocumento(DocumentoDto documento);
+        Task<ServiceResponse> AtualizarDocumento(DocumentoDto documento);
         Task<DocumentoDto> BuscarDocumento(Guid id);
 
-        Task<ValidationResult> AdicionarEmail(EmailDto email);
-        Task<ValidationResult> AtualizarEmail(EmailDto email);
+        Task<ServiceResponse> AtualizarEmail(EmailDto email);
         Task<EmailDto> BuscarEmail(Guid id);
 
-        Task<ValidationResult> AdicionarTelefone(TelefoneDto telefone);
-        Task<ValidationResult> AtualizarTelefone(TelefoneDto telefone);
+        Task<ServiceResponse> AtualizarTelefone(TelefoneDto telefone);
         Task<TelefoneDto> BuscarTelefone(Guid id);
 
-        Task<ValidationResult> AdicionarEndereco(EnderecoDto endereco);
-        Task<ValidationResult> AtualizarEndereco(EnderecoDto endereco);
+        Task<ServiceResponse> AtualizarEndereco(EnderecoDto endereco);
         Task<EnderecoDto> BuscarEndereco(Guid id);
     }
 }

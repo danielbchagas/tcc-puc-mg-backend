@@ -27,12 +27,14 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         {
             var validation = new ValidationResult();
 
-            var documentoJaExiste = await _repository.Buscar(d => d.Numero == request.Numero);
+            var documentoJaExiste = await _repository.Buscar(d => d.ClienteId == request.ClienteId);
 
             if(documentoJaExiste.Count() > 0)
             {
-                validation = new ValidationResult();
-                validation.Errors.Add(new ValidationFailure("", "O documento informado já está em uso."));
+                validation.Errors.Add(new ValidationFailure("", "O cliente já possui um documento cadastrado."));
+
+                if(documentoJaExiste.Any(d => d.Numero == request.Numero))
+                    validation.Errors.Add(new ValidationFailure("", "O documento informado já está em uso."));
 
                 return validation;
             }

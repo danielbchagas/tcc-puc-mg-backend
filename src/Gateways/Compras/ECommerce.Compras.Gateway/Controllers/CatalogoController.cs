@@ -54,7 +54,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("cadastrar")]
-        public async Task<IActionResult> Cadastrar(CadastrarProdutoDto produto)
+        public async Task<IActionResult> Cadastrar(ProdutoDto produto)
         {
             var result = await _catalogoService.Cadastrar(produto);
 
@@ -68,7 +68,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPut("atualizar")]
-        public async Task<IActionResult> Atualizar(AtualizarProdutoDto produto)
+        public async Task<IActionResult> Atualizar(ProdutoDto produto)
         {
             var result = await _catalogoService.Atualizar(produto);
 

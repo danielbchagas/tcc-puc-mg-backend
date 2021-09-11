@@ -4,6 +4,7 @@ using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,11 +25,22 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
 
         public async Task<ValidationResult> Handle(AdicionarEnderecoCommand request, CancellationToken cancellationToken)
         {
+            var validation = new ValidationResult();
+
+            var enderecoJaExiste = await _repository.Buscar(d => d.ClienteId == request.ClienteId);
+
+            if (enderecoJaExiste.Count() > 0)
+            {
+                validation.Errors.Add(new ValidationFailure("", "O cliente já possui um endereço cadastrado."));
+
+                return validation;
+            }
+
             var endereco = new Endereco(request.Logradouro, request.Bairro, request.Cidade, request.Cep, request.Estado, request.ClienteId);
 
-            var valido = _validador.Validate(endereco);
+            validation = _validador.Validate(endereco);
 
-            if (valido.IsValid)
+            if (validation.IsValid)
             {
                 await _repository.Adicionar(endereco);
                 var sucesso = await _repository.UnitOfWork.Commit();
@@ -37,7 +49,7 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
                     await _mediator.Publish(new EnderecoCommitNotification(enderecoId: endereco.Id, request.ClienteId));
             }
 
-            return await Task.FromResult(valido);
+            return await Task.FromResult(validation);
         }
     }
 }

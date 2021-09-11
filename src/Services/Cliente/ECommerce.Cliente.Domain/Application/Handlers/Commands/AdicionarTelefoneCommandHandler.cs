@@ -25,11 +25,14 @@ namespace ECommerce.Cliente.Domain.Application.Handlers.Commands
         {
             var validation = new ValidationResult();
 
-            var telefoneJaExiste = await _repository.Buscar(t => t.Numero == request.Numero);
+            var telefoneJaExiste = await _repository.Buscar(t => t.ClienteId == request.ClienteId);
 
             if(telefoneJaExiste.Count() > 0)
             {
-                validation.Errors.Add(new ValidationFailure("", "O telefone informado já está em uso."));
+                validation.Errors.Add(new ValidationFailure("", "O cliente já possui um telefone cadastrado."));
+
+                if (telefoneJaExiste.Any(t => t.Numero == request.Numero))
+                    validation.Errors.Add(new ValidationFailure("", "O telefone informado já está em uso."));
 
                 return validation;
             }
