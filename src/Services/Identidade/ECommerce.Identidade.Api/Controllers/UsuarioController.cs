@@ -48,8 +48,8 @@ namespace ECommerce.Identidade.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("novo")]
-        public async Task<IActionResult> Novo(NovoUsuario usuario)
+        [HttpPost("adicionar")]
+        public async Task<IActionResult> Adicionar(NovoUsuario usuario)
         {
             var novoUsuario = new IdentityUser
             {
@@ -209,10 +209,10 @@ namespace ECommerce.Identidade.Api.Controllers
             #region Requisições
             _clienteService.AddToken((await GerarToken(usuario.Email)).Token);
 
-            var clienteResult = await _clienteService.Novo(cliente);
-            var documentoResult = await _clienteService.Novo(documento);
-            var emailResult = await _clienteService.Novo(email);
-            var telefoneResult = await _clienteService.Novo(telefone);
+            var clienteResult = await _clienteService.Adicionar(cliente);
+            var documentoResult = await _clienteService.Adicionar(documento);
+            var emailResult = await _clienteService.Adicionar(email);
+            var telefoneResult = await _clienteService.Adicionar(telefone);
             #endregion
 
             #region Validações

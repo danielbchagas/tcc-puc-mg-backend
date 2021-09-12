@@ -52,7 +52,7 @@ namespace ECommerce.Catalogo.Infrastructure.Data
                 p.Property(p => p.QuantidadeEstoque).HasColumnType("int").IsRequired();
                 p.Property(p => p.Imagem).HasColumnType("text").IsRequired(false);
                 p.Property(p => p.Ativo).HasColumnType("bit").IsRequired();
-                p.Property(p => p.Preco).HasColumnType("money").IsRequired();
+                p.Property(p => p.Valor).HasColumnType("money").IsRequired();
                 p.Property(p => p.DataCadastro).HasColumnType("datetime").IsRequired();
             });
             #endregion
@@ -84,84 +84,84 @@ namespace ECommerce.Catalogo.Infrastructure.Data
                 nome: "Camiseta",
                 imagem: imagemCamisaManUtd,
                 quantidadeEstoque: 100,
-                preco: 200.50m
+                valor: 200.50m
             );
             var produtoJaquetaManUtd = new Produto(
                 descricao: "Manchester United Football Club",
                 nome: "Jaqueta",
                 imagem: imagemJaquetaManUtd,
                 quantidadeEstoque: 250,
-                preco: 300.50m
+                valor: 300.50m
             );
             var produtoBoneManUtd = new Produto(
                 descricao: "Manchester United Football Club",
                 nome: "Boné",
                 imagem: imagemBoneManUtd,
                 quantidadeEstoque: 10,
-                preco: 80.50m
+                valor: 80.50m
             );
             var produtoBermudaAdidas = new Produto(
                 descricao: "Adidas",
                 nome: "Bermuda",
                 imagem: imagemBermudaAdidas,
                 quantidadeEstoque: 10,
-                preco: 150.50m
+                valor: 150.50m
             );
             var produtoBermudaDcShoes = new Produto(
                 descricao: "Dc Shoes",
                 nome: "Bermuda",
                 imagem: imagemBermudaDcShoes,
                 quantidadeEstoque: 10,
-                preco: 150.50m
+                valor: 150.50m
             );
             var produtoCamisetaDcShoes = new Produto(
                 descricao: "Dc Shoes",
                 nome: "Camiseta",
                 imagem: imagemCamisetaDcShoes,
                 quantidadeEstoque: 10,
-                preco: 100.50m
+                valor: 100.50m
             );
             var produtoBoneAdidas = new Produto(
                 descricao: "Adidas",
                 nome: "Bone",
                 imagem: imagemBoneAdidas,
                 quantidadeEstoque: 10,
-                preco: 60.50m
+                valor: 60.50m
             );
             var produtoTenisAdidas = new Produto(
                 descricao: "Adidas",
                 nome: "Tenis",
                 imagem: imagemTenisAdidas,
                 quantidadeEstoque: 10,
-                preco: 350.50m
+                valor: 350.50m
             );
             var produtoCamisaGreenBayPackers = new Produto(
                 descricao: "Green Bay Packers",
                 nome: "Camisa",
                 imagem: imagemCamisaGreenBayPackers,
                 quantidadeEstoque: 10,
-                preco: 400.50m
+                valor: 400.50m
             );
             var produtoBoneGreenBayPackers = new Produto(
                 descricao: "Green Bay Packers",
                 nome: "Bone",
                 imagem: imagemBoneGreenBayPackers,
                 quantidadeEstoque: 10,
-                preco: 150.50m
+                valor: 150.50m
             );
             var produtoCanecaManUtd = new Produto(
                 descricao: "Manchester United Football Club",
                 nome: "Caneca",
                 imagem: imagemCanecaManUtd,
                 quantidadeEstoque: 10,
-                preco: 30.50m
+                valor: 30.50m
             );
             var produtoMeiaAdidas = new Produto(
                 descricao: "Adidas",
                 nome: "Meia",
                 imagem: imagemMeiaAdidas,
                 quantidadeEstoque: 10,
-                preco: 20.50m
+                valor: 20.50m
             );
 
             var usuarioId = Guid.NewGuid();

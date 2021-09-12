@@ -7,9 +7,9 @@ namespace ECommerce.Identidade.Api.Interfaces
     public interface IClienteService
     {
         void AddToken(string token);
-        Task<ValidationResult> Novo(ClienteDto cliente);
-        Task<ValidationResult> Novo(DocumentoDto documento);
-        Task<ValidationResult> Novo(TelefoneDto telefone);
-        Task<ValidationResult> Novo(EmailDto email);
+        Task<ValidationResult> Adicionar(ClienteDto cliente);
+        Task<ValidationResult> Adicionar(DocumentoDto documento);
+        Task<ValidationResult> Adicionar(TelefoneDto telefone);
+        Task<ValidationResult> Adicionar(EmailDto email);
     }
 }

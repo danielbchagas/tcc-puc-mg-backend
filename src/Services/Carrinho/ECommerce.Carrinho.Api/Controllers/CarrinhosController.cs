@@ -52,7 +52,7 @@ namespace ECommerce.Carrinho.Api.Controllers
                 var validacao = novoCarrinho.Validar();
 
                 if (!validacao.IsValid)
-                    return BadRequest(validacao.Errors.Select(e => e.ErrorMessage));
+                    return BadRequest(validacao);
 
                 await _carrinhoRepository.Adicionar(novoCarrinho);
             }
@@ -63,7 +63,7 @@ namespace ECommerce.Carrinho.Api.Controllers
                 var validacao = carrinho.Validar();
 
                 if (!validacao.IsValid)
-                    return BadRequest(validacao.Errors.Select(e => e.ErrorMessage));
+                    return BadRequest(validacao);
 
                 await _carrinhoRepository.Atualizar(carrinho);
             }
@@ -75,8 +75,8 @@ namespace ECommerce.Carrinho.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpDelete("remover-item/{produtoId:Guid}")]
-        public async Task<IActionResult> Remover(Guid produtoId)
+        [HttpDelete("excluir-item/{produtoId:Guid}")]
+        public async Task<IActionResult> Excluir(Guid produtoId)
         {
             await _itemRepository.ExcluirPorProdutoId(produtoId);
             await _itemRepository.UnitOfWork.Commit();

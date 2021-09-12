@@ -27,7 +27,7 @@ namespace ECommerce.Identidade.Api.Services
             _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
         }
 
-        public async Task<ValidationResult> Novo(ClienteDto cliente)
+        public async Task<ValidationResult> Adicionar(ClienteDto cliente)
         {
             var json = JsonSerializer.Serialize(cliente);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -44,7 +44,7 @@ namespace ECommerce.Identidade.Api.Services
             return new ValidationResult();
         }
 
-        public async Task<ValidationResult> Novo(DocumentoDto documento)
+        public async Task<ValidationResult> Adicionar(DocumentoDto documento)
         {
             var json = JsonSerializer.Serialize(documento);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -61,7 +61,7 @@ namespace ECommerce.Identidade.Api.Services
             return new ValidationResult();
         }
 
-        public async Task<ValidationResult> Novo(TelefoneDto telefone)
+        public async Task<ValidationResult> Adicionar(TelefoneDto telefone)
         {
             var json = JsonSerializer.Serialize(telefone);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -78,7 +78,7 @@ namespace ECommerce.Identidade.Api.Services
             return new ValidationResult();
         }
 
-        public async Task<ValidationResult> Novo(EmailDto email)
+        public async Task<ValidationResult> Adicionar(EmailDto email)
         {
             var json = JsonSerializer.Serialize(email);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

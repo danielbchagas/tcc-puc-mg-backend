@@ -32,8 +32,8 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("novo")]
-        public async Task<IActionResult> Novo(AdicionarTelefoneCommand command)
+        [HttpPost("adicionar")]
+        public async Task<IActionResult> Adicionar(AdicionarTelefoneCommand command)
         {
             var result = await _mediator.Send(command);
 

@@ -7,13 +7,13 @@ namespace ECommerce.Catalogo.Domain.Models
 {
     public class Produto : Entity, IAggregateRoot
     {
-        public Produto(string descricao, string nome, string imagem, long quantidadeEstoque, decimal preco, bool ativo = true)
+        public Produto(string descricao, string nome, string imagem, long quantidadeEstoque, decimal valor, bool ativo = true)
         {
             Descricao = descricao;
             Nome = nome;
             Imagem = imagem;
             QuantidadeEstoque = quantidadeEstoque;
-            Preco = preco;
+            Valor = valor;
             Ativo = ativo;
             DataCadastro = DateTime.Now;
         }
@@ -22,7 +22,7 @@ namespace ECommerce.Catalogo.Domain.Models
         public string Nome { get; set; }
         public string Imagem { get; set; }
         public long QuantidadeEstoque { get; set; }
-        public decimal Preco { get; set; }
+        public decimal Valor { get; set; }
         public bool Ativo { get; set; }
         public DateTime DataCadastro { get; set; }
 
@@ -44,11 +44,6 @@ namespace ECommerce.Catalogo.Domain.Models
         public void Remover(int quantidade)
         {
             QuantidadeEstoque -= quantidade;
-        }
-
-        public void AlterarPreco(decimal novoPreco)
-        {
-            Preco = novoPreco;
         }
 
         public ValidationResult Validar()
@@ -80,7 +75,7 @@ namespace ECommerce.Catalogo.Domain.Models
                 .WithMessage("{PropertyName} tem um valor menor do que o esperado!")
                 .LessThan(long.MaxValue)
                 .WithMessage("{PropertyName} tem um valor maior do que o esperado!");
-            RuleFor(p => p.Preco)
+            RuleFor(p => p.Valor)
                 .GreaterThan(0)
                 .WithMessage("{PropertyName} tem um valor menor do que o esperado!")
                 .LessThan(decimal.MaxValue)

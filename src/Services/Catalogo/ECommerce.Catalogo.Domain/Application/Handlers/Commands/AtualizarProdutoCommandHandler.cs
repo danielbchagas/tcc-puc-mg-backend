@@ -27,7 +27,7 @@ namespace ECommerce.Catalogo.Domain.Application.Handlers.Commands
             produto.Ativo = request.Ativo;
             produto.Descricao = request.Descricao;
             produto.Imagem = request.Imagem;
-            produto.Preco = request.Preco;
+            produto.Valor = request.Valor;
             produto.QuantidadeEstoque = request.QuantidadeEstoque;
 
             var valido = produto.Validar();

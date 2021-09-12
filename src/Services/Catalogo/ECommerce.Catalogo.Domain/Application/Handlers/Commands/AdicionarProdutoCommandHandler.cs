@@ -23,7 +23,7 @@ namespace ECommerce.Catalogo.Domain.Application.Handlers.Commands
 
         public async Task<ValidationResult> Handle(AdicionarProdutoCommand request, CancellationToken cancellationToken)
         {
-            var produto = new Produto(request.Descricao, request.Nome, request.Imagem, request.QuantidadeEstoque, request.Preco, request.Ativo);
+            var produto = new Produto(request.Descricao, request.Nome, request.Imagem, request.QuantidadeEstoque, request.Valor, request.Ativo);
 
             var valido = produto.Validar();
 
