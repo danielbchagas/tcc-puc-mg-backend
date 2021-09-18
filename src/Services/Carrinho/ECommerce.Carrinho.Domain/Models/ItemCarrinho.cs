@@ -28,7 +28,7 @@ namespace ECommerce.Carrinho.Domain.Models
         public Guid CarrinhoId { get; set; }
 
         [JsonIgnore]
-        public Carrinho CarrinhoCliente { get; set; }
+        public Carrinho Carrinho { get; set; }
 
         #region Métodos auxiliares
         internal void AssociarCarrinho(Guid carrinhoId)
