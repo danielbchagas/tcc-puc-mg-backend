@@ -14,19 +14,19 @@ namespace ECommerce.Compras.Gateway.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("pagamento-cartao")]
         public IActionResult PagarComCartao(CartaoDto cartao)
         {
             return Ok();
         }
 
-        [HttpPost]
-        public IActionResult PagarComBitcoint(BitcoinDto bitcoin)
+        [HttpPost("pagamento-bitcoin")]
+        public IActionResult PagarComBitcoin(BitcoinDto bitcoin)
         {
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("pagamento-boleto")]
         public IActionResult PagarComBoleto(BoletoDto boleto)
         {
             return Ok();
