@@ -18,6 +18,7 @@ namespace ECommerce.Carrinho.Domain.Models
             CarrinhoId = carrinhoId;
         }
 
+        #region Propriedades
         public Guid Id { get; set; }
         public string Nome { get; set; }
         public int Quantidade { get; set; }
@@ -29,23 +30,9 @@ namespace ECommerce.Carrinho.Domain.Models
 
         [JsonIgnore]
         public Carrinho Carrinho { get; set; }
+        #endregion
 
-        #region Métodos auxiliares
-        internal void AssociarCarrinho(Guid carrinhoId)
-        {
-            CarrinhoId = carrinhoId;
-        }
-
-        internal decimal CalcularValor()
-        {
-            return Quantidade * Valor;
-        }
-
-        internal void AtualizarQuantidade(int quantidade)
-        {
-            Quantidade = quantidade;
-        }
-
+        #region Métodos
         public ValidationResult Validar()
         {
             return new ItemCarrinhoValidator().Validate(this);

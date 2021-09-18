@@ -45,7 +45,7 @@ namespace ECommerce.Carrinho.Infrastructure.Data
 
                 cc.HasIndex(cc => cc.ClienteId);
 
-                cc.Property(cc => cc.ValorTotal).HasColumnType("money");
+                cc.Property(cc => cc.Valor).HasColumnType("money");
 
                 cc.HasMany(cc => cc.Itens).WithOne(ic => ic.Carrinho).HasForeignKey(ic => ic.CarrinhoId);
             });

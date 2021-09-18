@@ -17,31 +17,33 @@ namespace ECommerce.Carrinho.Domain.Models
             Itens = new List<ItemCarrinho>();
         }
 
+        #region Propriedades
         internal const int MAX_QUANTIDADE_ITEM = 5;
 
         public Guid Id { get; set; }
-        public decimal ValorTotal { get; set; }
+        public decimal Valor { get; set; }
         public Guid ClienteId { get; set; }
 
         public ICollection<ItemCarrinho> Itens { get; set; }
+        #endregion
 
-        #region Métodos auxiliares
-        public ValidationResult AtualizarItem(ItemCarrinho item)
+        #region Métodos
+        public ValidationResult AtualizarItensCarrinho(ItemCarrinho item)
         {
             // Valida se o item é válido
-            var itemValido = item.Validar();
+            var validationResult = item.Validar();
 
-            if (!itemValido.IsValid)
+            if (!validationResult.IsValid)
             {
-                return itemValido;
+                return validationResult;
             }
 
             // Verifica se o item já existe no carrinho
             // Soma o item existente
-            if (ItemExiste(item.ProdutoId))
+            if (Itens.Any(i => i.ProdutoId == item.ProdutoId))
             {
                 var itemAntigo = Itens.First(i => i.ProdutoId == item.ProdutoId);
-                itemAntigo.AtualizarQuantidade(item.Quantidade);
+                itemAntigo.Quantidade = item.Quantidade;
 
                 item = itemAntigo;
 
@@ -50,26 +52,14 @@ namespace ECommerce.Carrinho.Domain.Models
             // Associa o novo item ao carrinho
             else
             {
-                item.AssociarCarrinho(Id);
+                item.CarrinhoId = Id;
             }
 
             Itens.Add(item);
 
-            ValorTotal += Itens.Sum(i => i.CalcularValor());
+            Valor += Itens.Sum(i => i.Quantidade * i.Valor);
 
             return Validar();
-        }
-
-        public void ExcluirItem(Guid itemId)
-        {
-            if (!ItemExiste(itemId)) return;
-
-            Itens.Remove(Itens.First(ic => ic.ProdutoId == itemId));
-        }
-
-        public bool ItemExiste(Guid itemId)
-        {
-            return Itens.Any(i => i.ProdutoId == itemId);
         }
 
         public ValidationResult Validar()
@@ -91,7 +81,7 @@ namespace ECommerce.Carrinho.Domain.Models
                 .GreaterThan(0)
                 .WithMessage("O carrinho não possui itens");
 
-            RuleFor(ci => ci.ValorTotal)
+            RuleFor(ci => ci.Valor)
                 .GreaterThan(0)
                 .WithMessage("O valor total do carrinho precisa ser maior que 0");
         }

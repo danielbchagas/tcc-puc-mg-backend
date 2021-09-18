@@ -47,7 +47,7 @@ namespace ECommerce.Carrinho.Api.Controllers
             if (carrinho == null)
             {
                 var novoCarrinho = new Domain.Models.Carrinho(Guid.Parse(UserId()));
-                novoCarrinho.AtualizarItem(item);
+                novoCarrinho.AtualizarItensCarrinho(item);
 
                 var validacao = novoCarrinho.Validar();
 
@@ -58,7 +58,7 @@ namespace ECommerce.Carrinho.Api.Controllers
             }
             else
             {
-                carrinho.AtualizarItem(item);
+                carrinho.AtualizarItensCarrinho(item);
 
                 var validacao = carrinho.Validar();
 

@@ -30,7 +30,7 @@ namespace ECommerce.Carrinho.Test
             var item = faker.Generate();
 
             // Act
-            Carrinho.AtualizarItem(item);
+            Carrinho.AtualizarItensCarrinho(item);
 
             // Assert
             Assert.False(Carrinho.Validar().IsValid);
@@ -51,7 +51,7 @@ namespace ECommerce.Carrinho.Test
             var item = faker.Generate();
 
             // Act
-            Carrinho.AtualizarItem(item);
+            Carrinho.AtualizarItensCarrinho(item);
 
             // Assert
             Assert.True(Carrinho.Validar().IsValid);
@@ -67,10 +67,10 @@ namespace ECommerce.Carrinho.Test
             var item = faker.Generate();
 
             // Act
-            Carrinho.AtualizarItem(item);
+            Carrinho.AtualizarItensCarrinho(item);
 
             // Assert
-            Assert.Equal(1000, Carrinho.ValorTotal);
+            Assert.Equal(1000, Carrinho.Valor);
         }
 
         [Fact]
@@ -90,8 +90,8 @@ namespace ECommerce.Carrinho.Test
             var segundoItem = faker2.Generate();
 
             // Act
-            Carrinho.AtualizarItem(primeiroItem);
-            Carrinho.AtualizarItem(segundoItem);
+            Carrinho.AtualizarItensCarrinho(primeiroItem);
+            Carrinho.AtualizarItensCarrinho(segundoItem);
 
             // Assert
             Assert.Contains(Carrinho.Itens, ic => ic.Quantidade == 3);
