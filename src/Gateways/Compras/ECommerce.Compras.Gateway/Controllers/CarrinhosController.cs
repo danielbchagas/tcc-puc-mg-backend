@@ -43,38 +43,30 @@ namespace ECommerce.Compras.Gateway.Controllers
         [HttpPost("adicionar-item")]
         public async Task<IActionResult> Adicionar(ItemCarrinho item)
         {
-            var carrinho = await _carrinhoService.Buscar();
             var produto = await _catalogoService.Buscar(item.ProdutoId);
 
-            #region Validação de estoque
-            var itemEstoque = await _catalogoService.Buscar(item.ProdutoId);
-
-            if (itemEstoque.QuantidadeEstoque < item.Quantidade)
+            #region Validação de item disponível em estoque
+            if (produto.QuantidadeEstoque < item.Quantidade)
                 return BadRequest("Quantidade indisponível em estoque!");
             #endregion
 
+            #region Atualização do estoque
+            produto.QuantidadeEstoque -= item.Quantidade;
+            var catalogoServiceResult = await _catalogoService.Atualizar(produto);
+
+            if (catalogoServiceResult.IsValid)
+                return BadRequest("Houve uma falha com a operação. Por favor, entre em contato com o suporte.");
+            #endregion
+
+            #region Atualização de carrinho
             item.Nome = produto.Nome;
             item.Imagem = produto.Imagem;
             item.Valor = produto.Valor;
 
-            var novoItemCarrinhoResult = await _carrinhoService.Adicionar(item);
+            var carrinhoResult = await _carrinhoService.Adicionar(item);
 
-            if (!novoItemCarrinhoResult.IsValid)
-                return BadRequest(novoItemCarrinhoResult.Errors.Select(e => e.ErrorMessage));
-
-            #region Atualização do estoque
-            produto.QuantidadeEstoque -= item.Quantidade;
-            var itemAtualizadoEstoqueResult = await _catalogoService.Atualizar(produto);
-
-            if (itemAtualizadoEstoqueResult.IsValid)
-            {
-                novoItemCarrinhoResult = await _carrinhoService.Adicionar(item);
-
-                if (!novoItemCarrinhoResult.IsValid)
-                    return BadRequest("Houve uma falha com a operação. Por favor, entre em contato com o suporte.");
-            }
-            else
-                return BadRequest("Houve uma falha com a operação. Por favor, entre em contato com o suporte.");
+            if (!carrinhoResult.IsValid)
+                return BadRequest(carrinhoResult.Errors.Select(e => e.ErrorMessage));
             #endregion
 
             return Ok();
