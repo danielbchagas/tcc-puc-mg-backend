@@ -98,7 +98,7 @@ namespace ECommerce.Carrinho.Test
         }
 
         [Fact]
-        public void DiminuirQuantidadeItensCarrinho_DeveRetornarErro()
+        public void AumentarQuantidadeItensCarrinho_DeveRetornarErro()
         {
             // Arrange
             var produtoId = Guid.NewGuid();
