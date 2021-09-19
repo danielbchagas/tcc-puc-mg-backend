@@ -1,8 +1,8 @@
-﻿using System;
-using ECommerce.Catalogo.Domain.Models;
+﻿using ECommerce.Catalogo.Domain.Models;
 using MediatR;
+using System;
 
-namespace ECommerce.Catalogo.Domain.Application.Queries
+namespace ECommerce.Catalogo.Application.Queries
 {
     public class BuscarProdutoPorIdQuery : IRequest<Produto>
     {

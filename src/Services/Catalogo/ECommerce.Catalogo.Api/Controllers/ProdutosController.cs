@@ -1,4 +1,4 @@
-﻿using ECommerce.Catalogo.Domain.Application.Queries;
+﻿using ECommerce.Catalogo.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

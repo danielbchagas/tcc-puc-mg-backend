@@ -1,5 +1,5 @@
-﻿using ECommerce.Catalogo.Domain.Application.Handlers.Queries;
-using ECommerce.Catalogo.Domain.Application.Queries;
+﻿using ECommerce.Catalogo.Application.Handlers.Queries;
+using ECommerce.Catalogo.Application.Queries;
 using ECommerce.Catalogo.Domain.Interfaces.Repositories;
 using ECommerce.Catalogo.Domain.Models;
 using ECommerce.Catalogo.Infrastructure.Repositories;
