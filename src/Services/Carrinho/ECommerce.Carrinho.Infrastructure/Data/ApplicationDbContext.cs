@@ -3,6 +3,7 @@ using ECommerce.Carrinho.Domain.Models;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Carrinho;
 
 namespace ECommerce.Carrinho.Infrastructure.Data
 {
@@ -14,7 +15,7 @@ namespace ECommerce.Carrinho.Infrastructure.Data
         }
 
         public DbSet<ItemCarrinho> ItensCarrinhos { get; set; }
-        public DbSet<Domain.Models.Carrinho> CarrinhosClientes { get; set; }
+        public DbSet<CarrinhoCliente> CarrinhosClientes { get; set; }
 
         public async Task<bool> Commit()
         {
@@ -37,7 +38,7 @@ namespace ECommerce.Carrinho.Infrastructure.Data
                 ic.Property(ic => ic.Quantidade).HasColumnType("int").IsRequired();
             });
 
-            modelBuilder.Entity<Domain.Models.Carrinho>(cc => 
+            modelBuilder.Entity<CarrinhoCliente>(cc => 
             {
                 cc.ToTable("Carrinho");
 
@@ -47,7 +48,7 @@ namespace ECommerce.Carrinho.Infrastructure.Data
 
                 cc.Property(cc => cc.Valor).HasColumnType("money");
 
-                cc.HasMany(cc => cc.Itens).WithOne(ic => ic.Carrinho).HasForeignKey(ic => ic.CarrinhoId);
+                cc.HasMany(cc => cc.Itens).WithOne(ic => ic.Carrinho);
             });
 
             base.OnModelCreating(modelBuilder);

@@ -7,7 +7,7 @@ namespace ECommerce.Carrinho.Domain.Models
 {
     public class ItemCarrinho
     {
-        public ItemCarrinho(string nome, int quantidade, decimal valor, string imagem, Guid produtoId, Guid carrinhoId)
+        public ItemCarrinho(string nome, int quantidade, decimal valor, string imagem, Guid produtoId)
         {
             Id = Guid.NewGuid();
             Nome = nome;
@@ -15,7 +15,6 @@ namespace ECommerce.Carrinho.Domain.Models
             Valor = valor;
             Imagem = imagem;
             ProdutoId = produtoId;
-            CarrinhoId = carrinhoId;
         }
 
         #region Propriedades
@@ -26,7 +25,6 @@ namespace ECommerce.Carrinho.Domain.Models
         public string Imagem { get; set; }
 
         public Guid ProdutoId { get; set; }
-        public Guid CarrinhoId { get; set; }
 
         [JsonIgnore]
         public Carrinho Carrinho { get; set; }
@@ -53,8 +51,8 @@ namespace ECommerce.Carrinho.Domain.Models
                 .WithMessage("O nome do produto não foi informado");
 
             RuleFor(ic => ic.Quantidade)
-                .ExclusiveBetween(-1, Carrinho.MAX_QUANTIDADE_ITEM + 1)
-                .WithMessage(item => $"A quantidade máxima do {item.Nome} é {Carrinho.MAX_QUANTIDADE_ITEM}");
+                .ExclusiveBetween(-1, 6)
+                .WithMessage(item => $"A quantidade mínima do {item.Nome} é 1 e o máxima do {item.Nome} é 5.");
 
             RuleFor(ic => ic.Valor)
                 .GreaterThan(0)

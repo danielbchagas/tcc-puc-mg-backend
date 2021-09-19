@@ -49,12 +49,7 @@ namespace ECommerce.Carrinho.Domain.Models
 
                 Itens.Remove(itemAntigo);
             }
-            // Associa o novo item ao carrinho
-            else
-            {
-                item.CarrinhoId = Id;
-            }
-
+            
             Itens.Add(item);
 
             Valor += Itens.Sum(i => i.Quantidade * i.Valor);
