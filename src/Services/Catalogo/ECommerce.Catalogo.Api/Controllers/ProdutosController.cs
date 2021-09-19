@@ -1,5 +1,4 @@
-﻿using ECommerce.Catalogo.Domain.Application.Commands;
-using ECommerce.Catalogo.Domain.Application.Queries;
+﻿using ECommerce.Catalogo.Domain.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -53,36 +52,6 @@ namespace ECommerce.Catalogo.Api.Controllers
         {
             var produto = await _mediator.Send(new BuscarProdutoPorIdQuery(id));
             return Ok(produto);
-        }
-        
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("cadastrar")]
-        public async Task<IActionResult> Cadastrar(AdicionarProdutoCommand request)
-        {
-            var resultado = await _mediator.Send(request);
-
-            if (!resultado.IsValid)
-                return BadRequest(resultado);
-
-            return Ok();
-        }
-
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPut("atualizar")]
-        public async Task<IActionResult> Atualizar(AtualizarProdutoCommand request)
-        {
-            var resultado = await _mediator.Send(request);
-
-            if (!resultado.IsValid)
-                return BadRequest(resultado);
-
-            return Ok();
         }
     }
 }

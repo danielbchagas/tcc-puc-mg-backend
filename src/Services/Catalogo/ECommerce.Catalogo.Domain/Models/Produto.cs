@@ -7,49 +7,33 @@ namespace ECommerce.Catalogo.Domain.Models
 {
     public class Produto : Entity, IAggregateRoot
     {
-        public Produto(string descricao, string nome, string imagem, long quantidadeEstoque, decimal valor, bool ativo = true)
+        public Produto(string descricao, string nome, string imagem, long quantidade, decimal valor, bool ativo = true)
         {
             Descricao = descricao;
             Nome = nome;
             Imagem = imagem;
-            QuantidadeEstoque = quantidadeEstoque;
+            Quantidade = quantidade;
             Valor = valor;
             Ativo = ativo;
             DataCadastro = DateTime.Now;
         }
 
+        #region Propriedades
         public string Descricao { get; set; }
         public string Nome { get; set; }
         public string Imagem { get; set; }
-        public long QuantidadeEstoque { get; set; }
+        public long Quantidade { get; set; }
         public decimal Valor { get; set; }
         public bool Ativo { get; set; }
         public DateTime DataCadastro { get; set; }
+        #endregion
 
-        public void Ativar()
-        {
-            Ativo = true;
-        }
-
-        public void Desativar()
-        {
-            Ativo = false;
-        }
-        
-        public void Adicionar(int quantidade)
-        {
-            QuantidadeEstoque += quantidade;
-        }
-
-        public void Remover(int quantidade)
-        {
-            QuantidadeEstoque -= quantidade;
-        }
-
+        #region Métodos
         public ValidationResult Validar()
         {
             return new ProdutoValidator().Validate(this);
         }
+        #endregion
     }
 
     public class ProdutoValidator : AbstractValidator<Produto>
@@ -70,7 +54,7 @@ namespace ECommerce.Catalogo.Domain.Models
             RuleFor(p => p.Imagem)
                 .NotEmpty()
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio");
-            RuleFor(p => p.QuantidadeEstoque)
+            RuleFor(p => p.Quantidade)
                 .GreaterThan(0)
                 .WithMessage("{PropertyName} tem um valor menor do que o esperado!")
                 .LessThan(long.MaxValue)
