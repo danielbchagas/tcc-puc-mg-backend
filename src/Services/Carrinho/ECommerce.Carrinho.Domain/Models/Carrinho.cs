@@ -32,9 +32,7 @@ namespace ECommerce.Carrinho.Domain.Models
             var validationResult = item.Validar();
 
             if (!validationResult.IsValid)
-            {
                 return validationResult;
-            }
 
             // Verifica se o item já existe no carrinho
             // Soma o item existente
