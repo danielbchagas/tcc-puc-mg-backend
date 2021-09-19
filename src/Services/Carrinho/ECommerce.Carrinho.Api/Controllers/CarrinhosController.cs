@@ -91,7 +91,7 @@ namespace ECommerce.Carrinho.Api.Controllers
         {
             var userId = UserId();
 
-            return await _carrinhoRepository.BuscarPorId(Guid.Parse(userId)) ?? new Domain.Models.Carrinho(Guid.Parse(userId));
+            return await _carrinhoRepository.BuscarPorClienteId(Guid.Parse(userId)) ?? new Domain.Models.Carrinho(Guid.Parse(userId));
         }
         #endregion
     }

@@ -29,11 +29,11 @@ namespace ECommerce.Carrinho.Infrastructure.Repositories
             return Task.CompletedTask;
         }
 
-        public async Task<Domain.Models.Carrinho> BuscarPorId(Guid id)
+        public async Task<Domain.Models.Carrinho> BuscarPorClienteId(Guid clienteId)
         {
             return await _context.CarrinhosClientes
                 .Include(cc => cc.Itens)
-                .FirstOrDefaultAsync(cc => cc.ClienteId == id);
+                .FirstOrDefaultAsync(cc => cc.ClienteId == clienteId);
         }
 
         public void Dispose()
