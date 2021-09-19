@@ -1,12 +1,12 @@
-﻿using ECommerce.Carrinho.Domain.Interfaces.Repositories;
+﻿using ECommerce.Carrinho.Api.Interfaces;
+using ECommerce.Carrinho.Domain.Interfaces.Repositories;
 using ECommerce.Carrinho.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
+using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Carrinho;
 
 namespace ECommerce.Carrinho.Api.Controllers
 {
@@ -15,13 +15,13 @@ namespace ECommerce.Carrinho.Api.Controllers
     [ApiController]
     public class CarrinhosController : ControllerBase
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IAspNetUser _aspNetUser;
         private readonly ICarrinhoRepository _carrinhoRepository;
         private readonly IItemCarrinhoRepository _itemRepository;
         
-        public CarrinhosController(IHttpContextAccessor httpContextAccessor, ICarrinhoRepository carrinhoClienteRepository, IItemCarrinhoRepository itemRepository)
+        public CarrinhosController(IAspNetUser aspNetUser, ICarrinhoRepository carrinhoClienteRepository, IItemCarrinhoRepository itemRepository)
         {
-            _httpContextAccessor = httpContextAccessor;
+            _aspNetUser = aspNetUser;
             _carrinhoRepository = carrinhoClienteRepository;
             _itemRepository = itemRepository;
         }
@@ -31,7 +31,7 @@ namespace ECommerce.Carrinho.Api.Controllers
         [HttpGet("buscar-carrinho")]
         public async Task<IActionResult> Buscar()
         {
-            var carrinho = await BuscarCarrinho();
+            var carrinho = await _carrinhoRepository.BuscarPorClienteId(_aspNetUser.ObterUserId());
 
             return Ok(carrinho);
         }
@@ -42,31 +42,21 @@ namespace ECommerce.Carrinho.Api.Controllers
         [HttpPost("adicionar-item")]
         public async Task<IActionResult> Adicionar(ItemCarrinho item)
         {
-            var carrinho = await BuscarCarrinho();
+            var userId = _aspNetUser.ObterUserId();
+
+            var carrinho = await _carrinhoRepository.BuscarPorClienteId(userId) ?? new CarrinhoCliente(userId);
+            carrinho.AtualizarItensCarrinho(item);
             
-            if (carrinho == null)
-            {
-                var novoCarrinho = new Domain.Models.Carrinho(Guid.Parse(UserId()));
-                novoCarrinho.AtualizarItensCarrinho(item);
+            var validationResult = carrinho.Validar();
 
-                var validacao = novoCarrinho.Validar();
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult);
 
-                if (!validacao.IsValid)
-                    return BadRequest(validacao);
-
-                await _carrinhoRepository.Adicionar(novoCarrinho);
-            }
-            else
-            {
-                carrinho.AtualizarItensCarrinho(item);
-
-                var validacao = carrinho.Validar();
-
-                if (!validacao.IsValid)
-                    return BadRequest(validacao);
-
+            // Se o carrinho existe, adiciona
+            if (await _carrinhoRepository.BuscarPorClienteId(userId) == null)
+                await _carrinhoRepository.Adicionar(carrinho);
+            else // Se não, atualiza
                 await _carrinhoRepository.Atualizar(carrinho);
-            }
 
             await _carrinhoRepository.UnitOfWork.Commit();
 
@@ -83,16 +73,5 @@ namespace ECommerce.Carrinho.Api.Controllers
 
             return NoContent();
         }
-
-        #region Métodos auxiliares
-        private string UserId() => _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-        private async Task<Domain.Models.Carrinho> BuscarCarrinho()
-        {
-            var userId = UserId();
-
-            return await _carrinhoRepository.BuscarPorClienteId(Guid.Parse(userId)) ?? new Domain.Models.Carrinho(Guid.Parse(userId));
-        }
-        #endregion
     }
 }
