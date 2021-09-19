@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ECommerce.Carrinho.Api.Migrations
+namespace ECommerce.Carrinho.Infrastructure.Migrations
 {
     public partial class initial : Migration
     {
@@ -12,7 +12,7 @@ namespace ECommerce.Carrinho.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ValorTotal = table.Column<decimal>(type: "money", nullable: false),
+                    Valor = table.Column<decimal>(type: "money", nullable: false),
                     ClienteId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -30,7 +30,7 @@ namespace ECommerce.Carrinho.Api.Migrations
                     Valor = table.Column<decimal>(type: "money", nullable: false),
                     Imagem = table.Column<string>(type: "text", nullable: true),
                     ProdutoId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CarrinhoId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    CarrinhoId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

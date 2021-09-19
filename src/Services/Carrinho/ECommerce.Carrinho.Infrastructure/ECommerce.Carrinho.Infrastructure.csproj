@@ -5,13 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Databases\CarrinhoDB.db" />
+    <Compile Remove="Databases\**" />
+    <EmbeddedResource Remove="Databases\**" />
+    <None Remove="Databases\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Databases\CarrinhoDB.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
 
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
