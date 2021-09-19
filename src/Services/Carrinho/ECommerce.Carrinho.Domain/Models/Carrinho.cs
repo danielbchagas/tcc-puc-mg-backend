@@ -18,8 +18,6 @@ namespace ECommerce.Carrinho.Domain.Models
         }
 
         #region Propriedades
-        internal const int MAX_QUANTIDADE_ITEM = 5;
-
         public Guid Id { get; set; }
         public decimal Valor { get; set; }
         public Guid ClienteId { get; set; }
