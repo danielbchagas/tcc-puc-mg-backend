@@ -2,6 +2,9 @@
 using ECommerce.Carrinho.Domain.Models;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Carrinho;
 
@@ -9,6 +12,8 @@ namespace ECommerce.Carrinho.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext, IUnitOfWork
     {
+        public ApplicationDbContext() { }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options)
         {
 
@@ -16,6 +21,19 @@ namespace ECommerce.Carrinho.Infrastructure.Data
 
         public DbSet<ItemCarrinho> ItensCarrinhos { get; set; }
         public DbSet<CarrinhoCliente> CarrinhosClientes { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (Debugger.IsAttached)
+                optionsBuilder
+                    .LogTo(Console.WriteLine, LogLevel.Error)
+                    .EnableSensitiveDataLogging();
+
+            if (!optionsBuilder.IsConfigured)
+                optionsBuilder.UseSqlite("Data Source=Database\\CarrinhoDB.db");
+
+            base.OnConfiguring(optionsBuilder);
+        }
 
         public async Task<bool> Commit()
         {

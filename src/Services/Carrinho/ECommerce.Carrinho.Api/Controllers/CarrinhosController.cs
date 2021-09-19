@@ -27,6 +27,7 @@ namespace ECommerce.Carrinho.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar-carrinho")]
         public async Task<IActionResult> Buscar()
@@ -39,8 +40,8 @@ namespace ECommerce.Carrinho.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("adicionar-item")]
-        public async Task<IActionResult> Adicionar(ItemCarrinho item)
+        [HttpPost("atualizar-carrinho")]
+        public async Task<IActionResult> Atualizar(ItemCarrinho item)
         {
             var userId = _aspNetUser.ObterUserId();
 
