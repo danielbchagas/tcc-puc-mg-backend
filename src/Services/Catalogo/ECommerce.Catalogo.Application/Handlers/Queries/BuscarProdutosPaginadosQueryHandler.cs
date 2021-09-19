@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using ECommerce.Catalogo.Domain.Application.Queries;
+﻿using ECommerce.Catalogo.Application.Queries;
 using ECommerce.Catalogo.Domain.Interfaces.Repositories;
 using ECommerce.Catalogo.Domain.Models;
 using MediatR;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace ECommerce.Catalogo.Domain.Application.Handlers.Queries
+namespace ECommerce.Catalogo.Application.Handlers.Queries
 {
     public class BuscarProdutosPaginadosQueryHandler : IRequestHandler<BuscarProdutosPaginadosQuery, IEnumerable<Produto>>
     {

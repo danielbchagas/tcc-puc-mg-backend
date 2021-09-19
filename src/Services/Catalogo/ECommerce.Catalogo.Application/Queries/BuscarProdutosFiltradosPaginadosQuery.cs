@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ECommerce.Catalogo.Domain.Models;
+using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ECommerce.Catalogo.Domain.Models;
-using MediatR;
 
-namespace ECommerce.Catalogo.Domain.Application.Queries
+namespace ECommerce.Catalogo.Application.Queries
 {
     public class BuscarProdutosFiltradosPaginadosQuery : IRequest<IEnumerable<Produto>>
     {
