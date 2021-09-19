@@ -37,12 +37,12 @@ namespace ECommerce.Compras.Gateway.Services
             await _client.DeleteAsync($"/api/carrinhos/excluir-item/{produtoId}");
         }
 
-        public async Task<ServiceResponse> Adicionar(ItemCarrinho item)
+        public async Task<ServiceResponse> Atualizar(ItemCarrinho item)
         {
             var json = JsonSerializer.Serialize(item);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/carrinhos/adicionar-item", content);
+            var response = await _client.PostAsync("/api/carrinhos/atualizar-carrinho", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {

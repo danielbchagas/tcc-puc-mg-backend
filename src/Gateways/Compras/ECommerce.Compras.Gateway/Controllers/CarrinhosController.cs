@@ -40,8 +40,8 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("adicionar-item")]
-        public async Task<IActionResult> Adicionar(ItemCarrinho item)
+        [HttpPost("atualizar-carrinho")]
+        public async Task<IActionResult> Atualizar(ItemCarrinho item)
         {
             var produto = await _catalogoService.Buscar(item.ProdutoId);
 
@@ -63,7 +63,7 @@ namespace ECommerce.Compras.Gateway.Controllers
             item.Imagem = produto.Imagem;
             item.Valor = produto.Valor;
 
-            var carrinhoResult = await _carrinhoService.Adicionar(item);
+            var carrinhoResult = await _carrinhoService.Atualizar(item);
 
             if (!carrinhoResult.IsValid)
                 return BadRequest(carrinhoResult.Errors.Select(e => e.ErrorMessage));

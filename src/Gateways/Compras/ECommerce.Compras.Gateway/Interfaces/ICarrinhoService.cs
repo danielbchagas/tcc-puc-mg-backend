@@ -7,7 +7,7 @@ namespace ECommerce.Compras.Gateway.Interfaces
 {
     public interface ICarrinhoService
     {
-        Task<ServiceResponse> Adicionar(ItemCarrinho item);
+        Task<ServiceResponse> Atualizar(ItemCarrinho item);
         Task<Carrinho> Buscar();
         Task Excluir(Guid produtoId);
     }
