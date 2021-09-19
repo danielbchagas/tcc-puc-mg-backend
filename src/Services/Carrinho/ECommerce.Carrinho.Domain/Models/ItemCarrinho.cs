@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace ECommerce.Carrinho.Domain.Models
 {
-    public class ItemCarrinho
+    public class ItemCarrinho : Entity
     {
         public ItemCarrinho(string nome, int quantidade, decimal valor, string imagem, Guid produtoId)
         {
@@ -18,7 +18,6 @@ namespace ECommerce.Carrinho.Domain.Models
         }
 
         #region Propriedades
-        public Guid Id { get; set; }
         public string Nome { get; set; }
         public int Quantidade { get; set; }
         public decimal Valor { get; set; }

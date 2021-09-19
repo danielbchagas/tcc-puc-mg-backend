@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ECommerce.Carrinho.Domain.Interfaces.Entities;
+using FluentValidation;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 
 namespace ECommerce.Carrinho.Domain.Models
 {
-    public class Carrinho
+    public class Carrinho : Entity, IAggregateRoot
     {
         protected Carrinho() { }
 
@@ -18,7 +19,6 @@ namespace ECommerce.Carrinho.Domain.Models
         }
 
         #region Propriedades
-        public Guid Id { get; set; }
         public decimal Valor { get; set; }
         public Guid ClienteId { get; set; }
 
