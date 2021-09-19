@@ -51,11 +51,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Carrinho.Domain",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Carrinho.Infrastructure", "Services\Carrinho\ECommerce.Carrinho.Infrastructure\ECommerce.Carrinho.Infrastructure.csproj", "{21568A18-B655-463D-8EC6-E43B032C930B}"
 EndProject
-<<<<<<< HEAD
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Carrinho.Application", "Services\Carrinho\ECommerce.Carrinho.Application\ECommerce.Carrinho.Application.csproj", "{98A9D317-8C59-4ABB-969C-441683539937}"
-=======
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Catalogo.Application", "Services\Catalogo\ECommerce.Catalogo.Application\ECommerce.Catalogo.Application.csproj", "{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}"
->>>>>>> catalogo
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Carrinho.Application", "Services\Carrinho\ECommerce.Carrinho.Application\ECommerce.Carrinho.Application.csproj", "{98A9D317-8C59-4ABB-969C-441683539937}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalogo.Application", "Services\Catalogo\ECommerce.Catalogo.Application\ECommerce.Catalogo.Application.csproj", "{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,12 +121,14 @@ Global
 		{21568A18-B655-463D-8EC6-E43B032C930B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21568A18-B655-463D-8EC6-E43B032C930B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21568A18-B655-463D-8EC6-E43B032C930B}.Release|Any CPU.Build.0 = Release|Any CPU
-
+		{98A9D317-8C59-4ABB-969C-441683539937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98A9D317-8C59-4ABB-969C-441683539937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98A9D317-8C59-4ABB-969C-441683539937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98A9D317-8C59-4ABB-969C-441683539937}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}.Release|Any CPU.Build.0 = Release|Any CPU
-
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,11 +155,8 @@ Global
 		{D59E2CB0-7BFF-4140-B921-637502230386} = {D5E614E0-00F8-43FA-AA6C-760A09D74978}
 		{8B0B50A8-C455-44EB-BECE-8DAE632C9658} = {4E898479-FDD5-4AFC-A600-D1FD032214C2}
 		{21568A18-B655-463D-8EC6-E43B032C930B} = {4E898479-FDD5-4AFC-A600-D1FD032214C2}
-<<<<<<< HEAD
 		{98A9D317-8C59-4ABB-969C-441683539937} = {4E898479-FDD5-4AFC-A600-D1FD032214C2}
-=======
 		{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1} = {56963A82-3D2A-415C-9248-E078E1123AA5}
->>>>>>> catalogo
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67EC54CA-3230-46DB-A00C-B1AF6BCCB2B3}
