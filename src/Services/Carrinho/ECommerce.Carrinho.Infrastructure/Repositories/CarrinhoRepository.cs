@@ -40,5 +40,12 @@ namespace ECommerce.Carrinho.Infrastructure.Repositories
         {
             _context?.Dispose();
         }
+
+        public async Task ExcluirPorClienteId(Guid clienteId)
+        {
+            var carrinho = await _context.CarrinhosClientes.FirstOrDefaultAsync(cc => cc.ClienteId == clienteId);
+
+            _context.CarrinhosClientes.Remove(carrinho);
+        }
     }
 }

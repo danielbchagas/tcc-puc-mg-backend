@@ -66,7 +66,7 @@ namespace ECommerce.Carrinho.Infrastructure.Data
 
                 cc.Property(cc => cc.Valor).HasColumnType("money");
 
-                cc.HasMany(cc => cc.Itens).WithOne(ic => ic.Carrinho).OnDelete(DeleteBehavior.Cascade);
+                cc.HasMany(cc => cc.Itens).WithOne(ic => ic.Carrinho).HasForeignKey(ic => ic.CarrinhoId).OnDelete(DeleteBehavior.Cascade);
             });
 
             base.OnModelCreating(modelBuilder);

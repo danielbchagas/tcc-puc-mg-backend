@@ -7,6 +7,11 @@ namespace ECommerce.Carrinho.Domain.Models
 {
     public class ItemCarrinho : Entity
     {
+        public ItemCarrinho()
+        {
+
+        }
+
         public ItemCarrinho(string nome, int quantidade, decimal valor, string imagem, Guid produtoId)
         {
             Id = Guid.NewGuid();
@@ -24,6 +29,7 @@ namespace ECommerce.Carrinho.Domain.Models
         public string Imagem { get; set; }
 
         public Guid ProdutoId { get; set; }
+        public Guid CarrinhoId { get; set; }
 
         [JsonIgnore]
         public Carrinho Carrinho { get; set; }

@@ -8,6 +8,7 @@ namespace ECommerce.Carrinho.Domain.Interfaces.Repositories
     {
         IUnitOfWork UnitOfWork { get; }
         Task<Models.Carrinho> BuscarPorClienteId(Guid clienteId);
+        Task ExcluirPorClienteId(Guid clienteId);
         Task Adicionar(Models.Carrinho carrinho);
         Task Atualizar(Models.Carrinho carrinho);
     }

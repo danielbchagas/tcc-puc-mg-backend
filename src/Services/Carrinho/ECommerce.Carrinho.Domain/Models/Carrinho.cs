@@ -9,7 +9,7 @@ namespace ECommerce.Carrinho.Domain.Models
 {
     public class Carrinho : Entity, IAggregateRoot
     {
-        protected Carrinho() { }
+        public Carrinho() { }
 
         public Carrinho(Guid clienteId)
         {

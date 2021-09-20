@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ECommerce.Carrinho.Application\ECommerce.Carrinho.Application.csproj" />
     <ProjectReference Include="..\ECommerce.Carrinho.Domain\ECommerce.Carrinho.Domain.csproj" />
     <ProjectReference Include="..\ECommerce.Carrinho.Infrastructure\ECommerce.Carrinho.Infrastructure.csproj" />
   </ItemGroup>

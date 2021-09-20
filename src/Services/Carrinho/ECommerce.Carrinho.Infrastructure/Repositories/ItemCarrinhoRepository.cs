@@ -19,6 +19,18 @@ namespace ECommerce.Carrinho.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => _context;
 
+        public async Task Adicionar(ItemCarrinho item)
+        {
+            await _context.ItensCarrinhos.AddAsync(item);
+        }
+
+        public Task Atualizar(ItemCarrinho item)
+        {
+            _context.ItensCarrinhos.Update(item);
+
+            return Task.CompletedTask;
+        }
+
         public async Task<ItemCarrinho> BuscarPorProdutoId(Guid id)
         {
             return await _context.ItensCarrinhos.FirstOrDefaultAsync(ic => ic.ProdutoId == id);
@@ -29,9 +41,9 @@ namespace ECommerce.Carrinho.Infrastructure.Repositories
             _context?.Dispose();
         }
 
-        public async Task ExcluirPorProdutoId(Guid id)
+        public async Task ExcluirPorProdutoId(Guid produtoId)
         {
-            var item = await BuscarPorProdutoId(id);
+            var item = await _context.ItensCarrinhos.FirstOrDefaultAsync(ic => ic.ProdutoId == produtoId);
 
             _context.ItensCarrinhos.Remove(item);
         }
