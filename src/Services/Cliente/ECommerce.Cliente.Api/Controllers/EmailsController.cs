@@ -1,5 +1,5 @@
-﻿using ECommerce.Cliente.Domain.Application.Commands;
-using ECommerce.Cliente.Domain.Application.Queries;
+﻿using ECommerce.Cliente.Application.Commands;
+using ECommerce.Cliente.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

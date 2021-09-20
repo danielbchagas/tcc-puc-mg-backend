@@ -1,12 +1,11 @@
 ﻿#define REST
 
-using ECommerce.Cliente.Api.Services;
-using ECommerce.Cliente.Domain.Application.Commands;
-using ECommerce.Cliente.Domain.Application.Handlers.Commands;
-using ECommerce.Cliente.Domain.Application.Handlers.Notifications;
-using ECommerce.Cliente.Domain.Application.Handlers.Queries;
-using ECommerce.Cliente.Domain.Application.Notifications;
-using ECommerce.Cliente.Domain.Application.Queries;
+using ECommerce.Cliente.Application.Commands;
+using ECommerce.Cliente.Application.Handlers.Commands;
+using ECommerce.Cliente.Application.Handlers.Notifications;
+using ECommerce.Cliente.Application.Handlers.Queries;
+using ECommerce.Cliente.Application.Notifications;
+using ECommerce.Cliente.Application.Queries;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using ECommerce.Cliente.Infrastructure.Repositories;

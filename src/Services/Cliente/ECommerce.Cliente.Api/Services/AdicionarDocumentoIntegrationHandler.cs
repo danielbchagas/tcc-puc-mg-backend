@@ -1,6 +1,6 @@
 ﻿using EasyNetQ;
 using ECommerce.Cliente.Api.Models;
-using ECommerce.Cliente.Domain.Application.Commands;
+using ECommerce.Cliente.Application.Commands;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
