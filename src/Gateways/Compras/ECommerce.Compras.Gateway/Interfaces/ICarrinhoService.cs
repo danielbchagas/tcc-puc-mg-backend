@@ -1,14 +1,19 @@
-﻿using ECommerce.Compras.Gateway.Models;
+﻿using ECommerce.Compras.Gateway.Dtos.Carrinho;
+using ECommerce.Compras.Gateway.Models;
 using ECommerce.Compras.Gateway.Models.Carrinho;
-using System;
 using System.Threading.Tasks;
 
 namespace ECommerce.Compras.Gateway.Interfaces
 {
     public interface ICarrinhoService
     {
-        Task<ServiceResponse> Atualizar(ItemCarrinho item);
-        Task<Carrinho> Buscar();
-        Task Excluir(Guid produtoId);
+        // Carrinho
+        Task<Carrinho> Buscar(BuscarCarrinhoPorClienteDto dto);
+        Task<ServiceResponse> Adicionar(AdicionarCarrinhoDto dto);
+        Task<ServiceResponse> Excluir(ExcluirCarrinhoDto dto);
+
+        // Item carrinho
+        Task<ServiceResponse> Adicionar(AdicionarItemCarrinhoDto dto);
+        Task<ServiceResponse> Excluir(ExcluirItemCarrinhoDto dto);
     }
 }

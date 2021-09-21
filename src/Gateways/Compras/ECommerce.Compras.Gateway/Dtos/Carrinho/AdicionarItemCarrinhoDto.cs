@@ -1,12 +1,10 @@
-﻿using FluentValidation.Results;
-using MediatR;
-using System;
+﻿using System;
 
-namespace ECommerce.Carrinho.Application.Commands
+namespace ECommerce.Compras.Gateway.Dtos.Carrinho
 {
-    public class AdicionarItemCarrinhoCommand : IRequest<ValidationResult>
+    public class AdicionarItemCarrinhoDto
     {
-        public AdicionarItemCarrinhoCommand(Guid id, string nome, int quantidade, decimal valor, string imagem, Guid produtoId, Guid carrinhoId, Guid clienteId)
+        public AdicionarItemCarrinhoDto(Guid id, string nome, int quantidade, decimal valor, string imagem, Guid produtoId, Guid carrinhoId, Guid clienteId)
         {
             Id = id;
             Nome = nome;
