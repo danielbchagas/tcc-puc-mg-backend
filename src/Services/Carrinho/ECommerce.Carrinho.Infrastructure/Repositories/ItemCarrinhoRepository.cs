@@ -41,9 +41,9 @@ namespace ECommerce.Carrinho.Infrastructure.Repositories
             _context?.Dispose();
         }
 
-        public async Task ExcluirPorProdutoId(Guid produtoId)
+        public async Task Excluir(Guid id)
         {
-            var item = await _context.ItensCarrinhos.FirstOrDefaultAsync(ic => ic.ProdutoId == produtoId);
+            var item = await _context.ItensCarrinhos.FindAsync(id);
 
             _context.ItensCarrinhos.Remove(item);
         }

@@ -9,11 +9,8 @@ namespace ECommerce.Carrinho.Domain.Models
 {
     public class Carrinho : Entity, IAggregateRoot
     {
-        public Carrinho() { }
-
         public Carrinho(Guid clienteId)
         {
-            Id = Guid.NewGuid();
             ClienteId = clienteId;
             Itens = new List<ItemCarrinho>();
         }
@@ -26,7 +23,7 @@ namespace ECommerce.Carrinho.Domain.Models
         #endregion
 
         #region Métodos
-        public ValidationResult AtualizarItensCarrinho(ItemCarrinho item)
+        public ValidationResult AdicionarItemAoCarrinho(ItemCarrinho item)
         {
             // Valida se o item é válido
             var validationResult = item.Validar();
@@ -34,18 +31,6 @@ namespace ECommerce.Carrinho.Domain.Models
             if (!validationResult.IsValid)
                 return validationResult;
 
-            // Verifica se o item já existe no carrinho
-            // Soma o item existente
-            if (Itens.Any(i => i.ProdutoId == item.ProdutoId))
-            {
-                var itemAntigo = Itens.First(i => i.ProdutoId == item.ProdutoId);
-                itemAntigo.Quantidade = item.Quantidade;
-
-                item = itemAntigo;
-
-                Itens.Remove(itemAntigo);
-            }
-            
             Itens.Add(item);
 
             Valor += Itens.Sum(i => i.Quantidade * i.Valor);

@@ -23,20 +23,16 @@ namespace ECommerce.Carrinho.Api.Configurations
             // Commands
             // Carrinho
             services.AddScoped<IRequestHandler<AdicionarCarrinhoCommand, ValidationResult>, AdicionarCarrinhoCommandHandler>();
-            services.AddScoped<IRequestHandler<AtualizarCarrinhoCommand, ValidationResult>, AtualizarCarrinhoCommandHandler>();
-            services.AddScoped<IRequestHandler<ExcluirCarrinhoPorProdutoIdCommand, ValidationResult>, ExcluirCarrinhoPorProdutoIdCommandHandler>();
+            services.AddScoped<IRequestHandler<ExcluirCarrinhoCommand, ValidationResult>, ExcluirCarrinhoCommandHandler>();
 
             // Item carrinho
-            services.AddScoped<IRequestHandler<AdicionarItemCarrinhoCommand, ValidationResult>, AdicionarItemCarrinhoCommandHandler>();
-            services.AddScoped<IRequestHandler<AtualizarItemCarrinhoCommand, ValidationResult>, AtualizarItemCarrinhoCommanHandler>();
-            services.AddScoped<IRequestHandler<ExcluirItemCarrinhoPorProdutoIdCommand, ValidationResult>, ExcluirItemCarrinhoPorProdutoIdCommandHandler>();
+            services.AddScoped<IRequestHandler<AdicionarItemCarrinhoCommand, ValidationResult>, AdicionarItemCarrinhoCommanHandler>();
+            services.AddScoped<IRequestHandler<ExcluirItemCarrinhoCommand, ValidationResult>, ExcluirItemCarrinhoCommandHandler>();
             
             // Queries
             // Carrinho
-            services.AddScoped<IRequestHandler<BuscarPorClienteIdQuery, Domain.Models.Carrinho>, BuscarPorClienteIdQueryHandler>();
-
-            // Item carrinho
-            services.AddScoped<IRequestHandler<BuscarPorProdutoIdQuery, Domain.Models.ItemCarrinho>, BuscarPorProdutoIdQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarCarrinhoPorClienteQuery, Domain.Models.Carrinho>, BuscarCarrinhoPorClienteQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarCarrinhoQuery, Domain.Models.Carrinho>, BuscarCarrinhoQueryHandler>();
             #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

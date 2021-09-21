@@ -7,19 +7,14 @@ namespace ECommerce.Carrinho.Domain.Models
 {
     public class ItemCarrinho : Entity
     {
-        public ItemCarrinho()
+        public ItemCarrinho(string nome, int quantidade, decimal valor, string imagem, Guid produtoId, Guid carrinhoId)
         {
-
-        }
-
-        public ItemCarrinho(string nome, int quantidade, decimal valor, string imagem, Guid produtoId)
-        {
-            Id = Guid.NewGuid();
             Nome = nome;
             Quantidade = quantidade;
             Valor = valor;
             Imagem = imagem;
             ProdutoId = produtoId;
+            CarrinhoId = carrinhoId;
         }
 
         #region Propriedades

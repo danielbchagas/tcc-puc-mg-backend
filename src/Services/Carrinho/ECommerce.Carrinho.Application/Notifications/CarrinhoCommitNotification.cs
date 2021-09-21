@@ -5,11 +5,11 @@ namespace ECommerce.Carrinho.Application.Notifications
 {
     public class CarrinhoCommitNotification : INotification
     {
-        public CarrinhoCommitNotification(Guid carrinhoId, Guid usuarioId)
+        public CarrinhoCommitNotification(Guid carrinhoId, Guid clienteId)
         {
             Momento = DateTime.Now;
             CarrinhoId = carrinhoId;
-            UsuarioId = usuarioId;
+            UsuarioId = clienteId;
         }
 
         public DateTime Momento { get; private set; }

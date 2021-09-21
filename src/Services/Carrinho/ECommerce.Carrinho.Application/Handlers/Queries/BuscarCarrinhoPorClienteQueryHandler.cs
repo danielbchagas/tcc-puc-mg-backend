@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Carrinho.Application.Handlers.Queries
 {
-    public class BuscarPorClienteIdQueryHandler : IRequestHandler<BuscarPorClienteIdQuery, Domain.Models.Carrinho>
+    public class BuscarCarrinhoPorClienteQueryHandler : IRequestHandler<BuscarCarrinhoPorClienteQuery, Domain.Models.Carrinho>
     {
-        public Task<Domain.Models.Carrinho> Handle(BuscarPorClienteIdQuery request, CancellationToken cancellationToken)
+        public Task<Domain.Models.Carrinho> Handle(BuscarCarrinhoPorClienteQuery request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

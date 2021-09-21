@@ -26,12 +26,12 @@ namespace ECommerce.Carrinho.Test
         {
             // Arrange
             var faker = new Faker<ItemCarrinho>()
-                .CustomInstantiator(set => new ItemCarrinho(nome: set.Random.String(), quantidade: quantidade, valor: set.Random.Decimal(), imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid()));
+                .CustomInstantiator(set => new ItemCarrinho(nome: set.Random.String(), quantidade: quantidade, valor: set.Random.Decimal(), imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
 
             var item = faker.Generate();
 
             // Act
-            Carrinho.AtualizarItensCarrinho(item);
+            Carrinho.AdicionarItemAoCarrinho(item);
 
             // Assert
             Assert.False(Carrinho.Validar().IsValid);
@@ -47,12 +47,12 @@ namespace ECommerce.Carrinho.Test
         {
             // Arrange
             var faker = new Faker<ItemCarrinho>()
-                .CustomInstantiator(set => new ItemCarrinho(nome: set.Random.String(), quantidade: quantidade, valor: set.Random.Decimal(), imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid()));
+                .CustomInstantiator(set => new ItemCarrinho(nome: set.Random.String(), quantidade: quantidade, valor: set.Random.Decimal(), imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
 
             var item = faker.Generate();
 
             // Act
-            Carrinho.AtualizarItensCarrinho(item);
+            Carrinho.AdicionarItemAoCarrinho(item);
 
             // Assert
             Assert.True(Carrinho.Validar().IsValid);

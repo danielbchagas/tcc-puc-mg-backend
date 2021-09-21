@@ -4,6 +4,7 @@ using ECommerce.Carrinho.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
+using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Carrinho;
 
 namespace ECommerce.Carrinho.Infrastructure.Repositories
 {
@@ -18,18 +19,23 @@ namespace ECommerce.Carrinho.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public async Task Adicionar(Domain.Models.Carrinho carrinho)
+        public async Task Adicionar(CarrinhoCliente carrinho)
         {
             await _context.CarrinhosClientes.AddAsync(carrinho);
         }
 
-        public Task Atualizar(Domain.Models.Carrinho carrinho)
+        public Task Atualizar(CarrinhoCliente carrinho)
         {
             _context.CarrinhosClientes.Update(carrinho);
             return Task.CompletedTask;
         }
 
-        public async Task<Domain.Models.Carrinho> BuscarPorClienteId(Guid clienteId)
+        public async Task<CarrinhoCliente> Buscar(Guid id)
+        {
+            return await _context.CarrinhosClientes.FindAsync(id);
+        }
+
+        public async Task<CarrinhoCliente> BuscarPorClienteId(Guid clienteId)
         {
             return await _context.CarrinhosClientes
                 .Include(cc => cc.Itens)
@@ -41,9 +47,9 @@ namespace ECommerce.Carrinho.Infrastructure.Repositories
             _context?.Dispose();
         }
 
-        public async Task ExcluirPorClienteId(Guid clienteId)
+        public async Task Excluir(Guid id)
         {
-            var carrinho = await _context.CarrinhosClientes.FirstOrDefaultAsync(cc => cc.ClienteId == clienteId);
+            var carrinho = await _context.CarrinhosClientes.FindAsync(id);
 
             _context.CarrinhosClientes.Remove(carrinho);
         }

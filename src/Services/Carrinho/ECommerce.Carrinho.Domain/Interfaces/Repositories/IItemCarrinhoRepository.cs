@@ -8,9 +8,11 @@ namespace ECommerce.Carrinho.Domain.Interfaces.Repositories
     public interface IItemCarrinhoRepository : IDisposable
     {
         IUnitOfWork UnitOfWork { get; }
-        Task<ItemCarrinho> BuscarPorProdutoId(Guid produtoId);
-        Task ExcluirPorProdutoId(Guid id);
+        
+        Task Excluir(Guid id);
         Task Adicionar(ItemCarrinho item);
         Task Atualizar(ItemCarrinho item);
+
+        Task<ItemCarrinho> BuscarPorProdutoId(Guid produtoId);
     }
 }
