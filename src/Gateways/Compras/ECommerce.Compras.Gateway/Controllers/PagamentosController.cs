@@ -1,4 +1,5 @@
-﻿using ECommerce.Compras.Gateway.Models.Pagamento;
+﻿using ECommerce.Compras.Gateway.Dtos.Carrinho;
+using ECommerce.Compras.Gateway.Models.Pagamento;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,12 @@ namespace ECommerce.Compras.Gateway.Controllers
         public IActionResult PagarComBoleto(BoletoDto boleto)
         {
             return Ok();
+        }
+
+        [HttpPost("finalizar-compra")]
+        public IActionResult Finalizar(ExcluirCarrinhoDto dto)
+        {
+            return RedirectToAction("excluir", "carrinhos", dto);
         }
     }
 }
