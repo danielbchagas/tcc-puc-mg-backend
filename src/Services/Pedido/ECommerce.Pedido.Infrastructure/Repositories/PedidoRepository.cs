@@ -34,12 +34,5 @@ namespace ECommerce.Pedido.Infrastructure.Repositories
             
             return Task.CompletedTask;
         }
-
-        public async Task Excluir(Guid id)
-        {
-            var pedido = await _context.Pedidos.FindAsync(id);
-            
-            _context.Pedidos.Remove(pedido);
-        }
     }
 }

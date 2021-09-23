@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using ECommerce.Pedido.Domain.Interfaces.Repositories;
+using ECommerce.Pedido.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ECommerce.Pedido.Api.Configurations
@@ -18,7 +20,7 @@ namespace ECommerce.Pedido.Api.Configurations
             // Mediator - Notificações
 
             // Repositórios
-
+            services.AddScoped<IPedidoRepository, PedidoRepository>();
             #endregion
         }
     }

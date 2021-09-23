@@ -12,6 +12,5 @@ namespace ECommerce.Pedido.Domain.Interfaces.Repositories
         Task<PedidoCliente> Buscar(Guid id);
         Task Adicionar(PedidoCliente pedido);
         Task Atualizar(PedidoCliente pedido);
-        Task Excluir(Guid id);
     }
 }

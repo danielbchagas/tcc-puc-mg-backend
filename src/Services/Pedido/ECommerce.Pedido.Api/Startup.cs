@@ -1,3 +1,4 @@
+using ECommerce.Pedido.Api.Configurations;
 using ECommerce.Pedido.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,11 +29,11 @@ namespace ECommerce.Pedido.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddJwtConfiguration(Configuration);
-            //services.AddEntityFrameworkConfiguration<ApplicationDbContext>(Configuration);
-            //services.AddHealthCheckConfiguration<ApplicationDbContext>(Configuration);
-            //services.AddSwaggerConfiguration("v1", "ECommerce.Pedido.Api", "TCC PUC Minas - Api de Pedido do E-Commerce");
-            //services.AddOptionsConfiguration(Configuration);
+            services.AddJwtConfiguration(Configuration);
+            services.AddEntityFrameworkConfiguration(Configuration);
+            services.AddHealthCheckConfiguration(Configuration);
+            services.AddSwaggerConfiguration();
+            services.AddOptionsConfiguration(Configuration);
 
             services.AddControllers().AddJsonOptions(
                 opt =>
@@ -54,7 +55,7 @@ namespace ECommerce.Pedido.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                //app.UseSwaggerConfiguration("ECommerce.Pedido.Api v1");
+                app.UseSwaggerConfiguration();
             }
 
             app.UseHttpsRedirection();
