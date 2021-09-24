@@ -11,14 +11,7 @@ namespace ECommerce.Catalogo.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext, IUnitOfWork
     {
-        public ApplicationDbContext() 
-        {
-            
-        }
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IMediator mediator) : base(options) 
-        {
-            
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
 
         public DbSet<Produto> Produtos { get; set; }
 

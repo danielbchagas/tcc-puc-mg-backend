@@ -11,15 +11,7 @@ namespace ECommerce.Cliente.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext, IUnitOfWork
     {
-        public ApplicationDbContext()
-        {
-
-        }
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
         
         public DbSet<Domain.Models.Cliente> Clientes { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }

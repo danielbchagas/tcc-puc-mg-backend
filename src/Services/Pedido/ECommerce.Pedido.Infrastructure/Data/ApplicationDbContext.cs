@@ -11,10 +11,7 @@ namespace ECommerce.Pedido.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext, IUnitOfWork
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
 
         #region Propriedades
         public DbSet<PedidoCliente> Pedidos { get; set; }

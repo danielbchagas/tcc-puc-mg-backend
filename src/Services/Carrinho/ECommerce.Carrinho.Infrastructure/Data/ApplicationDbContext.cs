@@ -12,12 +12,7 @@ namespace ECommerce.Carrinho.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext, IUnitOfWork
     {
-        public ApplicationDbContext() { }
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options)
-        {
-
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options) {}
 
         public DbSet<ItemCarrinho> ItensCarrinhos { get; set; }
         public DbSet<CarrinhoCliente> CarrinhosClientes { get; set; }
