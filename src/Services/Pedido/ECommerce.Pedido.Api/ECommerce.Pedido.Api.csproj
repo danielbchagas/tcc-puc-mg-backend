@@ -22,10 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\ECommerce.Pedido.Application\ECommerce.Pedido.Application.csproj" />
     <ProjectReference Include="..\ECommerce.Pedido.Infrastructure\ECommerce.Pedido.Infrastructure.csproj" />
   </ItemGroup>
 

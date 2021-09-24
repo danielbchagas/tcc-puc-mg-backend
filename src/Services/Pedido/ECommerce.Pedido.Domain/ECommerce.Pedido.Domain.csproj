@@ -10,4 +10,8 @@
     <None Remove="Entities\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.3" />
+  </ItemGroup>
+
 </Project>
