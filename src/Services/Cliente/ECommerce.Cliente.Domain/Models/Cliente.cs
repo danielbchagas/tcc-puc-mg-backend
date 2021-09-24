@@ -7,11 +7,7 @@ namespace ECommerce.Cliente.Domain.Models
 {
     public class Cliente : Entity, IAggregateRoot
     {
-        protected Cliente()
-        {
-
-        }
-
+        #region Construtores
         public Cliente(Guid id, string nome, string sobrenome, bool ativo = true)
         {
             Id = id;
@@ -19,7 +15,20 @@ namespace ECommerce.Cliente.Domain.Models
             Sobrenome = sobrenome;
             Ativo = ativo;
         }
-        
+
+        public Cliente(Guid id, string nome, string sobrenome, Documento documento, Email email, Telefone telefone, bool ativo = true)
+        {
+            Id = id;
+            Nome = nome;
+            Sobrenome = sobrenome;
+            Ativo = ativo;
+
+            Documento = documento;
+            Email = email;
+            Telefone = telefone;
+        }
+        #endregion
+
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public bool Ativo { get; set; }

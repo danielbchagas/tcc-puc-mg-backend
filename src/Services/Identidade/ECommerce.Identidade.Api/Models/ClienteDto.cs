@@ -8,5 +8,9 @@ namespace ECommerce.Identidade.Api.Models
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public bool Ativo { get; set; }
+
+        public DocumentoDto Documento { get; set; }
+        public EmailDto Email { get; set; }
+        public TelefoneDto Telefone { get; set; }
     }
 }

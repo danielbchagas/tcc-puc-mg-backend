@@ -204,35 +204,20 @@ namespace ECommerce.Identidade.Api.Controllers
                 Numero = usuario.Telefone,
                 ClienteId = cliente.Id
             };
+
+            cliente.Documento = documento;
+            cliente.Email = email;
+            cliente.Telefone = telefone;
             #endregion
 
-            #region Requisições
             _clienteService.AddToken((await GerarToken(usuario.Email)).Token);
 
             var clienteResult = await _clienteService.Adicionar(cliente);
-            var documentoResult = await _clienteService.Adicionar(documento);
-            var emailResult = await _clienteService.Adicionar(email);
-            var telefoneResult = await _clienteService.Adicionar(telefone);
-            #endregion
 
-            #region Validações
             var result = new ValidationResult();
 
             if (!clienteResult.IsValid)
                 result.Errors.AddRange(clienteResult.Errors);
-
-            
-            if (!documentoResult.IsValid)
-                result.Errors.AddRange(documentoResult.Errors);
-
-            
-            if (!emailResult.IsValid)
-                result.Errors.AddRange(emailResult.Errors);
-
-            
-            if (!telefoneResult.IsValid)
-                result.Errors.AddRange(telefoneResult.Errors);
-            #endregion
 
             // Falta criar a regra para excluir todos os relacionamentos
             if (!result.IsValid)
