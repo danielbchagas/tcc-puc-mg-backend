@@ -1,4 +1,7 @@
-﻿namespace ECommerce.Pedido.Domain.Models
+﻿using FluentValidation;
+using System;
+
+namespace ECommerce.Pedido.Domain.Models
 {
     public class Telefone : Entity
     {
@@ -12,5 +15,21 @@
         #region Propriedades
         public string Numero { get; set; }
         #endregion
+    }
+
+    public class TelefoneValidator : AbstractValidator<Telefone>
+    {
+        public TelefoneValidator()
+        {
+            RuleFor(d => d.Id)
+                .NotEqual(Guid.Empty)
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
+            RuleFor(d => d.Numero)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!")
+                .MaximumLength(100)
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!");
+        }
     }
 }

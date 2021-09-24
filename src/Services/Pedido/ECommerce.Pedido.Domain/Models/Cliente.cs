@@ -1,4 +1,8 @@
-﻿namespace ECommerce.Pedido.Domain.Models
+﻿using FluentValidation;
+using FluentValidation.Results;
+using System;
+
+namespace ECommerce.Pedido.Domain.Models
 {
     public class Cliente : Entity
     {
@@ -30,5 +34,46 @@
         public Telefone Telefone { get; set; }
         public Endereco Endereco { get; set; }
         #endregion
+
+        #region Métodos
+        public ValidationResult Validar()
+        {
+            return new ClienteValidator().Validate(this);
+        }
+        #endregion
+    }
+
+    public class ClienteValidator : AbstractValidator<Cliente>
+    {
+        public ClienteValidator()
+        {
+            RuleFor(_ => _.Id)
+                .NotEqual(Guid.Empty)
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
+            RuleFor(_ => _.Nome)
+                .MaximumLength(50)
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
+            RuleFor(_ => _.Sobrenome)
+                .MaximumLength(100)
+                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
+            RuleFor(_ => _.Documento)
+                .NotNull()
+                .WithMessage("{PropertyName} não pode ser nulo.");
+            RuleFor(_ => _.Email)
+                .NotNull()
+                .WithMessage("{PropertyName} não pode ser nulo.");
+            RuleFor(_ => _.Endereco)
+                .NotNull()
+                .WithMessage("{PropertyName} não pode ser nulo.");
+            RuleFor(_ => _.Telefone)
+                .NotNull()
+                .WithMessage("{PropertyName} não pode ser nulo.");
+        }
     }
 }
