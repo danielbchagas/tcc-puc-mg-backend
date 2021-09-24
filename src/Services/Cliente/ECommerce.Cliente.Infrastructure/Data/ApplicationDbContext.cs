@@ -27,19 +27,6 @@ namespace ECommerce.Cliente.Infrastructure.Data
         public DbSet<Email> Emails { get; set; }
         public DbSet<Telefone> Telefones { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (Debugger.IsAttached)
-                optionsBuilder
-                    .LogTo(Console.WriteLine, LogLevel.Error)
-                    .EnableSensitiveDataLogging();
-
-            if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlite("Data Source=Database\\ClienteDB.db");
-
-            base.OnConfiguring(optionsBuilder);
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Mapeamento

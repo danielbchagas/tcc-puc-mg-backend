@@ -27,17 +27,6 @@ namespace ECommerce.Catalogo.Infrastructure.Data
             return await base.SaveChangesAsync() > 0;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (Debugger.IsAttached)
-                optionsBuilder.LogTo(Console.WriteLine);
-
-            if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlite("Data Source=Database\\CatalogoDB.db");
-
-            base.OnConfiguring(optionsBuilder);
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Mapeamento

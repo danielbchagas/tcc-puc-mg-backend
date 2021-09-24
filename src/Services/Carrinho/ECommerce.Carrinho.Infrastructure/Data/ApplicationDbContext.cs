@@ -22,19 +22,6 @@ namespace ECommerce.Carrinho.Infrastructure.Data
         public DbSet<ItemCarrinho> ItensCarrinhos { get; set; }
         public DbSet<CarrinhoCliente> CarrinhosClientes { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (Debugger.IsAttached)
-                optionsBuilder
-                    .LogTo(Console.WriteLine, LogLevel.Error)
-                    .EnableSensitiveDataLogging();
-
-            if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlite("Data Source=Database\\CarrinhoDB.db");
-
-            base.OnConfiguring(optionsBuilder);
-        }
-
         public async Task<bool> Commit()
         {
             return await base.SaveChangesAsync() > 0;
