@@ -29,6 +29,7 @@ namespace ECommerce.Cliente.Domain.Models
         }
         #endregion
 
+        #region Propriedades
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public bool Ativo { get; set; }
@@ -37,11 +38,14 @@ namespace ECommerce.Cliente.Domain.Models
         public Email Email { get; set; }
         public Telefone Telefone { get; set; }
         public Endereco Endereco { get; set; }
+        #endregion
 
+        #region Métodos
         public ValidationResult Validar()
         {
             return new ClienteValidator().Validate(this);
         }
+        #endregion
     }
 
     public class ClienteValidator : AbstractValidator<Cliente>
