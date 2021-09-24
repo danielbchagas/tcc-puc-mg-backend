@@ -7,27 +7,26 @@ namespace ECommerce.Cliente.Domain.Models
 {
     public class Email : Entity
     {
-        protected Email()
-        {
-
-        }
-
         public Email(string endereco, Guid clienteId)
         {
             Endereco = endereco;
             ClienteId = clienteId;
         }
 
+        #region Propriedades
         public string Endereco { get; set; }
         
         public Guid ClienteId { get; set; }
         [JsonIgnore]
         public Cliente Cliente { get; set; }
+        #endregion
 
+        #region Métodos
         public ValidationResult Validar()
         {
             return new EmailValidator().Validate(this);
         }
+        #endregion
     }
 
     public class EmailValidator : AbstractValidator<Email>

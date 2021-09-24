@@ -7,27 +7,26 @@ namespace ECommerce.Cliente.Domain.Models
 {
     public class Documento : Entity
     {
-        protected Documento()
-        {
-
-        }
-
         public Documento(string numero, Guid clienteId)
         {
             Numero = numero;
             ClienteId = clienteId;
         }
 
+        #region Propriedades
         public string Numero { get; set; }
         
         public Guid ClienteId { get; set; }
         [JsonIgnore]
         public Cliente Cliente { get; set; }
+        #endregion
 
+        #region Métodos
         public ValidationResult Validar()
         {
             return new DocumentoValidator().Validate(this);
         }
+        #endregion
     }
 
     public class DocumentoValidator : AbstractValidator<Documento>

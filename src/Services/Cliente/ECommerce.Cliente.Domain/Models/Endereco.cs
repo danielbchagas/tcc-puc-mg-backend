@@ -8,11 +8,7 @@ namespace ECommerce.Cliente.Domain.Models
 {
     public class Endereco : Entity
     {
-        protected Endereco()
-        {
-
-        }
-
+        #region Construtores
         public Endereco(string logradouro, string bairro, string cidade, string cep, Estados estado, Guid clienteId)
         {
             Logradouro = logradouro;
@@ -22,7 +18,9 @@ namespace ECommerce.Cliente.Domain.Models
             Estado = estado;
             ClienteId = clienteId;
         }
+        #endregion
 
+        #region Propriedades
         public string Logradouro { get; set; }
         public string Bairro { get; set; }
         public string Cidade { get; set; }
@@ -33,11 +31,14 @@ namespace ECommerce.Cliente.Domain.Models
         public Guid ClienteId { get; set; }
         [JsonIgnore]
         public Cliente Cliente { get; set; }
+        #endregion
 
+        #region Métodos
         public ValidationResult Validar()
         {
             return new EnderecoValidator().Validate(this);
         }
+        #endregion
     }
 
     public class EnderecoValidator : AbstractValidator<Endereco>
