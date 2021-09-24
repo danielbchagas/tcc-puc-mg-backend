@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ECommerce.Pedido.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ECommerce.Pedido.Api.Configurations
@@ -7,13 +9,13 @@ namespace ECommerce.Pedido.Api.Configurations
     {
         public static void AddHealthCheckConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddHealthChecks()
-            //    .AddDbContextCheck<ApplicationDbContext>();
+            services.AddHealthChecks()
+                .AddDbContextCheck<ApplicationDbContext>();
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //{
-            //    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            //});
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+            });
         }
     }
 }

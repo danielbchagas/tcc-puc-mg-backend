@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ECommerce.Pedido.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace ECommerce.Pedido.Api.Configurations
 {
@@ -9,13 +9,7 @@ namespace ECommerce.Pedido.Api.Configurations
     {
         public static void AddEntityFrameworkConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddDbContext<ApplicationDbContext>(optionsAction =>
-            //{
-            //    optionsAction.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), sqlServerOptionsAction: options =>
-            //    {
-            //        options.EnableRetryOnFailure(maxRetryCount: 6, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
-            //    });
-            //});
+            services.AddDbContext<ApplicationDbContext>(optionsAction => optionsAction.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
         }
     }
 }
