@@ -7,16 +7,16 @@ using PedidoCliente = ECommerce.Pedido.Domain.Models.Pedido;
 
 namespace ECommerce.Pedido.Application.Handlers.Queries
 {
-    public class BuscarPedidoPorIdHandler : IRequestHandler<BuscarPedidoPorId, PedidoCliente>
+    public class BuscarPedidoPorIdQueryHandler : IRequestHandler<BuscarPedidoPorIdQuery, PedidoCliente>
     {
         private readonly IPedidoRepository _repository;
 
-        public BuscarPedidoPorIdHandler(IPedidoRepository repository)
+        public BuscarPedidoPorIdQueryHandler(IPedidoRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<PedidoCliente> Handle(BuscarPedidoPorId request, CancellationToken cancellationToken)
+        public async Task<PedidoCliente> Handle(BuscarPedidoPorIdQuery request, CancellationToken cancellationToken)
         {
             return await _repository.Buscar(request.Id);
         }

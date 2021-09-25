@@ -38,7 +38,7 @@ namespace ECommerce.Pedido.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("buscar")]
-        public async Task<IActionResult> Buscar(BuscarPedidoPorId request)
+        public async Task<IActionResult> Buscar(BuscarPedidoPorIdQuery request)
         {
             var pedido = await _mediator.Send(request);
 
