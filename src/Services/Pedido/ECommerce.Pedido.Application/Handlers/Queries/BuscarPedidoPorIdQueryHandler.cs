@@ -18,7 +18,10 @@ namespace ECommerce.Pedido.Application.Handlers.Queries
 
         public async Task<PedidoCliente> Handle(BuscarPedidoPorIdQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.Buscar(request.Id);
+            var pedido = await _repository.Buscar(request.Id);
+            pedido.CalcularTotalPedido();
+
+            return pedido;
         }
     }
 }

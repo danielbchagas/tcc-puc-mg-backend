@@ -3,6 +3,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ECommerce.Pedido.Domain.Models
 {
@@ -37,6 +38,11 @@ namespace ECommerce.Pedido.Domain.Models
         public ValidationResult Validar()
         {
             return new PedidoValidator().Validate(this);
+        }
+
+        public void CalcularTotalPedido()
+        {
+            Valor = Produtos.Sum(_ => _.Valor);
         }
         #endregion
     }
