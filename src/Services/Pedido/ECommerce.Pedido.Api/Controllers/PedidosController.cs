@@ -1,4 +1,5 @@
 ﻿using ECommerce.Pedido.Application.Commands;
+using ECommerce.Pedido.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,17 @@ namespace ECommerce.Pedido.Api.Controllers
                 return BadRequest(validationResult);
 
             return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesErrorResponseType(typeof(ProblemDetails))]
+        [HttpPost("buscar")]
+        public async Task<IActionResult> Buscar(BuscarPedidoPorId request)
+        {
+            var pedido = await _mediator.Send(request);
+
+            return Ok(pedido);
         }
     }
 }
