@@ -15,10 +15,10 @@ namespace ECommerce.Compras.Gateway.Services
     {
         private readonly HttpClient _client;
 
-        public ClienteService(HttpClient client, IOptions<ServiceOptions> clienteServiceOptions)
+        public ClienteService(HttpClient client, IOptions<ServiceOptions> serviceOptions)
         {
             _client = client;
-            _client.BaseAddress = new Uri(clienteServiceOptions.Value.ClienteUrl);
+            _client.BaseAddress = new Uri(serviceOptions.Value.ClienteUrl);
         }
 
         public async Task<ClienteDto> BuscarCliente(Guid id)
