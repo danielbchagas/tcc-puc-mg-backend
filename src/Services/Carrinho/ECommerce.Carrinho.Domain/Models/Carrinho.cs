@@ -52,14 +52,6 @@ namespace ECommerce.Carrinho.Domain.Models
             RuleFor(ci => ci.ClienteId)
                 .NotEqual(Guid.Empty)
                 .WithMessage("Cliente não reconhecido");
-
-            RuleFor(ci => ci.Itens.Count)
-                .GreaterThan(0)
-                .WithMessage("O carrinho não possui itens");
-
-            RuleFor(ci => ci.Valor)
-                .GreaterThan(0)
-                .WithMessage("O valor total do carrinho precisa ser maior que 0");
         }
     }
 }

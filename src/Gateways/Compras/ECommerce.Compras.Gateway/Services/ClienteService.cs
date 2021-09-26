@@ -12,8 +12,9 @@ namespace ECommerce.Compras.Gateway.Services
 {
     public class ClienteService : BaseService, IClienteService
     {
-        public ClienteService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client, serviceOptions)
+        public ClienteService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client)
         {
+            _client.BaseAddress = new Uri(serviceOptions.Value.ClienteUrl);
         }
 
         public async Task<ClienteDto> BuscarCliente(Guid id)

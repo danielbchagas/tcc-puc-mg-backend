@@ -13,8 +13,9 @@ namespace ECommerce.Compras.Gateway.Services
 {
     public class PedidoService : BaseService, IPedidoService
     {
-        public PedidoService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client, serviceOptions)
+        public PedidoService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client)
         {
+            _client.BaseAddress = new Uri(serviceOptions.Value.PedidoUrl);
         }
 
         public async Task<ServiceResponse> Adicionar(PedidoDto pedido)

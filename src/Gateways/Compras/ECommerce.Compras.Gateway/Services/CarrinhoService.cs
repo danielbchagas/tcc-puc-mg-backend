@@ -13,8 +13,9 @@ namespace ECommerce.Compras.Gateway.Services
 {
     public class CarrinhoService : BaseService, ICarrinhoService
     {
-        public CarrinhoService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client, serviceOptions)
+        public CarrinhoService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client)
         {
+            _client.BaseAddress = new Uri(serviceOptions.Value.CarrinhoUrl);
         }
 
         #region Carrinho

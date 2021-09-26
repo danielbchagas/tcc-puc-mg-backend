@@ -14,8 +14,9 @@ namespace ECommerce.Compras.Gateway.Services
 {
     public class CatalogoService : BaseService, ICatalogoService
     {
-        public CatalogoService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client, serviceOptions)
+        public CatalogoService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client)
         {
+            _client.BaseAddress = new Uri(serviceOptions.Value.CatalogoUrl);
         }
 
         public async Task<ServiceResponse> Atualizar(ProdutoDto produto)
