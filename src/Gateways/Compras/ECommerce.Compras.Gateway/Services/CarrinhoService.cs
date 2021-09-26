@@ -17,10 +17,10 @@ namespace ECommerce.Compras.Gateway.Services
     {
         private readonly HttpClient _client;
 
-        public CarrinhoService(HttpClient client, IOptions<ServiceOptions> clienteServiceOptions)
+        public CarrinhoService(HttpClient client, IOptions<ServiceOptions> serviceOptions)
         {
             _client = client;
-            _client.BaseAddress = new Uri(clienteServiceOptions.Value.CarrinhoUrl);
+            _client.BaseAddress = new Uri(serviceOptions.Value.CarrinhoUrl);
         }
 
         public async Task<Carrinho> Buscar(BuscarCarrinhoPorClienteDto dto)

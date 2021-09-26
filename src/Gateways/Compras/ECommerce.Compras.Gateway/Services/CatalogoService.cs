@@ -17,10 +17,10 @@ namespace ECommerce.Compras.Gateway.Services
     {
         private readonly HttpClient _client;
 
-        public CatalogoService(HttpClient client, IOptions<ServiceOptions> clienteServiceOptions)
+        public CatalogoService(HttpClient client, IOptions<ServiceOptions> serviceOptions)
         {
             _client = client;
-            _client.BaseAddress = new Uri(clienteServiceOptions.Value.CatalogoUrl);
+            _client.BaseAddress = new Uri(serviceOptions.Value.CatalogoUrl);
         }
 
         public async Task<ServiceResponse> Atualizar(ProdutoDto produto)
