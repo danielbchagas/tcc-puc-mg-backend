@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace ECommerce.Pedido.Api.Controllers
@@ -37,10 +38,10 @@ namespace ECommerce.Pedido.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("buscar")]
-        public async Task<IActionResult> Buscar(BuscarPedidoPorIdQuery request)
+        [HttpPost("buscar/{id:Guid}")]
+        public async Task<IActionResult> Buscar(Guid id)
         {
-            var pedido = await _mediator.Send(request);
+            var pedido = await _mediator.Send(new BuscarPedidoPorIdQuery(id));
 
             return Ok(pedido);
         }

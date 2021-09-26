@@ -6,15 +6,11 @@ namespace ECommerce.Carrinho.Application.Commands
 {
     public class ExcluirCarrinhoCommand : IRequest<ValidationResult>
     {
-        public ExcluirCarrinhoCommand(Guid id, Guid clienteId)
+        public ExcluirCarrinhoCommand(Guid id)
         {
             Id = id;
-
-            ClienteId = clienteId;
         }
 
         public Guid Id { get; set; }
-
-        public Guid ClienteId { get; set; }
     }
 }

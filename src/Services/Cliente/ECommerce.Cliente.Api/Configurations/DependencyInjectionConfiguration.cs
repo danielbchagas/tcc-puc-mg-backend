@@ -2,9 +2,7 @@
 
 using ECommerce.Cliente.Application.Commands;
 using ECommerce.Cliente.Application.Handlers.Commands;
-using ECommerce.Cliente.Application.Handlers.Notifications;
 using ECommerce.Cliente.Application.Handlers.Queries;
-using ECommerce.Cliente.Application.Notifications;
 using ECommerce.Cliente.Application.Queries;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
@@ -51,18 +49,6 @@ namespace ECommerce.Cliente.Api.Configurations
             services.AddScoped<IRequestHandler<BuscarDocumentoPorIdQuery, Documento>, BuscarDocumentoPorIdQueryHandler>();
 
             services.AddScoped<IRequestHandler<BuscarTelefonePorIdQuery, Telefone>, BuscarTelefonePorIdQueryHandler>();
-            #endregion
-
-            #region Mediator - Notificações
-            services.AddScoped<INotificationHandler<ClienteCommitNotification>, ClienteCommitNotificationHandler>();
-
-            services.AddScoped<INotificationHandler<EnderecoCommitNotification>, EnderecoCommitNotificationHandler>();
-
-            services.AddScoped<INotificationHandler<DocumentoCommitNotification>, DocumentoCommitNotificationHandler>();
-
-            services.AddScoped<INotificationHandler<EmailCommitNotification>, EmailCommitNotificationHandler>();
-
-            services.AddScoped<INotificationHandler<TelefoneCommitNotification>, TelefoneCommitNotificationHandler>();
             #endregion
 
             #region Repositórios

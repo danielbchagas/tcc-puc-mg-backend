@@ -6,19 +6,14 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ECommerce.Compras.Gateway.Services
 {
-    public class ClienteService : IClienteService
+    public class ClienteService : BaseService, IClienteService
     {
-        private readonly HttpClient _client;
-
-        public ClienteService(HttpClient client, IOptions<ServiceOptions> serviceOptions)
+        public ClienteService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client, serviceOptions)
         {
-            _client = client;
-            _client.BaseAddress = new Uri(serviceOptions.Value.ClienteUrl);
         }
 
         public async Task<ClienteDto> BuscarCliente(Guid id)
@@ -69,17 +64,6 @@ namespace ECommerce.Compras.Gateway.Services
                 return null;
 
             return JsonSerializer.Deserialize<TelefoneDto>(await response.Content.ReadAsStringAsync(), GetOptions());
-        }
-
-        private JsonSerializerOptions GetOptions()
-        {
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                ReferenceHandler = ReferenceHandler.Preserve
-            };
-
-            return options;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using ECommerce.Carrinho.Application.Commands;
-using ECommerce.Carrinho.Application.Notifications;
 using ECommerce.Carrinho.Application.Queries;
 using ECommerce.Carrinho.Domain.Interfaces.Repositories;
 using ECommerce.Carrinho.Domain.Models;
@@ -53,9 +52,6 @@ namespace ECommerce.Carrinho.Application.Handlers.Commands
             {
                 await _carrinhoRepository.Atualizar(carrinho);
                 success = await _carrinhoRepository.UnitOfWork.Commit();
-
-                if (success)
-                    await _mediator.Publish(new ItemCarrinhoCommitNotification(itemCarrinhoId: item.Id, clienteId: request.ClienteId));
             }
             #endregion
 

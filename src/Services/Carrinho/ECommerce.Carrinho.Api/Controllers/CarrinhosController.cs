@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace ECommerce.Carrinho.Api.Controllers
@@ -23,10 +24,10 @@ namespace ECommerce.Carrinho.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar")]
-        public async Task<IActionResult> Buscar(BuscarCarrinhoPorClienteQuery request)
+        [HttpGet("buscar/{id:Guid}")]
+        public async Task<IActionResult> Buscar(Guid id)
         {
-            var carrinho = await _mediator.Send(request);
+            var carrinho = await _mediator.Send(new BuscarCarrinhoPorClienteQuery(id));
 
             return Ok(carrinho);
         }
@@ -48,10 +49,10 @@ namespace ECommerce.Carrinho.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpDelete("excluir")]
-        public async Task<IActionResult> Excluir(ExcluirCarrinhoCommand request)
+        [HttpDelete("excluir/{id:Guid}")]
+        public async Task<IActionResult> Excluir(Guid id)
         {
-            var validationResult = await _mediator.Send(request);
+            var validationResult = await _mediator.Send(new ExcluirCarrinhoCommand(id));
 
             if (!validationResult.IsValid)
                 return BadRequest(validationResult);

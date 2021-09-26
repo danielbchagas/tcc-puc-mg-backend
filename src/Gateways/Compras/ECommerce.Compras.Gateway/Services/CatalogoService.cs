@@ -8,19 +8,14 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ECommerce.Compras.Gateway.Services
 {
-    public class CatalogoService : ICatalogoService
+    public class CatalogoService : BaseService, ICatalogoService
     {
-        private readonly HttpClient _client;
-
-        public CatalogoService(HttpClient client, IOptions<ServiceOptions> serviceOptions)
+        public CatalogoService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client, serviceOptions)
         {
-            _client = client;
-            _client.BaseAddress = new Uri(serviceOptions.Value.CatalogoUrl);
         }
 
         public async Task<ServiceResponse> Atualizar(ProdutoDto produto)
@@ -91,17 +86,6 @@ namespace ECommerce.Compras.Gateway.Services
             }
 
             return new ServiceResponse();
-        }
-
-        private JsonSerializerOptions GetOptions()
-        {
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                ReferenceHandler = ReferenceHandler.Preserve
-            };
-
-            return options;
         }
     }
 }

@@ -8,24 +8,20 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ECommerce.Compras.Gateway.Services
 {
-    public class CarrinhoService : ICarrinhoService
+    public class CarrinhoService : BaseService, ICarrinhoService
     {
-        private readonly HttpClient _client;
-
-        public CarrinhoService(HttpClient client, IOptions<ServiceOptions> serviceOptions)
+        public CarrinhoService(HttpClient client, IOptions<ServiceOptions> serviceOptions) : base(client, serviceOptions)
         {
-            _client = client;
-            _client.BaseAddress = new Uri(serviceOptions.Value.CarrinhoUrl);
         }
 
-        public async Task<Carrinho> Buscar(BuscarCarrinhoPorClienteDto dto)
+        #region Carrinho
+        public async Task<Carrinho> BuscarCarrinho(Guid id)
         {
-            var response = await _client.GetAsync($"/api/carrinhos/buscar/{dto}");
+            var response = await _client.GetAsync($"/api/carrinhos/buscar/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;
@@ -33,7 +29,7 @@ namespace ECommerce.Compras.Gateway.Services
             return JsonSerializer.Deserialize<Carrinho>(await response.Content.ReadAsStringAsync(), GetOptions());
         }
 
-        public async Task<ServiceResponse> Adicionar(AdicionarCarrinhoDto dto)
+        public async Task<ServiceResponse> AdicionarCarrinho(AdicionarCarrinhoDto dto)
         {
             var json = JsonSerializer.Serialize(dto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -50,9 +46,9 @@ namespace ECommerce.Compras.Gateway.Services
             return new ServiceResponse();
         }
 
-        public async Task<ServiceResponse> Excluir(ExcluirCarrinhoDto dto)
+        public async Task<ServiceResponse> ExcluirCarrinho(Guid id)
         {
-            var response = await _client.DeleteAsync($"/api/carrinhos/excluir/{dto}");
+            var response = await _client.DeleteAsync($"/api/carrinhos/excluir/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -63,8 +59,10 @@ namespace ECommerce.Compras.Gateway.Services
 
             return new ServiceResponse();
         }
+        #endregion
 
-        public async Task<ServiceResponse> Adicionar(AdicionarItemCarrinhoDto dto)
+        #region Item carrinho
+        public async Task<ServiceResponse> AdicionarItemCarrinho(AdicionarItemCarrinhoDto dto)
         {
             var json = JsonSerializer.Serialize(dto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -81,9 +79,9 @@ namespace ECommerce.Compras.Gateway.Services
             return new ServiceResponse();
         }
 
-        public async Task<ServiceResponse> Excluir(ExcluirItemCarrinhoDto dto)
+        public async Task<ServiceResponse> ExcluirItemCarrinho(Guid id)
         {
-            var response = await _client.DeleteAsync($"/api/itenscarrinhos/excluir/{dto}");
+            var response = await _client.DeleteAsync($"/api/itenscarrinhos/excluir/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -94,16 +92,6 @@ namespace ECommerce.Compras.Gateway.Services
 
             return new ServiceResponse();
         }
-
-        private JsonSerializerOptions GetOptions()
-        {
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                ReferenceHandler = ReferenceHandler.Preserve
-            };
-
-            return options;
-        }
+        #endregion
     }
 }

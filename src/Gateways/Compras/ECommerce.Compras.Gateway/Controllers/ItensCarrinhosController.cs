@@ -3,6 +3,7 @@ using ECommerce.Compras.Gateway.Interfaces;
 using ECommerce.Compras.Gateway.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,7 +52,7 @@ namespace ECommerce.Compras.Gateway.Controllers
             dto.Imagem = produto.Imagem;
             dto.Valor = produto.Valor;
 
-            validationResult = await _carrinhoService.Adicionar(dto);
+            validationResult = await _carrinhoService.AdicionarItemCarrinho(dto);
 
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
@@ -64,9 +65,9 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpDelete("excluir")]
-        public async Task<IActionResult> Excluir(ExcluirItemCarrinhoDto dto)
+        public async Task<IActionResult> Excluir(Guid id)
         {
-            var validationResult = await _carrinhoService.Excluir(dto);
+            var validationResult = await _carrinhoService.ExcluirItemCarrinho(id);
 
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));

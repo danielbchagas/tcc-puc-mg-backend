@@ -1,5 +1,4 @@
 ﻿using ECommerce.Cliente.Application.Commands;
-using ECommerce.Cliente.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -30,9 +29,6 @@ namespace ECommerce.Cliente.Application.Handlers.Commands
             {
                 await _repository.Adicionar(email);
                 var sucesso = await _repository.UnitOfWork.Commit();
-
-                if (sucesso)
-                    await _mediator.Publish(new EmailCommitNotification(emailId: email.Id, usuarioId: request.ClienteId));
             }
 
             return await Task.FromResult(valido);

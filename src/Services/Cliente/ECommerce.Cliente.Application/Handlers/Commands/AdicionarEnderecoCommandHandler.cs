@@ -1,5 +1,4 @@
 ﻿using ECommerce.Cliente.Application.Commands;
-using ECommerce.Cliente.Application.Notifications;
 using ECommerce.Cliente.Domain.Interfaces.Repositories;
 using ECommerce.Cliente.Domain.Models;
 using FluentValidation.Results;
@@ -44,9 +43,6 @@ namespace ECommerce.Cliente.Application.Handlers.Commands
             {
                 await _repository.Adicionar(endereco);
                 var sucesso = await _repository.UnitOfWork.Commit();
-
-                if (sucesso)
-                    await _mediator.Publish(new EnderecoCommitNotification(enderecoId: endereco.Id, request.ClienteId));
             }
 
             return await Task.FromResult(validation);

@@ -3,6 +3,7 @@ using ECommerce.Compras.Gateway.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,8 +14,6 @@ namespace ECommerce.Compras.Gateway.Controllers
     [ApiController]
     public class CarrinhosController : ControllerBase
     {
-        private readonly IClienteService _clienteService;
-        private readonly ICatalogoService _catalogoService;
         private readonly ICarrinhoService _carrinhoService;
 
         public CarrinhosController(ICarrinhoService carrinhoService)
@@ -25,9 +24,9 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("buscar")]
-        public async Task<IActionResult> Buscar(BuscarCarrinhoPorClienteDto dto)
+        public async Task<IActionResult> Buscar(Guid id)
         {
-            var carrinho = await _carrinhoService.Buscar(dto);
+            var carrinho = await _carrinhoService.BuscarCarrinho(id);
 
             return Ok(carrinho);
         }
@@ -38,7 +37,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         [HttpPost("adicionar")]
         public async Task<IActionResult> Adicionar(AdicionarCarrinhoDto dto)
         {
-            var validationResult = await _carrinhoService.Adicionar(dto);
+            var validationResult = await _carrinhoService.AdicionarCarrinho(dto);
 
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
@@ -50,9 +49,9 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpDelete("excluir")]
-        public async Task<IActionResult> Excluir(ExcluirCarrinhoDto dto)
+        public async Task<IActionResult> Excluir(Guid id)
         {
-            var validationResult = await _carrinhoService.Excluir(dto);
+            var validationResult = await _carrinhoService.ExcluirCarrinho(id);
 
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));

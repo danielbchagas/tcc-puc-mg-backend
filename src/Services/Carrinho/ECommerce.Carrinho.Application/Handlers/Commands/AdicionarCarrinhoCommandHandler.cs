@@ -1,5 +1,4 @@
 ﻿using ECommerce.Carrinho.Application.Commands;
-using ECommerce.Carrinho.Application.Notifications;
 using ECommerce.Carrinho.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -33,9 +32,6 @@ namespace ECommerce.Carrinho.Application.Handlers.Commands
 
             await _carrinhoRepository.Adicionar(carrinho);
             var success = await _carrinhoRepository.UnitOfWork.Commit();
-
-            if(success)
-                await _mediator.Publish(new CarrinhoCommitNotification(carrinhoId: carrinho.Id, clienteId: request.ClienteId));
 
             return await Task.FromResult(validationResult);
         }
