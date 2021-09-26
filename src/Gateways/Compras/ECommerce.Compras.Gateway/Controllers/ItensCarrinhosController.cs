@@ -1,6 +1,6 @@
-﻿using ECommerce.Compras.Gateway.Dtos.Carrinho;
-using ECommerce.Compras.Gateway.Interfaces;
+﻿using ECommerce.Compras.Gateway.Interfaces;
 using ECommerce.Compras.Gateway.Models;
+using ECommerce.Compras.Gateway.Models.Carrinho;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,7 +28,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("adicionar")]
-        public async Task<IActionResult> Adicionar(AdicionarItemCarrinhoDto dto)
+        public async Task<IActionResult> Adicionar(ItemCarrinhoDto dto)
         {
             var validationResult = new ServiceResponse();
 

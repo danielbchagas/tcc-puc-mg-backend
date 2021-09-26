@@ -6,7 +6,7 @@ namespace ECommerce.Carrinho.Application.Commands
 {
     public class AdicionarItemCarrinhoCommand : IRequest<ValidationResult>
     {
-        public AdicionarItemCarrinhoCommand(Guid id, string nome, int quantidade, decimal valor, string imagem, Guid produtoId, Guid carrinhoId, Guid clienteId)
+        public AdicionarItemCarrinhoCommand(Guid id, string nome, int quantidade, decimal valor, string imagem, Guid produtoId, Guid carrinhoId)
         {
             Id = id;
             Nome = nome;
@@ -16,7 +16,6 @@ namespace ECommerce.Carrinho.Application.Commands
 
             ProdutoId = produtoId;
             CarrinhoId = carrinhoId;
-            ClienteId = clienteId;
         }
 
         public Guid Id { get; set; }
@@ -27,6 +26,5 @@ namespace ECommerce.Carrinho.Application.Commands
 
         public Guid ProdutoId { get; set; }
         public Guid CarrinhoId { get; set; }
-        public Guid ClienteId { get; set; }
     }
 }

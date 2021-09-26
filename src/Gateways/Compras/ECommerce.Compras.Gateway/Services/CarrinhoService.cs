@@ -1,5 +1,4 @@
-﻿using ECommerce.Compras.Gateway.Dtos.Carrinho;
-using ECommerce.Compras.Gateway.Interfaces;
+﻿using ECommerce.Compras.Gateway.Interfaces;
 using ECommerce.Compras.Gateway.Models;
 using ECommerce.Compras.Gateway.Models.Carrinho;
 using Microsoft.Extensions.Options;
@@ -19,17 +18,17 @@ namespace ECommerce.Compras.Gateway.Services
         }
 
         #region Carrinho
-        public async Task<Carrinho> BuscarCarrinho(Guid id)
+        public async Task<CarrinhoDto> BuscarCarrinho(Guid id)
         {
             var response = await _client.GetAsync($"/api/carrinhos/buscar/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;
 
-            return JsonSerializer.Deserialize<Carrinho>(await response.Content.ReadAsStringAsync(), GetOptions());
+            return JsonSerializer.Deserialize<CarrinhoDto>(await response.Content.ReadAsStringAsync(), GetOptions());
         }
 
-        public async Task<ServiceResponse> AdicionarCarrinho(AdicionarCarrinhoDto dto)
+        public async Task<ServiceResponse> AdicionarCarrinho(CarrinhoDto dto)
         {
             var json = JsonSerializer.Serialize(dto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -62,7 +61,7 @@ namespace ECommerce.Compras.Gateway.Services
         #endregion
 
         #region Item carrinho
-        public async Task<ServiceResponse> AdicionarItemCarrinho(AdicionarItemCarrinhoDto dto)
+        public async Task<ServiceResponse> AdicionarItemCarrinho(ItemCarrinhoDto dto)
         {
             var json = JsonSerializer.Serialize(dto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

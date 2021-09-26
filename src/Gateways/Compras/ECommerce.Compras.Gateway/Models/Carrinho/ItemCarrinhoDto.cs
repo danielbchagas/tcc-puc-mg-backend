@@ -2,7 +2,7 @@
 
 namespace ECommerce.Compras.Gateway.Models.Carrinho
 {
-    public class ItemCarrinho
+    public class ItemCarrinhoDto
     {
         public Guid Id { get; set; }
         public string Nome { get; set; }
