@@ -23,7 +23,7 @@ namespace ECommerce.Pedido.Application.Handlers.Commands
         {
             var validationResult = new ValidationResult();
 
-            var pedido = new PedidoCliente(valor: request.Valor, status: request.Status, cliente: request.Cliente, produtos: request.Produtos);
+            var pedido = new PedidoCliente(status: request.Status, cliente: request.Cliente, produtos: request.Produtos);
 
             validationResult = pedido.Validar();
 

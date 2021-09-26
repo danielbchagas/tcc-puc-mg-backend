@@ -10,15 +10,8 @@ namespace ECommerce.Pedido.Domain.Models
     public class Pedido : Entity
     {
         #region Construtores
-        public Pedido(decimal valor, StatusPedido status)
+        public Pedido(StatusPedido status, Cliente cliente, IList<Produto> produtos)
         {
-            Valor = valor;
-            Status = status;
-        }
-
-        public Pedido(decimal valor, StatusPedido status, Cliente cliente, IList<Produto> produtos)
-        {
-            Valor = valor;
             Status = status;
 
             Cliente = cliente;
@@ -42,7 +35,7 @@ namespace ECommerce.Pedido.Domain.Models
 
         public void CalcularTotalPedido()
         {
-            Valor = Produtos.Sum(_ => _.Valor);
+            Valor = Produtos.Sum(_ => _.Quantidade * _.Valor);
         }
         #endregion
     }
