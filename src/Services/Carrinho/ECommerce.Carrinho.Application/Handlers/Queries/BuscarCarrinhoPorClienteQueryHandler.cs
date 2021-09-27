@@ -1,19 +1,26 @@
 ﻿using ECommerce.Carrinho.Application.Queries;
+using ECommerce.Carrinho.Domain.Interfaces.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Carrinho;
 
 namespace ECommerce.Carrinho.Application.Handlers.Queries
 {
-    public class BuscarCarrinhoPorClienteQueryHandler : IRequestHandler<BuscarCarrinhoPorClienteQuery, Domain.Models.Carrinho>
+    public class BuscarCarrinhoPorClienteQueryHandler : IRequestHandler<BuscarCarrinhoPorClienteQuery, CarrinhoCliente>
     {
-        public Task<Domain.Models.Carrinho> Handle(BuscarCarrinhoPorClienteQuery request, CancellationToken cancellationToken)
+        private readonly ICarrinhoRepository _repository;
+
+        public BuscarCarrinhoPorClienteQueryHandler(ICarrinhoRepository repository)
         {
-            throw new NotImplementedException();
+            _repository = repository;
+        }
+
+        public async Task<CarrinhoCliente> Handle(BuscarCarrinhoPorClienteQuery request, CancellationToken cancellationToken)
+        {
+            var carrinho = await _repository.Buscar(request.ClienteId);
+
+            return await Task.FromResult(carrinho);
         }
     }
 }
