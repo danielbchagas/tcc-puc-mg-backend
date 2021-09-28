@@ -23,19 +23,19 @@ namespace ECommerce.Identidade.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class UsuariosController : ControllerBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         
-        private readonly ILogger<UsuarioController> _logger;
+        private readonly ILogger<UsuariosController> _logger;
 
         private readonly JwtOptions _jwtOptions;
         private readonly RabbitMqOptions _rabbitMQOptions;
 
         private readonly IClienteService _clienteService;
 
-        public UsuarioController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<UsuarioController> logger, IOptions<JwtOptions> jwtOptions, IOptions<RabbitMqOptions> rabbitMQOptions, IClienteService clienteService)
+        public UsuariosController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<UsuariosController> logger, IOptions<JwtOptions> jwtOptions, IOptions<RabbitMqOptions> rabbitMQOptions, IClienteService clienteService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
