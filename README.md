@@ -1,5 +1,5 @@
 # TCC PUC Minas
-### E-Commerce de medicamentos
+### E-Commerce de artigos esportivos
 
 Tecnologias empregadas:
 - [.NET 5](https://docs.microsoft.com/pt-br/dotnet/core/dotnet-five)
