@@ -57,6 +57,10 @@ namespace ECommerce.Pedido.Api
 
                 app.UseSwaggerConfiguration();
             }
+            else
+            {
+                app.UseSwaggerConfiguration();
+            }
 
             app.UseHttpsRedirection();
 
