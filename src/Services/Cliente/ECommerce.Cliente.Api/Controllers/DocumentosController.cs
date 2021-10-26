@@ -23,7 +23,7 @@ namespace ECommerce.Cliente.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar/{id:Guid}")]
+        [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
             var documento = await _mediator.Send(new BuscarDocumentoPorIdQuery(id));
@@ -34,7 +34,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("adicionar")]
+        [HttpPost]
         public async Task<IActionResult> Adicionar(AdicionarDocumentoCommand command)
         {
             var result = await _mediator.Send(command);
@@ -48,7 +48,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPut("atualizar")]
+        [HttpPut]
         public async Task<IActionResult> Atualizar(AtualizarDocumentoCommand command)
         {
             var result = await _mediator.Send(command);

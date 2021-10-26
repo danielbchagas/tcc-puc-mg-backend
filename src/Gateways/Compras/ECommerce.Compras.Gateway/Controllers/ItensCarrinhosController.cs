@@ -27,7 +27,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("adicionar")]
+        [HttpPost]
         public async Task<IActionResult> Adicionar(ItemCarrinhoDto dto)
         {
             var validationResult = new ServiceResponse();
@@ -64,7 +64,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpDelete("excluir")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Excluir(Guid id)
         {
             var validationResult = await _carrinhoService.ExcluirItemCarrinho(id);

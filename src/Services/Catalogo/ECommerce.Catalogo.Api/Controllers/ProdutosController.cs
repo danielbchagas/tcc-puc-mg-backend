@@ -24,7 +24,7 @@ namespace ECommerce.Catalogo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar/{nome:alpha}/{pagina:int}/{linhas:int}")]
+        [HttpGet("{nome:alpha}/{pagina:int}/{linhas:int}")]
         public async Task<IActionResult> Buscar(string nome, int pagina, int linhas)
         {
             var produtos = await _mediator.Send(new BuscarProdutosFiltradosPaginadosQuery(p => p.Nome.Contains(nome), pagina, linhas));
@@ -36,7 +36,7 @@ namespace ECommerce.Catalogo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar/{pagina:int}/{linhas:int}")]
+        [HttpGet("{pagina:int}/{linhas:int}")]
         public async Task<IActionResult> Buscar(int pagina, int linhas)
         {
             var produtos = await _mediator.Send(new BuscarProdutosPaginadosQuery(pagina, linhas));
@@ -47,7 +47,7 @@ namespace ECommerce.Catalogo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpGet("buscar/{id:Guid}")]
+        [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
             var produto = await _mediator.Send(new BuscarProdutoPorIdQuery(id));

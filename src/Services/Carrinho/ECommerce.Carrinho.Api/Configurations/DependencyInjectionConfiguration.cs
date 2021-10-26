@@ -20,19 +20,15 @@ namespace ECommerce.Carrinho.Api.Configurations
             #region Mediator
             services.AddMediatR(typeof(Startup));
 
-            // Commands
             // Carrinho
             services.AddScoped<IRequestHandler<AdicionarCarrinhoCommand, ValidationResult>, AdicionarCarrinhoCommandHandler>();
             services.AddScoped<IRequestHandler<ExcluirCarrinhoCommand, ValidationResult>, ExcluirCarrinhoCommandHandler>();
+            services.AddScoped<IRequestHandler<BuscarCarrinhoPorClienteQuery, Domain.Models.Carrinho>, BuscarCarrinhoPorClienteQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarCarrinhoQuery, Domain.Models.Carrinho>, BuscarCarrinhoQueryHandler>();
 
             // Item carrinho
             services.AddScoped<IRequestHandler<AdicionarItemCarrinhoCommand, ValidationResult>, AdicionarItemCarrinhoCommanHandler>();
             services.AddScoped<IRequestHandler<ExcluirItemCarrinhoCommand, ValidationResult>, ExcluirItemCarrinhoCommandHandler>();
-            
-            // Queries
-            // Carrinho
-            services.AddScoped<IRequestHandler<BuscarCarrinhoPorClienteQuery, Domain.Models.Carrinho>, BuscarCarrinhoPorClienteQueryHandler>();
-            services.AddScoped<IRequestHandler<BuscarCarrinhoQuery, Domain.Models.Carrinho>, BuscarCarrinhoQueryHandler>();
             #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

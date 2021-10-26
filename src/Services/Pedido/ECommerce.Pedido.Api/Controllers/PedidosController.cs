@@ -24,7 +24,7 @@ namespace ECommerce.Pedido.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("adicionar")]
+        [HttpPost]
         public async Task<IActionResult> Adicionar(AdicionarPedidoCommand request)
         {
             var validationResult = await _mediator.Send(request);
@@ -38,7 +38,7 @@ namespace ECommerce.Pedido.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("buscar/{id:Guid}")]
+        [HttpPost("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
             var pedido = await _mediator.Send(new BuscarPedidoPorIdQuery(id));

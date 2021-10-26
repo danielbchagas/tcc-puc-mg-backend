@@ -1,8 +1,10 @@
-﻿using ECommerce.Carrinho.Application.Commands;
+﻿using ECommerce.Carrinho.Api.Interfaces;
+using ECommerce.Carrinho.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace ECommerce.Carrinho.Api.Controllers
@@ -13,16 +15,18 @@ namespace ECommerce.Carrinho.Api.Controllers
     public class ItensCarrinhosController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IAspNetUser _aspNetUser;
 
-        public ItensCarrinhosController(IMediator mediator)
+        public ItensCarrinhosController(IMediator mediator, IAspNetUser aspNetUser)
         {
             _mediator = mediator;
+            _aspNetUser = aspNetUser;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("adicionar")]
+        [HttpPost]
         public async Task<IActionResult> Adicionar(AdicionarItemCarrinhoCommand request)
         {
             var validationResult = await _mediator.Send(request);
@@ -36,10 +40,10 @@ namespace ECommerce.Carrinho.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpDelete("excluir")]
-        public async Task<IActionResult> Excluir(ExcluirItemCarrinhoCommand request)
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> Excluir(Guid id)
         {
-            var validationResult = await _mediator.Send(request);
+            var validationResult = await _mediator.Send(new ExcluirItemCarrinhoCommand(id, _aspNetUser.ObterUserId()));
 
             if (!validationResult.IsValid)
                 return BadRequest(validationResult);

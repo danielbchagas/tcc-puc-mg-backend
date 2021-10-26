@@ -19,7 +19,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<ClienteDto> BuscarCliente(Guid id)
         {
-            var response = await _client.GetAsync($"/api/clientes/buscar/{id}");
+            var response = await _client.GetAsync($"/api/clientes/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;
@@ -29,7 +29,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<DocumentoDto> BuscarDocumento(Guid id)
         {
-            var response = await _client.GetAsync($"/api/documentos/buscar/{id}");
+            var response = await _client.GetAsync($"/api/documentos/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;
@@ -39,7 +39,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<EmailDto> BuscarEmail(Guid id)
         {
-            var response = await _client.GetAsync($"/api/emails/buscar/{id}");
+            var response = await _client.GetAsync($"/api/emails/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;
@@ -49,7 +49,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<EnderecoDto> BuscarEndereco(Guid id)
         {
-            var response = await _client.GetAsync($"/api/enderecos/buscar/{id}");
+            var response = await _client.GetAsync($"/api/enderecos/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;
@@ -59,7 +59,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<TelefoneDto> BuscarTelefone(Guid id)
         {
-            var response = await _client.GetAsync($"/api/telefones/buscar/{id}");
+            var response = await _client.GetAsync($"/api/telefones/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;

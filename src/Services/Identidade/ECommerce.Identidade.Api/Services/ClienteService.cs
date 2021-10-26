@@ -32,7 +32,7 @@ namespace ECommerce.Identidade.Api.Services
             var json = JsonSerializer.Serialize(cliente);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/clientes/adicionar", content);
+            var response = await _client.PostAsync("/api/clientes", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -49,7 +49,7 @@ namespace ECommerce.Identidade.Api.Services
             var json = JsonSerializer.Serialize(documento);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/documentos/adicionar", content);
+            var response = await _client.PostAsync("/api/documentos", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -66,7 +66,7 @@ namespace ECommerce.Identidade.Api.Services
             var json = JsonSerializer.Serialize(telefone);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/telefones/adicionar", content);
+            var response = await _client.PostAsync("/api/telefones", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -83,7 +83,7 @@ namespace ECommerce.Identidade.Api.Services
             var json = JsonSerializer.Serialize(email);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/emails/adicionar", content);
+            var response = await _client.PostAsync("/api/emails", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
