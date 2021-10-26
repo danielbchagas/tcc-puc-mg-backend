@@ -48,8 +48,8 @@ namespace ECommerce.Identidade.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("adicionar")]
-        public async Task<IActionResult> Adicionar(NovoUsuario usuario)
+        [HttpPost("registrar")]
+        public async Task<IActionResult> Registrar(NovoUsuario usuario)
         {
             var novoUsuario = new IdentityUser
             {
@@ -98,8 +98,8 @@ namespace ECommerce.Identidade.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginUsuario usuario)
+        [HttpPost("autenticar")]
+        public async Task<IActionResult> Autenticar(LoginUsuario usuario)
         {
             var resultado = await _signInManager.PasswordSignInAsync(usuario.Email, usuario.Senha, isPersistent: false, lockoutOnFailure: true);
 
@@ -109,6 +109,20 @@ namespace ECommerce.Identidade.Api.Controllers
             return Ok(await GerarToken(usuario.Email));
         }
 
+        private async Task DesfazerOperacao(NovoUsuario usuario)
+        {
+            var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
+            await _userManager.DeleteAsync(identityUser);
+        }
+
+        private void OnDisconnect(object source, EventArgs e)
+        {
+            Policy.Handle<EasyNetQException>()
+                .Or<BrokerUnreachableException>()
+                .Retry(10);
+        }
+
+        #region Registrar cliente
         private async Task<ValidationResult> CriarClienteRabbitMq(NovoUsuario usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
@@ -225,19 +239,7 @@ namespace ECommerce.Identidade.Api.Controllers
 
             return result;
         }
-
-        private async Task DesfazerOperacao(NovoUsuario usuario)
-        {
-            var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
-            await _userManager.DeleteAsync(identityUser);
-        }
-
-        private void OnDisconnect(object source, EventArgs e)
-        {
-            Policy.Handle<EasyNetQException>()
-                .Or<BrokerUnreachableException>()
-                .Retry(10);
-        }
+        #endregion
 
         #region JWT
         private async Task<UsuarioJwt> GerarToken(string email)
