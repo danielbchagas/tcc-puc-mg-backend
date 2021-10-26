@@ -50,6 +50,10 @@ namespace ECommerce.Compras.Gateway
 
                 app.UseSwaggerConfiguration();
             }
+            else
+            {
+                app.UseSwaggerConfiguration();
+            }
 
             app.UseHttpsRedirection();
 
