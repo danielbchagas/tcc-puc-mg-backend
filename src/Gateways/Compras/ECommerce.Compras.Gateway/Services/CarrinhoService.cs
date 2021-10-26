@@ -21,7 +21,7 @@ namespace ECommerce.Compras.Gateway.Services
         #region Carrinho
         public async Task<CarrinhoDto> BuscarCarrinho(Guid id)
         {
-            var response = await _client.GetAsync($"/api/carrinhos/buscar/{id}");
+            var response = await _client.GetAsync($"/api/carrinhos/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;
@@ -34,7 +34,7 @@ namespace ECommerce.Compras.Gateway.Services
             var json = JsonSerializer.Serialize(dto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/carrinhos/adicionar", content);
+            var response = await _client.PostAsync("/api/carrinhos", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -48,7 +48,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<ServiceResponse> ExcluirCarrinho(Guid id)
         {
-            var response = await _client.DeleteAsync($"/api/carrinhos/excluir/{id}");
+            var response = await _client.DeleteAsync($"/api/carrinhos/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -67,7 +67,7 @@ namespace ECommerce.Compras.Gateway.Services
             var json = JsonSerializer.Serialize(dto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/itenscarrinhos/adicionar", content);
+            var response = await _client.PostAsync("/api/itenscarrinhos", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -81,7 +81,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<ServiceResponse> ExcluirItemCarrinho(Guid id)
         {
-            var response = await _client.DeleteAsync($"/api/itenscarrinhos/excluir/{id}");
+            var response = await _client.DeleteAsync($"/api/itenscarrinhos/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {

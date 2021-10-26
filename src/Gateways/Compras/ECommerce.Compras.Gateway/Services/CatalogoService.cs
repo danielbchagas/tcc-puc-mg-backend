@@ -24,7 +24,7 @@ namespace ECommerce.Compras.Gateway.Services
             var json = JsonSerializer.Serialize(produto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync("/api/produtos/atualizar", content);
+            var response = await _client.PutAsync("/api/produtos", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -38,7 +38,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<ProdutoDto> Buscar(Guid id)
         {
-            var response = await _client.GetAsync($"/api/produtos/buscar/{id}");
+            var response = await _client.GetAsync($"/api/produtos/{id}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;
@@ -50,7 +50,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<IEnumerable<ProdutoDto>> Buscar(int pagina, int linhas)
         {
-            var response = await _client.GetAsync($"/api/produtos/buscar/{pagina}/{linhas}");
+            var response = await _client.GetAsync($"/api/produtos/{pagina}/{linhas}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;
@@ -62,7 +62,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<IEnumerable<ProdutoDto>> Buscar(string nome, int pagina, int linhas)
         {
-            var response = await _client.GetAsync($"/api/produtos/buscar/{nome}/{pagina}/{linhas}");
+            var response = await _client.GetAsync($"/api/produtos/{nome}/{pagina}/{linhas}");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
                 return null;
@@ -77,7 +77,7 @@ namespace ECommerce.Compras.Gateway.Services
             var json = JsonSerializer.Serialize(produto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync("/api/produtos/cadastrar", content);
+            var response = await _client.PutAsync("/api/produtos", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {

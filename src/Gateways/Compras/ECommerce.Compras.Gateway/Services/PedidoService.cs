@@ -23,7 +23,7 @@ namespace ECommerce.Compras.Gateway.Services
             var json = JsonSerializer.Serialize(pedido);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync("/api/pedidos/cadastrar", content);
+            var response = await _client.PutAsync("/api/pedidos", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
@@ -37,7 +37,7 @@ namespace ECommerce.Compras.Gateway.Services
 
         public async Task<PedidoDto> Buscar(Guid id)
         {
-            var response = await _client.GetAsync($"/api/pedidos/buscar/{id}");
+            var response = await _client.GetAsync($"/api/pedidos/{id}");
 
             var content = await response.Content.ReadAsStringAsync();
 
