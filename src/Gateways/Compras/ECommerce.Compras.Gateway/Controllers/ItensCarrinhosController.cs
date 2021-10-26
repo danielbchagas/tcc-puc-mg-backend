@@ -1,6 +1,7 @@
 ﻿using ECommerce.Compras.Gateway.Interfaces;
 using ECommerce.Compras.Gateway.Models;
 using ECommerce.Compras.Gateway.Models.Carrinho;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Compras.Gateway.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ItensCarrinhosController : ControllerBase
