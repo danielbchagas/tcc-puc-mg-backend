@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using System;
 
 namespace ECommerce.Pedido.Domain.Models
@@ -14,6 +15,13 @@ namespace ECommerce.Pedido.Domain.Models
 
         #region Propriedades
         public string Numero { get; set; }
+        #endregion
+
+        #region Métodos
+        public ValidationResult Validar()
+        {
+            return new TelefoneValidator().Validate(this);
+        }
         #endregion
     }
 
