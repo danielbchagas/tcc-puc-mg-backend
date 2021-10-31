@@ -48,7 +48,7 @@ namespace ECommerce.Identidade.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("registrar")]
+        [HttpPost]
         public async Task<IActionResult> Registrar(NovoUsuario usuario)
         {
             var novoUsuario = new IdentityUser
