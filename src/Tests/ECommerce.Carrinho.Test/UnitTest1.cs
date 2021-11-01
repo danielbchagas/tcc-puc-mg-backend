@@ -31,10 +31,10 @@ namespace ECommerce.Carrinho.Test
             var item = faker.Generate();
 
             // Act
-            Carrinho.AdicionarItemAoCarrinho(item);
+            var result = Carrinho.AdicionarItemAoCarrinho(item);
 
             // Assert
-            Assert.False(Carrinho.Validar().IsValid);
+            Assert.False(result.IsValid);
         }
 
         [Theory]
@@ -52,10 +52,10 @@ namespace ECommerce.Carrinho.Test
             var item = faker.Generate();
 
             // Act
-            Carrinho.AdicionarItemAoCarrinho(item);
+            var result = Carrinho.AdicionarItemAoCarrinho(item);
 
             // Assert
-            Assert.True(Carrinho.Validar().IsValid);
+            Assert.True(result.IsValid);
         }
     }
 }

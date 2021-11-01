@@ -51,7 +51,7 @@ namespace ECommerce.Carrinho.Domain.Models
                 .WithMessage("O nome do produto não foi informado");
 
             RuleFor(ic => ic.Quantidade)
-                .ExclusiveBetween(-1, 6)
+                .ExclusiveBetween(0, 6)
                 .WithMessage(item => $"A quantidade mínima do {item.Nome} é 1 e o máxima do {item.Nome} é 5.");
 
             RuleFor(ic => ic.Valor)
