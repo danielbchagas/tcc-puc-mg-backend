@@ -45,12 +45,16 @@ namespace ECommerce.Catalogo.Api.Controllers
 
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
             var produto = await _mediator.Send(new BuscarProdutoPorIdQuery(id));
+
+            if (produto is null)
+                return NotFound();
+
             return Ok(produto);
         }
     }
