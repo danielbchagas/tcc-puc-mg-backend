@@ -32,6 +32,9 @@ namespace ECommerce.Carrinho.Api.Controllers
         {
             var carrinho = await _mediator.Send(new BuscarCarrinhoPorClienteQuery(id));
 
+            if (carrinho is null)
+                return NotFound();
+
             return Ok(carrinho);
         }
 
