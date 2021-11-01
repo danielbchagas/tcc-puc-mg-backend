@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Compras.Gateway.Models.Pedido
 {
-    public class ProdutoDto
+    public class PedidoItemDto
     {
         public string Nome { get; set; }
         public int Quantidade { get; set; }

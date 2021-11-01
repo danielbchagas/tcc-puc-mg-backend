@@ -9,6 +9,6 @@ namespace ECommerce.Compras.Gateway.Models.Pedido
         public StatusPedido Status { get; set; }
 
         public ClienteDto Cliente { get; set; }
-        public ICollection<ProdutoDto> Produtos { get; set; }
+        public ICollection<PedidoItemDto> Produtos { get; set; }
     }
 }
