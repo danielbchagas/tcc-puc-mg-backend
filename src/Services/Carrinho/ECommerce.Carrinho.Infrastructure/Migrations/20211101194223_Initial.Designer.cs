@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Carrinho.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210919204852_initial")]
-    partial class initial
+    [Migration("20211101194223_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,16 +34,16 @@ namespace ECommerce.Carrinho.Infrastructure.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Carrinho");
+                    b.ToTable("Carrinhos");
                 });
 
-            modelBuilder.Entity("ECommerce.Carrinho.Domain.Models.ItemCarrinho", b =>
+            modelBuilder.Entity("ECommerce.Carrinho.Domain.Models.CarrinhoItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("CarrinhoId")
+                    b.Property<Guid>("CarrinhoId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Imagem")
@@ -66,15 +66,16 @@ namespace ECommerce.Carrinho.Infrastructure.Migrations
 
                     b.HasIndex("CarrinhoId");
 
-                    b.ToTable("ItemCarrinho");
+                    b.ToTable("Itens");
                 });
 
-            modelBuilder.Entity("ECommerce.Carrinho.Domain.Models.ItemCarrinho", b =>
+            modelBuilder.Entity("ECommerce.Carrinho.Domain.Models.CarrinhoItem", b =>
                 {
                     b.HasOne("ECommerce.Carrinho.Domain.Models.Carrinho", "Carrinho")
                         .WithMany("Itens")
                         .HasForeignKey("CarrinhoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Carrinho");
                 });

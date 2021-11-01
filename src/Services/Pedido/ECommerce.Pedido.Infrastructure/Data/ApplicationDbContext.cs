@@ -104,7 +104,7 @@ namespace ECommerce.Pedido.Infrastructure.Data
 
             modelBuilder.Entity<PedidoItem>(p =>
             {
-                p.ToTable("Produtos");
+                p.ToTable("Itens");
 
                 p.HasKey(p => p.Id);
 

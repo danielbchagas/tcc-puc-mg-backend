@@ -25,8 +25,8 @@ namespace ECommerce.Carrinho.Test
         public void AdicionarItemCarrinho_DeveLancarErro(int quantidade)
         {
             // Arrange
-            var faker = new Faker<ItemCarrinho>()
-                .CustomInstantiator(set => new ItemCarrinho(nome: set.Random.String(), quantidade: quantidade, valor: set.Random.Decimal(), imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+            var faker = new Faker<CarrinhoItem>()
+                .CustomInstantiator(set => new CarrinhoItem(nome: set.Random.String(), quantidade: quantidade, valor: set.Random.Decimal(), imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
 
             var item = faker.Generate();
 
@@ -46,8 +46,8 @@ namespace ECommerce.Carrinho.Test
         public void AdicionarItemCarrinho_DeveAdicionarComSucesso(int quantidade)
         {
             // Arrange
-            var faker = new Faker<ItemCarrinho>()
-                .CustomInstantiator(set => new ItemCarrinho(nome: set.Random.String(), quantidade: quantidade, valor: set.Random.Decimal(), imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+            var faker = new Faker<CarrinhoItem>()
+                .CustomInstantiator(set => new CarrinhoItem(nome: set.Random.String(), quantidade: quantidade, valor: set.Random.Decimal(), imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
 
             var item = faker.Generate();
 

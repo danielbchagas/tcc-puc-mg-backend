@@ -137,7 +137,7 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                     b.ToTable("Pedidos");
                 });
 
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Produto", b =>
+            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.PedidoItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,7 +163,7 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
 
                     b.HasIndex("PedidoId");
 
-                    b.ToTable("Produtos");
+                    b.ToTable("Itens");
                 });
 
             modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Telefone", b =>
@@ -217,16 +217,16 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Produto", b =>
+            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.PedidoItem", b =>
                 {
                     b.HasOne("ECommerce.Pedido.Domain.Models.Pedido", null)
-                        .WithMany("Produtos")
+                        .WithMany("Itens")
                         .HasForeignKey("PedidoId");
                 });
 
             modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Pedido", b =>
                 {
-                    b.Navigation("Produtos");
+                    b.Navigation("Itens");
                 });
 #pragma warning restore 612, 618
         }

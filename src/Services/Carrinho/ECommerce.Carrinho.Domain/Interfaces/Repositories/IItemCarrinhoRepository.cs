@@ -10,9 +10,9 @@ namespace ECommerce.Carrinho.Domain.Interfaces.Repositories
         IUnitOfWork UnitOfWork { get; }
         
         Task Excluir(Guid id);
-        Task Adicionar(ItemCarrinho item);
-        Task Atualizar(ItemCarrinho item);
+        Task Adicionar(CarrinhoItem item);
+        Task Atualizar(CarrinhoItem item);
 
-        Task<ItemCarrinho> BuscarPorProdutoId(Guid produtoId);
+        Task<CarrinhoItem> BuscarPorProdutoId(Guid produtoId);
     }
 }

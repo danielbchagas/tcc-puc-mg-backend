@@ -28,7 +28,7 @@ namespace ECommerce.Carrinho.Application.Handlers.Commands
             var success = false;
             
             var carrinho = await _mediator.Send(new BuscarCarrinhoQuery(request.CarrinhoId));
-            var item = new ItemCarrinho(request.Nome, request.Quantidade, request.Valor, request.Imagem, request.ProdutoId, carrinho.Id);
+            var item = new CarrinhoItem(request.Nome, request.Quantidade, request.Valor, request.Imagem, request.ProdutoId, carrinho.Id);
 
             #region Adiciona o novo item ao carrinho
             validationResult = item.Validar();

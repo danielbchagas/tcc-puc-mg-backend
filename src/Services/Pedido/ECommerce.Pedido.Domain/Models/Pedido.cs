@@ -10,6 +10,11 @@ namespace ECommerce.Pedido.Domain.Models
     public class Pedido : Entity
     {
         #region Construtores
+        public Pedido()
+        {
+
+        }
+
         public Pedido(StatusPedido status, Cliente cliente, IList<PedidoItem> produtos)
         {
             Status = status;

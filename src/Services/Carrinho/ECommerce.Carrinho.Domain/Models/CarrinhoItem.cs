@@ -5,9 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace ECommerce.Carrinho.Domain.Models
 {
-    public class ItemCarrinho : Entity
+    public class CarrinhoItem : Entity
     {
-        public ItemCarrinho(string nome, int quantidade, decimal valor, string imagem, Guid produtoId, Guid carrinhoId)
+        public CarrinhoItem(string nome, int quantidade, decimal valor, string imagem, Guid produtoId, Guid carrinhoId)
         {
             Nome = nome;
             Quantidade = quantidade;
@@ -38,7 +38,7 @@ namespace ECommerce.Carrinho.Domain.Models
         #endregion
     }
 
-    public class ItemCarrinhoValidator : AbstractValidator<ItemCarrinho>
+    public class ItemCarrinhoValidator : AbstractValidator<CarrinhoItem>
     {
         public ItemCarrinhoValidator()
         {

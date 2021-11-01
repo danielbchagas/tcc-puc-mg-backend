@@ -22,8 +22,8 @@ namespace ECommerce.Carrinho.Test
         public void AdicionarItemCarrinho_ValorDoCarrinhoDeveSer1000()
         {
             // Arrange
-            var faker = new Faker<ItemCarrinho>()
-                .CustomInstantiator(set => new ItemCarrinho(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+            var faker = new Faker<CarrinhoItem>()
+                .CustomInstantiator(set => new CarrinhoItem(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
 
             var item = faker.Generate();
 
@@ -40,13 +40,13 @@ namespace ECommerce.Carrinho.Test
             // Arrange
             var produtoId = Guid.NewGuid();
 
-            var faker = new Faker<ItemCarrinho>()
-                .CustomInstantiator(set => new ItemCarrinho(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+            var faker = new Faker<CarrinhoItem>()
+                .CustomInstantiator(set => new CarrinhoItem(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
 
             var primeiroItem = faker.Generate();
 
-            var faker2 = new Faker<ItemCarrinho>()
-                .CustomInstantiator(set => new ItemCarrinho(nome: primeiroItem.Nome, quantidade: 3, valor: primeiroItem.Valor, imagem: primeiroItem.Imagem, produtoId: primeiroItem.ProdutoId, carrinhoId: Carrinho.Id));
+            var faker2 = new Faker<CarrinhoItem>()
+                .CustomInstantiator(set => new CarrinhoItem(nome: primeiroItem.Nome, quantidade: 3, valor: primeiroItem.Valor, imagem: primeiroItem.Imagem, produtoId: primeiroItem.ProdutoId, carrinhoId: Carrinho.Id));
 
             var segundoItem = faker2.Generate();
 
@@ -64,13 +64,13 @@ namespace ECommerce.Carrinho.Test
             // Arrange
             var produtoId = Guid.NewGuid();
 
-            var faker = new Faker<ItemCarrinho>()
-                .CustomInstantiator(set => new ItemCarrinho(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+            var faker = new Faker<CarrinhoItem>()
+                .CustomInstantiator(set => new CarrinhoItem(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
 
             var primeiraInteracao = faker.Generate();
 
-            var faker2 = new Faker<ItemCarrinho>()
-                .CustomInstantiator(set => new ItemCarrinho(nome: primeiraInteracao.Nome, quantidade: 6, valor: primeiraInteracao.Valor, imagem: primeiraInteracao.Imagem, produtoId: primeiraInteracao.ProdutoId, carrinhoId: Carrinho.Id));
+            var faker2 = new Faker<CarrinhoItem>()
+                .CustomInstantiator(set => new CarrinhoItem(nome: primeiraInteracao.Nome, quantidade: 6, valor: primeiraInteracao.Valor, imagem: primeiraInteracao.Imagem, produtoId: primeiraInteracao.ProdutoId, carrinhoId: Carrinho.Id));
 
             var segundaInteracao = faker2.Generate();
 

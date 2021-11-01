@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ECommerce.Pedido.Infrastructure.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -121,21 +121,21 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Produtos",
+                name: "Itens",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Nome = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Imagem = table.Column<string>(type: "text", nullable: true),
-                    Valor = table.Column<decimal>(type: "money", nullable: false),
                     Quantidade = table.Column<int>(type: "int", nullable: false),
+                    Valor = table.Column<decimal>(type: "money", nullable: false),
+                    Imagem = table.Column<string>(type: "text", nullable: true),
                     PedidoId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Produtos", x => x.Id);
+                    table.PrimaryKey("PK_Itens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Produtos_Pedidos_PedidoId",
+                        name: "FK_Itens_Pedidos_PedidoId",
                         column: x => x.PedidoId,
                         principalTable: "Pedidos",
                         principalColumn: "Id",
@@ -163,20 +163,20 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                 column: "TelefoneId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Itens_PedidoId",
+                table: "Itens",
+                column: "PedidoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Pedidos_ClienteId",
                 table: "Pedidos",
                 column: "ClienteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Produtos_PedidoId",
-                table: "Produtos",
-                column: "PedidoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Produtos");
+                name: "Itens");
 
             migrationBuilder.DropTable(
                 name: "Pedidos");

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Pedido.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210924031427_initial")]
-    partial class initial
+    [Migration("20211101194737_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -139,7 +139,7 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                     b.ToTable("Pedidos");
                 });
 
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Produto", b =>
+            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.PedidoItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -165,7 +165,7 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
 
                     b.HasIndex("PedidoId");
 
-                    b.ToTable("Produtos");
+                    b.ToTable("Itens");
                 });
 
             modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Telefone", b =>
@@ -219,16 +219,16 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Produto", b =>
+            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.PedidoItem", b =>
                 {
                     b.HasOne("ECommerce.Pedido.Domain.Models.Pedido", null)
-                        .WithMany("Produtos")
+                        .WithMany("Itens")
                         .HasForeignKey("PedidoId");
                 });
 
             modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Pedido", b =>
                 {
-                    b.Navigation("Produtos");
+                    b.Navigation("Itens");
                 });
 #pragma warning restore 612, 618
         }

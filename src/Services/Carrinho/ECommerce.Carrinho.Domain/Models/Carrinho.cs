@@ -12,18 +12,18 @@ namespace ECommerce.Carrinho.Domain.Models
         public Carrinho(Guid clienteId)
         {
             ClienteId = clienteId;
-            Itens = new List<ItemCarrinho>();
+            Itens = new List<CarrinhoItem>();
         }
 
         #region Propriedades
         public decimal Valor { get; set; }
         public Guid ClienteId { get; set; }
 
-        public ICollection<ItemCarrinho> Itens { get; set; }
+        public ICollection<CarrinhoItem> Itens { get; set; }
         #endregion
 
         #region Métodos
-        public ValidationResult AdicionarItemAoCarrinho(ItemCarrinho item)
+        public ValidationResult AdicionarItemAoCarrinho(CarrinhoItem item)
         {
             // Valida se o item é válido
             var validationResult = item.Validar();

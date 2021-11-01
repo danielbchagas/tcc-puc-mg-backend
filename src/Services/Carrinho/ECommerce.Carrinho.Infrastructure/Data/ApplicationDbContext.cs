@@ -14,7 +14,7 @@ namespace ECommerce.Carrinho.Infrastructure.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options) {}
 
-        public DbSet<ItemCarrinho> ItensCarrinhos { get; set; }
+        public DbSet<CarrinhoItem> Itens { get; set; }
         public DbSet<CarrinhoCliente> CarrinhosClientes { get; set; }
 
         public async Task<bool> Commit()
@@ -26,9 +26,9 @@ namespace ECommerce.Carrinho.Infrastructure.Data
         {
             modelBuilder.Ignore<ValidationResult>();
 
-            modelBuilder.Entity<ItemCarrinho>(ic => 
+            modelBuilder.Entity<CarrinhoItem>(ic => 
             {
-                ic.ToTable("ItemCarrinho");
+                ic.ToTable("Itens");
 
                 ic.HasKey(ci => ci.Id);
 
@@ -40,7 +40,7 @@ namespace ECommerce.Carrinho.Infrastructure.Data
 
             modelBuilder.Entity<CarrinhoCliente>(cc => 
             {
-                cc.ToTable("Carrinho");
+                cc.ToTable("Carrinhos");
 
                 cc.HasKey(cc => cc.Id);
 
