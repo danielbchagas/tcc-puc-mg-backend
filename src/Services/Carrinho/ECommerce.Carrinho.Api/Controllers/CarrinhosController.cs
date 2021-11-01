@@ -25,7 +25,7 @@ namespace ECommerce.Carrinho.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
