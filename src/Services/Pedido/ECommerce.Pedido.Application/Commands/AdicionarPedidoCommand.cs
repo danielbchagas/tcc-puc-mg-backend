@@ -8,10 +8,12 @@ namespace ECommerce.Pedido.Application.Commands
 {
     public class AdicionarPedidoCommand : IRequest<ValidationResult>
     {
-        public AdicionarPedidoCommand(decimal valor, StatusPedido status)
+        public AdicionarPedidoCommand(decimal valor, StatusPedido status, Cliente cliente, IList<Produto> produtos)
         {
             Valor = valor;
             Status = status;
+            Cliente = cliente;
+            Produtos = produtos;
         }
         
         #region Propriedades
