@@ -20,12 +20,15 @@ namespace ECommerce.Cliente.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
             var endereco = await _mediator.Send(new BuscarEnderecoPorIdQuery(id));
+
+            if (endereco is null)
+                return NotFound();
 
             return Ok(endereco);
         }
