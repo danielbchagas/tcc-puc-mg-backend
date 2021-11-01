@@ -10,12 +10,12 @@ namespace ECommerce.Pedido.Domain.Models
     public class Pedido : Entity
     {
         #region Construtores
-        public Pedido(StatusPedido status, Cliente cliente, IList<Produto> produtos)
+        public Pedido(StatusPedido status, Cliente cliente, IList<PedidoItem> produtos)
         {
             Status = status;
 
             Cliente = cliente;
-            Produtos = produtos;
+            Itens = produtos;
         }
         #endregion
 
@@ -24,7 +24,7 @@ namespace ECommerce.Pedido.Domain.Models
         public StatusPedido Status { get; set; }
 
         public Cliente Cliente { get; set; }
-        public ICollection<Produto> Produtos { get; set; }
+        public ICollection<PedidoItem> Itens { get; set; }
         #endregion
 
         #region Métodos
@@ -35,7 +35,7 @@ namespace ECommerce.Pedido.Domain.Models
 
         public void CalcularTotalPedido()
         {
-            Valor = Produtos.Sum(_ => _.Quantidade * _.Valor);
+            Valor = Itens.Sum(_ => _.Quantidade * _.Valor);
         }
         #endregion
     }
@@ -53,7 +53,7 @@ namespace ECommerce.Pedido.Domain.Models
             RuleFor(_ => _.Cliente)
                 .NotNull()
                 .WithMessage("{PropertyName} não pode ser nulo!");
-            RuleFor(_ => _.Produtos)
+            RuleFor(_ => _.Itens)
                 .NotNull()
                 .WithMessage("{PropertyName} não pode ser nulo!");
         }

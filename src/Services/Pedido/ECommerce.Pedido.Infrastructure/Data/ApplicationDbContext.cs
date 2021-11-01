@@ -15,6 +15,7 @@ namespace ECommerce.Pedido.Infrastructure.Data
 
         #region Propriedades
         public DbSet<PedidoCliente> Pedidos { get; set; }
+        public DbSet<PedidoItem> Itens { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Documento> Documentos { get; set; }
         public DbSet<Email> Emails { get; set; }
@@ -43,7 +44,7 @@ namespace ECommerce.Pedido.Infrastructure.Data
                 p.Property(c => c.Status).HasColumnType("char(15)").IsRequired();
 
                 p.HasOne(c => c.Cliente);
-                p.HasMany(c => c.Produtos);
+                p.HasMany(c => c.Itens);
             });
 
             modelBuilder.Entity<Cliente>(c =>
@@ -101,7 +102,7 @@ namespace ECommerce.Pedido.Infrastructure.Data
                 e.Property(e => e.Estado).HasColumnType("char(2)").IsRequired();
             });
 
-            modelBuilder.Entity<Produto>(p =>
+            modelBuilder.Entity<PedidoItem>(p =>
             {
                 p.ToTable("Produtos");
 

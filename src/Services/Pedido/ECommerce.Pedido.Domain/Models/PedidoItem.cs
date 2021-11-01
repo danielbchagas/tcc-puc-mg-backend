@@ -4,9 +4,9 @@ using System;
 
 namespace ECommerce.Pedido.Domain.Models
 {
-    public class Produto : Entity
+    public class PedidoItem : Entity
     {
-        public Produto(string nome, int quantidade, decimal valor, string imagem)
+        public PedidoItem(string nome, int quantidade, decimal valor, string imagem)
         {
             Nome = nome;
             Quantidade = quantidade;
@@ -29,7 +29,7 @@ namespace ECommerce.Pedido.Domain.Models
         #endregion
     }
 
-    public class ProdutoValidator : AbstractValidator<Produto>
+    public class ProdutoValidator : AbstractValidator<PedidoItem>
     {
         public ProdutoValidator()
         {
