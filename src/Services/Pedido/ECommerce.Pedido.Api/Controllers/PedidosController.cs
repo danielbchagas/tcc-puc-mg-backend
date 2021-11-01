@@ -36,14 +36,17 @@ namespace ECommerce.Pedido.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
-            var pedido = await _mediator.Send(new BuscarPedidoPorIdQuery(id));
+            var result = await _mediator.Send(new BuscarPedidoPorIdQuery(id));
 
-            return Ok(pedido);
+            if (result is null)
+                return NotFound();
+
+            return Ok(result);
         }
     }
 }
