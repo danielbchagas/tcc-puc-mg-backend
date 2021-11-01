@@ -15,13 +15,11 @@ namespace ECommerce.Compras.Gateway.Controllers
     [ApiController]
     public class ItensCarrinhosController : ControllerBase
     {
-        private readonly IClienteService _clienteService;
         private readonly ICatalogoService _catalogoService;
         private readonly ICarrinhoService _carrinhoService;
 
-        public ItensCarrinhosController(IClienteService clienteService, ICatalogoService catalogoService, ICarrinhoService carrinhoService)
+        public ItensCarrinhosController(ICatalogoService catalogoService, ICarrinhoService carrinhoService)
         {
-            _clienteService = clienteService;
             _catalogoService = catalogoService;
             _carrinhoService = carrinhoService;
         }
