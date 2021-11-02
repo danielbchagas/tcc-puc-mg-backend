@@ -3,20 +3,40 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ECommerce.Pedido.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Clientes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Nome = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Sobrenome = table.Column<string>(type: "varchar(100)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clientes", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Documentos",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Numero = table.Column<string>(type: "varchar(18)", nullable: false)
+                    Numero = table.Column<string>(type: "varchar(18)", nullable: false),
+                    ClienteId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Documentos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Documentos_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -24,11 +44,18 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Endereco = table.Column<string>(type: "varchar(100)", nullable: false)
+                    Endereco = table.Column<string>(type: "varchar(100)", nullable: false),
+                    ClienteId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Emails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Emails_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -40,64 +67,18 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                     Bairro = table.Column<string>(type: "varchar(50)", nullable: false),
                     Cidade = table.Column<string>(type: "varchar(50)", nullable: false),
                     Cep = table.Column<string>(type: "varchar(9)", nullable: false),
-                    Estado = table.Column<int>(type: "char(2)", nullable: false)
+                    Estado = table.Column<int>(type: "char(2)", nullable: false),
+                    ClienteId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Enderecos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Telefones",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Numero = table.Column<string>(type: "varchar(20)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Telefones", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Clientes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Nome = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Sobrenome = table.Column<string>(type: "varchar(100)", nullable: false),
-                    DocumentoId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    EmailId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    TelefoneId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    EnderecoId = table.Column<Guid>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clientes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Clientes_Documentos_DocumentoId",
-                        column: x => x.DocumentoId,
-                        principalTable: "Documentos",
+                        name: "FK_Enderecos_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Clientes_Emails_EmailId",
-                        column: x => x.EmailId,
-                        principalTable: "Emails",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Clientes_Enderecos_EnderecoId",
-                        column: x => x.EnderecoId,
-                        principalTable: "Enderecos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Clientes_Telefones_TelefoneId",
-                        column: x => x.TelefoneId,
-                        principalTable: "Telefones",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,6 +99,25 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                         principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Telefones",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Numero = table.Column<string>(type: "varchar(20)", nullable: false),
+                    ClienteId = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Telefones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Telefones_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,24 +143,22 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clientes_DocumentoId",
-                table: "Clientes",
-                column: "DocumentoId");
+                name: "IX_Documentos_ClienteId",
+                table: "Documentos",
+                column: "ClienteId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clientes_EmailId",
-                table: "Clientes",
-                column: "EmailId");
+                name: "IX_Emails_ClienteId",
+                table: "Emails",
+                column: "ClienteId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clientes_EnderecoId",
-                table: "Clientes",
-                column: "EnderecoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Clientes_TelefoneId",
-                table: "Clientes",
-                column: "TelefoneId");
+                name: "IX_Enderecos_ClienteId",
+                table: "Enderecos",
+                column: "ClienteId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Itens_PedidoId",
@@ -171,19 +169,16 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                 name: "IX_Pedidos_ClienteId",
                 table: "Pedidos",
                 column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Telefones_ClienteId",
+                table: "Telefones",
+                column: "ClienteId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Itens");
-
-            migrationBuilder.DropTable(
-                name: "Pedidos");
-
-            migrationBuilder.DropTable(
-                name: "Clientes");
-
             migrationBuilder.DropTable(
                 name: "Documentos");
 
@@ -194,7 +189,16 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                 name: "Enderecos");
 
             migrationBuilder.DropTable(
+                name: "Itens");
+
+            migrationBuilder.DropTable(
                 name: "Telefones");
+
+            migrationBuilder.DropTable(
+                name: "Pedidos");
+
+            migrationBuilder.DropTable(
+                name: "Clientes");
         }
     }
 }

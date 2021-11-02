@@ -6,6 +6,12 @@ namespace ECommerce.Pedido.Domain.Models
 {
     public class PedidoItem : Entity
     {
+        #region Construtores
+        public PedidoItem()
+        {
+
+        }
+
         public PedidoItem(string nome, int quantidade, decimal valor, string imagem)
         {
             Nome = nome;
@@ -13,12 +19,13 @@ namespace ECommerce.Pedido.Domain.Models
             Valor = valor;
             Imagem = imagem;
         }
+        #endregion
 
         #region Propriedades
-        public string Nome { get; set; }
-        public int Quantidade { get; set; }
-        public decimal Valor { get; set; }
-        public string Imagem { get; set; }
+        public string Nome { get; private set; }
+        public int Quantidade { get; private set; }
+        public decimal Valor { get; private set; }
+        public string Imagem { get; private set; }
         #endregion
 
         #region Métodos

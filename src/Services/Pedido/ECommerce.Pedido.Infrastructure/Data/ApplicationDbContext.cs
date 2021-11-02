@@ -56,10 +56,14 @@ namespace ECommerce.Pedido.Infrastructure.Data
                 c.Property(c => c.Nome).HasColumnType("varchar(50)").IsRequired();
                 c.Property(c => c.Sobrenome).HasColumnType("varchar(100)").IsRequired();
                 
-                c.HasOne(c => c.Documento);
-                c.HasOne(c => c.Email);
-                c.HasOne(c => c.Telefone);
-                c.HasOne(c => c.Endereco);
+                c.HasOne(c => c.Documento)
+                    .WithOne(d => d.Cliente);
+                c.HasOne(c => c.Email)
+                    .WithOne(d => d.Cliente);
+                c.HasOne(c => c.Telefone)
+                    .WithOne(d => d.Cliente);
+                c.HasOne(c => c.Endereco)
+                    .WithOne(d => d.Cliente);
             });
 
             modelBuilder.Entity<Documento>(d =>

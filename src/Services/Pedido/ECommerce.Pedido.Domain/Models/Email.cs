@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using System;
+using System.Text.Json.Serialization;
 
 namespace ECommerce.Pedido.Domain.Models
 {
@@ -14,13 +15,22 @@ namespace ECommerce.Pedido.Domain.Models
         #endregion
 
         #region Propriedades
-        public string Endereco { get; set; }
+        public string Endereco { get; private set; }
+
+        public Guid ClienteId { get; private set; }
+        [JsonIgnore]
+        public Cliente Cliente { get; private set; }
         #endregion
 
         #region Métodos
         public ValidationResult Validar()
         {
             return new EmailValidator().Validate(this);
+        }
+
+        public void VincularCliente(Guid clienteId)
+        {
+            ClienteId = clienteId;
         }
         #endregion
     }

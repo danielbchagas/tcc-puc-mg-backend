@@ -26,13 +26,13 @@ namespace ECommerce.Pedido.Domain.Models
         #endregion
 
         #region Propriedades
-        public string Nome { get; set; }
-        public string Sobrenome { get; set; }
+        public string Nome { get; private set; }
+        public string Sobrenome { get; private set; }
 
-        public Documento Documento { get; set; }
-        public Email Email { get; set; }
-        public Telefone Telefone { get; set; }
-        public Endereco Endereco { get; set; }
+        public Documento Documento { get; private set; }
+        public Email Email { get; private set; }
+        public Telefone Telefone { get; private set; }
+        public Endereco Endereco { get; private set; }
         #endregion
 
         #region Métodos

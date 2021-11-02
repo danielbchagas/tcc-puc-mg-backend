@@ -15,7 +15,7 @@ namespace ECommerce.Pedido.Domain.Models
 
         }
 
-        public Pedido(StatusPedido status, Cliente cliente, IList<PedidoItem> produtos)
+        public Pedido(StatusPedido status, Cliente cliente = null, IList<PedidoItem> produtos = null)
         {
             Status = status;
 
@@ -25,7 +25,7 @@ namespace ECommerce.Pedido.Domain.Models
         #endregion
 
         #region Propriedades
-        public decimal Valor { get; set; }
+        public decimal Valor { get; private set; }
         public StatusPedido Status { get; set; }
 
         public Cliente Cliente { get; set; }
