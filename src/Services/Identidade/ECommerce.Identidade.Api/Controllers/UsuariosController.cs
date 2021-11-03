@@ -1,4 +1,5 @@
 ﻿#define REST
+//#define RABBITMQ
 
 using EasyNetQ;
 using ECommerce.Identidade.Api.Interfaces;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Polly;
 using RabbitMQ.Client.Exceptions;
+using Refit;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -47,7 +49,6 @@ namespace ECommerce.Identidade.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost]
         public async Task<IActionResult> Registrar(NovoUsuario usuario)
         {
@@ -72,16 +73,16 @@ namespace ECommerce.Identidade.Api.Controllers
             {
 #if RABBITMQ
                 // Coloca o usuário na fila
-                var clienteCriadoComSucesso = await CriarClienteRabbitMq(usuario);
+                var result = await CriarClienteRabbitMq(usuario);
 
-                if (!clienteCriadoComSucesso.IsValid)
-                    return BadRequest(clienteCriadoComSucesso.Errors.Select(e => e.ErrorMessage));
+                if (!result.IsValid)
+                    return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
 #elif REST
-                var clienteCriadoComSucesso = await CriarClienteRest(usuario);
+                var result = await CriarClienteRest(usuario);
 
-                if (!clienteCriadoComSucesso.IsValid)
-                    return BadRequest(clienteCriadoComSucesso.Errors.Select(e => e.ErrorMessage));
+                if (!result.IsSuccessStatusCode)
+                    return BadRequest(result.Error.Content);
 #endif
             }
             catch(Exception e)
@@ -97,7 +98,6 @@ namespace ECommerce.Identidade.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost("autenticar")]
         public async Task<IActionResult> Autenticar(LoginUsuario usuario)
         {
@@ -181,14 +181,13 @@ namespace ECommerce.Identidade.Api.Controllers
                 result.Errors.AddRange(telefoneResult.Errors);
             #endregion
 
-            // Falta criar a regra para excluir todos os relacionamentos
             if (!result.IsValid)
                 await DesfazerOperacao(usuario);
 
             return result;
         }
 
-        private async Task<ValidationResult> CriarClienteRest(NovoUsuario usuario)
+        private async Task<ApiResponse<string>> CriarClienteRest(NovoUsuario usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
 
@@ -224,17 +223,9 @@ namespace ECommerce.Identidade.Api.Controllers
             cliente.Telefone = telefone;
             #endregion
 
-            _clienteService.AddToken((await GerarToken(usuario.Email)).Token);
+            var result = await _clienteService.Adicionar(cliente, (await GerarToken(usuario.Email)).Token);
 
-            var clienteResult = await _clienteService.Adicionar(cliente);
-
-            var result = new ValidationResult();
-
-            if (!clienteResult.IsValid)
-                result.Errors.AddRange(clienteResult.Errors);
-
-            // Falta criar a regra para excluir todos os relacionamentos
-            if (!result.IsValid)
+            if (!result.IsSuccessStatusCode)
                 await DesfazerOperacao(usuario);
 
             return result;
@@ -293,6 +284,6 @@ namespace ECommerce.Identidade.Api.Controllers
 
         private long ToUnixEpochDate(DateTime data) 
             => (long)Math.Round((data.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
-#endregion
+        #endregion
     }
 }

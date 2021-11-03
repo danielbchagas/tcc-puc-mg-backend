@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Api.Controllers
@@ -44,7 +45,7 @@ namespace ECommerce.Cliente.Api.Controllers
             var result = await _mediator.Send(command);
 
             if (!result.IsValid)
-                return BadRequest(result);
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
             return Ok();
         }

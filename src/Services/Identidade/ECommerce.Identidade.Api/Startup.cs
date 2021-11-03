@@ -28,12 +28,12 @@ namespace ECommerce.Identidade.Api
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDependencyInjectionConfiguration();
             services.AddJwtConfiguration(Configuration);
             services.AddHealthCheckConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddOptionsConfiguration(Configuration);
             services.AddIdentityConfiguration(Configuration);
+            services.AddRefitConfiguration(Configuration);
 
             services.AddControllers().AddJsonOptions(
                 opt =>
