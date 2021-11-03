@@ -23,7 +23,7 @@ namespace ECommerce.Compras.Gateway.Services
             var json = JsonSerializer.Serialize(pedido);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync("/api/pedidos", content);
+            var response = await _client.PostAsync("/api/pedidos", content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
