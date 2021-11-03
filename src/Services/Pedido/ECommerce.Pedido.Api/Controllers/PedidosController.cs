@@ -38,7 +38,7 @@ namespace ECommerce.Pedido.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesErrorResponseType(typeof(ProblemDetails))]
-        [HttpPost("{id:Guid}")]
+        [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
             var result = await _mediator.Send(new BuscarPedidoPorIdQuery(id));
