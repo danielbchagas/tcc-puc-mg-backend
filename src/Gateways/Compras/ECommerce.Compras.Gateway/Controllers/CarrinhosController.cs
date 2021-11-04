@@ -39,9 +39,9 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Adicionar(CarrinhoDto dto)
+        public async Task<IActionResult> Adicionar(CarrinhoDto carrinho)
         {
-            var result = await _carrinhoService.AdicionarCarrinho(dto);
+            var result = await _carrinhoService.AdicionarCarrinho(carrinho);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error.Content);
