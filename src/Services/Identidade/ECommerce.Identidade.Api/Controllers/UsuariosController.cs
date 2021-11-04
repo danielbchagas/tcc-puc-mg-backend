@@ -89,7 +89,7 @@ namespace ECommerce.Identidade.Api.Controllers
             {
                 await DesfazerOperacao(usuario);
 
-                _logger.LogError($"Erro em: {HttpContext.Request.Path}", e.InnerException?.Message);
+                _logger.LogError(e.Message, e.InnerException);
                 return BadRequest("Não foi possível efetivar o seu cadastro!");
             }
 
