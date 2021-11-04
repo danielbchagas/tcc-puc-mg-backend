@@ -1,5 +1,5 @@
-﻿using ECommerce.Compras.Gateway.Models;
-using ECommerce.Compras.Gateway.Models.Carrinho;
+﻿using ECommerce.Compras.Gateway.Models.Carrinho;
+using Refit;
 using System;
 using System.Threading.Tasks;
 
@@ -8,12 +8,20 @@ namespace ECommerce.Compras.Gateway.Interfaces
     public interface ICarrinhoService
     {
         // Carrinho
-        Task<CarrinhoDto> BuscarCarrinho(Guid id);
-        Task<ServiceResponse> AdicionarCarrinho(CarrinhoDto dto);
-        Task<ServiceResponse> ExcluirCarrinho(Guid id);
+        [Get("/api/carrinhos/{id}")]
+        Task<ApiResponse<CarrinhoDto>> BuscarCarrinho(Guid id);
+        
+        [Post("/api/carrinhos")]
+        Task<ApiResponse<string>> AdicionarCarrinho(CarrinhoDto dto);
+        
+        [Delete("/api/carrinhos/{id}")]
+        Task<ApiResponse<string>> ExcluirCarrinho(Guid id);
 
         // Item carrinho
-        Task<ServiceResponse> AdicionarItemCarrinho(ItemCarrinhoDto dto);
-        Task<ServiceResponse> ExcluirItemCarrinho(Guid id);
+        [Post("/api/itenscarrinhos")]
+        Task<ApiResponse<string>> AdicionarItemCarrinho(ItemCarrinhoDto dto);
+        
+        [Delete("/api/itenscarrinhos/{id}")]
+        Task<ApiResponse<string>> ExcluirItemCarrinho(Guid id);
     }
 }

@@ -1,4 +1,4 @@
-﻿using ECommerce.Identidade.Api.Interfaces;
+﻿using ECommerce.Compras.Gateway.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,11 +11,11 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECommerce.Identidade.Api.Configurations
+namespace ECommerce.Compras.Gateway.Api.Configurations
 {
     public static class RefitConfiguration
     {
-        public static void AddRefitConfiguration(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddRefitConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -26,6 +26,26 @@ namespace ECommerce.Identidade.Api.Configurations
                 .AddHttpMessageHandler<ValidateHeaderHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+            services.AddRefitClient<IPedidoService>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration.GetSection("ServiceOptions").GetSection("PedidoUrl").Value))
+                .AddHttpMessageHandler<ValidateHeaderHandler>()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+            services.AddRefitClient<ICarrinhoService>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration.GetSection("ServiceOptions").GetSection("CarrinhoUrl").Value))
+                .AddHttpMessageHandler<ValidateHeaderHandler>()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+            services.AddRefitClient<ICatalogoService>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration.GetSection("ServiceOptions").GetSection("CatalogoUrl").Value))
+                .AddHttpMessageHandler<ValidateHeaderHandler>()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+            return services;
         }
 
         static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()

@@ -1,11 +1,10 @@
 ﻿using ECommerce.Compras.Gateway.Interfaces;
-using ECommerce.Compras.Gateway.Models;
 using ECommerce.Compras.Gateway.Models.Carrinho;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ECommerce.Compras.Gateway.Controllers
@@ -26,13 +25,10 @@ namespace ECommerce.Compras.Gateway.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost]
         public async Task<IActionResult> Adicionar(ItemCarrinhoDto dto)
         {
-            var validationResult = new ServiceResponse();
-
-            var produto = await _catalogoService.Buscar(dto.ProdutoId);
+            var produto = (await _catalogoService.Buscar(dto.ProdutoId)).Content;
 
             #region Validação de item disponível em estoque
             if (produto.QuantidadeEstoque < dto.Quantidade)
@@ -41,10 +37,10 @@ namespace ECommerce.Compras.Gateway.Controllers
 
             #region Atualização do estoque
             produto.QuantidadeEstoque -= dto.Quantidade;
-            validationResult = await _catalogoService.Atualizar(produto);
+            var result = await _catalogoService.Atualizar(produto);
 
-            if (validationResult.IsValid)
-                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            if (!result.IsSuccessStatusCode)
+                return BadRequest(result.Error);
             #endregion
 
             #region Atualização de carrinho
@@ -52,10 +48,10 @@ namespace ECommerce.Compras.Gateway.Controllers
             dto.Imagem = produto.Imagem;
             dto.Valor = produto.Valor;
 
-            validationResult = await _carrinhoService.AdicionarItemCarrinho(dto);
+            result = await _carrinhoService.AdicionarItemCarrinho(dto);
 
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            if (!result.IsSuccessStatusCode)
+                return BadRequest(result.Error);
             #endregion
 
             return Ok();
@@ -63,14 +59,15 @@ namespace ECommerce.Compras.Gateway.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Excluir(Guid id)
         {
-            var validationResult = await _carrinhoService.ExcluirItemCarrinho(id);
+            var result = await _carrinhoService.ExcluirItemCarrinho(id);
 
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound();
+            else if (!result.IsSuccessStatusCode)
+                return BadRequest(result.Error.Content);
 
             return NoContent();
         }
