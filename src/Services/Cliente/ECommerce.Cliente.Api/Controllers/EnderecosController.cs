@@ -21,7 +21,6 @@ namespace ECommerce.Cliente.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
@@ -35,7 +34,6 @@ namespace ECommerce.Cliente.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost]
         public async Task<IActionResult> Adicionar(AdicionarEnderecoCommand request)
         {
@@ -49,7 +47,6 @@ namespace ECommerce.Cliente.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPut]
         public async Task<IActionResult> Atualizar(AtualizarEnderecoCommand request)
         {

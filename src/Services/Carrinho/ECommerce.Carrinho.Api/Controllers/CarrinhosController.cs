@@ -26,7 +26,6 @@ namespace ECommerce.Carrinho.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
@@ -40,7 +39,6 @@ namespace ECommerce.Carrinho.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost]
         public async Task<IActionResult> Adicionar(AdicionarCarrinhoCommand request)
         {
@@ -54,7 +52,7 @@ namespace ECommerce.Carrinho.Api.Controllers
 
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Excluir(Guid id)
         {

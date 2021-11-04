@@ -23,7 +23,6 @@ namespace ECommerce.Catalogo.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("{nome:alpha}/{pagina:int}/{linhas:int}")]
         public async Task<IActionResult> Buscar(string nome, int pagina, int linhas)
         {
@@ -35,7 +34,6 @@ namespace ECommerce.Catalogo.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("{pagina:int}/{linhas:int}")]
         public async Task<IActionResult> Buscar(int pagina, int linhas)
         {
@@ -46,7 +44,6 @@ namespace ECommerce.Catalogo.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {

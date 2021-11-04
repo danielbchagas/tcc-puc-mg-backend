@@ -25,7 +25,6 @@ namespace ECommerce.Carrinho.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpPost]
         public async Task<IActionResult> Adicionar(AdicionarItemCarrinhoCommand request)
         {
@@ -39,7 +38,6 @@ namespace ECommerce.Carrinho.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesErrorResponseType(typeof(ProblemDetails))]
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Excluir(Guid id)
         {
