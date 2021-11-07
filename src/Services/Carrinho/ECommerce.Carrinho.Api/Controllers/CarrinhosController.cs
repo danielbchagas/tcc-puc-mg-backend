@@ -25,14 +25,14 @@ namespace ECommerce.Carrinho.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status302Found)]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
             var carrinho = await _mediator.Send(new BuscarCarrinhoPorClienteQuery(id));
 
             if (carrinho is null)
-                return NotFound();
+                return RedirectToAction(actionName: nameof(Adicionar), routeValues: new AdicionarCarrinhoCommand(Guid.NewGuid(), 0, _aspNetUser.ObterUserId()));
 
             return Ok(carrinho);
         }
