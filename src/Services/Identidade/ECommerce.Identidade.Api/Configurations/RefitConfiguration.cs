@@ -1,4 +1,5 @@
 ﻿using ECommerce.Identidade.Api.Interfaces;
+using ECommerce.Identidade.Api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,12 +18,14 @@ namespace ECommerce.Identidade.Api.Configurations
     {
         public static void AddRefitConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
+            var options = configuration.GetSection("ServiceOptions").Get<ServiceOptions>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<ValidateHeaderHandler>();
 
             services.AddRefitClient<IClienteService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration.GetSection("ServiceOptions").GetSection("ClienteUrl").Value))
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.ClienteUrl))
                 .AddHttpMessageHandler<ValidateHeaderHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
