@@ -28,6 +28,7 @@ namespace ECommerce.Compras.Gateway
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRefitConfiguration(Configuration);
             services.AddDependencyInjectionConfiguration();
             services.AddJwtConfiguration(Configuration);
             services.AddSwaggerConfiguration();
