@@ -35,7 +35,8 @@ namespace ECommerce.Catalogo.Api
             services.AddOptionsConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddDependencyInjectionConfiguration();
-            
+            services.AddCorsConfiguration();
+
             services.AddControllers().AddJsonOptions(
                 opt =>
                 {
@@ -57,10 +58,14 @@ namespace ECommerce.Catalogo.Api
                 app.UseDeveloperExceptionPage();
 
                 app.UseSwaggerConfiguration();
+
+                app.UseCors("development");
             }
             else
             {
                 app.UseSwaggerConfiguration();
+
+                app.UseCors("production");
             }
 
             app.UseHttpsRedirection();
