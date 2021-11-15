@@ -1,9 +1,7 @@
 ﻿using ECommerce.Catalogo.Domain.Interfaces.Data;
 using ECommerce.Catalogo.Domain.Models;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Diagnostics;
 using System.Resources;
 using System.Threading.Tasks;
 
@@ -48,105 +46,146 @@ namespace ECommerce.Catalogo.Infrastructure.Data
         {
             var rm = new ResourceManager(typeof(ImagensResource));
 
-            var imagemCamisaManUtd = Convert.ToBase64String((byte[])rm.GetObject("camisa_man_utd"));
-            var imagemJaquetaManUtd = Convert.ToBase64String((byte[])rm.GetObject("jaqueta_man_utd"));
-            var imagemCanecaManUtd = Convert.ToBase64String((byte[])rm.GetObject("caneca_man_utd"));
-            var imagemBoneManUtd = Convert.ToBase64String((byte[])rm.GetObject("bone_man_utd"));
-            var imagemBermudaAdidas = Convert.ToBase64String((byte[])rm.GetObject("bermuda_adidas"));
-            var imagemBoneAdidas = Convert.ToBase64String((byte[])rm.GetObject("bone_adidas"));
-            var imagemMeiaAdidas = Convert.ToBase64String((byte[])rm.GetObject("meia_adidas"));
-            var imagemTenisAdidas = Convert.ToBase64String((byte[])rm.GetObject("tenis_adidas"));
-            var imagemCamisaGreenBayPackers = Convert.ToBase64String((byte[])rm.GetObject("camisa_green_bay_packers"));
-            var imagemBoneGreenBayPackers = Convert.ToBase64String((byte[])rm.GetObject("bone_green_bay_packers"));
-            var imagemCamisetaDcShoes = Convert.ToBase64String((byte[])rm.GetObject("camiseta_dc_shoes"));
-            var imagemBermudaDcShoes = Convert.ToBase64String((byte[])rm.GetObject("bermuda_dc_shoes"));
-
             var produtoCamisetaManUtd = new Produto(
                 descricao: "Manchester United Football Club",
                 nome: "Camiseta",
-                imagem: imagemCamisaManUtd,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("camisa_man_utd")),
                 quantidade: 100,
                 valor: 200.50m
             );
             var produtoJaquetaManUtd = new Produto(
                 descricao: "Manchester United Football Club",
                 nome: "Jaqueta",
-                imagem: imagemJaquetaManUtd,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("jaqueta_man_utd")),
                 quantidade: 250,
                 valor: 300.50m
             );
             var produtoBoneManUtd = new Produto(
                 descricao: "Manchester United Football Club",
                 nome: "Boné",
-                imagem: imagemBoneManUtd,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("bone_man_utd")),
                 quantidade: 10,
                 valor: 80.50m
             );
             var produtoBermudaAdidas = new Produto(
                 descricao: "Adidas",
                 nome: "Bermuda",
-                imagem: imagemBermudaAdidas,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("bermuda_adidas")),
                 quantidade: 10,
                 valor: 150.50m
             );
             var produtoBermudaDcShoes = new Produto(
                 descricao: "Dc Shoes",
                 nome: "Bermuda",
-                imagem: imagemBermudaDcShoes,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("bermuda_dc_shoes")),
                 quantidade: 10,
                 valor: 150.50m
             );
             var produtoCamisetaDcShoes = new Produto(
                 descricao: "Dc Shoes",
                 nome: "Camiseta",
-                imagem: imagemCamisetaDcShoes,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("camiseta_dc_shoes")),
                 quantidade: 10,
-                valor: 100.50m
+                valor: 75.50m
             );
             var produtoBoneAdidas = new Produto(
                 descricao: "Adidas",
                 nome: "Bone",
-                imagem: imagemBoneAdidas,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("bone_adidas")),
                 quantidade: 10,
-                valor: 60.50m
+                valor: 120.50m
             );
             var produtoTenisAdidas = new Produto(
                 descricao: "Adidas",
                 nome: "Tenis",
-                imagem: imagemTenisAdidas,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("tenis_adidas")),
                 quantidade: 10,
                 valor: 350.50m
             );
             var produtoCamisaGreenBayPackers = new Produto(
                 descricao: "Green Bay Packers",
                 nome: "Camisa",
-                imagem: imagemCamisaGreenBayPackers,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("camisa_green_bay_packers")),
                 quantidade: 10,
                 valor: 400.50m
             );
             var produtoBoneGreenBayPackers = new Produto(
                 descricao: "Green Bay Packers",
-                nome: "Bone",
-                imagem: imagemBoneGreenBayPackers,
+                nome: "Boné",
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("bone_green_bay_packers")),
                 quantidade: 10,
                 valor: 150.50m
             );
             var produtoCanecaManUtd = new Produto(
                 descricao: "Manchester United Football Club",
                 nome: "Caneca",
-                imagem: imagemCanecaManUtd,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("caneca_man_utd")),
                 quantidade: 10,
                 valor: 30.50m
             );
             var produtoMeiaAdidas = new Produto(
                 descricao: "Adidas",
                 nome: "Meia",
-                imagem: imagemMeiaAdidas,
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("meia_adidas")),
                 quantidade: 10,
                 valor: 20.50m
             );
-
-            var usuarioId = Guid.NewGuid();
+            var produtoBermudaDcShoes2 = new Produto(
+                descricao: "DC Shoes",
+                nome: "Bermuda",
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("bermuda_dc_shoes_2")),
+                quantidade: 15,
+                valor: 200.50m
+            );
+            var produtoBoneDcShoes = new Produto(
+                descricao: "DC Shoes",
+                nome: "Boné",
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("bone_dc_shoes")),
+                quantidade: 10,
+                valor: 150.50m
+            );
+            var produtoCamisetaDcShoes2 = new Produto(
+                descricao: "DC Shoes",
+                nome: "Camiseta",
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("camiseta_dc_shoes_2")),
+                quantidade: 10,
+                valor: 80.00m
+            );
+            var produtoCamisetaDcShoes3 = new Produto(
+                descricao: "Adidas",
+                nome: "Camiseta",
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("camiseta_dc_shoes_3")),
+                quantidade: 10,
+                valor: 90.50m
+            );
+            var produtoJaquetaDcShoes = new Produto(
+                descricao: "DC Shoes",
+                nome: "Jaqueta",
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("jaqueta_dc_shoes")),
+                quantidade: 10,
+                valor: 200.00m
+            );
+            var produtoMeiaDcShoes = new Produto(
+                descricao: "DC Shoes",
+                nome: "Meia",
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("meia_dc_shoes")),
+                quantidade: 10,
+                valor: 20.50m
+            );
+            var produtoTenisDcShoes = new Produto(
+                descricao: "DC Shoes",
+                nome: "Tênis",
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("tenis_dc_shoes")),
+                quantidade: 10,
+                valor: 250.50m
+            );
+            var produtoJaquetaGreenBayPackers = new Produto(
+                descricao: "Adidas",
+                nome: "Meia",
+                imagem: Convert.ToBase64String((byte[])rm.GetObject("jaqueta_green_bay_packers")),
+                quantidade: 10,
+                valor: 20.50m
+            );
 
             modelBuilder.Entity<Produto>().HasData(
                 produtoCamisetaManUtd,
@@ -160,7 +199,15 @@ namespace ECommerce.Catalogo.Infrastructure.Data
                 produtoCamisaGreenBayPackers,
                 produtoBoneGreenBayPackers,
                 produtoCanecaManUtd,
-                produtoMeiaAdidas
+                produtoMeiaAdidas,
+                produtoBermudaDcShoes2,
+                produtoBoneDcShoes,
+                produtoCamisetaDcShoes2,
+                produtoCamisetaDcShoes3,
+                produtoJaquetaDcShoes,
+                produtoMeiaDcShoes,
+                produtoTenisDcShoes,
+                produtoJaquetaGreenBayPackers
             );
         }
     }
