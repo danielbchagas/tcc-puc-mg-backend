@@ -37,13 +37,7 @@ namespace ECommerce.Catalogo.Api
             services.AddDependencyInjectionConfiguration();
             services.AddCorsConfiguration();
 
-            services.AddControllers().AddJsonOptions(
-                opt =>
-                {
-                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                }
-            );
+            services.AddControllers();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
