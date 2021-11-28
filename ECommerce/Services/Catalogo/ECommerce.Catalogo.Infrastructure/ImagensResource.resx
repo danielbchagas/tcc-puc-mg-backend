@@ -154,9 +154,6 @@
   <data name="camiseta_dc_shoes_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\camiseta_dc_shoes_3.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="caneca_man_utd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\caneca_man_utd.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="jaqueta_dc_shoes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\jaqueta_dc_shoes.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

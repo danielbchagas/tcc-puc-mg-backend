@@ -183,16 +183,6 @@ namespace ECommerce.Catalogo.Infrastructure {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] caneca_man_utd {
-            get {
-                object obj = ResourceManager.GetObject("caneca_man_utd", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         internal static byte[] jaqueta_dc_shoes {
             get {
                 object obj = ResourceManager.GetObject("jaqueta_dc_shoes", resourceCulture);
