@@ -1,7 +1,7 @@
 ﻿using ECommerce.Carrinho.Domain.Interfaces.Data;
 using System;
 using System.Threading.Tasks;
-using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Carrinho;
+using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.CarrinhoCompras;
 
 namespace ECommerce.Carrinho.Domain.Interfaces.Repositories
 {

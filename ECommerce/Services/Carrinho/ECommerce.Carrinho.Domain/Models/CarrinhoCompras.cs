@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace ECommerce.Carrinho.Domain.Models
 {
-    public class Carrinho : Entity, IAggregateRoot
+    public class CarrinhoCompras : Entity, IAggregateRoot
     {
-        public Carrinho(Guid clienteId)
+        public CarrinhoCompras(Guid clienteId)
         {
             ClienteId = clienteId;
             Itens = new List<CarrinhoItem>();
@@ -45,7 +45,7 @@ namespace ECommerce.Carrinho.Domain.Models
         #endregion
     }
 
-    public class CarrinhoValidator : AbstractValidator<Carrinho>
+    public class CarrinhoValidator : AbstractValidator<CarrinhoCompras>
     {
         public CarrinhoValidator()
         {

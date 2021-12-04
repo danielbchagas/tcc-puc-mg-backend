@@ -3,7 +3,7 @@ using ECommerce.Carrinho.Domain.Interfaces.Repositories;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Carrinho;
+using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.CarrinhoCompras;
 
 namespace ECommerce.Carrinho.Application.Handlers.Queries
 {

@@ -23,8 +23,8 @@ namespace ECommerce.Carrinho.Api.Configurations
             // Carrinho
             services.AddScoped<IRequestHandler<AdicionarCarrinhoCommand, ValidationResult>, AdicionarCarrinhoCommandHandler>();
             services.AddScoped<IRequestHandler<ExcluirCarrinhoCommand, ValidationResult>, ExcluirCarrinhoCommandHandler>();
-            services.AddScoped<IRequestHandler<BuscarCarrinhoPorClienteQuery, Domain.Models.Carrinho>, BuscarCarrinhoPorClienteQueryHandler>();
-            services.AddScoped<IRequestHandler<BuscarCarrinhoQuery, Domain.Models.Carrinho>, BuscarCarrinhoQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarCarrinhoPorClienteQuery, Domain.Models.CarrinhoCompras>, BuscarCarrinhoPorClienteQueryHandler>();
+            services.AddScoped<IRequestHandler<BuscarCarrinhoQuery, Domain.Models.CarrinhoCompras>, BuscarCarrinhoQueryHandler>();
 
             // Item carrinho
             services.AddScoped<IRequestHandler<AdicionarItemCarrinhoCommand, ValidationResult>, AdicionarItemCarrinhoCommanHandler>();
