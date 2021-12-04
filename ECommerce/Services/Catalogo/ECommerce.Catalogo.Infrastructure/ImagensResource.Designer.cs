@@ -133,9 +133,39 @@ namespace ECommerce.Catalogo.Infrastructure {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] camisa_chelsea {
+            get {
+                object obj = ResourceManager.GetObject("camisa_chelsea", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] camisa_croacia {
+            get {
+                object obj = ResourceManager.GetObject("camisa_croacia", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] camisa_green_bay_packers {
             get {
                 object obj = ResourceManager.GetObject("camisa_green_bay_packers", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] camisa_man_city {
+            get {
+                object obj = ResourceManager.GetObject("camisa_man_city", resourceCulture);
                 return ((byte[])(obj));
             }
         }
