@@ -26,10 +26,10 @@ namespace ECommerce.Pedido.Domain.Models
 
         #region Propriedades
         public decimal Valor { get; private set; }
-        public StatusPedido Status { get; set; }
+        public StatusPedido Status { get; private set; }
 
-        public Cliente Cliente { get; set; }
-        public ICollection<PedidoItem> Itens { get; set; }
+        public Cliente Cliente { get; private set; }
+        public ICollection<PedidoItem> Itens { get; private set; }
         #endregion
 
         #region Métodos
