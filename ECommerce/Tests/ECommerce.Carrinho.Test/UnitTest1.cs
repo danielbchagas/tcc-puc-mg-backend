@@ -2,7 +2,7 @@ using Bogus;
 using ECommerce.Carrinho.Domain.Models;
 using System;
 using Xunit;
-using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Carrinho;
+using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.CarrinhoCompras;
 
 namespace ECommerce.Carrinho.Test
 {

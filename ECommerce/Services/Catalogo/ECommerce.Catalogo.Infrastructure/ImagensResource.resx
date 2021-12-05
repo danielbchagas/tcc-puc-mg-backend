@@ -139,8 +139,17 @@
   <data name="bone_man_utd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\bone_man_utd.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="camisa_chelsea" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\camisa_chelsea.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="camisa_croacia" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\camisa_croacia.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="camisa_green_bay_packers" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\camisa_green_bay_packers.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="camisa_man_city" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\camisa_man_city.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="camisa_man_utd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\camisa_man_utd.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

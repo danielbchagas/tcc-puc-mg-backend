@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using System;
-using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Carrinho;
+using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.CarrinhoCompras;
 
 namespace ECommerce.Carrinho.Application.Queries
 {

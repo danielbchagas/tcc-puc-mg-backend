@@ -1,11 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using ECommerce.Cliente.Domain.Enums;
+﻿using ECommerce.Cliente.Domain.Enums;
 using ECommerce.Cliente.Domain.Interfaces.Data;
 using ECommerce.Cliente.Domain.Models;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace ECommerce.Cliente.Infrastructure.Data
 {
@@ -21,71 +20,9 @@ namespace ECommerce.Cliente.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            #region Mapeamento
-            modelBuilder.Entity<Domain.Models.Cliente>(c =>
-            {
-                c.ToTable("Clientes");
+            modelBuilder.Ignore<ValidationResult>();
 
-                c.HasKey(c => c.Id);
-
-                c.Property(c => c.Nome).HasColumnType("varchar(50)").IsRequired();
-                c.Property(c => c.Sobrenome).HasColumnType("varchar(100)").IsRequired();
-                c.Property(c => c.Ativo).HasColumnType("bit").IsRequired();
-
-                c.HasOne(c => c.Documento)
-                    .WithOne(d => d.Cliente);
-                c.HasOne(c => c.Email)
-                    .WithOne(e => e.Cliente);
-                c.HasOne(c => c.Telefone)
-                    .WithOne(t => t.Cliente);
-                c.HasOne(c => c.Endereco)
-                    .WithOne(e => e.Cliente);
-            });
-
-            modelBuilder.Entity<Documento>(d =>
-            {
-                d.ToTable("Documentos");
-
-                d.HasKey(d => d.Id);
-
-                d.Property(d => d.Numero).HasColumnType("varchar(18)").IsRequired();
-                d.Property(e => e.ClienteId).HasColumnType("uniqueidentifier").IsRequired();
-            });
-
-            modelBuilder.Entity<Email>(e =>
-            {
-                e.ToTable("Emails");
-
-                e.HasKey(e => e.Id);
-
-                e.Property(e => e.Endereco).HasColumnType("varchar(100)").IsRequired();
-                e.Property(e => e.ClienteId).HasColumnType("uniqueidentifier").IsRequired();
-            });
-
-            modelBuilder.Entity<Telefone>(e =>
-            {
-                e.ToTable("Telefones");
-
-                e.HasKey(e => e.Id);
-
-                e.Property(e => e.Numero).HasColumnType("varchar(20)").IsRequired();
-                e.Property(e => e.ClienteId).HasColumnType("uniqueidentifier").IsRequired();
-            });
-
-            modelBuilder.Entity<Endereco>(e => 
-            {
-                e.ToTable("Enderecos");
-
-                e.HasKey(e => e.Id);
-
-                e.Property(e => e.Logradouro).HasColumnType("varchar(200)").IsRequired();
-                e.Property(e => e.Bairro).HasColumnType("varchar(50)").IsRequired();
-                e.Property(e => e.Cidade).HasColumnType("varchar(50)").IsRequired();
-                e.Property(e => e.Cep).HasColumnType("varchar(9)").IsRequired();
-                e.Property(e => e.Estado).HasColumnType("char(2)").IsRequired();
-                e.Property(e => e.ClienteId).HasColumnType("uniqueidentifier").IsRequired();
-            });
-            #endregion
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
             Seed(modelBuilder);
 

@@ -27,7 +27,7 @@ namespace ECommerce.Carrinho.Domain.Models
         public Guid CarrinhoId { get; set; }
 
         [JsonIgnore]
-        public Carrinho Carrinho { get; set; }
+        public CarrinhoCompras Carrinho { get; set; }
         #endregion
 
         #region Métodos
