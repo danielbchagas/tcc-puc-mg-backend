@@ -179,8 +179,8 @@ namespace ECommerce.Catalogo.Infrastructure.Data
             );
 
             var produtoJaquetaGreenBayPackers = new Produto(
-                descricao: "Composição:89% Algodão10% Poliamida1% Elastano",
-                nome: "Meia - Adidas",
+                descricao: "Desenvolvido por Designer Esportivo, a coleção apresenta um exclusivo e diferenciado modelo retroativo. Produto produzido em alta definição, as etiquetas são produzidas em micro-bordado HD de extrema qualidade. Ocapuz é forradoe com cadarço diferenciado. O casaco Moletom é peluciado no lado interno, misturandoo conforto do algodão e a durabilidade do poliéster presente na composição. Estilo, conforto e durabilidade. INFORMAÇÕES DO PRODUTO: Tipo de Produto: Casaco Moletom Referência:Green BayModelagem:Médio (Caso preferir usar mais solto, pedir um tamanho acima do usado normalmente)Manga:RaglanComposição: Algodão ePoliéster, garantindo maior tempo de durabilidade das coresBolsos: Frontal, Estilo CanguruTipo de Tecido: Moletom PeluciadoEspessura: Grosso 3 cabosEstampa: Logo emborrachado em alto relevo Dimensões aproximadas do produto. Largura x Altura em cm:P: 58 x 69 | M: 59 x 70 | G:60 x 71 | GG: 62 x 72 | XG: 66 x 74 Observação: As medidas podem variar em 3% para mais, ou menos nas peças. Direitos reservados:- Imagens ilustrativas, as cores podem variar conforme tonalidade de cada tela;- Produto exclusivo Rinno Force, não possui ligação com clubes ou entidades ainda que tenham semelhanças em cores ou elementos que compõe o produto;- É expressamente proibido a reprodução, uso das imagens, ou venda deste produto sem a autorização legal da marca, sujeito a sansões e responsabilidade de responder em juízo o uso indevido e sem permissão.",
+                nome: "Jaqueta - Green Bay Packers - Adidas",
                 imagem: Convert.ToBase64String((byte[])rm.GetObject("jaqueta_green_bay_packers")),
                 quantidade: 10,
                 valor: 20.50m
