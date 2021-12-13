@@ -34,6 +34,7 @@ namespace ECommerce.Identidade.Api
             services.AddOptionsConfiguration(Configuration);
             services.AddIdentityConfiguration(Configuration);
             services.AddRefitConfiguration(Configuration);
+            services.AddCorsConfiguration();
 
             services.AddControllers().AddJsonOptions(
                 opt =>
@@ -56,10 +57,14 @@ namespace ECommerce.Identidade.Api
                 app.UseDeveloperExceptionPage();
 
                 app.UseSwaggerConfiguration();
+
+                app.UseCors("development");
             }
             else
             {
                 app.UseSwaggerConfiguration();
+
+                app.UseCors("production");
             }
 
             app.UseHttpsRedirection();
