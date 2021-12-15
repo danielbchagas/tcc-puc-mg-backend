@@ -18,9 +18,9 @@ namespace ECommerce.Compras.Gateway.Interfaces
         Task<ApiResponse<IEnumerable<ProdutoDto>>> Buscar(string nome, int pagina, int linhas);
 
         [Put("/api/produtos")]
-        Task<ApiResponse<string>> Atualizar(ProdutoDto produto);
+        Task<ApiResponse<string>> Atualizar(ProdutoDto produto, [Authorize("Bearer")] string token);
 
         [Post("/api/produtos")]
-        Task<ApiResponse<string>> Cadastrar(ProdutoDto produto);
+        Task<ApiResponse<string>> Cadastrar(ProdutoDto produto, [Authorize("Bearer")] string token);
     }
 }

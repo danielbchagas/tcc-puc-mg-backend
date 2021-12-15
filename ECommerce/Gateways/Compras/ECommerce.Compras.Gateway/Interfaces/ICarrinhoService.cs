@@ -9,19 +9,19 @@ namespace ECommerce.Compras.Gateway.Interfaces
     {
         // Carrinho
         [Get("/api/carrinhos/{id}")]
-        Task<ApiResponse<CarrinhoDto>> BuscarCarrinho(Guid id);
+        Task<ApiResponse<CarrinhoDto>> BuscarCarrinho(Guid id, [Authorize("Bearer")] string token);
         
         [Post("/api/carrinhos")]
-        Task<ApiResponse<string>> AdicionarCarrinho(CarrinhoDto dto);
+        Task<ApiResponse<string>> AdicionarCarrinho(CarrinhoDto dto, [Authorize("Bearer")] string token);
         
         [Delete("/api/carrinhos/{id}")]
-        Task<ApiResponse<string>> ExcluirCarrinho(Guid id);
+        Task<ApiResponse<string>> ExcluirCarrinho(Guid id, [Authorize("Bearer")] string token);
 
         // Item carrinho
         [Post("/api/itenscarrinhos")]
-        Task<ApiResponse<string>> AdicionarItemCarrinho(ItemCarrinhoDto dto);
+        Task<ApiResponse<string>> AdicionarItemCarrinho(ItemCarrinhoDto dto, [Authorize("Bearer")] string token);
         
         [Delete("/api/itenscarrinhos/{id}")]
-        Task<ApiResponse<string>> ExcluirItemCarrinho(Guid id);
+        Task<ApiResponse<string>> ExcluirItemCarrinho(Guid id, [Authorize("Bearer")] string token);
     }
 }

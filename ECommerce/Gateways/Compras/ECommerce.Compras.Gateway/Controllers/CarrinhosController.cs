@@ -15,10 +15,12 @@ namespace ECommerce.Compras.Gateway.Controllers
     public class CarrinhosController : ControllerBase
     {
         private readonly ICarrinhoService _carrinhoService;
+        private readonly IAspNetUser _aspNetUser;
 
-        public CarrinhosController(ICarrinhoService carrinhoService)
+        public CarrinhosController(ICarrinhoService carrinhoService, IAspNetUser aspNetUser)
         {
             _carrinhoService = carrinhoService;
+            _aspNetUser = aspNetUser;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -26,7 +28,8 @@ namespace ECommerce.Compras.Gateway.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
-            var result = await _carrinhoService.BuscarCarrinho(id);
+            var token = _aspNetUser.ObterUserToken();
+            var result = await _carrinhoService.BuscarCarrinho(id, token);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
@@ -41,7 +44,8 @@ namespace ECommerce.Compras.Gateway.Controllers
         [HttpPost]
         public async Task<IActionResult> Adicionar(CarrinhoDto carrinho)
         {
-            var result = await _carrinhoService.AdicionarCarrinho(carrinho);
+            var token = _aspNetUser.ObterUserToken();
+            var result = await _carrinhoService.AdicionarCarrinho(carrinho, token);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error.Content);
@@ -54,7 +58,8 @@ namespace ECommerce.Compras.Gateway.Controllers
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Excluir(Guid id)
         {
-            var result = await _carrinhoService.ExcluirCarrinho(id);
+            var token = _aspNetUser.ObterUserToken();
+            var result = await _carrinhoService.ExcluirCarrinho(id, token);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

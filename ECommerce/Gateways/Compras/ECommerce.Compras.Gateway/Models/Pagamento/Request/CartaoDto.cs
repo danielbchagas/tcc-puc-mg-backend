@@ -1,6 +1,6 @@
 ﻿using ECommerce.Compras.Gateway.Enums;
 
-namespace ECommerce.Compras.Gateway.Models.Pagamento
+namespace ECommerce.Compras.Gateway.Models.Pagamento.Request
 {
     public class CartaoDto
     {

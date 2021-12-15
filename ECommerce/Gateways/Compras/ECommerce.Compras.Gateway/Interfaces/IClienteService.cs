@@ -8,18 +8,18 @@ namespace ECommerce.Compras.Gateway.Interfaces
     public interface IClienteService
     {
         [Get("/api/clientes/{id}")]
-        Task<ApiResponse<ClienteDto>> BuscarCliente(Guid id);
+        Task<ApiResponse<ClienteDto>> BuscarCliente(Guid id, [Authorize("Bearer")] string token);
 
         [Get("/api/documentos/{id}")]
-        Task<ApiResponse<DocumentoDto>> BuscarDocumento(Guid id);
+        Task<ApiResponse<DocumentoDto>> BuscarDocumento(Guid id, [Authorize("Bearer")] string token);
 
         [Get("/api/emails/{id}")]
-        Task<ApiResponse<EmailDto>> BuscarEmail(Guid id);
+        Task<ApiResponse<EmailDto>> BuscarEmail(Guid id, [Authorize("Bearer")] string token);
 
         [Get("/api/telefones/{id}")]
-        Task<ApiResponse<TelefoneDto>> BuscarTelefone(Guid id);
+        Task<ApiResponse<TelefoneDto>> BuscarTelefone(Guid id, [Authorize("Bearer")] string token);
 
         [Get("/api/enderecos/{id}")]
-        Task<ApiResponse<EnderecoDto>> BuscarEndereco(Guid id);
+        Task<ApiResponse<EnderecoDto>> BuscarEndereco(Guid id, [Authorize("Bearer")] string token);
     }
 }

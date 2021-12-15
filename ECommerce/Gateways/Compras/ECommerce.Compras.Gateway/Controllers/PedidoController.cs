@@ -15,10 +15,12 @@ namespace ECommerce.Compras.Gateway.Controllers
     public class PedidoController : ControllerBase
     {
         private readonly IPedidoService _pedidoService;
+        private readonly IAspNetUser _aspNetUser;
 
-        public PedidoController(IPedidoService pedidoService)
+        public PedidoController(IPedidoService pedidoService, IAspNetUser aspNetUser)
         {
             _pedidoService = pedidoService;
+            _aspNetUser = aspNetUser;
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -26,7 +28,8 @@ namespace ECommerce.Compras.Gateway.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Buscar(Guid id)
         {
-            var result = await _pedidoService.Buscar(id);
+            var token = _aspNetUser.ObterUserToken();
+            var result = await _pedidoService.Buscar(id, token);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
@@ -41,7 +44,8 @@ namespace ECommerce.Compras.Gateway.Controllers
         [HttpPost]
         public async Task<IActionResult> Adicionar(PedidoDto pedido)
         {
-            var result = await _pedidoService.Adicionar(pedido);
+            var token = _aspNetUser.ObterUserToken();
+            var result = await _pedidoService.Adicionar(pedido, token);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
