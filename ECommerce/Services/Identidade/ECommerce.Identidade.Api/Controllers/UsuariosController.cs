@@ -37,7 +37,12 @@ namespace ECommerce.Identidade.Api.Controllers
 
         private readonly IClienteService _clienteService;
 
-        public UsuariosController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<UsuariosController> logger, IOptions<JwtOptions> jwtOptions, IOptions<RabbitMqOptions> rabbitMQOptions, IClienteService clienteService)
+        public UsuariosController(SignInManager<IdentityUser> signInManager, 
+            UserManager<IdentityUser> userManager, 
+            ILogger<UsuariosController> logger, 
+            IOptions<JwtOptions> jwtOptions, 
+            IOptions<RabbitMqOptions> rabbitMQOptions, 
+            IClienteService clienteService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -115,13 +120,6 @@ namespace ECommerce.Identidade.Api.Controllers
             await _userManager.DeleteAsync(identityUser);
         }
 
-        private void OnDisconnect(object source, EventArgs e)
-        {
-            Policy.Handle<EasyNetQException>()
-                .Or<BrokerUnreachableException>()
-                .Retry(10);
-        }
-
         #region Registrar cliente
         private async Task<ValidationResult> CriarClienteRabbitMq(NovoUsuario usuario)
         {
@@ -156,6 +154,13 @@ namespace ECommerce.Identidade.Api.Controllers
             #endregion
 
             #region Filas
+            void OnDisconnect(object source, EventArgs e)
+            {
+                Policy.Handle<EasyNetQException>()
+                    .Or<BrokerUnreachableException>()
+                    .Retry(10);
+            }
+
             var bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus);
             bus.Advanced.Disconnected += OnDisconnect;
 
