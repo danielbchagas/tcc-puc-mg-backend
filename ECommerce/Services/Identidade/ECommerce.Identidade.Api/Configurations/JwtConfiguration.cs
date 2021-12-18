@@ -11,8 +11,7 @@ namespace ECommerce.Identidade.Api.Configurations
     {
         public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtOptionsSection = configuration.GetSection("JwtOptions");
-            var jwtOptions = jwtOptionsSection.Get<JwtOptions>();
+            var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
 
             services.AddAuthentication(options =>
             {

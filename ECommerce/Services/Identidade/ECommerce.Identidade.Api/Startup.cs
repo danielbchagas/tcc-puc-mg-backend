@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Text.Json.Serialization;
 
 namespace ECommerce.Identidade.Api
 {
@@ -28,21 +27,15 @@ namespace ECommerce.Identidade.Api
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJwtConfiguration(Configuration);
+            services.AddOptionsConfiguration(Configuration);
             services.AddHealthCheckConfiguration(Configuration);
             services.AddSwaggerConfiguration();
-            services.AddOptionsConfiguration(Configuration);
             services.AddIdentityConfiguration(Configuration);
+            services.AddJwtConfiguration(Configuration);
             services.AddRefitConfiguration(Configuration);
             services.AddCorsConfiguration();
 
-            services.AddControllers().AddJsonOptions(
-                opt =>
-                {
-                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                }
-            );
+            services.AddControllers();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {

@@ -9,8 +9,6 @@ using Refit;
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ECommerce.Identidade.Api.Configurations
 {
@@ -22,11 +20,8 @@ namespace ECommerce.Identidade.Api.Configurations
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddTransient<ValidateHeaderHandler>();
-
             services.AddRefitClient<IClienteService>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.ClienteUrl))
-                .AddHttpMessageHandler<ValidateHeaderHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
         }
@@ -35,24 +30,8 @@ namespace ECommerce.Identidade.Api.Configurations
         {
             return HttpPolicyExtensions
                 .HandleTransientHttpError()
-                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+                .OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
                 .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-        }
-
-        public class ValidateHeaderHandler : DelegatingHandler
-        {
-            protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-            {
-                if (!request.Headers.Contains("Authorization"))
-                {
-                    return new HttpResponseMessage(HttpStatusCode.BadRequest)
-                    {
-                        Content = new StringContent("Bearer Token não encontrado.")
-                    };
-                }
-
-                return await base.SendAsync(request, cancellationToken);
-            }
         }
     }
 }

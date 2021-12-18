@@ -93,7 +93,7 @@ namespace ECommerce.Identidade.Api.Controllers
                 return BadRequest("Não foi possível efetivar o seu cadastro!");
             }
 
-            return Ok();
+            return Ok(await GerarToken(usuario.Email));
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
