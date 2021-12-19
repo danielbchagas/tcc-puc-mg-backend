@@ -6,12 +6,11 @@ namespace ECommerce.Identidade.Api.Configurations
 {
     public static class OptionsConfiguration
     {
-        public static IServiceCollection AddOptionsConfiguration(this IServiceCollection services, IConfiguration configuration)
+        public static void AddOptionsConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<RabbitMqOptions>(config => configuration.GetSection("RabbitMqOptions").Bind(config));
             services.Configure<JwtOptions>(config => configuration.GetSection("JwtOptions").Bind(config));
-            
-            return services;
+            services.Configure<MicrosoftAuthenticationOption>(config => configuration.GetSection("MicrosoftOauth").Bind(config));
         }
     }
 }

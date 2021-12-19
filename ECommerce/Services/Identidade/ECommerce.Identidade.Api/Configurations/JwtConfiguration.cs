@@ -12,6 +12,7 @@ namespace ECommerce.Identidade.Api.Configurations
         public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
+            var microsoftOauth = configuration.GetSection("MicrosoftOauth").Get<MicrosoftAuthenticationOption>();
 
             services.AddAuthentication(options =>
             {
@@ -19,8 +20,8 @@ namespace ECommerce.Identidade.Api.Configurations
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddMicrosoftAccount(microsoftOptions =>
             {
-                microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
-                microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
+                microsoftOptions.ClientId = microsoftOauth.ClientId;
+                microsoftOptions.ClientSecret = microsoftOauth.ClientSecret;
             }).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = true;
