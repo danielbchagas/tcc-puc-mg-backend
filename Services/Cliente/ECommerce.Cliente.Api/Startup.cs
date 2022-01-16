@@ -35,6 +35,7 @@ namespace ECommerce.Cliente.Api
             services.AddSwaggerConfiguration();
             services.AddOptionsConfiguration(Configuration);
             services.AddDependencyInjectionConfiguration();
+            services.AddCorsConfiguration();
             
             services.AddControllers().AddJsonOptions(
                 opt =>
