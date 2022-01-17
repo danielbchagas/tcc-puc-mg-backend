@@ -114,13 +114,13 @@ namespace ECommerce.Identidade.Api.Controllers
             return Ok(await GerarToken(usuario.Email));
         }
 
+        #region Registro de cliente
         private async Task DesfazerOperacao(NovoUsuario usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
             await _userManager.DeleteAsync(identityUser);
         }
 
-        #region Registrar cliente
         private async Task<ValidationResult> CriarClienteRabbitMq(NovoUsuario usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);

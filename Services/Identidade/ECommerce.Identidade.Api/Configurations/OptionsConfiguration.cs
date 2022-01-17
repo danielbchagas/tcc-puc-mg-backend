@@ -10,7 +10,7 @@ namespace ECommerce.Identidade.Api.Configurations
         {
             services.Configure<RabbitMqOptions>(config => configuration.GetSection("RabbitMqOptions").Bind(config));
             services.Configure<JwtOptions>(config => configuration.GetSection("JwtOptions").Bind(config));
-            services.Configure<MicrosoftAuthenticationOption>(config => configuration.GetSection("MicrosoftOauth").Bind(config));
+            services.Configure<GoogleOAuthOption>(config => configuration.GetSection("GoogleOauth").Bind(config));
         }
     }
 }

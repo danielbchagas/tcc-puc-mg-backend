@@ -31,7 +31,6 @@ namespace ECommerce.Identidade.Api
             services.AddHealthCheckConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddIdentityConfiguration(Configuration);
-            services.AddJwtConfiguration(Configuration);
             services.AddRefitConfiguration(Configuration);
             services.AddCorsConfiguration();
 

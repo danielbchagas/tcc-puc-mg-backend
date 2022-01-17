@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Identidade.Api.Models
 {
-    public class MicrosoftAuthenticationOption
+    public class GoogleOAuthOption
     {
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
