@@ -16,11 +16,11 @@ namespace ECommerce.Cliente.Api.Services
 {
     public class AdicionarEmailIntegrationHandler : BackgroundService
     {
-        private readonly RabbitMqOptions _rabbitMQOptions;
+        private readonly RabbitMqOption _rabbitMQOptions;
         private readonly IServiceProvider _serviceProvider;
         private IBus _bus;
 
-        public AdicionarEmailIntegrationHandler(IOptions<RabbitMqOptions> rabbitMQOptions, IServiceProvider serviceProvider)
+        public AdicionarEmailIntegrationHandler(IOptions<RabbitMqOption> rabbitMQOptions, IServiceProvider serviceProvider)
         {
             _rabbitMQOptions = rabbitMQOptions.Value;
             _serviceProvider = serviceProvider;

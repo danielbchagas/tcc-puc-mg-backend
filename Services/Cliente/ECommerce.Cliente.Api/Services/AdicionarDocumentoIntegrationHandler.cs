@@ -16,11 +16,11 @@ namespace ECommerce.Cliente.Api.Services
 {
     public class AdicionarDocumentoIntegrationHandler : BackgroundService
     {
-        private readonly RabbitMqOptions _rabbitMQOptions;
+        private readonly RabbitMqOption _rabbitMQOptions;
         private readonly IServiceProvider _serviceProvider;
         private IBus _bus;
 
-        public AdicionarDocumentoIntegrationHandler(IOptions<RabbitMqOptions> rabbitMQOptions, IServiceProvider serviceProvider)
+        public AdicionarDocumentoIntegrationHandler(IOptions<RabbitMqOption> rabbitMQOptions, IServiceProvider serviceProvider)
         {
             _rabbitMQOptions = rabbitMQOptions.Value;
             _serviceProvider = serviceProvider;

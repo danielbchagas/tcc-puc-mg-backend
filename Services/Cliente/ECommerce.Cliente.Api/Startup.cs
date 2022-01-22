@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Text.Json.Serialization;
 
 namespace ECommerce.Cliente.Api
 {
@@ -29,7 +28,7 @@ namespace ECommerce.Cliente.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJwtConfiguration(Configuration);
+            services.AddIdentityConfiguration(Configuration);
             services.AddEntityFrameworkConfiguration(Configuration);
             services.AddHealthCheckConfiguration(Configuration);
             services.AddSwaggerConfiguration();
@@ -37,13 +36,7 @@ namespace ECommerce.Cliente.Api
             services.AddDependencyInjectionConfiguration();
             services.AddCorsConfiguration();
             
-            services.AddControllers().AddJsonOptions(
-                opt =>
-                {
-                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                }
-            );
+            services.AddControllers();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {

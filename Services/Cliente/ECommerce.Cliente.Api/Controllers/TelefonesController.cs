@@ -22,7 +22,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:Guid}")]
-        public async Task<IActionResult> Buscar(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
             var result = await _mediator.Send(new BuscarTelefonePorIdQuery(id));
 
@@ -35,7 +35,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Adicionar(AdicionarTelefoneCommand command)
+        public async Task<IActionResult> Create(AdicionarTelefoneCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -48,7 +48,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Atualizar(AtualizarTelefoneCommand command)
+        public async Task<IActionResult> Update(AtualizarTelefoneCommand command)
         {
             var result = await _mediator.Send(command);
 
