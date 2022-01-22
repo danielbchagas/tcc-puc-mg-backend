@@ -1,5 +1,6 @@
 ﻿using ECommerce.Identidade.Api.Data;
 using ECommerce.Identidade.Api.Models;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace ECommerce.Identidade.Api.Configurations
             {
                 options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
             });
-            
+
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -28,7 +29,8 @@ namespace ECommerce.Identidade.Api.Configurations
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+            })
+            .AddJwtBearer(options =>
             {
                 var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
 

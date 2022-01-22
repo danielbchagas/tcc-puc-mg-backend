@@ -31,6 +31,10 @@ namespace ECommerce.Compras.Gateway.Configurations
                     ValidateAudience = true,
                     ValidAudience = jwtOptions.Audience
                 };
+            }).AddGoogle(options => 
+            {
+                options.ClientId = "949219568038-hdt285lngu3ajgaffa8b64ttosq1vver.apps.googleusercontent.com";
+                options.ClientSecret = "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";
             });
         }
     }

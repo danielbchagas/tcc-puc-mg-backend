@@ -4,21 +4,18 @@
 using EasyNetQ;
 using ECommerce.Identidade.Api.Interfaces;
 using ECommerce.Identidade.Api.Models;
+using ECommerce.Identidade.Handlers;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Polly;
 using RabbitMQ.Client.Exceptions;
 using Refit;
 using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ECommerce.Identidade.Api.Controllers
@@ -29,12 +26,9 @@ namespace ECommerce.Identidade.Api.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        
         private readonly ILogger<UsuariosController> _logger;
-
-        private readonly JwtOptions _jwtOptions;
+        private readonly JwtHandler _jwtHandler;
         private readonly RabbitMqOptions _rabbitMQOptions;
-
         private readonly IClienteService _clienteService;
 
         public UsuariosController(SignInManager<IdentityUser> signInManager, 
@@ -42,14 +36,23 @@ namespace ECommerce.Identidade.Api.Controllers
             ILogger<UsuariosController> logger, 
             IOptions<JwtOptions> jwtOptions, 
             IOptions<RabbitMqOptions> rabbitMQOptions, 
-            IClienteService clienteService)
+            IClienteService clienteService,
+            JwtHandler jwtHandler)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
-            _jwtOptions = jwtOptions.Value;
             _rabbitMQOptions = rabbitMQOptions.Value;
             _clienteService = clienteService;
+            _jwtHandler = jwtHandler;
+        }
+
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        [HttpGet("user-claims")]
+        public async Task<IActionResult> GetClaims()
+        {
+            var claims = this.User.Claims.Select(claim => new { claim.Type, claim.Value });
+            return Ok(claims);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -98,7 +101,7 @@ namespace ECommerce.Identidade.Api.Controllers
                 return BadRequest("Não foi possível efetivar o seu cadastro!");
             }
 
-            return Ok(await GerarToken(usuario.Email));
+            return Ok(await _jwtHandler.GenerateNewToken(usuario.Email));
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -111,7 +114,40 @@ namespace ECommerce.Identidade.Api.Controllers
             if (!resultado.Succeeded)
                 return BadRequest();
 
-            return Ok(await GerarToken(usuario.Email));
+            return Ok(await _jwtHandler.GenerateNewToken(usuario.Email));
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost("autenticar-conta-externa")]
+        public async Task<IActionResult> AutenticarContaExterna(ExternalAuthDto externalAuth)
+        {
+            var payload = await _jwtHandler.VerifyGoogleToken(externalAuth);
+            if (payload == null)
+                return BadRequest("Invalid External Authentication.");
+            var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
+            var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+            if (user == null)
+            {
+                user = await _userManager.FindByEmailAsync(payload.Email);
+                if (user == null)
+                {
+                    user = new IdentityUser { Email = payload.Email, UserName = payload.Email };
+                    await _userManager.CreateAsync(user);
+                    //prepare and send an email for the email confirmation
+                    await _userManager.AddToRoleAsync(user, "Viewer");
+                    await _userManager.AddLoginAsync(user, info);
+                }
+                else
+                {
+                    await _userManager.AddLoginAsync(user, info);
+                }
+            }
+            if (user == null)
+                return BadRequest("Invalid External Authentication.");
+            //check for the Locked out account
+            var token = await _jwtHandler.GenerateToken(user);
+            return Ok(new { Token = token, IsAuthSuccessful = true });
         }
 
         #region Registro de cliente
@@ -228,67 +264,13 @@ namespace ECommerce.Identidade.Api.Controllers
             cliente.Telefone = telefone;
             #endregion
 
-            var result = await _clienteService.Adicionar(cliente, (await GerarToken(usuario.Email)).Token);
+            var result = await _clienteService.Adicionar(cliente, (await _jwtHandler.GenerateNewToken(usuario.Email)).Token);
 
             if (!result.IsSuccessStatusCode)
                 await DesfazerOperacao(usuario);
 
             return result;
         }
-        #endregion
-
-        #region JWT
-        private async Task<UsuarioJwt> GerarToken(string email)
-        {
-            var usuario = await _userManager.FindByEmailAsync(email);
-            var claims = await _userManager.GetClaimsAsync(usuario);
-            var roles = await _userManager.GetRolesAsync(usuario);
-
-            var EPOCH = ToUnixEpochDate(DateTime.UtcNow);
-
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, usuario.Id));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Email, usuario.Email));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, EPOCH.ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Iat, EPOCH.ToString(), ClaimValueTypes.Integer64));
-
-            roles.ToList().ForEach(r => claims.Add(new Claim(type: "role", value: r)));
-
-            var claimsIdentity = new ClaimsIdentity();
-            claimsIdentity.AddClaims(claims);
-
-            var tokenEscrito = EscreverToken(claimsIdentity);
-
-            return new UsuarioJwt 
-            {
-                Token = tokenEscrito,
-                ExpiresIn = TimeSpan.FromHours(_jwtOptions.Expiration).TotalSeconds,
-                TokenUsuario = new TokenUsuario 
-                {
-                    Id = usuario.Id,
-                    Email = usuario.Email,
-                    ClaimsUsuario = claims.Select(c => new ClaimUsuario { Valor = c.Value, Tipo = c.Type })
-                }
-            };
-        }
-
-        private string EscreverToken(ClaimsIdentity claimsIdentity)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
-            {
-                Issuer = _jwtOptions.Issuer,
-                Audience = _jwtOptions.Audience,
-                Subject = claimsIdentity,
-                Expires = DateTime.UtcNow.AddHours(_jwtOptions.Expiration),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtOptions.Secret)), SecurityAlgorithms.HmacSha256Signature)
-            });
-
-            return tokenHandler.WriteToken(token);
-        }
-
-        private long ToUnixEpochDate(DateTime data) 
-            => (long)Math.Round((data.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
         #endregion
     }
 }

@@ -1,4 +1,5 @@
 using ECommerce.Identidade.Api.Configurations;
+using ECommerce.Identidade.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,8 @@ namespace ECommerce.Identidade.Api
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+
+            services.AddScoped<JwtHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
