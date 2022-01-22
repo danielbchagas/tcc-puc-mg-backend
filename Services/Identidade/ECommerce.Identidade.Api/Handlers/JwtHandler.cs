@@ -15,15 +15,18 @@ namespace ECommerce.Identidade.Handlers
 {
     public class JwtHandler
     {
-        private readonly JwtOptions _jwtOptions;
+        private readonly JwtOption _jwtOption;
+        private readonly GoogleOAuthOption _googleOAuthOption;
         private readonly UserManager<IdentityUser> _userManager;
-        public JwtHandler(UserManager<IdentityUser> userManager, IOptions<JwtOptions> jwtOptions)
+
+        public JwtHandler(UserManager<IdentityUser> userManager, IOptions<JwtOption> jwtOptions, IOptions<GoogleOAuthOption> googleOAuthOption)
         {
             _userManager = userManager;
-            _jwtOptions = jwtOptions.Value;
+            _jwtOption = jwtOptions.Value;
+            _googleOAuthOption = googleOAuthOption.Value;
         }
 
-        internal async Task<UsuarioJwt> GenerateNewToken(string email)
+        internal async Task<UserJwt> GenerateNewToken(string email)
         {
             var usuario = await _userManager.FindByEmailAsync(email);
             var claims = await _userManager.GetClaimsAsync(usuario);
@@ -44,15 +47,15 @@ namespace ECommerce.Identidade.Handlers
 
             var token = WriteNewToken(claimsIdentity);
 
-            return new UsuarioJwt
+            return new UserJwt
             {
                 Token = token,
-                ExpiresIn = TimeSpan.FromHours(_jwtOptions.Expiration).TotalSeconds,
-                TokenUsuario = new TokenUsuario
+                ExpiresIn = TimeSpan.FromHours(_jwtOption.Expiration).TotalSeconds,
+                UserToken = new TokenUsuario
                 {
                     Id = usuario.Id,
                     Email = usuario.Email,
-                    ClaimsUsuario = claims.Select(c => new ClaimUsuario { Valor = c.Value, Tipo = c.Type })
+                    UserClaims = claims.Select(c => new UserClaim { Value = c.Value, Type = c.Type })
                 }
             };
         }
@@ -62,11 +65,11 @@ namespace ECommerce.Identidade.Handlers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
             {
-                Issuer = _jwtOptions.Issuer,
-                Audience = _jwtOptions.Audience,
+                Issuer = _jwtOption.Issuer,
+                Audience = _jwtOption.Audience,
                 Subject = claimsIdentity,
-                Expires = DateTime.UtcNow.AddHours(_jwtOptions.Expiration),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtOptions.Secret)), SecurityAlgorithms.HmacSha256Signature)
+                Expires = DateTime.UtcNow.AddHours(_jwtOption.Expiration),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtOption.Secret)), SecurityAlgorithms.HmacSha256Signature)
             });
 
             return tokenHandler.WriteToken(token);
@@ -77,67 +80,15 @@ namespace ECommerce.Identidade.Handlers
 
         public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalAuthDto externalAuth)
         {
-            try
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
-                var settings = new GoogleJsonWebSignature.ValidationSettings()
-                {
-                    Audience = new List<string>() { "949219568038-hdt285lngu3ajgaffa8b64ttosq1vver.apps.googleusercontent.com" }
-                };
-
-                var payload = await GoogleJsonWebSignature.ValidateAsync(externalAuth.IdToken, settings);
-                return payload;
-            }
-            catch (Exception ex)
-            {
-                //log an exception
-                return null;
-            }
-        }
-
-        private SigningCredentials GetSigningCredentials()
-        {
-            var key = Encoding.UTF8.GetBytes(_jwtOptions.Secret);
-            var secret = new SymmetricSecurityKey(key);
-
-            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
-        }
-
-        private async Task<List<Claim>> GetClaims(IdentityUser user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Email)
+                Audience = new List<string>()
+                    {
+                        _googleOAuthOption.ClientId
+                    }
             };
 
-            var roles = await _userManager.GetRolesAsync(user);
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-
-            return claims;
-        }
-
-        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
-        {
-            var tokenOptions = new JwtSecurityToken(
-                issuer: _jwtOptions.Issuer,
-                audience: _jwtOptions.Audience,
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtOptions.Expiration)),
-                signingCredentials: signingCredentials);
-
-            return tokenOptions;
-        }
-
-        public async Task<string> GenerateToken(IdentityUser user)
-        {
-            var signingCredentials = GetSigningCredentials();
-            var claims = await GetClaims(user);
-            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
-            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
-            return token;
+            return await GoogleJsonWebSignature.ValidateAsync(externalAuth.IdToken, settings);
         }
     }
 }

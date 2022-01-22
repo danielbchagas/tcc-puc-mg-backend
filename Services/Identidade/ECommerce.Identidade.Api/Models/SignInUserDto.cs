@@ -1,8 +1,8 @@
 ﻿namespace ECommerce.Identidade.Api.Models
 {
-    public class LoginUsuario
+    public class SignInUserDto
     {
         public string Email { get; set; }
-        public string Senha { get; set; }
+        public string Password { get; set; }
     }
 }

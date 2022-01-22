@@ -32,7 +32,7 @@ namespace ECommerce.Identidade.Api.Configurations
             })
             .AddJwtBearer(options =>
             {
-                var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
+                var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOption>();
 
                 options.RequireHttpsMetadata = true;
                 options.SaveToken = true;

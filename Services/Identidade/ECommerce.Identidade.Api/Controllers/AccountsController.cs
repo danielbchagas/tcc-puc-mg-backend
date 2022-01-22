@@ -22,20 +22,19 @@ namespace ECommerce.Identidade.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuariosController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<UsuariosController> _logger;
+        private readonly ILogger<AccountsController> _logger;
         private readonly JwtHandler _jwtHandler;
-        private readonly RabbitMqOptions _rabbitMQOptions;
+        private readonly RabbitMqOption _rabbitMQOptions;
         private readonly IClienteService _clienteService;
 
-        public UsuariosController(SignInManager<IdentityUser> signInManager, 
+        public AccountsController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
-            ILogger<UsuariosController> logger, 
-            IOptions<JwtOptions> jwtOptions, 
-            IOptions<RabbitMqOptions> rabbitMQOptions, 
+            ILogger<AccountsController> logger, 
+            IOptions<RabbitMqOption> rabbitMQOptions, 
             IClienteService clienteService,
             JwtHandler jwtHandler)
         {
@@ -47,34 +46,26 @@ namespace ECommerce.Identidade.Api.Controllers
             _jwtHandler = jwtHandler;
         }
 
-        [Microsoft.AspNetCore.Authorization.Authorize]
-        [HttpGet("user-claims")]
-        public async Task<IActionResult> GetClaims()
-        {
-            var claims = this.User.Claims.Select(claim => new { claim.Type, claim.Value });
-            return Ok(claims);
-        }
-
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Registrar(NovoUsuario usuario)
+        public async Task<IActionResult> SignUp(SignUpUserDto usuario)
         {
             var novoUsuario = new IdentityUser
             {
                 UserName = usuario.Email,
                 Email = usuario.Email,
-                PhoneNumber = usuario.Telefone
+                PhoneNumber = usuario.Telephone
             };
 
-            var resultado = await _userManager.CreateAsync(novoUsuario, usuario.Senha);
+            var createUserResult = await _userManager.CreateAsync(novoUsuario, usuario.Password);
 
-            if (!resultado.Succeeded)
+            if (!createUserResult.Succeeded)
             {
-                var erros = resultado.Errors.Select(e => e.Description);
+                var erros = createUserResult.Errors.Select(e => e.Description);
                 _logger.LogError($"Erro em: {HttpContext.Request.Path}", erros);
 
-                return BadRequest(resultado.Errors.Select(e => e.Description));
+                return BadRequest(createUserResult.Errors.Select(e => e.Description));
             }
 
             try
@@ -87,18 +78,18 @@ namespace ECommerce.Identidade.Api.Controllers
                     return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
 #elif REST
-                var result = await CriarClienteRest(usuario);
+                var createClienteResult = await CriarClienteRest(usuario);
 
-                if (!result.IsSuccessStatusCode)
-                    return BadRequest(result.Error.Content);
+                if (!createClienteResult.IsSuccessStatusCode)
+                    return BadRequest(createClienteResult.Error.Content);
 #endif
             }
             catch(Exception e)
             {
-                await DesfazerOperacao(usuario);
+                await CreateUserRollback(usuario);
 
                 _logger.LogError(e.Message, e.InnerException);
-                return BadRequest("Não foi possível efetivar o seu cadastro!");
+                return BadRequest("Não foi possível efetivar o seu cadastro.");
             }
 
             return Ok(await _jwtHandler.GenerateNewToken(usuario.Email));
@@ -107,11 +98,11 @@ namespace ECommerce.Identidade.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("autenticar")]
-        public async Task<IActionResult> Autenticar(LoginUsuario usuario)
+        public async Task<IActionResult> SignIn(SignInUserDto usuario)
         {
-            var resultado = await _signInManager.PasswordSignInAsync(usuario.Email, usuario.Senha, isPersistent: false, lockoutOnFailure: true);
+            var result = await _signInManager.PasswordSignInAsync(usuario.Email, usuario.Password, isPersistent: false, lockoutOnFailure: true);
 
-            if (!resultado.Succeeded)
+            if (!result.Succeeded)
                 return BadRequest();
 
             return Ok(await _jwtHandler.GenerateNewToken(usuario.Email));
@@ -120,21 +111,26 @@ namespace ECommerce.Identidade.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("autenticar-conta-externa")]
-        public async Task<IActionResult> AutenticarContaExterna(ExternalAuthDto externalAuth)
+        public async Task<IActionResult> SignInWithGoogle(ExternalAuthDto externalAuth)
         {
             var payload = await _jwtHandler.VerifyGoogleToken(externalAuth);
+
             if (payload == null)
-                return BadRequest("Invalid External Authentication.");
+                return BadRequest("Autenticação externa inválida.");
+            
             var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
             var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+            
             if (user == null)
             {
                 user = await _userManager.FindByEmailAsync(payload.Email);
+
                 if (user == null)
                 {
                     user = new IdentityUser { Email = payload.Email, UserName = payload.Email };
                     await _userManager.CreateAsync(user);
-                    //prepare and send an email for the email confirmation
+                    
+                    // prepara e envia um email para confirmação
                     await _userManager.AddToRoleAsync(user, "Viewer");
                     await _userManager.AddLoginAsync(user, info);
                 }
@@ -143,21 +139,23 @@ namespace ECommerce.Identidade.Api.Controllers
                     await _userManager.AddLoginAsync(user, info);
                 }
             }
+
             if (user == null)
-                return BadRequest("Invalid External Authentication.");
-            //check for the Locked out account
-            var token = await _jwtHandler.GenerateToken(user);
+                return BadRequest("Autenticação externa inválida.");
+            
+            var token = await _jwtHandler.GenerateNewToken(user.Email);
+
             return Ok(new { Token = token, IsAuthSuccessful = true });
         }
 
         #region Registro de cliente
-        private async Task DesfazerOperacao(NovoUsuario usuario)
+        private async Task CreateUserRollback(SignUpUserDto usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
             await _userManager.DeleteAsync(identityUser);
         }
 
-        private async Task<ValidationResult> CriarClienteRabbitMq(NovoUsuario usuario)
+        private async Task<ValidationResult> CriarClienteRabbitMq(SignUpUserDto usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
 
@@ -165,14 +163,14 @@ namespace ECommerce.Identidade.Api.Controllers
             var cliente = new ClienteDto 
             {
                 Id = Guid.Parse(identityUser.Id),
-                Nome = usuario.Nome,
-                Sobrenome = usuario.Sobrenome,
+                Nome = usuario.Name,
+                Sobrenome = usuario.LastName,
                 Ativo = true
             };
 
             var documento = new DocumentoDto 
             {
-                Numero = usuario.Documento,
+                Numero = usuario.Document,
                 ClienteId = cliente.Id
             };
 
@@ -184,7 +182,7 @@ namespace ECommerce.Identidade.Api.Controllers
 
             var telefone = new TelefoneDto 
             {
-                Numero = usuario.Telefone,
+                Numero = usuario.Telephone,
                 ClienteId = cliente.Id
             };
             #endregion
@@ -223,12 +221,12 @@ namespace ECommerce.Identidade.Api.Controllers
             #endregion
 
             if (!result.IsValid)
-                await DesfazerOperacao(usuario);
+                await CreateUserRollback(usuario);
 
             return result;
         }
 
-        private async Task<ApiResponse<string>> CriarClienteRest(NovoUsuario usuario)
+        private async Task<ApiResponse<string>> CriarClienteRest(SignUpUserDto usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
 
@@ -236,14 +234,14 @@ namespace ECommerce.Identidade.Api.Controllers
             var cliente = new ClienteDto 
             {
                 Id = Guid.Parse(identityUser.Id),
-                Nome = usuario.Nome,
-                Sobrenome = usuario.Sobrenome,
+                Nome = usuario.Name,
+                Sobrenome = usuario.LastName,
                 Ativo = true
             };
 
             var documento = new DocumentoDto
             {
-                Numero = usuario.Documento,
+                Numero = usuario.Document,
                 ClienteId = cliente.Id
             };
 
@@ -255,7 +253,7 @@ namespace ECommerce.Identidade.Api.Controllers
 
             var telefone = new TelefoneDto
             {
-                Numero = usuario.Telefone,
+                Numero = usuario.Telephone,
                 ClienteId = cliente.Id
             };
 
@@ -267,7 +265,7 @@ namespace ECommerce.Identidade.Api.Controllers
             var result = await _clienteService.Adicionar(cliente, (await _jwtHandler.GenerateNewToken(usuario.Email)).Token);
 
             if (!result.IsSuccessStatusCode)
-                await DesfazerOperacao(usuario);
+                await CreateUserRollback(usuario);
 
             return result;
         }
