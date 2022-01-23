@@ -19,8 +19,5 @@ namespace ECommerce.Compras.Gateway.Interfaces
 
         [Put("/api/produtos")]
         Task<IApiResponse> Update(ProdutoDto produto, [Authorize("Bearer")] string token);
-
-        [Post("/api/produtos")]
-        Task<IApiResponse> Create(ProdutoDto produto, [Authorize("Bearer")] string token);
     }
 }
