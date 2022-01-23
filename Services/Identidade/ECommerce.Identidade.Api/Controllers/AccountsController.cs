@@ -78,10 +78,10 @@ namespace ECommerce.Identidade.Api.Controllers
                     return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
 #elif REST
-                var createClienteResult = await CriarClienteRest(usuario);
+                var result = await CriarClienteRest(usuario);
 
-                if (!createClienteResult.IsSuccessStatusCode)
-                    return BadRequest(createClienteResult.Error.Content);
+                if (!result.IsSuccessStatusCode)
+                    return BadRequest(result.Error.Content);
 #endif
             }
             catch(Exception e)
@@ -226,7 +226,7 @@ namespace ECommerce.Identidade.Api.Controllers
             return result;
         }
 
-        private async Task<ApiResponse<string>> CriarClienteRest(SignUpUserDto usuario)
+        private async Task<IApiResponse> CriarClienteRest(SignUpUserDto usuario)
         {
             var identityUser = await _userManager.FindByEmailAsync(usuario.Email);
 
