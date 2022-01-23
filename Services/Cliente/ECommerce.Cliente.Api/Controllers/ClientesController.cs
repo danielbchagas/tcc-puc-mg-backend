@@ -56,7 +56,7 @@ namespace ECommerce.Cliente.Api.Controllers
             var result = await _mediator.Send(request);
 
             if (!result.IsValid)
-                return BadRequest(result);
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
             return Ok();
         }
@@ -69,7 +69,7 @@ namespace ECommerce.Cliente.Api.Controllers
             var result = await _mediator.Send(new DisableClienteCommand(id));
 
             if (!result.IsValid)
-                return BadRequest(result);
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
             return Ok();
         }
