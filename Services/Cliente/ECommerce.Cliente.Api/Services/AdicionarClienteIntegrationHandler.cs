@@ -32,12 +32,12 @@ namespace ECommerce.Cliente.Api.Services
         {
             TryConnect();
 
-            await _bus.Rpc.RespondAsync<AdicionarClienteCommand, ValidationResult>(async request => await AdicionarCliente(request), stoppingToken);
+            await _bus.Rpc.RespondAsync<CreateClienteCommand, ValidationResult>(async request => await AdicionarCliente(request), stoppingToken);
             
             await Task.CompletedTask;
         }
 
-        private async Task<ValidationResult> AdicionarCliente(AdicionarClienteCommand request)
+        private async Task<ValidationResult> AdicionarCliente(CreateClienteCommand request)
         {
             using (var scope = _serviceProvider.CreateScope())
             {

@@ -29,7 +29,7 @@ namespace ECommerce.Catalogo.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJwtConfiguration(Configuration);
+            services.AddIdentityConfiguration(Configuration);
             services.AddEntityFrameworkConfiguration(Configuration);
             services.AddHealthCheckConfiguration(Configuration);
             services.AddOptionsConfiguration(Configuration);

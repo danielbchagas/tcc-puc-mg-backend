@@ -27,7 +27,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _mediator.Send(new BuscarClientePorIdQuery(id));
+            var result = await _mediator.Send(new GetClienteQuery(id));
 
             if (result is null)
                 return NotFound();
@@ -38,7 +38,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(AdicionarClienteCommand command)
+        public async Task<IActionResult> Create(CreateClienteCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -51,7 +51,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Update(AtualizarClienteCommand request)
+        public async Task<IActionResult> Update(UpdateClienteCommand request)
         {
             var result = await _mediator.Send(request);
 
@@ -66,7 +66,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Disable(Guid id)
         {
-            var result = await _mediator.Send(new DesativarClienteCommand(id));
+            var result = await _mediator.Send(new DisableClienteCommand(id));
 
             if (!result.IsValid)
                 return BadRequest(result);

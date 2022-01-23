@@ -24,7 +24,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var endereco = await _mediator.Send(new BuscarEnderecoPorIdQuery(id));
+            var endereco = await _mediator.Send(new GetEnderecoQuery(id));
 
             if (endereco is null)
                 return NotFound();
@@ -35,7 +35,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(AdicionarEnderecoCommand request)
+        public async Task<IActionResult> Create(CreateEnderecoCommand request)
         {
             var result = await _mediator.Send(request);
 
@@ -48,7 +48,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Update(AtualizarEnderecoCommand request)
+        public async Task<IActionResult> Update(UpdateEnderecoCommand request)
         {
             var result = await _mediator.Send(request);
 

@@ -26,7 +26,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _mediator.Send(new BuscarEmailPorIdQuery(id));
+            var result = await _mediator.Send(new GetEmailQuery(id));
 
             if (result is null)
                 return NotFound();
@@ -37,7 +37,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(AdicionarEmailCommand command)
+        public async Task<IActionResult> Create(CreateEmailCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -50,7 +50,7 @@ namespace ECommerce.Cliente.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Update(AtualizarEmailCommand command)
+        public async Task<IActionResult> Update(UpdateEmailCommand command)
         {
             var result = await _mediator.Send(command);
 

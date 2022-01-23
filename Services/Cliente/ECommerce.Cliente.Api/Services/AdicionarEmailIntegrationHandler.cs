@@ -32,12 +32,12 @@ namespace ECommerce.Cliente.Api.Services
         {
             TryConnect();
 
-            await _bus.Rpc.RespondAsync<AdicionarEmailCommand, ValidationResult>(async request => await AdicionarEmail(request), stoppingToken);
+            await _bus.Rpc.RespondAsync<CreateEmailCommand, ValidationResult>(async request => await AdicionarEmail(request), stoppingToken);
 
             await Task.CompletedTask;
         }
 
-        private async Task<ValidationResult> AdicionarEmail(AdicionarEmailCommand request)
+        private async Task<ValidationResult> AdicionarEmail(CreateEmailCommand request)
         {
             using (var scope = _serviceProvider.CreateScope())
             {

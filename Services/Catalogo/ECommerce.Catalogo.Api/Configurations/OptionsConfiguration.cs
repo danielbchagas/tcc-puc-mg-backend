@@ -8,8 +8,8 @@ namespace ECommerce.Catalogo.Api.Configurations
     {
         public static IServiceCollection AddOptionsConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<RabbitMqOptions>(config => configuration.GetSection("RabbitMqOptions").Bind(config));
-            services.Configure<JwtOptions>(config => configuration.GetSection("JwtOptions").Bind(config));
+            services.Configure<RabbitMqOption>(config => configuration.GetSection("RabbitMqOptions").Bind(config));
+            services.Configure<JwtOption>(config => configuration.GetSection("JwtOptions").Bind(config));
 
             return services;
         }

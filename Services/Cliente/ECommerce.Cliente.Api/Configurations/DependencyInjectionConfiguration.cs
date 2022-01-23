@@ -21,34 +21,34 @@ namespace ECommerce.Cliente.Api.Configurations
             services.AddMediatR(typeof(Startup));
 
             #region Mediator - Comandos
-            services.AddScoped<IRequestHandler<AdicionarClienteCommand, ValidationResult>, AdicionarClienteCommandHandler>();
-            services.AddScoped<IRequestHandler<DesativarClienteCommand, ValidationResult>, DesativarClienteCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateClienteCommand, ValidationResult>, CreateClienteCommandHandler>();
+            services.AddScoped<IRequestHandler<DisableClienteCommand, ValidationResult>, DisableClienteCommandHandler>();
 
-            services.AddScoped<IRequestHandler<AdicionarEnderecoCommand, ValidationResult>, AdicionarEnderecoCommandHandler>();
-            services.AddScoped<IRequestHandler<AtualizarEnderecoCommand, ValidationResult>, AtualizarEnderecoCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateEnderecoCommand, ValidationResult>, CreateEnderecoCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateEnderecoCommand, ValidationResult>, UpdateEnderecoCommandHandler>();
 
-            services.AddScoped<IRequestHandler<AdicionarDocumentoCommand, ValidationResult>, AdicionarDocumentoCommandHandler>();
-            services.AddScoped<IRequestHandler<AtualizarDocumentoCommand, ValidationResult>, AtualizarDocumentoCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateDocumentoCommand, ValidationResult>, CreateDocumentoCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateDocumentoCommand, ValidationResult>, UpdateDocumentoCommandHandler>();
 
-            services.AddScoped<IRequestHandler<AdicionarEmailCommand, ValidationResult>, AdicionarEmailCommandHandler>();
-            services.AddScoped<IRequestHandler<AtualizarEmailCommand, ValidationResult>, AtualizarEmailCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateEmailCommand, ValidationResult>, CreateEmailCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateEmailCommand, ValidationResult>, UpdateEmailCommandHandler>();
 
-            services.AddScoped<IRequestHandler<AdicionarTelefoneCommand, ValidationResult>, AdicionarTelefoneCommandHandler>();
-            services.AddScoped<IRequestHandler<AtualizarTelefoneCommand, ValidationResult>, AtualizarTelefoneCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateTelefoneCommand, ValidationResult>, CreateTelefoneCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateTelefoneCommand, ValidationResult>, UpdateTelefoneCommandHandler>();
             #endregion
 
             #region Mediator - Queries
-            services.AddScoped<IRequestHandler<BuscarClientePorIdQuery, Domain.Models.Cliente>, BuscarClientesPorIdQueryHandler>();
-            services.AddScoped<IRequestHandler<BuscarClientesFiltradosPaginadosQuery, IEnumerable<Domain.Models.Cliente>>, BuscarClienteFiltradosPaginadosQueryHandler>();
-            services.AddScoped<IRequestHandler<BuscarClientesPaginadosQuery, IEnumerable<Domain.Models.Cliente>>, BuscarClientesPaginadosQueryHandler>();
+            services.AddScoped<IRequestHandler<GetClienteQuery, Domain.Models.Cliente>, GetClienteQueryHandler>();
+            services.AddScoped<IRequestHandler<FilterClientesQuery, IEnumerable<Domain.Models.Cliente>>, FilterClientesQueryHandler>();
+            services.AddScoped<IRequestHandler<GetClientesQuery, IEnumerable<Domain.Models.Cliente>>, GetClientesQueryHandler>();
 
-            services.AddScoped<IRequestHandler<BuscarEnderecoPorIdQuery, Endereco>, BuscarEnderecoPorIdQueryHandler>();
+            services.AddScoped<IRequestHandler<GetEnderecoQuery, Endereco>, GetEnderecoQueryHandler>();
 
-            services.AddScoped<IRequestHandler<BuscarEmailPorIdQuery, Email>, BuscarEmailPorIdQueryHandler>();
+            services.AddScoped<IRequestHandler<GetEmailQuery, Email>, GetEmailQueryHandler>();
 
-            services.AddScoped<IRequestHandler<BuscarDocumentoPorIdQuery, Documento>, BuscarDocumentoPorIdQueryHandler>();
+            services.AddScoped<IRequestHandler<GetDocumentoQuery, Documento>, GetDocumentoQueryHandler>();
 
-            services.AddScoped<IRequestHandler<BuscarTelefonePorIdQuery, Telefone>, BuscarTelefonePorIdQueryHandler>();
+            services.AddScoped<IRequestHandler<GetTelefoneQuery, Telefone>, GetTelefoneQueryHandler>();
             #endregion
 
             #region Repositórios

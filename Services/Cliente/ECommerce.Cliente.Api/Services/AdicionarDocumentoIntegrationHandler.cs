@@ -32,12 +32,12 @@ namespace ECommerce.Cliente.Api.Services
         {
             TryConnect();
 
-            await _bus.Rpc.RespondAsync<AdicionarDocumentoCommand, ValidationResult>(async request => await AdicionarDocumento(request), stoppingToken);
+            await _bus.Rpc.RespondAsync<CreateDocumentoCommand, ValidationResult>(async request => await AdicionarDocumento(request), stoppingToken);
 
             await Task.CompletedTask;
         }
 
-        private async Task<ValidationResult> AdicionarDocumento(AdicionarDocumentoCommand request)
+        private async Task<ValidationResult> AdicionarDocumento(CreateDocumentoCommand request)
         {
             using (var scope = _serviceProvider.CreateScope())
             {
