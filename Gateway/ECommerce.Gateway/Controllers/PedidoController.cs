@@ -28,7 +28,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var result = await _pedidoService.Buscar(id, accessToken);
+            var result = await _pedidoService.Get(id, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
@@ -44,7 +44,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         public async Task<IActionResult> Create(PedidoDto pedido)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var result = await _pedidoService.Adicionar(pedido, accessToken);
+            var result = await _pedidoService.Create(pedido, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

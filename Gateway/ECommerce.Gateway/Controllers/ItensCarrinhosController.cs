@@ -30,7 +30,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         public async Task<IActionResult> Create(ItemCarrinhoDto item)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var produto = (await _catalogoService.Buscar(item.ProdutoId)).Content;
+            var produto = (await _catalogoService.Get(item.ProdutoId)).Content;
 
             #region Validação de item disponível em estoque
             if (produto.QuantidadeEstoque < item.Quantidade)
@@ -39,7 +39,7 @@ namespace ECommerce.Compras.Gateway.Controllers
 
             #region Atualização do estoque
             produto.QuantidadeEstoque -= item.Quantidade;
-            var result = await _catalogoService.Atualizar(produto, accessToken);
+            var result = await _catalogoService.Update(produto, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
@@ -50,7 +50,7 @@ namespace ECommerce.Compras.Gateway.Controllers
             item.Imagem = produto.Imagem;
             item.Valor = produto.Valor;
 
-            result = await _carrinhoService.AdicionarItemCarrinho(item, accessToken);
+            result = await _carrinhoService.CreateItemCarrinho(item, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
@@ -65,7 +65,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var result = await _carrinhoService.ExcluirItemCarrinho(id, accessToken);
+            var result = await _carrinhoService.DeleteItemCarrinho(id, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

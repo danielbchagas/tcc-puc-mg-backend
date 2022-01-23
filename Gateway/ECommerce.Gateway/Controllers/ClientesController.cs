@@ -28,7 +28,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var result = await _clienteService.BuscarCliente(id, accessToken);
+            var result = await _clienteService.GetCliente(id, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

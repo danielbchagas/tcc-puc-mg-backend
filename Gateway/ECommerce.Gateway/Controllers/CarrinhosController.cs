@@ -28,7 +28,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var result = await _carrinhoService.BuscarCarrinho(id, accessToken);
+            var result = await _carrinhoService.GetCarrinho(id, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
@@ -44,7 +44,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         public async Task<IActionResult> Create(CarrinhoDto carrinho)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var result = await _carrinhoService.AdicionarCarrinho(carrinho, accessToken);
+            var result = await _carrinhoService.Create(carrinho, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error.Content);
@@ -58,7 +58,7 @@ namespace ECommerce.Compras.Gateway.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var result = await _carrinhoService.ExcluirCarrinho(id, accessToken);
+            var result = await _carrinhoService.DeleteCarrinho(id, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

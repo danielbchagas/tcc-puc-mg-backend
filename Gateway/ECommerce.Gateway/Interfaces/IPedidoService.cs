@@ -8,9 +8,9 @@ namespace ECommerce.Compras.Gateway.Interfaces
     public interface IPedidoService
     {
         [Post("/api/pedidos")]
-        Task<ApiResponse<string>> Adicionar(PedidoDto pedido, [Authorize("Bearer")] string token);
+        Task<IApiResponse> Create(PedidoDto pedido, [Authorize("Bearer")] string token);
 
         [Get("/api/pedidos/{id}")]
-        Task<ApiResponse<PedidoDto>> Buscar(Guid id, [Authorize("Bearer")] string token);
+        Task<ApiResponse<PedidoDto>> Get(Guid id, [Authorize("Bearer")] string token);
     }
 }
