@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.Pedido.Api.Controllers
@@ -39,10 +40,10 @@ namespace ECommerce.Pedido.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreatePedidoCommand request)
         {
-            var validationResult = await _mediator.Send(request);
+            var result = await _mediator.Send(request);
 
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult);
+            if (!result.IsValid)
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
             return Ok();
         }
