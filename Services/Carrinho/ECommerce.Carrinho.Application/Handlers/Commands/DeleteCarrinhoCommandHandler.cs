@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Carrinho.Application.Handlers.Commands
 {
-    public class ExcluirCarrinhoCommandHandler : IRequestHandler<ExcluirCarrinhoCommand, ValidationResult>
+    public class DeleteCarrinhoCommandHandler : IRequestHandler<DeleteCarrinhoCommand, ValidationResult>
     {
         private readonly ICarrinhoRepository _carrinhoRepository;
         private readonly IMediator _mediator;
 
-        public ExcluirCarrinhoCommandHandler(ICarrinhoRepository carrinhoRepository, IMediator mediator)
+        public DeleteCarrinhoCommandHandler(ICarrinhoRepository carrinhoRepository, IMediator mediator)
         {
             _carrinhoRepository = carrinhoRepository;
             _mediator = mediator;
         }
 
-        public async Task<ValidationResult> Handle(ExcluirCarrinhoCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(DeleteCarrinhoCommand request, CancellationToken cancellationToken)
         {
             var validationResult = new ValidationResult();
 

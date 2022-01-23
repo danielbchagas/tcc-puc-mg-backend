@@ -4,9 +4,9 @@ using MediatR;
 
 namespace ECommerce.Carrinho.Application.Commands
 {
-    public class ExcluirItemCarrinhoCommand : IRequest<ValidationResult>
+    public class DeleteItemCarrinhoCommand : IRequest<ValidationResult>
     {
-        public ExcluirItemCarrinhoCommand(Guid id, Guid userId)
+        public DeleteItemCarrinhoCommand(Guid id, Guid userId)
         {
             Id = id;
 

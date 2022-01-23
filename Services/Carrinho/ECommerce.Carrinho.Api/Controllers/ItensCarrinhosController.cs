@@ -1,10 +1,10 @@
-﻿using ECommerce.Carrinho.Api.Interfaces;
-using ECommerce.Carrinho.Application.Commands;
+﻿using ECommerce.Carrinho.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ECommerce.Carrinho.Api.Controllers
@@ -15,18 +15,18 @@ namespace ECommerce.Carrinho.Api.Controllers
     public class ItensCarrinhosController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IAspNetUser _aspNetUser;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ItensCarrinhosController(IMediator mediator, IAspNetUser aspNetUser)
+        public ItensCarrinhosController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
         {
             _mediator = mediator;
-            _aspNetUser = aspNetUser;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Adicionar(AdicionarItemCarrinhoCommand request)
+        public async Task<IActionResult> Create(CreateItemCarrinhoCommand request)
         {
             var validationResult = await _mediator.Send(request);
 
@@ -39,9 +39,11 @@ namespace ECommerce.Carrinho.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> Excluir(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var validationResult = await _mediator.Send(new ExcluirItemCarrinhoCommand(id, _aspNetUser.ObterUserId()));
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var validationResult = await _mediator.Send(new DeleteItemCarrinhoCommand(id, new Guid(userId)));
 
             if (!validationResult.IsValid)
                 return BadRequest(validationResult);

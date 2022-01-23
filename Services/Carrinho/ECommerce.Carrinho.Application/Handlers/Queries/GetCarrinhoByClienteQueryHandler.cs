@@ -7,16 +7,16 @@ using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.CarrinhoCompras;
 
 namespace ECommerce.Carrinho.Application.Handlers.Queries
 {
-    public class BuscarCarrinhoPorClienteQueryHandler : IRequestHandler<BuscarCarrinhoPorClienteQuery, CarrinhoCliente>
+    public class GetCarrinhoByClienteQueryHandler : IRequestHandler<GetCarrinhoByClienteQuery, CarrinhoCliente>
     {
         private readonly ICarrinhoRepository _repository;
 
-        public BuscarCarrinhoPorClienteQueryHandler(ICarrinhoRepository repository)
+        public GetCarrinhoByClienteQueryHandler(ICarrinhoRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<CarrinhoCliente> Handle(BuscarCarrinhoPorClienteQuery request, CancellationToken cancellationToken)
+        public async Task<CarrinhoCliente> Handle(GetCarrinhoByClienteQuery request, CancellationToken cancellationToken)
         {
             var carrinho = await _repository.Buscar(request.ClienteId);
 

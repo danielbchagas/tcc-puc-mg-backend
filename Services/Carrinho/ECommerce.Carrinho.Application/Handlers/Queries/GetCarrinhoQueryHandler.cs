@@ -1,18 +1,15 @@
 ﻿using ECommerce.Carrinho.Application.Queries;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.CarrinhoCompras;
 
 namespace ECommerce.Carrinho.Application.Handlers.Queries
 {
-    public class BuscarCarrinhoQueryHandler : IRequestHandler<BuscarCarrinhoQuery, CarrinhoCliente>
+    public class GetCarrinhoQueryHandler : IRequestHandler<GetCarrinhoQuery, CarrinhoCliente>
     {
-        public Task<CarrinhoCliente> Handle(BuscarCarrinhoQuery request, CancellationToken cancellationToken)
+        public Task<CarrinhoCliente> Handle(GetCarrinhoQuery request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

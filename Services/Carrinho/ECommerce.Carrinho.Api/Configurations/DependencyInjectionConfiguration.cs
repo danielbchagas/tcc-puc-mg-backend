@@ -1,15 +1,13 @@
-﻿using ECommerce.Carrinho.Api.Extensions;
-using ECommerce.Carrinho.Api.Interfaces;
-using ECommerce.Carrinho.Domain.Interfaces.Repositories;
-using ECommerce.Carrinho.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using MediatR;
-using ECommerce.Carrinho.Application.Commands;
-using FluentValidation.Results;
+﻿using ECommerce.Carrinho.Application.Commands;
 using ECommerce.Carrinho.Application.Handlers.Commands;
 using ECommerce.Carrinho.Application.Handlers.Queries;
 using ECommerce.Carrinho.Application.Queries;
+using ECommerce.Carrinho.Domain.Interfaces.Repositories;
+using ECommerce.Carrinho.Infrastructure.Repositories;
+using FluentValidation.Results;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ECommerce.Carrinho.Api.Configurations
 {
@@ -21,19 +19,18 @@ namespace ECommerce.Carrinho.Api.Configurations
             services.AddMediatR(typeof(Startup));
 
             // Carrinho
-            services.AddScoped<IRequestHandler<AdicionarCarrinhoCommand, ValidationResult>, AdicionarCarrinhoCommandHandler>();
-            services.AddScoped<IRequestHandler<ExcluirCarrinhoCommand, ValidationResult>, ExcluirCarrinhoCommandHandler>();
-            services.AddScoped<IRequestHandler<BuscarCarrinhoPorClienteQuery, Domain.Models.CarrinhoCompras>, BuscarCarrinhoPorClienteQueryHandler>();
-            services.AddScoped<IRequestHandler<BuscarCarrinhoQuery, Domain.Models.CarrinhoCompras>, BuscarCarrinhoQueryHandler>();
+            services.AddScoped<IRequestHandler<CreateCarrinhoCommand, ValidationResult>, CreateCarrinhoCommandHandler>();
+            services.AddScoped<IRequestHandler<DeleteCarrinhoCommand, ValidationResult>, DeleteCarrinhoCommandHandler>();
+            services.AddScoped<IRequestHandler<GetCarrinhoByClienteQuery, Domain.Models.CarrinhoCompras>, GetCarrinhoByClienteQueryHandler>();
+            services.AddScoped<IRequestHandler<GetCarrinhoQuery, Domain.Models.CarrinhoCompras>, GetCarrinhoQueryHandler>();
 
             // Item carrinho
-            services.AddScoped<IRequestHandler<AdicionarItemCarrinhoCommand, ValidationResult>, AdicionarItemCarrinhoCommanHandler>();
-            services.AddScoped<IRequestHandler<ExcluirItemCarrinhoCommand, ValidationResult>, ExcluirItemCarrinhoCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateItemCarrinhoCommand, ValidationResult>, CreateItemCarrinhoCommanHandler>();
+            services.AddScoped<IRequestHandler<DeleteItemCarrinhoCommand, ValidationResult>, DeleteItemCarrinhoCommandHandler>();
             #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IAspNetUser, AspNetUser>();
-
+            
             services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
             services.AddScoped<IItemCarrinhoRepository, ItemCarrinhoRepository>();
         }

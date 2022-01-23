@@ -4,9 +4,9 @@ using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.CarrinhoCompras;
 
 namespace ECommerce.Carrinho.Application.Queries
 {
-    public class BuscarCarrinhoQuery : IRequest<CarrinhoCliente>
+    public class GetCarrinhoQuery : IRequest<CarrinhoCliente>
     {
-        public BuscarCarrinhoQuery(Guid id)
+        public GetCarrinhoQuery(Guid id)
         {
             Id = id;
         }

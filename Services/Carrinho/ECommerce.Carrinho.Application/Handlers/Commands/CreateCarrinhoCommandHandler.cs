@@ -8,18 +8,18 @@ using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.CarrinhoCompras;
 
 namespace ECommerce.Carrinho.Application.Handlers.Commands
 {
-    public class AdicionarCarrinhoCommandHandler : IRequestHandler<AdicionarCarrinhoCommand, ValidationResult>
+    public class CreateCarrinhoCommandHandler : IRequestHandler<CreateCarrinhoCommand, ValidationResult>
     {
         private readonly ICarrinhoRepository _carrinhoRepository;
         private readonly IMediator _mediator;
 
-        public AdicionarCarrinhoCommandHandler(ICarrinhoRepository carrinhoRepository, IMediator mediator)
+        public CreateCarrinhoCommandHandler(ICarrinhoRepository carrinhoRepository, IMediator mediator)
         {
             _carrinhoRepository = carrinhoRepository;
             _mediator = mediator;
         }
 
-        public async Task<ValidationResult> Handle(AdicionarCarrinhoCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(CreateCarrinhoCommand request, CancellationToken cancellationToken)
         {
             var validationResult = new ValidationResult();
 

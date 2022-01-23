@@ -4,9 +4,9 @@ using System;
 
 namespace ECommerce.Carrinho.Application.Commands
 {
-    public class AdicionarCarrinhoCommand : IRequest<ValidationResult>
+    public class CreateCarrinhoCommand : IRequest<ValidationResult>
     {
-        public AdicionarCarrinhoCommand(Guid id, decimal valor, Guid clienteId)
+        public CreateCarrinhoCommand(Guid id, decimal valor, Guid clienteId)
         {
             Id = id;
             Valor = valor;

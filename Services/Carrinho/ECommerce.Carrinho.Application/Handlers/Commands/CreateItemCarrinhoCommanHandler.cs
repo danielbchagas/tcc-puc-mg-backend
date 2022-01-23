@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Carrinho.Application.Handlers.Commands
 {
-    public class AdicionarItemCarrinhoCommanHandler : IRequestHandler<AdicionarItemCarrinhoCommand, ValidationResult>
+    public class CreateItemCarrinhoCommanHandler : IRequestHandler<CreateItemCarrinhoCommand, ValidationResult>
     {
         private readonly ICarrinhoRepository _carrinhoRepository;
         private readonly IItemCarrinhoRepository _itemCarrinhoRepository;
         private readonly IMediator _mediator;
 
-        public AdicionarItemCarrinhoCommanHandler(ICarrinhoRepository carrinhoRepository, IItemCarrinhoRepository itemCarrinhoRepository, IMediator mediator)
+        public CreateItemCarrinhoCommanHandler(ICarrinhoRepository carrinhoRepository, IItemCarrinhoRepository itemCarrinhoRepository, IMediator mediator)
         {
             _carrinhoRepository = carrinhoRepository;
             _itemCarrinhoRepository = itemCarrinhoRepository;
             _mediator = mediator;
         }
 
-        public async Task<ValidationResult> Handle(AdicionarItemCarrinhoCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(CreateItemCarrinhoCommand request, CancellationToken cancellationToken)
         {
             var validationResult = new ValidationResult();
             var success = false;
             
-            var carrinho = await _mediator.Send(new BuscarCarrinhoQuery(request.CarrinhoId));
+            var carrinho = await _mediator.Send(new GetCarrinhoQuery(request.CarrinhoId));
             var item = new CarrinhoItem(request.Nome, request.Quantidade, request.Valor, request.Imagem, request.ProdutoId, carrinho.Id);
 
             #region Adiciona o novo item ao carrinho

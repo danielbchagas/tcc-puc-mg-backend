@@ -4,9 +4,9 @@ using System;
 
 namespace ECommerce.Carrinho.Application.Commands
 {
-    public class ExcluirCarrinhoCommand : IRequest<ValidationResult>
+    public class DeleteCarrinhoCommand : IRequest<ValidationResult>
     {
-        public ExcluirCarrinhoCommand(Guid id, Guid userId)
+        public DeleteCarrinhoCommand(Guid id, Guid userId)
         {
             Id = id;
             UserId = userId;
