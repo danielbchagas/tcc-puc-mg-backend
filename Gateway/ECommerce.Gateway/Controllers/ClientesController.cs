@@ -40,7 +40,7 @@ namespace ECommerce.Compras.Gateway.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> Update(ClienteDto carrinho)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
