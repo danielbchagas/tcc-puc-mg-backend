@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -28,10 +29,10 @@ namespace ECommerce.Carrinho.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateItemCarrinhoCommand request)
         {
-            var validationResult = await _mediator.Send(request);
+            var result = await _mediator.Send(request);
 
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult);
+            if (!result.IsValid)
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
             return Ok();
         }
@@ -43,10 +44,10 @@ namespace ECommerce.Carrinho.Api.Controllers
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var validationResult = await _mediator.Send(new DeleteItemCarrinhoCommand(id, new Guid(userId)));
+            var result = await _mediator.Send(new DeleteItemCarrinhoCommand(id, new Guid(userId)));
 
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult);
+            if (!result.IsValid)
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
             return NoContent();
         }
