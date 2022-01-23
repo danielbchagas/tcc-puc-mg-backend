@@ -29,7 +29,7 @@ namespace ECommerce.Carrinho.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJwtConfiguration(Configuration);
+            services.AddIdentityConfiguration(Configuration);
             services.AddDependencyInjectionConfiguration();
             services.AddEntityFrameworkConfiguration(Configuration);
             services.AddSwaggerConfiguration();

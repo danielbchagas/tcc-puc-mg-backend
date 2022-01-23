@@ -8,7 +8,7 @@ namespace ECommerce.Pedido.Api.Configurations
     {
         public static void AddOptionsConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<JwtOptions>(config => configuration.GetSection("JwtOptions").Bind(config));
+            services.Configure<JwtOption>(config => configuration.GetSection("JwtOptions").Bind(config));
         }
     }
 }

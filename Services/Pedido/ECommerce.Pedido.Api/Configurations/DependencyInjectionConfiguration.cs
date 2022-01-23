@@ -19,10 +19,10 @@ namespace ECommerce.Pedido.Api.Configurations
             services.AddMediatR(typeof(Startup));
 
             // Mediator - Comandos
-            services.AddScoped<IRequestHandler<AdicionarPedidoCommand, ValidationResult>, AdicionarPedidoCommandHandler>();
+            services.AddScoped<IRequestHandler<CreatePedidoCommand, ValidationResult>, CreatePedidoCommandHandler>();
 
             // Mediator - Queries
-            services.AddScoped<IRequestHandler<BuscarPedidoPorIdQuery, PedidoCliente>, BuscarPedidoPorIdQueryHandler>();
+            services.AddScoped<IRequestHandler<GetPedidoQuery, PedidoCliente>, GetPedidoQueryHandler>();
 
             // Mediator - Notificações
 

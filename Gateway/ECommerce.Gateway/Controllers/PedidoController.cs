@@ -3,6 +3,7 @@ using ECommerce.Compras.Gateway.Models.Pedido;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,21 +16,19 @@ namespace ECommerce.Compras.Gateway.Controllers
     public class PedidoController : ControllerBase
     {
         private readonly IPedidoService _pedidoService;
-        private readonly IAspNetUser _aspNetUser;
 
-        public PedidoController(IPedidoService pedidoService, IAspNetUser aspNetUser)
+        public PedidoController(IPedidoService pedidoService)
         {
             _pedidoService = pedidoService;
-            _aspNetUser = aspNetUser;
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:Guid}")]
-        public async Task<IActionResult> Buscar(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var token = _aspNetUser.ObterUserToken();
-            var result = await _pedidoService.Buscar(id, token);
+            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var result = await _pedidoService.Buscar(id, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
@@ -42,10 +41,10 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Adicionar(PedidoDto pedido)
+        public async Task<IActionResult> Create(PedidoDto pedido)
         {
-            var token = _aspNetUser.ObterUserToken();
-            var result = await _pedidoService.Adicionar(pedido, token);
+            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var result = await _pedidoService.Adicionar(pedido, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

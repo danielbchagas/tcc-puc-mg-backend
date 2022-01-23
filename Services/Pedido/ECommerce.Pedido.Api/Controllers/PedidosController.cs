@@ -22,9 +22,22 @@ namespace ECommerce.Pedido.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var result = await _mediator.Send(new GetPedidoQuery(id));
+
+            if (result is null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Adicionar(AdicionarPedidoCommand request)
+        public async Task<IActionResult> Create(CreatePedidoCommand request)
         {
             var validationResult = await _mediator.Send(request);
 
@@ -32,19 +45,6 @@ namespace ECommerce.Pedido.Api.Controllers
                 return BadRequest(validationResult);
 
             return Ok();
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{id:Guid}")]
-        public async Task<IActionResult> Buscar(Guid id)
-        {
-            var result = await _mediator.Send(new BuscarPedidoPorIdQuery(id));
-
-            if (result is null)
-                return NotFound();
-
-            return Ok(result);
         }
     }
 }

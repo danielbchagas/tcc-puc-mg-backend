@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Carrinho.Api.Models
 {
-    public class JwtOptions
+    public class JwtOption
     {
         public string Secret { get; set; }
         public int Expiration { get; set; }

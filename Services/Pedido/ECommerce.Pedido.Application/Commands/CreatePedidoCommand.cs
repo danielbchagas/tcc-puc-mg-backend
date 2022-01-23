@@ -6,9 +6,9 @@ using FluentValidation.Results;
 
 namespace ECommerce.Pedido.Application.Commands
 {
-    public class AdicionarPedidoCommand : IRequest<ValidationResult>
+    public class CreatePedidoCommand : IRequest<ValidationResult>
     {
-        public AdicionarPedidoCommand(decimal valor, StatusPedido status, Cliente cliente, IList<PedidoItem> itens)
+        public CreatePedidoCommand(decimal valor, StatusPedido status, Cliente cliente, IList<PedidoItem> itens)
         {
             Valor = valor;
             Status = status;

@@ -1,8 +1,9 @@
 ﻿using ECommerce.Compras.Gateway.Interfaces;
-using ECommerce.Compras.Gateway.Models.Carrinho;
+using ECommerce.Compras.Gateway.Models.Cliente;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,24 +13,22 @@ namespace ECommerce.Compras.Gateway.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class CarrinhosController : ControllerBase
+    public class ClientesController : ControllerBase
     {
-        private readonly ICarrinhoService _carrinhoService;
-        private readonly IAspNetUser _aspNetUser;
+        private readonly IClienteService _clienteService;
 
-        public CarrinhosController(ICarrinhoService carrinhoService, IAspNetUser aspNetUser)
+        public ClientesController(IClienteService clienteService)
         {
-            _carrinhoService = carrinhoService;
-            _aspNetUser = aspNetUser;
+            _clienteService = clienteService;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:Guid}")]
-        public async Task<IActionResult> Buscar(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var token = _aspNetUser.ObterUserToken();
-            var result = await _carrinhoService.BuscarCarrinho(id, token);
+            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var result = await _clienteService.BuscarCliente(id, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
@@ -42,24 +41,24 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Adicionar(CarrinhoDto carrinho)
+        public async Task<IActionResult> Update(ClienteDto carrinho)
         {
-            var token = _aspNetUser.ObterUserToken();
-            var result = await _carrinhoService.AdicionarCarrinho(carrinho, token);
+            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var result = await _clienteService.UpdateCliente(carrinho, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error.Content);
-            
+
             return Ok();
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> Excluir(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var token = _aspNetUser.ObterUserToken();
-            var result = await _carrinhoService.ExcluirCarrinho(id, token);
+            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var result = await _clienteService.DeleteCliente(id, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

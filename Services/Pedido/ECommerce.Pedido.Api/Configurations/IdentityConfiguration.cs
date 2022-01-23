@@ -7,19 +7,18 @@ using System.Text;
 
 namespace ECommerce.Pedido.Api.Configurations
 {
-    public static class JwtConfiguration
+    public static class IdentityConfiguration
     {
-        public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
+        public static void AddIdentityConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtOptionsSection = configuration.GetSection("JwtOptions");
-            var jwtOptions = jwtOptionsSection.Get<JwtOptions>();
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
+                var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOption>();
+
                 options.RequireHttpsMetadata = true;
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters

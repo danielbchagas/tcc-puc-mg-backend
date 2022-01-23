@@ -3,6 +3,7 @@ using ECommerce.Compras.Gateway.Models.Carrinho;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -16,21 +17,19 @@ namespace ECommerce.Compras.Gateway.Controllers
     {
         private readonly ICatalogoService _catalogoService;
         private readonly ICarrinhoService _carrinhoService;
-        private readonly IAspNetUser _aspNetUser;
 
-        public ItensCarrinhosController(ICatalogoService catalogoService, ICarrinhoService carrinhoService, IAspNetUser aspNetUser)
+        public ItensCarrinhosController(ICatalogoService catalogoService, ICarrinhoService carrinhoService)
         {
             _catalogoService = catalogoService;
             _carrinhoService = carrinhoService;
-            _aspNetUser = aspNetUser;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Adicionar(ItemCarrinhoDto item)
+        public async Task<IActionResult> Create(ItemCarrinhoDto item)
         {
-            var token = _aspNetUser.ObterUserToken();
+            var accessToken = Request.Headers[HeaderNames.Authorization];
             var produto = (await _catalogoService.Buscar(item.ProdutoId)).Content;
 
             #region Validação de item disponível em estoque
@@ -40,7 +39,7 @@ namespace ECommerce.Compras.Gateway.Controllers
 
             #region Atualização do estoque
             produto.QuantidadeEstoque -= item.Quantidade;
-            var result = await _catalogoService.Atualizar(produto, token);
+            var result = await _catalogoService.Atualizar(produto, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
@@ -51,7 +50,7 @@ namespace ECommerce.Compras.Gateway.Controllers
             item.Imagem = produto.Imagem;
             item.Valor = produto.Valor;
 
-            result = await _carrinhoService.AdicionarItemCarrinho(item, token);
+            result = await _carrinhoService.AdicionarItemCarrinho(item, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
@@ -63,10 +62,10 @@ namespace ECommerce.Compras.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> Excluir(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var token = _aspNetUser.ObterUserToken();
-            var result = await _carrinhoService.ExcluirItemCarrinho(id, token);
+            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var result = await _carrinhoService.ExcluirItemCarrinho(id, accessToken);
 
             if (result.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

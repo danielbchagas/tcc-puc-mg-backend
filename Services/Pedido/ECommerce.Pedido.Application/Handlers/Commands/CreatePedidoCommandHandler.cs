@@ -8,18 +8,18 @@ using PedidoCliente = ECommerce.Pedido.Domain.Models.Pedido;
 
 namespace ECommerce.Pedido.Application.Handlers.Commands
 {
-    public class AdicionarPedidoCommandHandler : IRequestHandler<AdicionarPedidoCommand, ValidationResult>
+    public class CreatePedidoCommandHandler : IRequestHandler<CreatePedidoCommand, ValidationResult>
     {
         private readonly IMediator _mediator;
         private readonly IPedidoRepository _repository;
 
-        public AdicionarPedidoCommandHandler(IMediator mediator, IPedidoRepository repository)
+        public CreatePedidoCommandHandler(IMediator mediator, IPedidoRepository repository)
         {
             _mediator = mediator;
             _repository = repository;
         }
 
-        public async Task<ValidationResult> Handle(AdicionarPedidoCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(CreatePedidoCommand request, CancellationToken cancellationToken)
         {
             var validationResult = new ValidationResult();
 

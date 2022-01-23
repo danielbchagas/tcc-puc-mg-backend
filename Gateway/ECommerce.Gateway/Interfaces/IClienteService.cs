@@ -10,6 +10,12 @@ namespace ECommerce.Compras.Gateway.Interfaces
         [Get("/api/clientes/{id}")]
         Task<ApiResponse<ClienteDto>> BuscarCliente(Guid id, [Authorize("Bearer")] string token);
 
+        [Put("/api/clientes")]
+        Task<ApiResponse<ClienteDto>> UpdateCliente(ClienteDto cliente, [Authorize("Bearer")] string token);
+
+        [Delete("/api/clientes/{id}")]
+        Task<IApiResponse> DeleteCliente(Guid id, [Authorize("Bearer")] string token);
+
         [Get("/api/documentos/{id}")]
         Task<ApiResponse<DocumentoDto>> BuscarDocumento(Guid id, [Authorize("Bearer")] string token);
 
