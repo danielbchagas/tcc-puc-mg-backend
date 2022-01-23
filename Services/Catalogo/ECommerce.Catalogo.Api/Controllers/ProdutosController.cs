@@ -38,6 +38,7 @@ namespace ECommerce.Catalogo.Api.Controllers
         public async Task<IActionResult> Get(int pagina, int linhas)
         {
             var produtos = await _mediator.Send(new GetProdutosQuery(pagina, linhas));
+
             return Ok(produtos);
         }
 

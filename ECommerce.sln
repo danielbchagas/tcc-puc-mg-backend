@@ -55,7 +55,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedido.Applicatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{A2AF9421-024B-41AB-8617-A0D3552DD817}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Gateway", "Gateway\ECommerce.Gateway\ECommerce.Gateway.csproj", "{85D3D628-7DEC-403F-9B56-A1283F45BBBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Gateway", "Gateway\ECommerce.Gateway.Api\ECommerce.Gateway.Api.csproj", "{85D3D628-7DEC-403F-9B56-A1283F45BBBD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedido.Test", "Tests\ECommerce.Pedido.Test\ECommerce.Pedido.Test.csproj", "{30B570AD-823A-46FB-AF13-39AEC81B2BB4}"
 EndProject
