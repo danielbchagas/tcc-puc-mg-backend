@@ -27,7 +27,7 @@ namespace ECommerce.Customers.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     FirstLine = table.Column<string>(type: "varchar(200)", nullable: false),
-                    SecondLine = table.Column<string>(type: "varchar(50)", nullable: false),
+                    SecondLine = table.Column<string>(type: "varchar(200)", nullable: false),
                     City = table.Column<string>(type: "varchar(50)", nullable: false),
                     State = table.Column<int>(type: "char(2)", nullable: false),
                     ZipCode = table.Column<string>(type: "varchar(9)", nullable: false),
