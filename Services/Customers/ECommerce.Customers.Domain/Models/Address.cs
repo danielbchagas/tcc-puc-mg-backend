@@ -15,8 +15,7 @@ namespace ECommerce.Customers.Domain.Models
             City = city;
             State = state;
             ZipCode = zipCode;
-
-            CustomerID = customerId;
+            CustomerId = customerId;
         }
 
         public string FirstLine { get; set; }
@@ -24,7 +23,7 @@ namespace ECommerce.Customers.Domain.Models
         public string City { get; set; }
         public State State { get; set; }
         public string ZipCode { get; set; }
-        public Guid CustomerID { get; set; }
+        public Guid CustomerId { get; set; }
 
         [JsonIgnore]
         public Customer Customer { get; set; }
@@ -66,7 +65,7 @@ namespace ECommerce.Customers.Domain.Models
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
-            RuleFor(_ => _.CustomerID)
+            RuleFor(_ => _.CustomerId)
                 .NotEqual(Guid.Empty)
                 .WithMessage("{PropertyName} tem um valor maior do que o esperado!");
         }

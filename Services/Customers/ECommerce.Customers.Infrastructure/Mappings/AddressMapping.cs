@@ -17,7 +17,7 @@ namespace ECommerce.Customers.Infrastructure.Mappings
                 .IsRequired();
 
             builder.Property(e => e.SecondLine)
-                .HasColumnType("varchar(50)")
+                .HasColumnType("varchar(200)")
                 .IsRequired();
 
             builder.Property(e => e.City)
@@ -32,7 +32,7 @@ namespace ECommerce.Customers.Infrastructure.Mappings
                 .HasColumnType("char(2)")
                 .IsRequired();
 
-            builder.Property(e => e.CustomerID)
+            builder.Property(e => e.CustomerId)
                 .HasColumnType("uniqueidentifier")
                 .IsRequired();
         }
