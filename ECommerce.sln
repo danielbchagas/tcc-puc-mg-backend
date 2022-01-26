@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{E97A69CC-FC7C-4C3C-9B26-FA7D8EEF7DE7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalogo", "Catalogo", "{56963A82-3D2A-415C-9248-E078E1123AA5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{56963A82-3D2A-415C-9248-E078E1123AA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customers", "Customers", "{85E7C5CC-482A-4E86-BD33-C2F129B5D0EF}"
 EndProject
@@ -21,11 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customers.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedido.Api", "Services\Pedido\ECommerce.Pedido.Api\ECommerce.Pedido.Api.csproj", "{BC2AFD52-BEF8-4EA5-94E3-54CC611B05C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalogo.Api", "Services\Catalogo\ECommerce.Catalogo.Api\ECommerce.Catalogo.Api.csproj", "{D32398C9-01E9-439A-BFC6-99DCDA75DE62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalog.Api", "Services\Catalog\ECommerce.Catalog.Api\ECommerce.Catalog.Api.csproj", "{D32398C9-01E9-439A-BFC6-99DCDA75DE62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalogo.Domain", "Services\Catalogo\ECommerce.Catalogo.Domain\ECommerce.Catalogo.Domain.csproj", "{5BF3074A-8DAF-439D-9F69-8D8318CD6179}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalog.Domain", "Services\Catalog\ECommerce.Catalog.Domain\ECommerce.Catalog.Domain.csproj", "{5BF3074A-8DAF-439D-9F69-8D8318CD6179}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalogo.Infrastructure", "Services\Catalogo\ECommerce.Catalogo.Infrastructure\ECommerce.Catalogo.Infrastructure.csproj", "{F9F7C042-DBED-484C-AF9E-DE7BB355887F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalog.Infrastructure", "Services\Catalog\ECommerce.Catalog.Infrastructure\ECommerce.Catalog.Infrastructure.csproj", "{F9F7C042-DBED-484C-AF9E-DE7BB355887F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Carrinho", "Carrinho", "{4E898479-FDD5-4AFC-A600-D1FD032214C2}"
 EndProject
@@ -47,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Carrinho.Infrastr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Carrinho.Application", "Services\Carrinho\ECommerce.Carrinho.Application\ECommerce.Carrinho.Application.csproj", "{98A9D317-8C59-4ABB-969C-441683539937}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalogo.Application", "Services\Catalogo\ECommerce.Catalogo.Application\ECommerce.Catalogo.Application.csproj", "{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalog.Application", "Services\Catalog\ECommerce.Catalog.Application\ECommerce.Catalog.Application.csproj", "{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customers.Application", "Services\Customers\ECommerce.Customers.Application\ECommerce.Customers.Application.csproj", "{46234CC9-BC00-4221-996A-81134C7D0FAD}"
 EndProject
