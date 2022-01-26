@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0A3079FD-5893-422F-91AD-EF6CF81CB0F8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identidade", "Identidade", "{E97A69CC-FC7C-4C3C-9B26-FA7D8EEF7DE7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{E97A69CC-FC7C-4C3C-9B26-FA7D8EEF7DE7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalogo", "Catalogo", "{56963A82-3D2A-415C-9248-E078E1123AA5}"
 EndProject
@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedido.Domain", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedido.Infrastructure", "Services\Pedido\ECommerce.Pedido.Infrastructure\ECommerce.Pedido.Infrastructure.csproj", "{30527CF0-2FB9-4943-9D20-5415B3B62D5E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Identidade.Api", "Services\Identidade\ECommerce.Identidade.Api\ECommerce.Identidade.Api.csproj", "{E513BA31-CD43-4DCF-8977-C88D0FF6A05F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Identity.Api", "Services\Identity\ECommerce.Identity.Api\ECommerce.Identity.Api.csproj", "{E513BA31-CD43-4DCF-8977-C88D0FF6A05F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{18A1B4F0-EDFB-4258-A7B6-F2533CE4F18A}"
 EndProject
