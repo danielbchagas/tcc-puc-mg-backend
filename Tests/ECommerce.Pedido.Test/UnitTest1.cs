@@ -1,88 +1,102 @@
 using Bogus;
-using ECommerce.Pedido.Domain.Enums;
-using ECommerce.Pedido.Domain.Models;
-using System.Collections.Generic;
+using ECommerce.Ordering.Domain.Enums;
+using ECommerce.Ordering.Domain.Models;
+using System;
 using Xunit;
-using PedidoCliente = ECommerce.Pedido.Domain.Models.Pedido;
 
-namespace ECommerce.Pedido
+namespace ECommerce.Ordering.Test
 {
     public class UnitTest1
     {
         [Fact]
-        public void FecharPedido_ValorDoPedidoDeveSer2500()
+        public void CloseOrder_ValueMustBe2500()
         {
             // Arrange
-            var documentoFaker = new Faker<Documento>().CustomInstantiator(set => new Documento(set.Random.String()));
-            var emailFaker = new Faker<Email>().CustomInstantiator(set => new Email(set.Person.Email));
-            var telefoneFaker = new Faker<Telefone>().CustomInstantiator(set => new Telefone(set.Person.Phone));
-            var enderecoEndereco = new Faker<Endereco>().CustomInstantiator(set => new Endereco(logradouro: set.Person.Address.Street, bairro: set.Random.String(), cidade: set.Person.Address.City, cep: set.Person.Address.ZipCode, Estados.ES));
-            var clienteFaker = new Faker<Cliente>().CustomInstantiator(set => new Cliente(nome: set.Person.FirstName, sobrenome: set.Person.LastName, documento: documentoFaker, email: emailFaker, telefone: telefoneFaker, endereco: enderecoEndereco));
-            var pedidoFaker = new Faker<PedidoCliente>().CustomInstantiator(set => new PedidoCliente(StatusPedido.Processando, clienteFaker, new List<PedidoItem>()));
+            var orderFaker = new Faker<Order>().CustomInstantiator(set => 
+                new Order(fullName: set.Person.FirstName + set.Person.LastName, 
+                    document: set.Random.String(), 
+                    phone: set.Person.Phone, 
+                    email: set.Person.Email, 
+                    firstLine: set.Person.Address.Street,
+                    secondLine: "",
+                    city: set.Person.Address.City, 
+                    state: State.ES,
+                    zipCode: set.Person.Address.ZipCode));
 
-            var produto1Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
-            var produto2Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
-            var produto3Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
-            var produto4Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
-            var produto5Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
+            var customerId = Guid.NewGuid();
+            var productId = Guid.NewGuid();
 
-            var pedido = pedidoFaker.Generate();
-            var produto1 = produto1Faker.Generate();
-            var produto2 = produto2Faker.Generate();
-            var produto3 = produto3Faker.Generate();
-            var produto4 = produto4Faker.Generate();
-            var produto5 = produto5Faker.Generate();
+            var itemFaker1 = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+            var item2Faker = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+            var item3Faker = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+            var item4Faker = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+            var item5Faker = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
 
-            pedido.Itens.Add(produto1);
-            pedido.Itens.Add(produto2);
-            pedido.Itens.Add(produto3);
-            pedido.Itens.Add(produto4);
-            pedido.Itens.Add(produto5);
+            var order = orderFaker.Generate();
+            
+            order.Items.Add(itemFaker1.Generate());
+            order.Items.Add(item2Faker.Generate());
+            order.Items.Add(item3Faker.Generate());
+            order.Items.Add(item4Faker.Generate());
+            order.Items.Add(item5Faker.Generate());
 
             // Act
-            pedido.CalcularTotalPedido();
+            order.Totalize();
 
             // Assert
-            Assert.True(pedido.Valor == 2500);
+            Assert.True(order.Value == 2500);
         }
 
         [Fact]
-        public void FecharPedido_ValorDoPedidoDeveSer3000()
+        public void CloseOrder_ValueMustBe3000()
         {
             // Arrange
-            var documentoFaker = new Faker<Documento>().CustomInstantiator(set => new Documento(set.Random.String()));
-            var emailFaker = new Faker<Email>().CustomInstantiator(set => new Email(set.Person.Email));
-            var telefoneFaker = new Faker<Telefone>().CustomInstantiator(set => new Telefone(set.Person.Phone));
-            var enderecoEndereco = new Faker<Endereco>().CustomInstantiator(set => new Endereco(logradouro: set.Person.Address.Street, bairro: set.Random.String(), cidade: set.Person.Address.City, cep: set.Person.Address.ZipCode, Estados.ES));
-            var clienteFaker = new Faker<Cliente>().CustomInstantiator(set => new Cliente(nome: set.Person.FirstName, sobrenome: set.Person.LastName, documento: documentoFaker, email: emailFaker, telefone: telefoneFaker, endereco: enderecoEndereco));
-            var pedidoFaker = new Faker<PedidoCliente>().CustomInstantiator(set => new PedidoCliente(StatusPedido.Processando, clienteFaker, new List<PedidoItem>()));
+            var orderFaker = new Faker<Order>().CustomInstantiator(set =>
+                new Order(fullName: set.Person.FirstName + set.Person.LastName,
+                    document: set.Random.String(),
+                    phone: set.Person.Phone,
+                    email: set.Person.Email,
+                    firstLine: set.Person.Address.Street,
+                    secondLine: "",
+                    city: set.Person.Address.City,
+                    state: State.ES,
+                    zipCode: set.Person.Address.ZipCode));
 
-            var produto1Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
-            var produto2Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
-            var produto3Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
-            var produto4Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
-            var produto5Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
-            var produto6Faker = new Faker<PedidoItem>().CustomInstantiator(set => new PedidoItem(nome: set.Random.String(), 5, 100, imagem: set.Image.PicsumUrl()));
+            var customerId = Guid.NewGuid();
+            var productId = Guid.NewGuid();
 
-            var pedido = pedidoFaker.Generate();
-            var produto1 = produto1Faker.Generate();
-            var produto2 = produto2Faker.Generate();
-            var produto3 = produto3Faker.Generate();
-            var produto4 = produto4Faker.Generate();
-            var produto5 = produto5Faker.Generate();
-            var produto6 = produto6Faker.Generate();
+            var itemFaker1 = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+            var item2Faker = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+            var item3Faker = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+            var item4Faker = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+            var item5Faker = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+            var item6Faker = new Faker<OrderItem>().CustomInstantiator(set => 
+                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+
+            var order = orderFaker.Generate();
+
+            order.Items.Add(itemFaker1.Generate());
+            order.Items.Add(item2Faker.Generate());
+            order.Items.Add(item3Faker.Generate());
+            order.Items.Add(item4Faker.Generate());
+            order.Items.Add(item5Faker.Generate());
+            order.Items.Add(item6Faker.Generate());
 
             // Act
-            pedido.Itens.Add(produto1);
-            pedido.Itens.Add(produto2);
-            pedido.Itens.Add(produto3);
-            pedido.Itens.Add(produto4);
-            pedido.Itens.Add(produto5);
-            pedido.Itens.Add(produto6);
-            pedido.CalcularTotalPedido();
+            order.Totalize();
 
             // Assert
-            Assert.True(pedido.Valor == 3000);
+            Assert.True(order.Value == 3000);
         }
     }
 }

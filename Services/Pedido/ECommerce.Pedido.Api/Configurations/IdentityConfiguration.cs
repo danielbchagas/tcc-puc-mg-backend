@@ -1,11 +1,11 @@
-﻿using ECommerce.Pedido.Api.Models;
+﻿using System.Text;
+using ECommerce.Ordering.Api.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
-namespace ECommerce.Pedido.Api.Configurations
+namespace ECommerce.Ordering.Api.Configurations
 {
     public static class IdentityConfiguration
     {

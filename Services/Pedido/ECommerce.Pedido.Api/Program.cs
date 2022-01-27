@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace ECommerce.Pedido.Api
+namespace ECommerce.Ordering.Api
 {
     public class Program
     {

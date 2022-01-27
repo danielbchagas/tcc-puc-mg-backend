@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ECommerce.Pedido.Domain.Models
+namespace ECommerce.Ordering.Domain.Models
 {
     public class Entity
     {

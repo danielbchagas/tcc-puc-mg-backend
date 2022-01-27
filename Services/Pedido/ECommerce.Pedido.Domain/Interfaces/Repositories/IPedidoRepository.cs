@@ -1,9 +1,9 @@
-﻿using ECommerce.Pedido.Domain.Interfaces.Data;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using PedidoCliente = ECommerce.Pedido.Domain.Models.Pedido;
+using ECommerce.Ordering.Domain.Interfaces.Data;
+using PedidoCliente = ECommerce.Ordering.Domain.Models.Order;
 
-namespace ECommerce.Pedido.Domain.Interfaces.Repositories
+namespace ECommerce.Ordering.Domain.Interfaces.Repositories
 {
     public interface IPedidoRepository
     {

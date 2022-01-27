@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
-namespace ECommerce.Pedido.Api.Middlewares
+namespace ECommerce.Ordering.Api.Middlewares
 {
     public class CustomExceptionHandlerMiddleware
     {

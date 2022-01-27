@@ -1,14 +1,14 @@
-using ECommerce.Pedido.Api.Configurations;
-using ECommerce.Pedido.Api.Middlewares;
+using System.Text.Json.Serialization;
+using ECommerce.Ordering.Api.Configurations;
+using ECommerce.Ordering.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Text.Json.Serialization;
 
-namespace ECommerce.Pedido.Api
+namespace ECommerce.Ordering.Api
 {
     public class Startup
     {

@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Pedido.Domain.Interfaces.Models
+﻿namespace ECommerce.Ordering.Domain.Interfaces.Models
 {
     public interface IAggregateRoot
     {

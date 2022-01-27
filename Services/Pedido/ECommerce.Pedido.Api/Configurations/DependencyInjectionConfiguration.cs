@@ -1,15 +1,15 @@
-﻿using ECommerce.Pedido.Application.Commands;
-using ECommerce.Pedido.Application.Handlers.Commands;
-using ECommerce.Pedido.Application.Handlers.Queries;
-using ECommerce.Pedido.Application.Queries;
-using ECommerce.Pedido.Domain.Interfaces.Repositories;
-using ECommerce.Pedido.Infrastructure.Repositories;
+﻿using ECommerce.Ordering.Application.Commands;
+using ECommerce.Ordering.Application.Handlers.Commands;
+using ECommerce.Ordering.Application.Handlers.Queries;
+using ECommerce.Ordering.Application.Queries;
+using ECommerce.Ordering.Domain.Interfaces.Repositories;
+using ECommerce.Ordering.Infrastructure.Repositories;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using PedidoCliente = ECommerce.Pedido.Domain.Models.Pedido;
+using PedidoCliente = ECommerce.Ordering.Domain.Models.Order;
 
-namespace ECommerce.Pedido.Api.Configurations
+namespace ECommerce.Ordering.Api.Configurations
 {
     public static class DependencyInjectionConfiguration
     {
@@ -19,7 +19,7 @@ namespace ECommerce.Pedido.Api.Configurations
             services.AddMediatR(typeof(Startup));
 
             // Mediator - Comandos
-            services.AddScoped<IRequestHandler<CreatePedidoCommand, ValidationResult>, CreatePedidoCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateOrderCommand, ValidationResult>, CreateOrderCommandHandler>();
 
             // Mediator - Queries
             services.AddScoped<IRequestHandler<GetPedidoQuery, PedidoCliente>, GetPedidoQueryHandler>();

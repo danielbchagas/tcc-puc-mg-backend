@@ -1,8 +1,8 @@
-﻿using MediatR;
-using System;
-using PedidoCliente = ECommerce.Pedido.Domain.Models.Pedido;
+﻿using System;
+using MediatR;
+using PedidoCliente = ECommerce.Ordering.Domain.Models.Order;
 
-namespace ECommerce.Pedido.Application.Queries
+namespace ECommerce.Ordering.Application.Queries
 {
     public class GetPedidoQuery : IRequest<PedidoCliente>
     {

@@ -1,9 +1,9 @@
-﻿using ECommerce.Pedido.Infrastructure.Data;
+﻿using ECommerce.Ordering.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ECommerce.Pedido.Api.Configurations
+namespace ECommerce.Ordering.Api.Configurations
 {
     public static class EntityFrameworkConfiguration
     {

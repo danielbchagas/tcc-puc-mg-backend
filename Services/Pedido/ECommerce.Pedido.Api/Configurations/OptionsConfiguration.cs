@@ -1,8 +1,8 @@
-﻿using ECommerce.Pedido.Api.Models;
+﻿using ECommerce.Ordering.Api.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ECommerce.Pedido.Api.Configurations
+namespace ECommerce.Ordering.Api.Configurations
 {
     public static class OptionsConfiguration
     {

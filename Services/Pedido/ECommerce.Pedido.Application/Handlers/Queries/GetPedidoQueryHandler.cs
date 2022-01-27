@@ -1,11 +1,11 @@
-﻿using ECommerce.Pedido.Application.Queries;
-using ECommerce.Pedido.Domain.Interfaces.Repositories;
-using MediatR;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using PedidoCliente = ECommerce.Pedido.Domain.Models.Pedido;
+using ECommerce.Ordering.Application.Queries;
+using ECommerce.Ordering.Domain.Interfaces.Repositories;
+using MediatR;
+using PedidoCliente = ECommerce.Ordering.Domain.Models.Order;
 
-namespace ECommerce.Pedido.Application.Handlers.Queries
+namespace ECommerce.Ordering.Application.Handlers.Queries
 {
     public class GetPedidoQueryHandler : IRequestHandler<GetPedidoQuery, PedidoCliente>
     {
@@ -19,7 +19,7 @@ namespace ECommerce.Pedido.Application.Handlers.Queries
         public async Task<PedidoCliente> Handle(GetPedidoQuery request, CancellationToken cancellationToken)
         {
             var pedido = await _repository.Buscar(request.Id);
-            pedido.CalcularTotalPedido();
+            pedido.Totalize();
 
             return pedido;
         }

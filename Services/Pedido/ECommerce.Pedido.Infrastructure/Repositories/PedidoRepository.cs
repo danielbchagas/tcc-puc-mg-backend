@@ -1,11 +1,11 @@
-﻿using ECommerce.Pedido.Domain.Interfaces.Data;
-using ECommerce.Pedido.Domain.Interfaces.Repositories;
-using ECommerce.Pedido.Infrastructure.Data;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using PedidoCliente = ECommerce.Pedido.Domain.Models.Pedido;
+using ECommerce.Ordering.Domain.Interfaces.Data;
+using ECommerce.Ordering.Domain.Interfaces.Repositories;
+using ECommerce.Ordering.Infrastructure.Data;
+using PedidoCliente = ECommerce.Ordering.Domain.Models.Order;
 
-namespace ECommerce.Pedido.Infrastructure.Repositories
+namespace ECommerce.Ordering.Infrastructure.Repositories
 {
     public class PedidoRepository : IPedidoRepository
     {
@@ -20,17 +20,17 @@ namespace ECommerce.Pedido.Infrastructure.Repositories
 
         public async Task<PedidoCliente> Buscar(Guid id)
         {
-            return await _context.Pedidos.FindAsync(id);
+            return await _context.Ordering.FindAsync(id);
         }
 
         public async Task Adicionar(PedidoCliente pedido)
         {
-            await _context.Pedidos.AddAsync(pedido);
+            await _context.Ordering.AddAsync(pedido);
         }
 
         public Task Atualizar(PedidoCliente pedido)
         {
-            _context.Pedidos.Update(pedido);
+            _context.Ordering.Update(pedido);
             
             return Task.CompletedTask;
         }

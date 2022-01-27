@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using System;
 
-namespace ECommerce.Pedido.Api.Configurations
+namespace ECommerce.Ordering.Api.Configurations
 {
     public static class SwaggerConfiguration
     {

@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Pedido.Api.Models
+﻿namespace ECommerce.Ordering.Api.Models
 {
     public class JwtOption
     {

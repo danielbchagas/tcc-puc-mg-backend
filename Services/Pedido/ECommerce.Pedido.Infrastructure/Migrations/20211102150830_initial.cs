@@ -82,7 +82,7 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pedidos",
+                name: "Ordering",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -121,7 +121,7 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Itens",
+                name: "Items",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -137,7 +137,7 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Itens_Pedidos_PedidoId",
                         column: x => x.PedidoId,
-                        principalTable: "Pedidos",
+                        principalTable: "Ordering",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -162,12 +162,12 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Itens_PedidoId",
-                table: "Itens",
+                table: "Items",
                 column: "PedidoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pedidos_ClienteId",
-                table: "Pedidos",
+                table: "Ordering",
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
@@ -189,13 +189,13 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
                 name: "Enderecos");
 
             migrationBuilder.DropTable(
-                name: "Itens");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "Telefones");
 
             migrationBuilder.DropTable(
-                name: "Pedidos");
+                name: "Ordering");
 
             migrationBuilder.DropTable(
                 name: "Clientes");
