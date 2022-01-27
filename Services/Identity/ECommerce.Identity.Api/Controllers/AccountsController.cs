@@ -147,7 +147,7 @@ namespace ECommerce.Identity.Api.Controllers
             return Ok(new { Token = token, IsAuthSuccessful = true });
         }
 
-        #region Registro de cliente
+        #region Customer registration
         private async Task CreateUserRollback(SignUpUserDto user)
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);

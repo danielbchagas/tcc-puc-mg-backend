@@ -2,7 +2,7 @@ using Bogus;
 using ECommerce.Carrinho.Domain.Models;
 using System;
 using Xunit;
-using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.CarrinhoCompras;
+using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Cart;
 
 namespace ECommerce.Carrinho.Test
 {
@@ -13,7 +13,7 @@ namespace ECommerce.Carrinho.Test
         public UnitTest1()
         {
             var faker = new Faker<CarrinhoCliente>()
-                .CustomInstantiator(set => new CarrinhoCliente(clienteId: Guid.NewGuid()));
+                .CustomInstantiator(set => new CarrinhoCliente(customerId: Guid.NewGuid()));
 
             Carrinho = faker.Generate();
         }
@@ -25,13 +25,13 @@ namespace ECommerce.Carrinho.Test
         public void AdicionarItemCarrinho_DeveLancarErro(int quantidade)
         {
             // Arrange
-            var faker = new Faker<CarrinhoItem>()
-                .CustomInstantiator(set => new CarrinhoItem(nome: set.Random.String(), quantidade: quantidade, valor: set.Random.Decimal(), imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+            var faker = new Faker<Item>()
+                .CustomInstantiator(set => new Item(name: set.Random.String(), quantity: quantidade, value: set.Random.Decimal(), image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), cartId: Carrinho.Id));
 
             var item = faker.Generate();
 
             // Act
-            var result = Carrinho.AdicionarItemAoCarrinho(item);
+            var result = Carrinho.AddItens(item);
 
             // Assert
             Assert.False(result.IsValid);
@@ -46,13 +46,13 @@ namespace ECommerce.Carrinho.Test
         public void AdicionarItemCarrinho_DeveAdicionarComSucesso(int quantidade)
         {
             // Arrange
-            var faker = new Faker<CarrinhoItem>()
-                .CustomInstantiator(set => new CarrinhoItem(nome: set.Random.String(), quantidade: quantidade, valor: set.Random.Decimal(), imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+            var faker = new Faker<Item>()
+                .CustomInstantiator(set => new Item(name: set.Random.String(), quantity: quantidade, value: set.Random.Decimal(), image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), cartId: Carrinho.Id));
 
             var item = faker.Generate();
 
             // Act
-            var result = Carrinho.AdicionarItemAoCarrinho(item);
+            var result = Carrinho.AddItens(item);
 
             // Assert
             Assert.True(result.IsValid);

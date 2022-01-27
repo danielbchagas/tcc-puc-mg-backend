@@ -2,7 +2,7 @@
 using ECommerce.Carrinho.Domain.Models;
 using System;
 using Xunit;
-using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.CarrinhoCompras;
+using CarrinhoCliente = ECommerce.Carrinho.Domain.Models.Cart;
 
 namespace ECommerce.Carrinho.Test
 {
@@ -13,7 +13,7 @@ namespace ECommerce.Carrinho.Test
         public UnitTest2()
         {
             var faker = new Faker<CarrinhoCliente>()
-                .CustomInstantiator(set => new CarrinhoCliente(clienteId: Guid.NewGuid()));
+                .CustomInstantiator(set => new CarrinhoCliente(customerId: Guid.NewGuid()));
 
             Carrinho = faker.Generate();
         }
@@ -22,16 +22,16 @@ namespace ECommerce.Carrinho.Test
         public void AdicionarItemCarrinho_ValorDoCarrinhoDeveSer1000()
         {
             // Arrange
-            var faker = new Faker<CarrinhoItem>()
-                .CustomInstantiator(set => new CarrinhoItem(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+            var faker = new Faker<Item>()
+                .CustomInstantiator(set => new Item(name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), cartId: Carrinho.Id));
 
             var item = faker.Generate();
 
             // Act
-            Carrinho.AdicionarItemAoCarrinho(item);
+            Carrinho.AddItens(item);
 
             // Assert
-            Assert.Equal(1000, Carrinho.Valor);
+            Assert.Equal(1000, Carrinho.Value);
         }
 
         [Fact]
@@ -40,22 +40,22 @@ namespace ECommerce.Carrinho.Test
             // Arrange
             var produtoId = Guid.NewGuid();
 
-            var faker = new Faker<CarrinhoItem>()
-                .CustomInstantiator(set => new CarrinhoItem(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+            var faker = new Faker<Item>()
+                .CustomInstantiator(set => new Item(name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), cartId: Carrinho.Id));
 
             var primeiroItem = faker.Generate();
 
-            var faker2 = new Faker<CarrinhoItem>()
-                .CustomInstantiator(set => new CarrinhoItem(nome: primeiroItem.Nome, quantidade: 3, valor: primeiroItem.Valor, imagem: primeiroItem.Imagem, produtoId: primeiroItem.ProdutoId, carrinhoId: Carrinho.Id));
+            var faker2 = new Faker<Item>()
+                .CustomInstantiator(set => new Item(name: primeiroItem.Name, quantity: 3, value: primeiroItem.Value, image: primeiroItem.Image, productId: primeiroItem.ProductId, cartId: Carrinho.Id));
 
             var segundoItem = faker2.Generate();
 
             // Act
-            Carrinho.AdicionarItemAoCarrinho(primeiroItem);
-            Carrinho.AdicionarItemAoCarrinho(segundoItem);
+            Carrinho.AddItens(primeiroItem);
+            Carrinho.AddItens(segundoItem);
 
             // Assert
-            Assert.Contains(Carrinho.Itens, ic => ic.Quantidade == 3);
+            Assert.Contains(Carrinho.Itens, ic => ic.Quantity == 3);
         }
 
         [Fact]
@@ -64,22 +64,22 @@ namespace ECommerce.Carrinho.Test
             // Arrange
             var produtoId = Guid.NewGuid();
 
-            var faker = new Faker<CarrinhoItem>()
-                .CustomInstantiator(set => new CarrinhoItem(nome: set.Random.String(), quantidade: 5, valor: 200, imagem: set.Image.PicsumUrl(), produtoId: Guid.NewGuid(), carrinhoId: Carrinho.Id));
+            var faker = new Faker<Item>()
+                .CustomInstantiator(set => new Item(name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), cartId: Carrinho.Id));
 
             var primeiraInteracao = faker.Generate();
 
-            var faker2 = new Faker<CarrinhoItem>()
-                .CustomInstantiator(set => new CarrinhoItem(nome: primeiraInteracao.Nome, quantidade: 6, valor: primeiraInteracao.Valor, imagem: primeiraInteracao.Imagem, produtoId: primeiraInteracao.ProdutoId, carrinhoId: Carrinho.Id));
+            var faker2 = new Faker<Item>()
+                .CustomInstantiator(set => new Item(name: primeiraInteracao.Name, quantity: 6, value: primeiraInteracao.Value, image: primeiraInteracao.Image, productId: primeiraInteracao.ProductId, cartId: Carrinho.Id));
 
             var segundaInteracao = faker2.Generate();
 
             // Act
-            var validationResult = Carrinho.AdicionarItemAoCarrinho(primeiraInteracao);
-            validationResult.Errors.AddRange(Carrinho.AdicionarItemAoCarrinho(segundaInteracao).Errors);
+            var validationResult = Carrinho.AddItens(primeiraInteracao);
+            validationResult.Errors.AddRange(Carrinho.AddItens(segundaInteracao).Errors);
 
             // Assert
-            Assert.Contains(validationResult.Errors, ic => ic.ErrorMessage.Contains($"A quantidade mínima do {primeiraInteracao.Nome} é 1 e o máxima do {primeiraInteracao.Nome} é 5."));
+            Assert.Contains(validationResult.Errors, ic => ic.ErrorMessage.Contains($"A quantity mínima do {primeiraInteracao.Name} é 1 e o máxima do {primeiraInteracao.Name} é 5."));
         }
     }
 }

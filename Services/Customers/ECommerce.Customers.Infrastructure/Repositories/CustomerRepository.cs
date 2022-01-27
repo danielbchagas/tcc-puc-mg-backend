@@ -22,9 +22,9 @@ namespace ECommerce.Customers.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public async Task Create(Customer cliente)
+        public async Task Create(Customer customer)
         {
-            await _context.Customers.AddAsync(cliente);
+            await _context.Customers.AddAsync(customer);
         }
 
         public async Task Update(Customer customer)

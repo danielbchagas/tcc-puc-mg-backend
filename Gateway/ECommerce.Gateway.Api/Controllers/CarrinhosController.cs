@@ -15,11 +15,11 @@ namespace ECommerce.Gateway.Api.Controllers
     [ApiController]
     public class CarrinhosController : ControllerBase
     {
-        private readonly ICarrinhoService _carrinhoService;
+        private readonly ICarrinhoService _cartService;
 
-        public CarrinhosController(ICarrinhoService carrinhoService)
+        public CarrinhosController(ICarrinhoService cartService)
         {
-            _carrinhoService = carrinhoService;
+            _cartService = cartService;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -28,7 +28,7 @@ namespace ECommerce.Gateway.Api.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _carrinhoService.GetCarrinho(id, accessToken);
+            var response = await _cartService.GetCarrinho(id, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
@@ -41,10 +41,10 @@ namespace ECommerce.Gateway.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CarrinhoDto carrinho)
+        public async Task<IActionResult> Create(CarrinhoDto cart)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _carrinhoService.Create(carrinho, accessToken);
+            var response = await _cartService.Create(cart, accessToken);
 
             if (!response.IsSuccessStatusCode)
                 return BadRequest(response.Error.Content);
@@ -58,7 +58,7 @@ namespace ECommerce.Gateway.Api.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _carrinhoService.DeleteCarrinho(id, accessToken);
+            var response = await _cartService.DeleteCarrinho(id, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
