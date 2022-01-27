@@ -33,15 +33,8 @@ namespace ECommerce.Ordering.Api
             services.AddEntityFrameworkConfiguration(Configuration);
             services.AddHealthCheckConfiguration(Configuration);
             services.AddSwaggerConfiguration();
-            services.AddOptionsConfiguration(Configuration);
 
-            services.AddControllers().AddJsonOptions(
-                opt =>
-                {
-                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                }
-            );
+            services.AddControllers();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {

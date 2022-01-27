@@ -31,7 +31,6 @@ namespace ECommerce.Catalog.Api
             services.AddIdentityConfiguration(Configuration);
             services.AddEntityFrameworkConfiguration(Configuration);
             services.AddHealthCheckConfiguration(Configuration);
-            services.AddOptionsConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddDependencyInjectionConfiguration();
             services.AddCorsConfiguration();

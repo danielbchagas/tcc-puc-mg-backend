@@ -35,19 +35,12 @@ namespace ECommerce.Basket.Api
             services.AddSwaggerConfiguration();
             services.AddHealthCheckConfiguration(Configuration);
 
-            services.AddControllers().AddJsonOptions(
-                opt =>
-                {
-                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                }
-            );
+            services.AddControllers();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
-            }); 
-            ;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
