@@ -71,7 +71,6 @@ namespace ECommerce.Identity.Api.Controllers
             try
             {
 #if RABBITMQ
-                // Coloca o usuário na fila
                 var createCustomerResult = await CreateCustomerRabbitMq(user);
 
                 if (!createCustomerResult.IsValid)
@@ -81,7 +80,7 @@ namespace ECommerce.Identity.Api.Controllers
                 var createCustomerResult = await CreateCustomerRest(user);
 
                 if (!createCustomerResult.IsSuccessStatusCode)
-                    return BadRequest(createCustomerResult.Error.Content);
+                    return BadRequest(createCustomerResult.Error);
 #endif
             }
             catch(Exception e)
@@ -158,7 +157,6 @@ namespace ECommerce.Identity.Api.Controllers
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
 
-            #region Novos objetos
             var customer = new CustomerDto 
             {
                 Id = Guid.Parse(identityUser.Id),
@@ -184,9 +182,7 @@ namespace ECommerce.Identity.Api.Controllers
                 Number = user.Phone,
                 CustomerId = customer.Id
             };
-            #endregion
 
-            #region Filas
             void OnDisconnect(object source, EventArgs e)
             {
                 Policy.Handle<EasyNetQException>()
@@ -201,9 +197,7 @@ namespace ECommerce.Identity.Api.Controllers
             var documentResult = await bus.Rpc.RequestAsync<DocumentDto, ValidationResult>(document);
             var emailResult = await bus.Rpc.RequestAsync<EmailDto, ValidationResult>(email);
             var phoneResult = await bus.Rpc.RequestAsync<PhoneDto, ValidationResult>(phone);
-            #endregion
 
-            #region Validações
             var validation = new ValidationResult();
 
             if (!customerResult.IsValid)
@@ -217,7 +211,6 @@ namespace ECommerce.Identity.Api.Controllers
             
             if (!phoneResult.IsValid)
                 validation.Errors.AddRange(phoneResult.Errors);
-            #endregion
 
             if (!validation.IsValid)
                 await CreateUserRollback(user);
@@ -229,7 +222,6 @@ namespace ECommerce.Identity.Api.Controllers
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
 
-            #region Novos objetos
             var customer = new CustomerDto() 
             {
                 Id = Guid.Parse(identityUser.Id),
@@ -259,9 +251,8 @@ namespace ECommerce.Identity.Api.Controllers
             customer.Document = document;
             customer.Email = email;
             customer.Phone = phone;
-            #endregion
 
-            var result = await _customerService.Create(customer, (await _jwtHandler.GenerateNewToken(user.Email)).Token);
+            var result = await _customerService.Create(customer, await _jwtHandler.GenerateNewToken(user.Email));
 
             if (!result.IsSuccessStatusCode)
                 await CreateUserRollback(user);

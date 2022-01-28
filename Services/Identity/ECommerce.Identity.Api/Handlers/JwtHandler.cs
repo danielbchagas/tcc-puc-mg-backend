@@ -26,16 +26,16 @@ namespace ECommerce.Identity.Api.Handlers
             _googleOAuthOption = googleOAuthOption.Value;
         }
 
-        internal async Task<UserJwt> GenerateNewToken(string email)
+        internal async Task<string> GenerateNewToken(string email)
         {
-            var usuario = await _userManager.FindByEmailAsync(email);
-            var claims = await _userManager.GetClaimsAsync(usuario);
-            var roles = await _userManager.GetRolesAsync(usuario);
+            var identityUser = await _userManager.FindByEmailAsync(email);
+            var claims = await _userManager.GetClaimsAsync(identityUser);
+            var roles = await _userManager.GetRolesAsync(identityUser);
 
             var EPOCH = ToUnixEpochDate(DateTime.UtcNow);
 
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, usuario.Id));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Email, usuario.Email));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, identityUser.Id));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Email, identityUser.Email));
             claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, EPOCH.ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Iat, EPOCH.ToString(), ClaimValueTypes.Integer64));
@@ -45,19 +45,7 @@ namespace ECommerce.Identity.Api.Handlers
             var claimsIdentity = new ClaimsIdentity();
             claimsIdentity.AddClaims(claims);
 
-            var token = WriteNewToken(claimsIdentity);
-
-            return new UserJwt
-            {
-                Token = token,
-                ExpiresIn = TimeSpan.FromHours(_jwtOption.Expiration).TotalSeconds,
-                UserToken = new TokenUsuario
-                {
-                    Id = usuario.Id,
-                    Email = usuario.Email,
-                    UserClaims = claims.Select(c => new UserClaim { Value = c.Value, Type = c.Type })
-                }
-            };
+            return WriteNewToken(claimsIdentity);
         }
 
         private string WriteNewToken(ClaimsIdentity claimsIdentity)
