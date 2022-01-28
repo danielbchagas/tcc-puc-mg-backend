@@ -1,5 +1,4 @@
 ﻿using ECommerce.Gateway.Api.Interfaces;
-using ECommerce.Gateway.Api.Models.Carrinho;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,38 +6,39 @@ using Microsoft.Net.Http.Headers;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using ECommerce.Gateway.Api.Models;
 
 namespace ECommerce.Gateway.Api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ItensCarrinhosController : ControllerBase
+    public class BasketItemsController : ControllerBase
     {
         private readonly ICatalogoService _catalogoService;
-        private readonly ICarrinhoService _carrinhoService;
+        private readonly IBasketService _basketService;
 
-        public ItensCarrinhosController(ICatalogoService catalogoService, ICarrinhoService carrinhoService)
+        public BasketItemsController(ICatalogoService catalogoService, IBasketService basketService)
         {
             _catalogoService = catalogoService;
-            _carrinhoService = carrinhoService;
+            _basketService = basketService;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(ItemCarrinhoDto item)
+        public async Task<IActionResult> Create(BasketItem item)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _catalogoService.Get(item.ProdutoId);
+            var response = await _catalogoService.Get(item.ProductId);
 
             #region Validação de item disponível em estoque
-            if (response.Content.QuantidadeEstoque < item.Quantidade)
+            if (response.Content.QuantidadeEstoque < item.Quantity)
                 return BadRequest("Quantidade indisponível em estoque!");
             #endregion
 
             #region Atualização do estoque
-            response.Content.QuantidadeEstoque -= item.Quantidade;
+            response.Content.QuantidadeEstoque -= item.Quantity;
             var result = await _catalogoService.Update(response.Content, accessToken);
 
             if (!result.IsSuccessStatusCode)
@@ -46,11 +46,11 @@ namespace ECommerce.Gateway.Api.Controllers
             #endregion
 
             #region Atualização de carrinho
-            item.Nome = response.Content.Nome;
-            item.Imagem = response.Content.Imagem;
-            item.Valor = response.Content.Valor;
+            item.Name = response.Content.Nome;
+            item.Image = response.Content.Imagem;
+            item.Value = response.Content.Valor;
 
-            result = await _carrinhoService.CreateItemCarrinho(item, accessToken);
+            result = await _basketService.CreateItemCarrinho(item, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
@@ -65,12 +65,12 @@ namespace ECommerce.Gateway.Api.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _carrinhoService.DeleteItemCarrinho(id, accessToken);
+            var response = await _basketService.DeleteItemCarrinho(id, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
             else if (!response.IsSuccessStatusCode)
-                return BadRequest(response.Error.Content);
+                return BadRequest(response.Error);
 
             return NoContent();
         }

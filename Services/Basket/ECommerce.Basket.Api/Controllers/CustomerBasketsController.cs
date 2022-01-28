@@ -27,10 +27,10 @@ namespace ECommerce.Basket.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status302Found)]
-        [HttpGet("{id:Guid}")]
-        public async Task<IActionResult> Get(Guid id)
+        [HttpGet("{customerId:Guid}")]
+        public async Task<IActionResult> Get(Guid customerId)
         {
-            var result = await _mediator.Send(new GetCustomerBasketByCustomerQuery(id));
+            var result = await _mediator.Send(new GetCustomerBasketByCustomerQuery(customerId));
 
             if (result is null)
             {
@@ -57,7 +57,7 @@ namespace ECommerce.Basket.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{customerId:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);

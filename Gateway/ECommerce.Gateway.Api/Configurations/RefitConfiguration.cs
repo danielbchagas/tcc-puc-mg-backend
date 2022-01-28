@@ -36,7 +36,7 @@ namespace ECommerce.Gateway.Api.Configurations
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-            services.AddRefitClient<ICarrinhoService>()
+            services.AddRefitClient<IBasketService>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.CarrinhoUrl))
                 .AddHttpMessageHandler<ValidateHeaderHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
