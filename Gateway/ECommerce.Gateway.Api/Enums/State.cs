@@ -2,7 +2,7 @@
 
 namespace ECommerce.Gateway.Api.Enums
 {
-    public enum Estados
+    public enum State
     {
         [Description("Acre")]
         AC,

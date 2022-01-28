@@ -10,13 +10,13 @@ namespace ECommerce.Gateway.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CatalogoController : ControllerBase
+    public class CatalogController : ControllerBase
     {
-        private ICatalogoService _catalogoService;
+        private ICatalogService _catalogService;
 
-        public CatalogoController(ICatalogoService catalogoService)
+        public CatalogController(ICatalogService catalogService)
         {
-            _catalogoService = catalogoService;
+            _catalogService = catalogService;
         }
 
         [AllowAnonymous]
@@ -26,7 +26,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpGet("{nome:alpha}/{pagina:int}/{linhas:int}")]
         public async Task<IActionResult> Get(string nome, int pagina, int linhas)
         {
-            var response = await _catalogoService.Get(nome, pagina, linhas);
+            var response = await _catalogService.Get(nome, pagina, linhas);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
@@ -43,7 +43,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpGet("{pagina:int}/{linhas:int}")]
         public async Task<IActionResult> Get(int pagina, int linhas)
         {
-            var response = await _catalogoService.Get(pagina, linhas);
+            var response = await _catalogService.Get(pagina, linhas);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
@@ -60,7 +60,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var response = await _catalogoService.Get(id);
+            var response = await _catalogService.Get(id);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

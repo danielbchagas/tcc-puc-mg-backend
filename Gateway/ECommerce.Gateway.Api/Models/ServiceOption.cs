@@ -2,10 +2,9 @@
 {
     public class ServiceOption
     {
-        public string CatalogoUrl { get; set; }
-        public string CarrinhoUrl { get; set; }
-        public string PedidoUrl { get; set; }
-        public string PagamentoUrl { get; set; }
-        public string ClienteUrl { get; set; }
+        public string CatalogServiceUrl { get; set; }
+        public string BasketServiceUrl { get; set; }
+        public string OrderingServiceUrl { get; set; }
+        public string CustomerServiceUrl { get; set; }
     }
 }

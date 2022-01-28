@@ -1,5 +1,4 @@
 ﻿using ECommerce.Gateway.Api.Interfaces;
-using ECommerce.Gateway.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,18 +7,19 @@ using System;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using ECommerce.Gateway.Api.Models;
 
 namespace ECommerce.Gateway.Api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class BasketsController : ControllerBase
+    public class BasketController : ControllerBase
     {
         private readonly IBasketService _basketService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BasketsController(IBasketService basketService, IHttpContextAccessor httpContextAccessor)
+        public BasketController(IBasketService basketService, IHttpContextAccessor httpContextAccessor)
         {
             _basketService = basketService;
             _httpContextAccessor = httpContextAccessor;
@@ -42,12 +42,12 @@ namespace ECommerce.Gateway.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CustomerBasket basket)
+        public async Task<IActionResult> Create(CustomerBasketDto basketDto)
         {
-            basket.CustomerId = Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            basketDto.CustomerId = Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _basketService.Create(basket, accessToken);
+            var response = await _basketService.Create(basketDto, accessToken);
 
             if (!response.IsSuccessStatusCode)
                 return BadRequest(response.Error);

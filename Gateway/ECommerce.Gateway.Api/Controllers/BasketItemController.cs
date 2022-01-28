@@ -13,44 +13,44 @@ namespace ECommerce.Gateway.Api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class BasketItemsController : ControllerBase
+    public class BasketItemController : ControllerBase
     {
-        private readonly ICatalogoService _catalogoService;
+        private readonly ICatalogService _catalogService;
         private readonly IBasketService _basketService;
 
-        public BasketItemsController(ICatalogoService catalogoService, IBasketService basketService)
+        public BasketItemController(ICatalogService catalogService, IBasketService basketService)
         {
-            _catalogoService = catalogoService;
+            _catalogService = catalogService;
             _basketService = basketService;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(BasketItem item)
+        public async Task<IActionResult> Create(BasketItemDto itemDto)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _catalogoService.Get(item.ProductId);
+            var response = await _catalogService.Get(itemDto.ProductId);
 
-            #region Validação de item disponível em estoque
-            if (response.Content.QuantidadeEstoque < item.Quantity)
+            #region Is product available in stock?
+            if (response.Content.Quantity < itemDto.Quantity)
                 return BadRequest("Quantidade indisponível em estoque!");
             #endregion
 
-            #region Atualização do estoque
-            response.Content.QuantidadeEstoque -= item.Quantity;
-            var result = await _catalogoService.Update(response.Content, accessToken);
+            #region Stock update
+            response.Content.Quantity -= itemDto.Quantity;
+            var result = await _catalogService.Update(response.Content, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
             #endregion
 
-            #region Atualização de carrinho
-            item.Name = response.Content.Nome;
-            item.Image = response.Content.Imagem;
-            item.Value = response.Content.Valor;
+            #region Basket update
+            itemDto.Name = response.Content.Name;
+            itemDto.Image = response.Content.Image;
+            itemDto.Value = response.Content.Value;
 
-            result = await _basketService.CreateItemCarrinho(item, accessToken);
+            result = await _basketService.CreateItemCarrinho(itemDto, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);

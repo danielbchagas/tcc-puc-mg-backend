@@ -1,5 +1,4 @@
 ﻿using ECommerce.Gateway.Api.Interfaces;
-using ECommerce.Gateway.Api.Models.Cliente;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,19 +6,20 @@ using Microsoft.Net.Http.Headers;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using ECommerce.Gateway.Api.Models;
 
 namespace ECommerce.Gateway.Api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientesController : ControllerBase
+    public class CustomerController : ControllerBase
     {
-        private readonly IClienteService _clienteService;
+        private readonly ICustomerService _customerService;
 
-        public ClientesController(IClienteService clienteService)
+        public CustomerController(ICustomerService customerService)
         {
-            _clienteService = clienteService;
+            _customerService = customerService;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -28,7 +28,7 @@ namespace ECommerce.Gateway.Api.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _clienteService.GetCliente(id, accessToken);
+            var response = await _customerService.GetCustomer(id, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
@@ -41,10 +41,10 @@ namespace ECommerce.Gateway.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Update(ClienteDto carrinho)
+        public async Task<IActionResult> Update(CustomerDto customerDto)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _clienteService.UpdateCliente(carrinho, accessToken);
+            var response = await _customerService.UpdateCustomer(customerDto, accessToken);
 
             if (!response.IsSuccessStatusCode)
                 return BadRequest(response.Error.Content);
@@ -58,7 +58,7 @@ namespace ECommerce.Gateway.Api.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _clienteService.DeleteCliente(id, accessToken);
+            var response = await _customerService.DeleteCustomer(id, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

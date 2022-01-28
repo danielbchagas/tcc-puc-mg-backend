@@ -24,26 +24,26 @@ namespace ECommerce.Gateway.Api.Configurations
 
             services.AddTransient<ValidateHeaderHandler>();
 
-            services.AddRefitClient<IClienteService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.ClienteUrl))
+            services.AddRefitClient<ICustomerService>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.CustomerServiceUrl))
                 .AddHttpMessageHandler<ValidateHeaderHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-            services.AddRefitClient<IPedidoService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.PedidoUrl))
+            services.AddRefitClient<IOrderingService>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.OrderingServiceUrl))
                 .AddHttpMessageHandler<ValidateHeaderHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
             services.AddRefitClient<IBasketService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.CarrinhoUrl))
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.BasketServiceUrl))
                 .AddHttpMessageHandler<ValidateHeaderHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-            services.AddRefitClient<ICatalogoService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.CatalogoUrl))
+            services.AddRefitClient<ICatalogService>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.CatalogServiceUrl))
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
         }

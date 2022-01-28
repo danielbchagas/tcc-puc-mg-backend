@@ -7,11 +7,11 @@ namespace ECommerce.Gateway.Api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class PagamentosController : ControllerBase
+    public class PaymentController : ControllerBase
     {
         private bool _aprovado;
 
-        public PagamentosController()
+        public PaymentController()
         {
             _aprovado = new Random().Next(0, 1) == 0 ? false : true;
         }

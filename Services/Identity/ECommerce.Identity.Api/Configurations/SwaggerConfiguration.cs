@@ -13,7 +13,7 @@ namespace ECommerce.Identity.Api.Configurations
             {
                 setupAction.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "ECommerce.Identidade.Api",
+                    Title = "ECommerce.Identity.Api",
                     Version = "v1",
                     Description = "TCC PUC Minas - Api de Identidade do E-Commerce",
                     Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
@@ -25,7 +25,7 @@ namespace ECommerce.Identity.Api.Configurations
         public static void UseSwaggerConfiguration(this IApplicationBuilder app)
         {
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Identidade.Api v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Identity.Api v1"));
         }
     }
 }
