@@ -29,7 +29,6 @@ namespace ECommerce.Identity.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptionsConfiguration(Configuration);
-            services.AddHealthCheckConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddIdentityConfiguration(Configuration);
             services.AddRefitConfiguration(Configuration);
@@ -72,7 +71,6 @@ namespace ECommerce.Identity.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
     }

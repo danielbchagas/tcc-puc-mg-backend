@@ -30,7 +30,6 @@ namespace ECommerce.Customers.Api
         {
             services.AddIdentityConfiguration(Configuration);
             services.AddEntityFrameworkConfiguration(Configuration);
-            services.AddHealthCheckConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddOptionsConfiguration(Configuration);
             services.AddDependencyInjectionConfiguration();
@@ -69,7 +68,6 @@ namespace ECommerce.Customers.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
     }

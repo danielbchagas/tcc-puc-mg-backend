@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\Pedido\ECommerce.Pedido.Domain\ECommerce.Ordering.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Services\Basket\ECommerce.Basket.Domain\ECommerce.Basket.Domain.csproj" />
   </ItemGroup>
 
 </Project>

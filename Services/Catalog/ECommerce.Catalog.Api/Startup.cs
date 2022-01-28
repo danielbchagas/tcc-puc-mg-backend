@@ -30,7 +30,6 @@ namespace ECommerce.Catalog.Api
         {
             services.AddIdentityConfiguration(Configuration);
             services.AddEntityFrameworkConfiguration(Configuration);
-            services.AddHealthCheckConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddDependencyInjectionConfiguration();
             services.AddCorsConfiguration();
@@ -72,7 +71,6 @@ namespace ECommerce.Catalog.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
     }

@@ -31,7 +31,6 @@ namespace ECommerce.Ordering.Api
         {
             services.AddIdentityConfiguration(Configuration);
             services.AddEntityFrameworkConfiguration(Configuration);
-            services.AddHealthCheckConfiguration(Configuration);
             services.AddSwaggerConfiguration();
 
             services.AddControllers();
@@ -67,7 +66,6 @@ namespace ECommerce.Ordering.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
     }

@@ -33,8 +33,7 @@ namespace ECommerce.Basket.Api
             services.AddDependencyInjectionConfiguration();
             services.AddEntityFrameworkConfiguration(Configuration);
             services.AddSwaggerConfiguration();
-            services.AddHealthCheckConfiguration(Configuration);
-
+            
             services.AddControllers();
 
             services.Configure<ApiBehaviorOptions>(options =>
@@ -68,7 +67,6 @@ namespace ECommerce.Basket.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
     }
