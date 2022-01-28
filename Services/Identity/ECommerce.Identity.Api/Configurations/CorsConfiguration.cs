@@ -10,19 +10,19 @@ namespace ECommerce.Identity.Api.Configurations
             {
                 options.AddPolicy("development", builder =>
                 {
-                    builder.AllowAnyOrigin();
+                    builder.WithOrigins("http://localhost", "https://localhost", "https://ecommerce-web-app.azurewebsites.net");
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
                 });
 
                 options.AddPolicy("staging", builder =>
                 {
-                    builder.WithOrigins("https://dominio");
+                    builder.WithOrigins("https://ecommerce-web-app.azurewebsites.net");
                 });
 
                 options.AddPolicy("production", builder =>
                 {
-                    builder.WithOrigins("https://dominio");
+                    builder.WithOrigins("https://ecommerce-web-app.azurewebsites.net");
                 });
             });
 
