@@ -36,16 +36,16 @@ namespace ECommerce.Basket.Infrastructure.Repositories
             return await _context.BasketItems.FirstOrDefaultAsync(ic => ic.ProductId == productId);
         }
 
-        public void Dispose()
-        {
-            _context?.Dispose();
-        }
-
         public async Task Delete(Guid id)
         {
             var item = await _context.BasketItems.FindAsync(id);
 
             _context.BasketItems.Remove(item);
+        }
+
+        public void Dispose()
+        {
+            _context?.Dispose();
         }
     }
 }

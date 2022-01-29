@@ -33,10 +33,7 @@ namespace ECommerce.Basket.Api.Controllers
             var result = await _mediator.Send(new GetCustomerBasketByCustomerQuery(customerId));
 
             if (result is null)
-            {
-                var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                return RedirectToAction(actionName: nameof(Create), routeValues: new CreateCustomerBasketCommand(Guid.NewGuid(), 0, new Guid(userId)));
-            }
+                return NotFound();
 
             return Ok(result);
         }

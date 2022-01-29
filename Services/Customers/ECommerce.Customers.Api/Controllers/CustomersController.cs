@@ -63,7 +63,7 @@ namespace ECommerce.Customers.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("disable/{id:Guid}")]
         public async Task<IActionResult> Disable(Guid id)
         {
             var result = await _mediator.Send(new DisableCustomerCommand(id));
@@ -77,7 +77,7 @@ namespace ECommerce.Customers.Api.Controllers
         [Authorize("Administrator")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("delete/{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _mediator.Send(new DeleteCustomerCommand(id));

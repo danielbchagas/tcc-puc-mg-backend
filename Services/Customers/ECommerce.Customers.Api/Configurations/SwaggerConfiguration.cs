@@ -15,7 +15,7 @@ namespace ECommerce.Customers.Api.Configurations
                 {
                     Title = "ECommerce.Customer.Api",
                     Version = "v1",
-                    Description = "TCC PUC Minas - Api de Customer do E-Commerce",
+                    Description = "TCC PUC Minas - Api de Clientes do E-Commerce",
                     Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
                     License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/mit") }
                 });

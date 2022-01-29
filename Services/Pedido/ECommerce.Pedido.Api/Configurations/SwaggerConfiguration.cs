@@ -13,9 +13,9 @@ namespace ECommerce.Ordering.Api.Configurations
             {
                 setupAction.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "ECommerce.Pedido.Api",
+                    Title = "ECommerce.Ordering.Api",
                     Version = "v1",
-                    Description = "TCC PUC Minas - Api de Pedido do E-Commerce",
+                    Description = "TCC PUC Minas - Api de Pedidos do E-Commerce",
                     Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
                     License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/mit") }
                 });
@@ -50,7 +50,7 @@ namespace ECommerce.Ordering.Api.Configurations
         public static void UseSwaggerConfiguration(this IApplicationBuilder app)
         {
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Pedido.Api v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Ordering.Api v1"));
         }
     }
 }

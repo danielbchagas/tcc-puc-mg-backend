@@ -18,7 +18,7 @@ namespace ECommerce.Basket.Application.Handlers.Queries
 
         public async Task<CustomerBasket> Handle(GetCustomerBasketByCustomerQuery request, CancellationToken cancellationToken)
         {
-            var result = await _repository.Get(request.CustomerId);
+            var result = await _repository.GetByCustomerId(request.CustomerId);
 
             return await Task.FromResult(result);
         }
