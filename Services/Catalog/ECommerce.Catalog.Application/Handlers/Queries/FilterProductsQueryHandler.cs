@@ -19,7 +19,7 @@ namespace ECommerce.Catalog.Application.Handlers.Queries
 
         public async Task<IEnumerable<Product>> Handle(FilterProductsQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.Get(request.Filter, request.Page, request.Rows);
+            return await _repository.Get(request.Filter);
         }
     }
 }

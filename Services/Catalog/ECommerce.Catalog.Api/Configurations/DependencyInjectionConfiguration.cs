@@ -16,14 +16,12 @@ namespace ECommerce.Catalog.Api.Configurations
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
-            #region Mediator
+            
             services.AddMediatR(typeof(Startup));
-
             services.AddScoped<IRequestHandler<GetProductQuery, Product>, GetProductQueryHandler>();
             services.AddScoped<IRequestHandler<FilterProductsQuery, IEnumerable<Product>>, FilterProductsQueryHandler>();
             services.AddScoped<IRequestHandler<GetProductsQuery, IEnumerable<Product>>, GetProductsQueryHandler>();
-            #endregion
-            
+
             services.AddScoped<IProductRepository, ProductRepository>();
         }
     }

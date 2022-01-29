@@ -43,35 +43,24 @@ namespace ECommerce.Catalog.Infrastructure.Repositories
         {
             return await _context.Products.ToListAsync();
         }
-
-        public async Task<IEnumerable<Product>> Get(int page, int rows)
-        {
-            return await _context.Products
-                .AsNoTracking()
-                .Skip((page - 1) * rows)
-                .Take(rows)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Product>> Get(Expression<Func<Product, bool>> filter, int page, int rows)
+        
+        public async Task<IEnumerable<Product>> Get(Expression<Func<Product, bool>> filter)
         {
             return await _context.Products
                 .Where(filter)
                 .AsNoTracking()
-                .Skip((page - 1) * rows)
-                .Take(rows)
                 .ToListAsync();
-        }
-
-        public void Dispose()
-        {
-            _context?.Dispose();
         }
 
         public async Task Delete(Guid id)
         {
             var product = await Get(id);
             _context.Products.Remove(product);
+        }
+
+        public void Dispose()
+        {
+            _context?.Dispose();
         }
     }
 }

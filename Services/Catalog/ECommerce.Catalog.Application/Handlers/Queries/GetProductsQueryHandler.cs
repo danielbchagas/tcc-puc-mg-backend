@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using ECommerce.Catalog.Application.Queries;
+﻿using ECommerce.Catalog.Application.Queries;
 using ECommerce.Catalog.Domain.Interfaces.Repositories;
 using ECommerce.Catalog.Domain.Models;
 using MediatR;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Catalog.Application.Handlers.Queries
 {
@@ -19,7 +19,7 @@ namespace ECommerce.Catalog.Application.Handlers.Queries
 
         public async Task<IEnumerable<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.Get(request.Page, request.Rows);
+            return await _repository.Get();
         }
     }
 }

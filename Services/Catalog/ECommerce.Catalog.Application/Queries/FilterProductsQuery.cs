@@ -8,15 +8,11 @@ namespace ECommerce.Catalog.Application.Queries
 {
     public class FilterProductsQuery : IRequest<IEnumerable<Product>>
     {
-        public FilterProductsQuery(Expression<Func<Product, bool>> filter, int page, int rows)
+        public FilterProductsQuery(Expression<Func<Product, bool>> filter)
         {
             Filter = filter;
-            Page = page;
-            Rows = rows;
         }
 
         public Expression<Func<Product, bool>> Filter { get; set; }
-        public int Page { get; set; }
-        public int Rows { get; set; }
     }
 }

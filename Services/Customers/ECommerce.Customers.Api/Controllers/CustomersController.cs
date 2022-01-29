@@ -73,5 +73,18 @@ namespace ECommerce.Customers.Api.Controllers
 
             return Ok();
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _mediator.Send(new DeleteCustomerCommand(id));
+
+            if (!result.IsValid)
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+
+            return Ok();
+        }
     }
 }

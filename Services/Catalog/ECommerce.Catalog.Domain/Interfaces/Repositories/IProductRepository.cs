@@ -15,7 +15,6 @@ namespace ECommerce.Catalog.Domain.Interfaces.Repositories
         Task Delete(Guid id);
         Task<Product> Get(Guid id);
         Task<IEnumerable<Product>> Get();
-        Task<IEnumerable<Product>> Get(int page, int rows);
-        Task<IEnumerable<Product>> Get(Expression<Func<Product, bool>> filter, int page, int rows);
+        Task<IEnumerable<Product>> Get(Expression<Func<Product, bool>> filter);
     }
 }

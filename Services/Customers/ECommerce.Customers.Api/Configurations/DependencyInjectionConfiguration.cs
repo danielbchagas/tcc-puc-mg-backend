@@ -20,9 +20,10 @@ namespace ECommerce.Customers.Api.Configurations
         {
             services.AddMediatR(typeof(Startup));
 
-            #region Mediator - Comandos
+            #region
             services.AddScoped<IRequestHandler<CreateCustomerCommand, ValidationResult>, CreateCustomerCommandHandler>();
             services.AddScoped<IRequestHandler<DisableCustomerCommand, ValidationResult>, DisableCustomerCommandHandler>();
+            services.AddScoped<IRequestHandler<DeleteCustomerCommand, ValidationResult>, DeleteCustomerCommandHandler>();
 
             services.AddScoped<IRequestHandler<CreateAddressCommand, ValidationResult>, CreateAddressCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateAddressCommand, ValidationResult>, UpdateAddressCommandHandler>();
@@ -37,7 +38,7 @@ namespace ECommerce.Customers.Api.Configurations
             services.AddScoped<IRequestHandler<UpdatePhoneCommand, ValidationResult>, UpdatePhoneCommandHandler>();
             #endregion
 
-            #region Mediator - Queries
+            #region
             services.AddScoped<IRequestHandler<GetCustomerQuery, Domain.Models.Customer>, GetCustomerQueryHandler>();
             
             services.AddScoped<IRequestHandler<GetAddressQuery, Address>, GetAddressQueryHandler>();
@@ -49,13 +50,12 @@ namespace ECommerce.Customers.Api.Configurations
             services.AddScoped<IRequestHandler<GetPhoneQuery, Phone>, GetPhoneQueryHandler>();
             #endregion
 
-            #region Repositórios
+            #region
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IEmailRepository, EmailRepository>();
             services.AddScoped<IPhoneRepository, PhoneRepository>();
-
             #endregion
 
 #if RABBITMQ

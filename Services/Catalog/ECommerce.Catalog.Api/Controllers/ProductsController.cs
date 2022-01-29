@@ -23,22 +23,22 @@ namespace ECommerce.Catalog.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpGet("{product:alpha}/{page:int}/{rows:int}")]
-        public async Task<IActionResult> Get(string product, int page, int rows)
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            var result = await _mediator.Send(new FilterProductsQuery(p => p.Name.Contains(product), page, rows));
-            
+            var result = await _mediator.Send(new GetProductsQuery());
+
             return Ok(result);
         }
 
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpGet("{page:int}/{rows:int}")]
-        public async Task<IActionResult> Get(int page, int rows)
+        [HttpGet("{product:alpha}")]
+        public async Task<IActionResult> Get(string product)
         {
-            var result = await _mediator.Send(new GetProductsQuery(page, rows));
-
+            var result = await _mediator.Send(new FilterProductsQuery(p => p.Name.Contains(product)));
+            
             return Ok(result);
         }
 
