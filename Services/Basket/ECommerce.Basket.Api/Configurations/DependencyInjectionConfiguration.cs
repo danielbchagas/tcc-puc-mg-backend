@@ -25,6 +25,7 @@ namespace ECommerce.Basket.Api.Configurations
             services.AddScoped<IRequestHandler<GetCustomerBasketQuery, CustomerBasket>, GetCustomerBasketQueryHandler>();
             
             services.AddScoped<IRequestHandler<CreateBasketItemCommand, ValidationResult>, CreateBasketItemCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateBasketItemCommand, ValidationResult>, UpdateBasketItemCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteBasketItemCommand, ValidationResult>, DeleteBasketItemCommandHandler>();
             #endregion
 

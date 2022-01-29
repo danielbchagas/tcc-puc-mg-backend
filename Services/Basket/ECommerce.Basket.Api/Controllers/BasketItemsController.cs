@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using ECommerce.Basket.Application.Commands;
+﻿using ECommerce.Basket.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Basket.Api.Controllers
 {
@@ -40,7 +38,7 @@ namespace ECommerce.Basket.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Update(DeleteBasketItemCommand command)
+        public async Task<IActionResult> Update(UpdateBasketItemCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -48,6 +46,19 @@ namespace ECommerce.Basket.Api.Controllers
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));
 
             return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(DeleteBasketItemCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValid)
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+
+            return NoContent();
         }
     }
 }

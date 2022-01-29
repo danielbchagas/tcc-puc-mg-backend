@@ -1,23 +1,23 @@
-﻿using ECommerce.Basket.Application.Commands;
+﻿using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using ECommerce.Basket.Application.Commands;
 using ECommerce.Basket.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ECommerce.Basket.Application.Handlers.Commands
 {
-    public class DeleteBasketItemCommandHandler : IRequestHandler<DeleteBasketItemCommand, ValidationResult>
+    public class UpdateBasketItemCommandHandler : IRequestHandler<UpdateBasketItemCommand, ValidationResult>
     {
         private readonly ICustomerBasketRepository _basketRepository;
-
-        public DeleteBasketItemCommandHandler(ICustomerBasketRepository basketRepository)
+        
+        public UpdateBasketItemCommandHandler(ICustomerBasketRepository basketRepository)
         {
             _basketRepository = basketRepository;
         }
 
-        public async Task<ValidationResult> Handle(DeleteBasketItemCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(UpdateBasketItemCommand request, CancellationToken cancellationToken)
         {
             var validation = new ValidationResult();
 
@@ -30,7 +30,8 @@ namespace ECommerce.Basket.Application.Handlers.Commands
                 return validation;
             }
 
-            basket.RemoveItem(item);
+            item.Quantity = request.Quantity;
+            basket.UpdatesItems(item);
 
             await _basketRepository.Update(basket);
             await _basketRepository.UnitOfWork.Commit();

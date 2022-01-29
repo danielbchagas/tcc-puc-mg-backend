@@ -46,6 +46,25 @@ namespace ECommerce.Basket.Domain.Models
             return Validate();
         }
 
+        public ValidationResult RemoveItem(BasketItem item)
+        {
+            var validationResult = item.Validate();
+
+            if (!validationResult.IsValid)
+                return validationResult;
+
+            var exists = Items.FirstOrDefault(i => i.Id == item.Id);
+
+            if (exists != null)
+            {
+                Items.Remove(exists);
+            }
+
+            Value = Items.Sum(i => i.Quantity * i.Value);
+
+            return Validate();
+        }
+
         public ValidationResult Validate()
         {
             return new CustomerBasketValidator().Validate(this);

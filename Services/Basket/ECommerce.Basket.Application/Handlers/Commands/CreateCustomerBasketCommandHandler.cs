@@ -10,26 +10,26 @@ namespace ECommerce.Basket.Application.Handlers.Commands
 {
     public class CreateCustomerBasketCommandHandler : IRequestHandler<CreateCustomerBasketCommand, ValidationResult>
     {
-        private readonly ICustomerBasketRepository _cartRepository;
+        private readonly ICustomerBasketRepository _customerBasketRepository;
         
-        public CreateCustomerBasketCommandHandler(ICustomerBasketRepository cartRepository)
+        public CreateCustomerBasketCommandHandler(ICustomerBasketRepository customerBasketRepository)
         {
-            _cartRepository = cartRepository;
+            _customerBasketRepository = customerBasketRepository;
         }
 
         public async Task<ValidationResult> Handle(CreateCustomerBasketCommand request, CancellationToken cancellationToken)
         {
             var validation = new ValidationResult();
 
-            var cart = new CustomerBasket(request.CustomerId);
+            var basket = new CustomerBasket(request.CustomerId);
 
-            validation = cart.Validate();
+            validation = basket.Validate();
 
             if (!validation.IsValid)
                 return await Task.FromResult(validation);
 
-            await _cartRepository.Create(cart);
-            await _cartRepository.UnitOfWork.Commit();
+            await _customerBasketRepository.Create(basket);
+            await _customerBasketRepository.UnitOfWork.Commit();
 
             return await Task.FromResult(validation);
         }
