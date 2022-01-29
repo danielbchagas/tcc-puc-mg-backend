@@ -74,6 +74,7 @@ namespace ECommerce.Customers.Api.Controllers
             return Ok();
         }
 
+        [Authorize("Administrator")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:Guid}")]
