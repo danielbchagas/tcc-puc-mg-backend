@@ -25,23 +25,18 @@ namespace ECommerce.Basket.Application.Handlers.Commands
 
             var basket = await _basketRepository.Get(request.CustomerBasketId);
             var item = basket.Items.FirstOrDefault(i => i.Id == request.Id);
-            
-            if(item == null)
-                validation.Errors.Add(new ValidationFailure("", "Item não encontrado."));
-            else
+
+            if (item == null)
             {
-                item.Quantity = request.Quantity;
-                basket.UpdatesItems(item);
-
-                await _itemRepository.Update(item);
-                var success = await _itemRepository.UnitOfWork.Commit();
-
-                if (success)
-                {
-                    await _basketRepository.Update(basket);
-                    success = await _basketRepository.UnitOfWork.Commit();
-                }
+                validation.Errors.Add(new ValidationFailure("", "Item não encontrado."));
+                return validation;
             }
+
+            item.Quantity = request.Quantity;
+            basket.UpdatesItems(item);
+
+            await _basketRepository.Update(basket);
+            await _basketRepository.UnitOfWork.Commit();
 
             return await Task.FromResult(validation);
         }
