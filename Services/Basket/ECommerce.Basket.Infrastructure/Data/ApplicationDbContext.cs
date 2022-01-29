@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using ECommerce.Basket.Domain.Interfaces.Data;
+﻿using ECommerce.Basket.Domain.Interfaces.Data;
 using ECommerce.Basket.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace ECommerce.Basket.Infrastructure.Data
 {
@@ -12,12 +12,12 @@ namespace ECommerce.Basket.Infrastructure.Data
 
         public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<CustomerBasket> CustomerBaskets { get; set; }
-
+        
         public async Task<bool> Commit()
         {
             return await base.SaveChangesAsync() > 0;
         }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<ValidationResult>();

@@ -12,24 +12,36 @@ namespace ECommerce.Basket.Domain.Models
         public CustomerBasket(Guid customerId)
         {
             CustomerId = customerId;
-            Itens = new List<BasketItem>();
+            Items = new List<BasketItem>();
         }
 
         public decimal Value { get; set; }
         public Guid CustomerId { get; set; }
 
-        public ICollection<BasketItem> Itens { get; set; }
+        public ICollection<BasketItem> Items { get; set; }
 
-        public ValidationResult AddItens(BasketItem item)
+        public ValidationResult UpdatesItems(BasketItem item)
         {
             var validationResult = item.Validate();
 
             if (!validationResult.IsValid)
                 return validationResult;
 
-            Itens.Add(item);
+            var exists = Items.FirstOrDefault(i => i.Id == item.Id);
 
-            Value += Itens.Sum(i => i.Quantity * i.Value);
+            if (exists != null)
+            {
+                exists.Quantity = item.Quantity;
+
+                Items.Remove(exists);
+                Items.Add(exists);
+            }
+            else
+            {
+                Items.Add(item);
+            }
+
+            Value = Items.Sum(i => i.Quantity * i.Value);
 
             return Validate();
         }

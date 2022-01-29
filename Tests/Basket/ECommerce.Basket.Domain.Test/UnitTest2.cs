@@ -1,9 +1,9 @@
-﻿using Bogus;
+﻿using System;
+using Bogus;
 using ECommerce.Basket.Domain.Models;
-using System;
 using Xunit;
 
-namespace ECommerce.Carrinho.Test
+namespace ECommerce.Basket.Domain.Test
 {
     public class UnitTest2
     {
@@ -18,7 +18,7 @@ namespace ECommerce.Carrinho.Test
         }
 
         [Fact]
-        public void AdicionarItemCarrinho_ValorDoCarrinhoDeveSer1000()
+        public void AddItemToBasket_ValueMustBe1000()
         {
             // Arrange
             var faker = new Faker<BasketItem>()
@@ -27,58 +27,34 @@ namespace ECommerce.Carrinho.Test
             var item = faker.Generate();
 
             // Act
-            _basket.AddItens(item);
+            _basket.UpdatesItems(item);
 
             // Assert
             Assert.Equal(1000, _basket.Value);
         }
 
         [Fact]
-        public void DiminuirQuantidadeItemCarrinho_QuantidadeDeItensCarrinhoDeveSer3()
+        public void AddItemToBasket_MustThrowError()
         {
             // Arrange
-            var produtoId = Guid.NewGuid();
+            var fakerItem = new Faker<BasketItem>()
+                .CustomInstantiator(set => 
+                    new BasketItem(name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), customerBasketId: _basket.Id));
 
-            var faker = new Faker<BasketItem>()
-                .CustomInstantiator(set => new BasketItem(name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), customerBasketId: _basket.Id));
-
-            var primeiroItem = faker.Generate();
-
-            var faker2 = new Faker<BasketItem>()
-                .CustomInstantiator(set => new BasketItem(name: primeiroItem.Name, quantity: 3, value: primeiroItem.Value, image: primeiroItem.Image, productId: primeiroItem.ProductId, customerBasketId: _basket.Id));
-
-            var segundoItem = faker2.Generate();
-
-            // Act
-            _basket.AddItens(primeiroItem);
-            _basket.AddItens(segundoItem);
-
-            // Assert
-            Assert.Contains(_basket.Itens, ic => ic.Quantity == 3);
-        }
-
-        [Fact]
-        public void AumentarQuantidadeItensCarrinho_DeveRetornarErro()
-        {
-            // Arrange
-            var produtoId = Guid.NewGuid();
-
-            var faker = new Faker<BasketItem>()
-                .CustomInstantiator(set => new BasketItem(name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), customerBasketId: _basket.Id));
-
-            var primeiraInteracao = faker.Generate();
+            var firstItem = fakerItem.Generate();
 
             var faker2 = new Faker<BasketItem>()
-                .CustomInstantiator(set => new BasketItem(name: primeiraInteracao.Name, quantity: 6, value: primeiraInteracao.Value, image: primeiraInteracao.Image, productId: primeiraInteracao.ProductId, customerBasketId: _basket.Id));
+                .CustomInstantiator(set => 
+                    new BasketItem(name: firstItem.Name, quantity: 6, value: firstItem.Value, image: firstItem.Image, productId: firstItem.ProductId, customerBasketId: _basket.Id));
 
-            var segundaInteracao = faker2.Generate();
+            var secondItem = faker2.Generate();
 
             // Act
-            var validationResult = _basket.AddItens(primeiraInteracao);
-            validationResult.Errors.AddRange(_basket.AddItens(segundaInteracao).Errors);
+            var validationResult = _basket.UpdatesItems(firstItem);
+            validationResult.Errors.AddRange(_basket.UpdatesItems(secondItem).Errors);
 
             // Assert
-            Assert.Contains(validationResult.Errors, ic => ic.ErrorMessage.Contains($"A quantity mínima do {primeiraInteracao.Name} é 1 e o máxima do {primeiraInteracao.Name} é 5."));
+            Assert.Contains(validationResult.Errors, ic => ic.ErrorMessage.Contains($"A quantity mínima do {firstItem.Name} é 1 e o máxima do {firstItem.Name} é 5."));
         }
     }
 }

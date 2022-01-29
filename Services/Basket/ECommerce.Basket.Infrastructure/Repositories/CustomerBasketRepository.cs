@@ -38,7 +38,7 @@ namespace ECommerce.Basket.Infrastructure.Repositories
         public async Task<CustomerBasket> GetByCustomerId(Guid customerId)
         {
             return await _context.CustomerBaskets
-                .Include(cc => cc.Itens)
+                .Include(cc => cc.Items)
                 .FirstOrDefaultAsync(cc => cc.CustomerId == customerId);
         }
 

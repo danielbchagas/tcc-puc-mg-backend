@@ -39,7 +39,7 @@ namespace ECommerce.Basket.Application.Handlers.Commands
             #endregion
 
             #region Updates basket
-            basket.AddItens(item);
+            basket.UpdatesItems(item);
 
             validation = basket.Validate();
 

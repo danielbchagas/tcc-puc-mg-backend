@@ -26,7 +26,7 @@ namespace ECommerce.Basket.Domain.Models
         public Guid CustomerBasketId { get; set; }
 
         [JsonIgnore]
-        public CustomerBasket Cart { get; set; }
+        public CustomerBasket CustomerBasket { get; set; }
 
         public ValidationResult Validate()
         {

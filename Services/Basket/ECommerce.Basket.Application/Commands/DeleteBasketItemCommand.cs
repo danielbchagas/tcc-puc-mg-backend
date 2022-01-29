@@ -6,15 +6,15 @@ namespace ECommerce.Basket.Application.Commands
 {
     public class DeleteBasketItemCommand : IRequest<ValidationResult>
     {
-        public DeleteBasketItemCommand(Guid id, Guid userId)
+        public DeleteBasketItemCommand(Guid id, int quantity, Guid customerBasketId)
         {
             Id = id;
-
-            UserId = userId;
+            Quantity = quantity;
+            CustomerBasketId = customerBasketId;
         }
 
         public Guid Id { get; set; }
-
-        public Guid UserId { get; set; }
+        public int Quantity { get; set; }
+        public Guid CustomerBasketId { get; set; }
     }
 }

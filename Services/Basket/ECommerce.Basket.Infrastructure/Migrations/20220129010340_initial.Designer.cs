@@ -71,18 +71,18 @@ namespace ECommerce.Basket.Infrastructure.Migrations
 
             modelBuilder.Entity("ECommerce.Basket.Domain.Models.BasketItem", b =>
                 {
-                    b.HasOne("ECommerce.Basket.Domain.Models.CustomerBasket", "Cart")
-                        .WithMany("Itens")
+                    b.HasOne("ECommerce.Basket.Domain.Models.CustomerBasket", "CustomerBasket")
+                        .WithMany("Items")
                         .HasForeignKey("CustomerBasketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cart");
+                    b.Navigation("CustomerBasket");
                 });
 
             modelBuilder.Entity("ECommerce.Basket.Domain.Models.CustomerBasket", b =>
                 {
-                    b.Navigation("Itens");
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

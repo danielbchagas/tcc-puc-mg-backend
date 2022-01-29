@@ -39,12 +39,13 @@ namespace ECommerce.Basket.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Update(DeleteBasketItemCommand command)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            command.CustomerBasketId = Guid.Parse(userId);
 
-            var result = await _mediator.Send(new DeleteBasketItemCommand(id, new Guid(userId)));
+            var result = await _mediator.Send(command);
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));
