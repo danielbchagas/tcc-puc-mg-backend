@@ -14,7 +14,7 @@ namespace ECommerce.Gateway.Api.Interfaces
         [Get("/api/products")]
         Task<ApiResponse<IEnumerable<ProductDto>>> Get();
 
-        [Get("/api/products")]
+        [Get("/api/products/{product}")]
         Task<ApiResponse<IEnumerable<ProductDto>>> Get(string product);
 
         [Put("/api/products")]

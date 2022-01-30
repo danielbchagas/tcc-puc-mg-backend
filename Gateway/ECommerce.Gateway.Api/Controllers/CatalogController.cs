@@ -39,7 +39,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{id:Guid}")]
+        [HttpGet]
         public async Task<IActionResult> Get()
         {
             var response = await _catalogService.Get();
@@ -55,7 +55,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{product:alpha}")]
         public async Task<IActionResult> Get(string product)
         {
             var response = await _catalogService.Get(product);

@@ -10,7 +10,7 @@ namespace ECommerce.Gateway.Api.Configurations
             {
                 options.AddPolicy("development", builder =>
                 {
-                    builder.WithOrigins("http://localhost", "https://localhost", "https://ecommerce-web-app.azurewebsites.net");
+                    builder.AllowAnyOrigin();
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
                 });
