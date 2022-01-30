@@ -2,6 +2,6 @@
 {
     public class ServiceOptions
     {
-        public string CustomersServiceUrl { get; set; }
+        public string CustomerServiceUrl { get; set; }
     }
 }

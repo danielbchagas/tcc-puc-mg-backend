@@ -6,7 +6,7 @@ namespace ECommerce.Identity.Api.Interfaces
 {
     public interface ICustomerService
     {
-        [Post("/api/customers")]
-        Task<ApiResponse<object>> Create([Body]CustomerDto customer, [Authorize("Bearer")] string accessToken);
+        [Post("/api/users")]
+        Task<ApiResponse<object>> Create([Body]UserDto user, [Authorize("Bearer")] string accessToken);
     }
 }

@@ -23,7 +23,7 @@ namespace ECommerce.Identity.Api.Configurations
                 {
                     var options = configuration.GetSection("ServiceOptions").Get<ServiceOptions>();
 
-                    config.BaseAddress = new Uri(options.CustomersServiceUrl);
+                    config.BaseAddress = new Uri(options.CustomerServiceUrl);
                 })
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
