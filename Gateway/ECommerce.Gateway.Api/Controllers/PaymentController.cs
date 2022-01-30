@@ -13,31 +13,31 @@ namespace ECommerce.Gateway.Api.Controllers
 
         public PaymentController()
         {
-            _aprovado = new Random().Next(0, 1) == 0 ? false : true;
+            _aprovado = new Random().Next(0, 1) != 0;
         }
 
-        [HttpPost("pagamento-cartao")]
-        public IActionResult PagarComCartao(decimal valor)
+        [HttpPost]
+        public IActionResult CreditCard(decimal value)
         {
             if (!_aprovado)
-                return Ok(new { valor = valor, mensagem = "Saldo insuficiente." });
+                return Ok(new { valor = value, mensagem = "Saldo insuficiente." });
 
-            return Ok(new { valor = valor, mensagem = "Pagamento aprovado." });
+            return Ok(new { valor = value, mensagem = "Pagamento aprovado." });
         }
 
-        [HttpPost("pagamento-bitcoin")]
-        public IActionResult PagarComBitcoin(decimal valor)
+        [HttpPost]
+        public IActionResult Bitcoin(decimal value)
         {
             if (!_aprovado)
-                return Ok(new { valor = valor, mensagem = "Saldo insuficiente." });
+                return Ok(new { valor = value, mensagem = "Saldo insuficiente." });
 
-            return Ok(new { valor = valor, mensagem = "Pagamento aprovado." });
+            return Ok(new { valor = value, mensagem = "Pagamento aprovado." });
         }
 
-        [HttpPost("pagamento-boleto")]
-        public IActionResult PagarComBoleto(decimal valor)
+        [HttpPost]
+        public IActionResult BankBill(decimal value)
         {
-            return Ok(new { valor = valor, mensagem = "Pagamento em processamento..." });
+            return Ok(new { valor = value, mensagem = "Pagamento em processamento..." });
         }
     }
 }

@@ -27,18 +27,18 @@ namespace ECommerce.Gateway.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(BasketItemDto itemDto)
+        public async Task<IActionResult> Create(BasketItemDto item)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _catalogService.Get(itemDto.ProductId);
+            var response = await _catalogService.Get(item.ProductId);
 
             #region Is product available in stock?
-            if (response.Content.Quantity < itemDto.Quantity)
+            if (response.Content.Quantity < item.Quantity)
                 return BadRequest("Quantidade indisponível em estoque!");
             #endregion
 
             #region Stock update
-            response.Content.Quantity -= itemDto.Quantity;
+            response.Content.Quantity -= item.Quantity;
             var result = await _catalogService.Update(response.Content, accessToken);
 
             if (!result.IsSuccessStatusCode)
@@ -46,11 +46,11 @@ namespace ECommerce.Gateway.Api.Controllers
             #endregion
 
             #region Basket update
-            itemDto.Name = response.Content.Name;
-            itemDto.Image = response.Content.Image;
-            itemDto.Value = response.Content.Value;
+            item.Name = response.Content.Name;
+            item.Image = response.Content.Image;
+            item.Value = response.Content.Value;
 
-            result = await _basketService.CreateItemCarrinho(itemDto, accessToken);
+            result = await _basketService.CreateItemCarrinho(item, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);

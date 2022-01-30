@@ -42,12 +42,12 @@ namespace ECommerce.Gateway.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CustomerBasketDto basketDto)
+        public async Task<IActionResult> Create(CustomerBasketDto basket)
         {
-            basketDto.CustomerId = Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            basket.CustomerId = Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _basketService.Create(basketDto, accessToken);
+            var response = await _basketService.Create(basket, accessToken);
 
             if (!response.IsSuccessStatusCode)
                 return BadRequest(response.Error);

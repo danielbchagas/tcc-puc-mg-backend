@@ -41,10 +41,10 @@ namespace ECommerce.Gateway.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Update(CustomerDto customerDto)
+        public async Task<IActionResult> Update(UserDto user)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _customerService.UpdateCustomer(customerDto, accessToken);
+            var response = await _customerService.UpdateCustomer(user, accessToken);
 
             if (!response.IsSuccessStatusCode)
                 return BadRequest(response.Error.Content);

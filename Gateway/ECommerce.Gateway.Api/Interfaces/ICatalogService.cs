@@ -11,11 +11,11 @@ namespace ECommerce.Gateway.Api.Interfaces
         [Get("/api/products/{id}")]
         Task<ApiResponse<ProductDto>> Get(Guid id);
 
-        [Get("/api/products/{page}/{rows}")]
-        Task<ApiResponse<IEnumerable<ProductDto>>> Get(int page, int rows);
+        [Get("/api/products")]
+        Task<ApiResponse<IEnumerable<ProductDto>>> Get();
 
-        [Get("/api/products/{name}/{page}/{rows}")]
-        Task<ApiResponse<IEnumerable<ProductDto>>> Get(string name, int page, int rows);
+        [Get("/api/products")]
+        Task<ApiResponse<IEnumerable<ProductDto>>> Get(string product);
 
         [Put("/api/products")]
         Task<IApiResponse> Update(ProductDto product, [Authorize("Bearer")] string accessToken);

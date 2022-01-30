@@ -7,13 +7,13 @@ namespace ECommerce.Gateway.Api.Interfaces
 {
     public interface ICustomerService
     {
-        [Get("/api/customers/{id}")]
-        Task<ApiResponse<CustomerDto>> GetCustomer(Guid id, [Authorize("Bearer")] string accessToken);
+        [Get("/api/users/{id}")]
+        Task<ApiResponse<UserDto>> GetCustomer(Guid id, [Authorize("Bearer")] string accessToken);
 
-        [Put("/api/customers")]
-        Task<IApiResponse> UpdateCustomer(CustomerDto customerDto, [Authorize("Bearer")] string accessToken);
+        [Put("/api/users")]
+        Task<IApiResponse> UpdateCustomer(UserDto userDto, [Authorize("Bearer")] string accessToken);
 
-        [Delete("/api/customers/{id}")]
+        [Delete("/api/users/{id}")]
         Task<IApiResponse> DeleteCustomer(Guid id, [Authorize("Bearer")] string accessToken);
 
         [Get("/api/documents/{id}")]
