@@ -91,7 +91,9 @@ namespace ECommerce.Identity.Api.Controllers
                 return BadRequest("Não foi possível efetivar o seu cadastro.");
             }
 
-            return Ok(await _jwtHandler.GenerateNewToken(user.Email));
+            var token = await _jwtHandler.GenerateNewToken(user.Email);
+
+            return Ok(new { Token = token, IsAuthSuccessful = true });
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -104,7 +106,9 @@ namespace ECommerce.Identity.Api.Controllers
             if (!result.Succeeded)
                 return BadRequest();
 
-            return Ok(await _jwtHandler.GenerateNewToken(user.Email));
+            var token = await _jwtHandler.GenerateNewToken(user.Email);
+
+            return Ok(new { Token = token, IsAuthSuccessful = true });
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]

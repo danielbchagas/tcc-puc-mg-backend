@@ -16,7 +16,7 @@ namespace ECommerce.Gateway.Api.Controllers
             _aprovado = new Random().Next(0, 1) != 0;
         }
 
-        [HttpPost]
+        [HttpPost("credit-card")]
         public IActionResult CreditCard(decimal value)
         {
             if (!_aprovado)
@@ -25,7 +25,7 @@ namespace ECommerce.Gateway.Api.Controllers
             return Ok(new { valor = value, mensagem = "Pagamento aprovado." });
         }
 
-        [HttpPost]
+        [HttpPost("bitcoin")]
         public IActionResult Bitcoin(decimal value)
         {
             if (!_aprovado)
@@ -34,7 +34,7 @@ namespace ECommerce.Gateway.Api.Controllers
             return Ok(new { valor = value, mensagem = "Pagamento aprovado." });
         }
 
-        [HttpPost]
+        [HttpPost("bank-bill")]
         public IActionResult BankBill(decimal value)
         {
             return Ok(new { valor = value, mensagem = "Pagamento em processamento..." });
