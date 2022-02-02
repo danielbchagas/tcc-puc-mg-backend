@@ -38,9 +38,9 @@ namespace ECommerce.Customer.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateUserCommand command)
+        public async Task<IActionResult> Create(CreateUserCommand request)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(request);
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));

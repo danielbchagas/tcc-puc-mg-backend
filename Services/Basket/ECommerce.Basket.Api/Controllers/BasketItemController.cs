@@ -1,4 +1,5 @@
-﻿using ECommerce.Basket.Application.Commands;
+﻿using System;
+using ECommerce.Basket.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,12 +15,10 @@ namespace ECommerce.Basket.Api.Controllers
     public class BasketItemController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BasketItemController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+        public BasketItemController(IMediator mediator)
         {
             _mediator = mediator;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -38,9 +37,9 @@ namespace ECommerce.Basket.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Update(UpdateBasketItemCommand command)
+        public async Task<IActionResult> Update(UpdateBasketItemCommand request)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(request);
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));
@@ -50,10 +49,10 @@ namespace ECommerce.Basket.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete]
-        public async Task<IActionResult> Delete(DeleteBasketItemCommand command)
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(new DeleteBasketItemCommand(id));
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));

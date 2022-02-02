@@ -36,9 +36,14 @@ namespace ECommerce.Basket.Infrastructure.Repositories
             return await _context.BasketItems.FirstOrDefaultAsync(ic => ic.ProductId == productId);
         }
 
+        public async Task<BasketItem> Get(Guid id)
+        {
+            return await _context.BasketItems.FindAsync(id);
+        }
+
         public async Task Delete(Guid id)
         {
-            var item = await _context.BasketItems.FindAsync(id);
+            var item = await Get(id);
 
             _context.BasketItems.Remove(item);
         }

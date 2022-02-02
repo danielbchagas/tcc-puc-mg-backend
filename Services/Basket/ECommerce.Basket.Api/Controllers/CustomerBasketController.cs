@@ -17,12 +17,10 @@ namespace ECommerce.Basket.Api.Controllers
     public class CustomerBasketController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CustomerBasketController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+        public CustomerBasketController(IMediator mediator)
         {
             _mediator = mediator;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -54,12 +52,10 @@ namespace ECommerce.Basket.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("{customerId:Guid}")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var result = await _mediator.Send(new DeleteCustomerBasketCommand(id, new Guid(userId)));
+            var result = await _mediator.Send(new DeleteCustomerBasketCommand(id));
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));

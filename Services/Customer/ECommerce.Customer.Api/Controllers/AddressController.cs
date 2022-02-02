@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using ECommerce.Customer.Application.Commands;
 using ECommerce.Customer.Application.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Customer.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AddressController : ControllerBase
@@ -25,12 +27,12 @@ namespace ECommerce.Customer.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var endereco = await _mediator.Send(new GetAddressQuery(id));
+            var result = await _mediator.Send(new GetAddressQuery(id));
 
-            if (endereco is null)
+            if (result is null)
                 return NotFound();
 
-            return Ok(endereco);
+            return Ok(result);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]

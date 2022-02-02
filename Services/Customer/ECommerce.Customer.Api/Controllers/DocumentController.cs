@@ -38,9 +38,9 @@ namespace ECommerce.Customer.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateDocumentCommand command)
+        public async Task<IActionResult> Create(CreateDocumentCommand request)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(request);
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));
@@ -51,9 +51,9 @@ namespace ECommerce.Customer.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Update(UpdateDocumentCommand command)
+        public async Task<IActionResult> Update(UpdateDocumentCommand request)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(request);
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));
