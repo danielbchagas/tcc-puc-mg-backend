@@ -50,7 +50,7 @@ namespace ECommerce.Gateway.Api.Controllers
             item.Image = response.Content.Image;
             item.Value = response.Content.Value;
 
-            result = await _basketService.CreateItemCarrinho(item, accessToken);
+            result = await _basketService.CreateBasketItem(item, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
@@ -65,7 +65,7 @@ namespace ECommerce.Gateway.Api.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _basketService.DeleteItemCarrinho(id, accessToken);
+            var response = await _basketService.DeleteBasketItem(id, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

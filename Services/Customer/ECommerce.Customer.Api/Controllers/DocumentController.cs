@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ECommerce.Ordering.Application.Commands;
-using ECommerce.Ordering.Application.Queries;
+using ECommerce.Customer.Application.Commands;
+using ECommerce.Customer.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ECommerce.Ordering.Api.Controllers
+namespace ECommerce.Customer.Api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    public class DocumentController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public OrdersController(IMediator mediator)
+        public DocumentController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -27,7 +27,7 @@ namespace ECommerce.Ordering.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _mediator.Send(new GetPedidoQuery(id));
+            var result = await _mediator.Send(new GetDocumentQuery(id));
 
             if (result is null)
                 return NotFound();
@@ -38,9 +38,22 @@ namespace ECommerce.Ordering.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateOrderCommand request)
+        public async Task<IActionResult> Create(CreateDocumentCommand command)
         {
-            var result = await _mediator.Send(request);
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValid)
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateDocumentCommand command)
+        {
+            var result = await _mediator.Send(command);
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));

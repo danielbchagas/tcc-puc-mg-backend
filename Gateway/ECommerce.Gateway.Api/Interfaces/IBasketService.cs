@@ -7,19 +7,19 @@ namespace ECommerce.Gateway.Api.Interfaces
 {
     public interface IBasketService
     {
-        [Get("/api/baskets/{id}")]
-        Task<ApiResponse<CustomerBasketDto>> GetCarrinho(Guid id, [Authorize("Bearer")] string accessToken);
+        [Get("/api/customerbasket/{customerId}")]
+        Task<ApiResponse<CustomerBasketDto>> GetCustomerBasket(Guid customerId, [Authorize("Bearer")] string accessToken);
         
-        [Post("/api/baskets")]
-        Task<ApiResponse<object>> Create(CustomerBasketDto dto, [Authorize("Bearer")] string accessToken);
+        [Post("/api/customerbasket")]
+        Task<ApiResponse<object>> CreateCustomerBasket(CustomerBasketDto customerBasket, [Authorize("Bearer")] string accessToken);
         
-        [Delete("/api/baskets/{id}")]
-        Task<ApiResponse<object>> DeleteCarrinho(Guid id, [Authorize("Bearer")] string accessToken);
+        [Delete("/api/customerbasket/{customerBasketId}")]
+        Task<ApiResponse<object>> DeleteCustomerBasket(Guid customerBasketId, [Authorize("Bearer")] string accessToken);
         
-        [Post("/api/basketItems")]
-        Task<ApiResponse<object>> CreateItemCarrinho(BasketItemDto dto, [Authorize("Bearer")] string accessToken);
+        [Post("/api/basketItemId")]
+        Task<ApiResponse<object>> CreateBasketItem(BasketItemDto basketItem, [Authorize("Bearer")] string accessToken);
         
-        [Delete("/api/basketItems/{id}")]
-        Task<ApiResponse<object>> DeleteItemCarrinho(Guid id, [Authorize("Bearer")] string accessToken);
+        [Delete("/api/basketitem/{basketItemId}")]
+        Task<ApiResponse<object>> DeleteBasketItem(Guid basketItemId, [Authorize("Bearer")] string accessToken);
     }
 }

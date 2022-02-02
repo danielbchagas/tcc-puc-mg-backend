@@ -4,20 +4,18 @@ using System.Threading.Tasks;
 using ECommerce.Customer.Application.Commands;
 using ECommerce.Customer.Application.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Customer.Api.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class DocumentsController : ControllerBase
+    public class PhoneController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public DocumentsController(IMediator mediator)
+        public PhoneController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -27,7 +25,7 @@ namespace ECommerce.Customer.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _mediator.Send(new GetDocumentQuery(id));
+            var result = await _mediator.Send(new GetPhoneQuery(id));
 
             if (result is null)
                 return NotFound();
@@ -38,7 +36,7 @@ namespace ECommerce.Customer.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateDocumentCommand command)
+        public async Task<IActionResult> Create(CreatePhoneCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -51,7 +49,7 @@ namespace ECommerce.Customer.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Update(UpdateDocumentCommand command)
+        public async Task<IActionResult> Update(UpdatePhoneCommand command)
         {
             var result = await _mediator.Send(command);
 

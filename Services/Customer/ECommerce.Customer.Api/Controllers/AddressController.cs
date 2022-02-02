@@ -11,11 +11,11 @@ namespace ECommerce.Customer.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PhonesController : ControllerBase
+    public class AddressController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public PhonesController(IMediator mediator)
+        public AddressController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -25,20 +25,20 @@ namespace ECommerce.Customer.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _mediator.Send(new GetPhoneQuery(id));
+            var endereco = await _mediator.Send(new GetAddressQuery(id));
 
-            if (result is null)
+            if (endereco is null)
                 return NotFound();
 
-            return Ok(result);
+            return Ok(endereco);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CreatePhoneCommand command)
+        public async Task<IActionResult> Create(CreateAddressCommand request)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(request);
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));
@@ -49,9 +49,9 @@ namespace ECommerce.Customer.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<IActionResult> Update(UpdatePhoneCommand command)
+        public async Task<IActionResult> Update(UpdateAddressCommand request)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(request);
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));

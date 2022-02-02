@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ECommerce.Customer.Application.Commands;
-using ECommerce.Customer.Application.Queries;
+using ECommerce.Ordering.Application.Commands;
+using ECommerce.Ordering.Application.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ECommerce.Customer.Api.Controllers
+namespace ECommerce.Ordering.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class AddressesController : ControllerBase
+    public class OrderController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public AddressesController(IMediator mediator)
+        public OrderController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -25,31 +27,18 @@ namespace ECommerce.Customer.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var endereco = await _mediator.Send(new GetAddressQuery(id));
+            var result = await _mediator.Send(new GetPedidoQuery(id));
 
-            if (endereco is null)
+            if (result is null)
                 return NotFound();
 
-            return Ok(endereco);
+            return Ok(result);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateAddressCommand request)
-        {
-            var result = await _mediator.Send(request);
-
-            if (!result.IsValid)
-                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
-
-            return Ok();
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPut]
-        public async Task<IActionResult> Update(UpdateAddressCommand request)
+        public async Task<IActionResult> Create(CreateOrderCommand request)
         {
             var result = await _mediator.Send(request);
 

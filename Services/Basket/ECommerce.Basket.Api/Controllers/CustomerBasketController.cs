@@ -14,12 +14,12 @@ namespace ECommerce.Basket.Api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerBasketsController : ControllerBase
+    public class CustomerBasketController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CustomerBasketsController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+        public CustomerBasketController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
         {
             _mediator = mediator;
             _httpContextAccessor = httpContextAccessor;

@@ -7,10 +7,7 @@ using Polly;
 using Polly.Extensions.Http;
 using Refit;
 using System;
-using System.Net;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ECommerce.Gateway.Api.Configurations
 {
@@ -21,29 +18,37 @@ namespace ECommerce.Gateway.Api.Configurations
             var options = configuration.GetSection("ServiceOptions").Get<ServiceOption>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddTransient<ValidateHeaderHandler>();
-
+            
             services.AddRefitClient<ICustomerService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.CustomerServiceUrl))
-                .AddHttpMessageHandler<ValidateHeaderHandler>()
+                .ConfigureHttpClient(config =>
+                {
+                    config.BaseAddress = new Uri(options.CustomerServiceUrl);
+                })
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
             services.AddRefitClient<IOrderingService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.OrderingServiceUrl))
-                .AddHttpMessageHandler<ValidateHeaderHandler>()
+                .ConfigureHttpClient(config =>
+                {
+                    config.BaseAddress = new Uri(options.CustomerServiceUrl);
+                })
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
             services.AddRefitClient<IBasketService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.BasketServiceUrl))
-                .AddHttpMessageHandler<ValidateHeaderHandler>()
+                .ConfigureHttpClient(config =>
+                {
+                    config.BaseAddress = new Uri(options.CustomerServiceUrl);
+                })
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
+
             services.AddRefitClient<ICatalogService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(options.CatalogServiceUrl))
+                .ConfigureHttpClient(config =>
+                {
+                    config.BaseAddress = new Uri(options.CustomerServiceUrl);
+                })
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
         }
@@ -54,22 +59,6 @@ namespace ECommerce.Gateway.Api.Configurations
                 .HandleTransientHttpError()
                 .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
                 .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-        }
-
-        public class ValidateHeaderHandler : DelegatingHandler
-        {
-            protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-            {
-                if (!request.Headers.Contains("Authorization"))
-                {
-                    return new HttpResponseMessage(HttpStatusCode.BadRequest)
-                    {
-                        Content = new StringContent("Bearer Token não encontrado.")
-                    };
-                }
-
-                return await base.SendAsync(request, cancellationToken);
-            }
         }
     }
 }

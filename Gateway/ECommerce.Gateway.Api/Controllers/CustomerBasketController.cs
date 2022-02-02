@@ -14,12 +14,12 @@ namespace ECommerce.Gateway.Api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class BasketController : ControllerBase
+    public class CustomerBasketController : ControllerBase
     {
         private readonly IBasketService _basketService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BasketController(IBasketService basketService, IHttpContextAccessor httpContextAccessor)
+        public CustomerBasketController(IBasketService basketService, IHttpContextAccessor httpContextAccessor)
         {
             _basketService = basketService;
             _httpContextAccessor = httpContextAccessor;
@@ -31,7 +31,7 @@ namespace ECommerce.Gateway.Api.Controllers
         public async Task<IActionResult> Get(Guid customerId)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _basketService.GetCarrinho(customerId, accessToken);
+            var response = await _basketService.GetCustomerBasket(customerId, accessToken);
 
             if (!response.IsSuccessStatusCode)
                 return BadRequest(response.Error);
@@ -47,7 +47,7 @@ namespace ECommerce.Gateway.Api.Controllers
             basket.CustomerId = Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _basketService.Create(basket, accessToken);
+            var response = await _basketService.CreateCustomerBasket(basket, accessToken);
 
             if (!response.IsSuccessStatusCode)
                 return BadRequest(response.Error);
@@ -61,7 +61,7 @@ namespace ECommerce.Gateway.Api.Controllers
         public async Task<IActionResult> Delete(Guid customerId)
         {
             var accessToken = Request.Headers[HeaderNames.Authorization];
-            var response = await _basketService.DeleteCarrinho(customerId, accessToken);
+            var response = await _basketService.DeleteCustomerBasket(customerId, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();

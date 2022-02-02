@@ -8,16 +8,16 @@ namespace ECommerce.Gateway.Api.Interfaces
 {
     public interface ICatalogService
     {
-        [Get("/api/products/{id}")]
+        [Get("/api/product/{id}")]
         Task<ApiResponse<ProductDto>> Get(Guid id);
 
-        [Get("/api/products")]
+        [Get("/api/product")]
         Task<ApiResponse<IEnumerable<ProductDto>>> Get();
 
-        [Get("/api/products/{product}")]
+        [Get("/api/product/{product}")]
         Task<ApiResponse<IEnumerable<ProductDto>>> Get(string product);
 
-        [Put("/api/products")]
+        [Put("/api/product")]
         Task<IApiResponse> Update(ProductDto product, [Authorize("Bearer")] string accessToken);
     }
 }

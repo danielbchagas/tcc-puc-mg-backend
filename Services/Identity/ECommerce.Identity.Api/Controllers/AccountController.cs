@@ -22,18 +22,18 @@ namespace ECommerce.Identity.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountsController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<AccountsController> _logger;
+        private readonly ILogger<AccountController> _logger;
         private readonly JwtHandler _jwtHandler;
         private readonly RabbitMqOption _rabbitMQOptions;
         private readonly ICustomerService _customerService;
 
-        public AccountsController(SignInManager<IdentityUser> signInManager, 
+        public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
-            ILogger<AccountsController> logger, 
+            ILogger<AccountController> logger, 
             IOptions<RabbitMqOption> rabbitMQOptions,
             ICustomerService customerService,
             JwtHandler jwtHandler)
