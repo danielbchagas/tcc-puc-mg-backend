@@ -161,7 +161,7 @@ namespace ECommerce.Identity.Api.Controllers
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
 
-            var newUser = new UserDto 
+            var customer = new CustomerDto 
             {
                 Id = Guid.Parse(identityUser.Id),
                 FirstName = user.FirstName,
@@ -172,24 +172,24 @@ namespace ECommerce.Identity.Api.Controllers
             var document = new DocumentDto 
             {
                 Number = user.Document,
-                UserId = newUser.Id
+                UserId = customer.Id
             };
 
             var email = new EmailDto 
             {
                 Address = user.Email,
-                UserId = newUser.Id
+                UserId = customer.Id
             };
 
             var phone = new PhoneDto 
             {
                 Number = user.Phone,
-                UserId = newUser.Id
+                UserId = customer.Id
             };
 
-            newUser.Document = document;
-            newUser.Email = email;
-            newUser.Phone = phone;
+            customer.Document = document;
+            customer.Email = email;
+            customer.Phone = phone;
 
             void OnDisconnect(object source, EventArgs e)
             {
@@ -201,7 +201,7 @@ namespace ECommerce.Identity.Api.Controllers
             var bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus);
             bus.Advanced.Disconnected += OnDisconnect;
 
-            var customerResult = await bus.Rpc.RequestAsync<UserDto, ValidationResult>(newUser);
+            var customerResult = await bus.Rpc.RequestAsync<CustomerDto, ValidationResult>(customer);
             var documentResult = await bus.Rpc.RequestAsync<DocumentDto, ValidationResult>(document);
             var emailResult = await bus.Rpc.RequestAsync<EmailDto, ValidationResult>(email);
             var phoneResult = await bus.Rpc.RequestAsync<PhoneDto, ValidationResult>(phone);
@@ -230,7 +230,7 @@ namespace ECommerce.Identity.Api.Controllers
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
 
-            var newUser = new UserDto() 
+            var customer = new CustomerDto() 
             {
                 Id = Guid.Parse(identityUser.Id),
                 FirstName = user.FirstName,
@@ -241,26 +241,26 @@ namespace ECommerce.Identity.Api.Controllers
             var document = new DocumentDto
             {
                 Number = user.Document,
-                UserId = newUser.Id
+                UserId = customer.Id
             };
 
             var email = new EmailDto
             {
                 Address = user.Email,
-                UserId = newUser.Id
+                UserId = customer.Id
             };
 
             var phone = new PhoneDto
             {
                 Number = user.Phone,
-                UserId = newUser.Id
+                UserId = customer.Id
             };
 
-            newUser.Document = document;
-            newUser.Email = email;
-            newUser.Phone = phone;
+            customer.Document = document;
+            customer.Email = email;
+            customer.Phone = phone;
 
-            var result = await _customerService.Create(newUser, await _jwtHandler.GenerateNewToken(user.Email));
+            var result = await _customerService.Create(customer, await _jwtHandler.GenerateNewToken(user.Email));
 
             if (!result.IsSuccessStatusCode)
                 await CreateUserRollback(user);

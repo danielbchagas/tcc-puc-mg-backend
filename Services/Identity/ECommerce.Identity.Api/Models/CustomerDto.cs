@@ -2,7 +2,7 @@
 
 namespace ECommerce.Identity.Api.Models
 {
-    public class UserDto
+    public class CustomerDto
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
