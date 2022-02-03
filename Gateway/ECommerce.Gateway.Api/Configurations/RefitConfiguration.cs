@@ -30,7 +30,7 @@ namespace ECommerce.Gateway.Api.Configurations
             services.AddRefitClient<IOrderingService>()
                 .ConfigureHttpClient(config =>
                 {
-                    config.BaseAddress = new Uri(options.CustomerServiceUrl);
+                    config.BaseAddress = new Uri(options.OrderingServiceUrl);
                 })
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
@@ -38,7 +38,7 @@ namespace ECommerce.Gateway.Api.Configurations
             services.AddRefitClient<IBasketService>()
                 .ConfigureHttpClient(config =>
                 {
-                    config.BaseAddress = new Uri(options.CustomerServiceUrl);
+                    config.BaseAddress = new Uri(options.BasketServiceUrl);
                 })
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
@@ -47,7 +47,7 @@ namespace ECommerce.Gateway.Api.Configurations
             services.AddRefitClient<ICatalogService>()
                 .ConfigureHttpClient(config =>
                 {
-                    config.BaseAddress = new Uri(options.CustomerServiceUrl);
+                    config.BaseAddress = new Uri(options.CatalogServiceUrl);
                 })
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
