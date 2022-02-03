@@ -16,7 +16,7 @@ namespace ECommerce.Gateway.Api.Interfaces
         [Delete("/api/customerbasket/{customerBasketId}")]
         Task<ApiResponse<object>> DeleteCustomerBasket(Guid customerBasketId, [Authorize("Bearer")] string accessToken);
         
-        [Post("/api/basketItemId")]
+        [Post("/api/basketItem")]
         Task<ApiResponse<object>> CreateBasketItem(BasketItemDto basketItem, [Authorize("Bearer")] string accessToken);
         
         [Delete("/api/basketitem/{basketItemId}")]
