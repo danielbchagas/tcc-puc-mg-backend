@@ -8,6 +8,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ECommerce.Gateway.Api.Models;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ECommerce.Gateway.Api.Controllers
 {
@@ -30,7 +31,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpGet("{customerId:Guid}")]
         public async Task<IActionResult> Get(Guid customerId)
         {
-            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             var response = await _basketService.GetCustomerBasket(customerId, accessToken);
 
             if (!response.IsSuccessStatusCode)
@@ -44,9 +45,10 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CustomerBasketDto basket)
         {
-            basket.CustomerId = Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
 
-            var accessToken = Request.Headers[HeaderNames.Authorization];
+            basket.CustomerId = Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            
             var response = await _basketService.CreateCustomerBasket(basket, accessToken);
 
             if (!response.IsSuccessStatusCode)
@@ -60,7 +62,8 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpDelete("{customerId:Guid}")]
         public async Task<IActionResult> Delete(Guid customerId)
         {
-            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+
             var response = await _basketService.DeleteCustomerBasket(customerId, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
