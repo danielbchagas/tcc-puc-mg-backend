@@ -7,25 +7,25 @@ namespace ECommerce.Gateway.Api.Interfaces
 {
     public interface ICustomerService
     {
-        [Get("/api/users/{id}")]
-        Task<ApiResponse<UserDto>> GetCustomer(Guid id, [Authorize("Bearer")] string accessToken);
+        [Get("/api/user/{id}")]
+        Task<ApiResponse<CustomerDto>> GetCustomer(Guid id, [Authorize("Bearer")] string accessToken);
 
-        [Put("/api/users")]
-        Task<IApiResponse> UpdateCustomer(UserDto userDto, [Authorize("Bearer")] string accessToken);
+        [Put("/api/user")]
+        Task<IApiResponse> UpdateCustomer(CustomerDto customer, [Authorize("Bearer")] string accessToken);
 
-        [Delete("/api/users/{id}")]
+        [Delete("/api/user/{id}")]
         Task<IApiResponse> DeleteCustomer(Guid id, [Authorize("Bearer")] string accessToken);
 
-        [Get("/api/documents/{id}")]
+        [Get("/api/document/{id}")]
         Task<ApiResponse<DocumentDto>> GetDocument(Guid id, [Authorize("Bearer")] string accessToken);
 
-        [Get("/api/emails/{id}")]
+        [Get("/api/email/{id}")]
         Task<ApiResponse<EmailDto>> GetEmail(Guid id, [Authorize("Bearer")] string accessToken);
 
-        [Get("/api/phones/{id}")]
+        [Get("/api/phone/{id}")]
         Task<ApiResponse<PhoneDto>> GetPhone(Guid id, [Authorize("Bearer")] string accessToken);
 
-        [Get("/api/addresses/{id}")]
+        [Get("/api/address/{id}")]
         Task<ApiResponse<AddressDto>> GetAddress(Guid id, [Authorize("Bearer")] string accessToken);
     }
 }
