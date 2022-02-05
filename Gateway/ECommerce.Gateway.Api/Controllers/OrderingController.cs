@@ -1,12 +1,12 @@
 ﻿using ECommerce.Gateway.Api.Interfaces;
+using ECommerce.Gateway.Api.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using ECommerce.Gateway.Api.Models;
 
 namespace ECommerce.Gateway.Api.Controllers
 {
@@ -16,10 +16,12 @@ namespace ECommerce.Gateway.Api.Controllers
     public class OrderingController : ControllerBase
     {
         private readonly IOrderingService _orderingService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public OrderingController(IOrderingService orderingService)
+        public OrderingController(IOrderingService orderingService, IHttpContextAccessor httpContextAccessor)
         {
             _orderingService = orderingService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -27,7 +29,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             var response = await _orderingService.GetOrder(id, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
@@ -43,7 +45,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(OrderDto order)
         {
-            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             var response = await _orderingService.Create(order, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)

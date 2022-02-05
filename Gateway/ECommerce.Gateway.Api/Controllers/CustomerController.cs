@@ -1,12 +1,12 @@
 ﻿using ECommerce.Gateway.Api.Interfaces;
+using ECommerce.Gateway.Api.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using ECommerce.Gateway.Api.Models;
 
 namespace ECommerce.Gateway.Api.Controllers
 {
@@ -16,10 +16,12 @@ namespace ECommerce.Gateway.Api.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, IHttpContextAccessor httpContextAccessor)
         {
             _customerService = customerService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -27,7 +29,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             var response = await _customerService.GetCustomer(id, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
@@ -43,7 +45,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(UserDto user)
         {
-            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             var response = await _customerService.UpdateCustomer(user, accessToken);
 
             if (!response.IsSuccessStatusCode)
@@ -57,7 +59,7 @@ namespace ECommerce.Gateway.Api.Controllers
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var accessToken = Request.Headers[HeaderNames.Authorization];
+            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             var response = await _customerService.DeleteCustomer(id, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)

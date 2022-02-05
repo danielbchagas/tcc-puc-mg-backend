@@ -1,14 +1,13 @@
 ﻿using ECommerce.Gateway.Api.Interfaces;
+using ECommerce.Gateway.Api.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using System;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using ECommerce.Gateway.Api.Models;
-using Microsoft.AspNetCore.Authentication;
 
 namespace ECommerce.Gateway.Api.Controllers
 {
