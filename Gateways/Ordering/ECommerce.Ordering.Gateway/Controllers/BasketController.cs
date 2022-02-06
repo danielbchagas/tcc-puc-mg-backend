@@ -29,7 +29,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{customerId:Guid}")]
-        public async Task<IActionResult> Get(Guid customerId)
+        public async Task<IActionResult> GetBasket(Guid customerId)
         {
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             var response = await _basketService.GetCustomerBasket(customerId, accessToken);
@@ -43,7 +43,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CustomerBasketDto basket)
+        public async Task<IActionResult> CreateBasket(CustomerBasketDto basket)
         {
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
 
@@ -59,7 +59,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("basket/{customerId:Guid}")]
+        [HttpDelete("{customerId:Guid}")]
         public async Task<IActionResult> DeleteBasket(Guid customerId)
         {
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
@@ -68,7 +68,8 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
-            else if (!response.IsSuccessStatusCode)
+            
+            if (!response.IsSuccessStatusCode)
                 return BadRequest(response.Error);
 
             return NoContent();
@@ -76,15 +77,23 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost]
-        public async Task<IActionResult> Create(BasketItemDto item)
+        [HttpPost("item/")]
+        public async Task<IActionResult> CreateItem(BasketItemDto item)
         {
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             var response = await _catalogService.Get(item.ProductId);
 
             #region Is product available in stock?
-            if (response.Content.Quantity < item.Quantity)
-                return BadRequest("Quantidade indisponível em estoque!");
+
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.Content.Quantity < item.Quantity)
+                    return BadRequest("Quantidade indisponível em estoque!");
+            }
+            else
+            {
+                return BadRequest("Produto não encontrado!");
+            }
             #endregion
 
             #region Stock update
@@ -96,10 +105,6 @@ namespace ECommerce.Ordering.Gateway.Controllers
             #endregion
 
             #region Basket update
-            item.Name = response.Content.Name;
-            item.Image = response.Content.Image;
-            item.Value = response.Content.Value;
-
             result = await _basketService.CreateBasketItem(item, accessToken);
 
             if (!result.IsSuccessStatusCode)
@@ -119,7 +124,8 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return NotFound();
-            else if (!response.IsSuccessStatusCode)
+            
+            if (!response.IsSuccessStatusCode)
                 return BadRequest(response.Error);
 
             return NoContent();

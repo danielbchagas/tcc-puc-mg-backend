@@ -1,3 +1,4 @@
+using ECommerce.Core.Apis.Configurations;
 using ECommerce.Ordering.Gateway.Configurations;
 using ECommerce.Ordering.Gateway.Middlewares;
 using Microsoft.AspNetCore.Builder;
@@ -29,8 +30,8 @@ namespace ECommerce.Ordering.Gateway
         {
             services.AddRefitConfiguration(Configuration);
             services.AddDependencyInjectionConfiguration();
-            services.AddIdentityConfiguration(Configuration);
-            services.AddSwaggerConfiguration();
+            services.AddIdentityConfiguration(Configuration.GetSection("JwtOptions").Get<ECommerce.Core.Apis.Options.Jwt>());
+            services.AddSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
             services.AddOptionsConfiguration(Configuration);
             services.AddCorsConfiguration();
 
@@ -43,13 +44,13 @@ namespace ECommerce.Ordering.Gateway
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
 
                 app.UseCors("development");
             }
             else
             {
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
 
                 app.UseCors("production");
             }
