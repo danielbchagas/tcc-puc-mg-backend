@@ -1,7 +1,7 @@
-﻿using System;
-using ECommerce.Customer.Domain.Enums;
+﻿using ECommerce.Core.Models.Customer;
 using FluentValidation.Results;
 using MediatR;
+using System;
 
 namespace ECommerce.Customer.Application.Commands
 {

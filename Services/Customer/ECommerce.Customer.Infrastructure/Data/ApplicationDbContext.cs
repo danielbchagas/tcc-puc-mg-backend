@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using ECommerce.Core.Models.Customer;
 using ECommerce.Customer.Domain.Interfaces.Data;
-using ECommerce.Customer.Domain.Models;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace ECommerce.Customer.Infrastructure.Data
 {

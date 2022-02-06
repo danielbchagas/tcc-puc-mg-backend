@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using ECommerce.Core.Models.Customer;
 using ECommerce.Customer.Domain.Interfaces.Data;
-using ECommerce.Customer.Domain.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace ECommerce.Customer.Domain.Interfaces.Repositories
 {

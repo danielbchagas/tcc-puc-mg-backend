@@ -1,10 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using ECommerce.Core.Models.Customer;
 using ECommerce.Customer.Application.Commands;
 using ECommerce.Customer.Domain.Interfaces.Repositories;
-using ECommerce.Customer.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Customer.Application.Handlers.Commands
 {

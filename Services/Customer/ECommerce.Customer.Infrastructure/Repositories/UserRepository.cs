@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ECommerce.Core.Models.Customer;
 using ECommerce.Customer.Domain.Interfaces.Data;
 using ECommerce.Customer.Domain.Interfaces.Repositories;
-using ECommerce.Customer.Domain.Models;
 using ECommerce.Customer.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Customer.Infrastructure.Repositories
 {

@@ -1,11 +1,11 @@
 ﻿#define REST
 
+using ECommerce.Core.Models.Customer;
 using ECommerce.Customer.Application.Commands;
 using ECommerce.Customer.Application.Handlers.Commands;
 using ECommerce.Customer.Application.Handlers.Queries;
 using ECommerce.Customer.Application.Queries;
 using ECommerce.Customer.Domain.Interfaces.Repositories;
-using ECommerce.Customer.Domain.Models;
 using ECommerce.Customer.Infrastructure.Repositories;
 using FluentValidation.Results;
 using MediatR;
