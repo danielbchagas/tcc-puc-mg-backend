@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using ECommerce.Basket.Application.Commands;
+﻿using ECommerce.Basket.Application.Commands;
 using ECommerce.Basket.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Basket.Api.Controllers
 {

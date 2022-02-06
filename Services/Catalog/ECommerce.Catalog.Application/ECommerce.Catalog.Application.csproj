@@ -12,4 +12,8 @@
     <ProjectReference Include="..\ECommerce.Catalog.Domain\ECommerce.Catalog.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\Commands\" />
+  </ItemGroup>
+
 </Project>

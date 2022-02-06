@@ -36,19 +36,6 @@ namespace ECommerce.Basket.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPut]
-        public async Task<IActionResult> Update(UpdateBasketItemCommand request)
-        {
-            var result = await _mediator.Send(request);
-
-            if (!result.IsValid)
-                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
-
-            return Ok();
-        }
-
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {

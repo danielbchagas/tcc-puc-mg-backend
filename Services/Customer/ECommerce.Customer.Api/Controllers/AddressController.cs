@@ -50,9 +50,12 @@ namespace ECommerce.Customer.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPut]
-        public async Task<IActionResult> Update(UpdateAddressCommand request)
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Update(Guid id, UpdateAddressCommand request)
         {
+            if (id != request.Id)
+                return BadRequest("Inconsistent Identifier");
+
             var result = await _mediator.Send(request);
 
             if (!result.IsValid)

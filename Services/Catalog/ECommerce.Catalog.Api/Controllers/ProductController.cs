@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using ECommerce.Catalog.Application.Commands;
 using ECommerce.Catalog.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -54,6 +56,22 @@ namespace ECommerce.Catalog.Api.Controllers
                 return NotFound();
 
             return Ok(result);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Update(Guid id, UpdateProductCommand request)
+        {
+            if (id != request.Id)
+                return BadRequest("Inconsistent Identifier");
+
+            var result = await _mediator.Send(request);
+
+            if (!result.IsValid)
+                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+
+            return Ok();
         }
     }
 }
