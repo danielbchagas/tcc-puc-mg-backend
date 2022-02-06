@@ -13,7 +13,7 @@ namespace ECommerce.Ordering.Gateway.Configurations
             {
                 setupAction.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "ECommerce.Gateway.Api",
+                    Title = "ECommerce.Ordering.Gateway",
                     Version = "v1",
                     Description = "TCC PUC Minas - Gateway do E-Commerce",
                     Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
@@ -50,7 +50,7 @@ namespace ECommerce.Ordering.Gateway.Configurations
         public static void UseSwaggerConfiguration(this IApplicationBuilder app)
         {
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Compras.Gateway v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.Ordering.Gateway v1"));
         }
     }
 }
