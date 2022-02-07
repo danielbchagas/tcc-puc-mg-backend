@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customer.Domain",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customer.Infrastructure", "Services\Customer\ECommerce.Customer.Infrastructure\ECommerce.Customer.Infrastructure.csproj", "{90A120AC-DE06-44B7-B0FB-25BABA0665D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Api", "Services\Pedido\ECommerce.Pedido.Api\ECommerce.Ordering.Api.csproj", "{BC2AFD52-BEF8-4EA5-94E3-54CC611B05C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Api", "Services\Ordering\ECommerce.Ordering.Api\ECommerce.Ordering.Api.csproj", "{BC2AFD52-BEF8-4EA5-94E3-54CC611B05C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalog.Api", "Services\Catalog\ECommerce.Catalog.Api\ECommerce.Catalog.Api.csproj", "{D32398C9-01E9-439A-BFC6-99DCDA75DE62}"
 EndProject
@@ -31,9 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{4E8984
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Basket.Api", "Services\Basket\ECommerce.Basket.Api\ECommerce.Basket.Api.csproj", "{74F96A48-5C2C-4D5B-93A0-DB6BCECAA1AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Domain", "Services\Pedido\ECommerce.Pedido.Domain\ECommerce.Ordering.Domain.csproj", "{5B5EB371-C892-4F0B-81CB-79D057468874}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Domain", "Services\Ordering\ECommerce.Ordering.Domain\ECommerce.Ordering.Domain.csproj", "{5B5EB371-C892-4F0B-81CB-79D057468874}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Infrastructure", "Services\Pedido\ECommerce.Pedido.Infrastructure\ECommerce.Ordering.Infrastructure.csproj", "{30527CF0-2FB9-4943-9D20-5415B3B62D5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Infrastructure", "Services\Ordering\ECommerce.Ordering.Infrastructure\ECommerce.Ordering.Infrastructure.csproj", "{30527CF0-2FB9-4943-9D20-5415B3B62D5E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Identity.Api", "Services\Identity\ECommerce.Identity.Api\ECommerce.Identity.Api.csproj", "{E513BA31-CD43-4DCF-8977-C88D0FF6A05F}"
 EndProject
@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalog.Applicati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customer.Application", "Services\Customer\ECommerce.Customer.Application\ECommerce.Customer.Application.csproj", "{46234CC9-BC00-4221-996A-81134C7D0FAD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Application", "Services\Pedido\ECommerce.Pedido.Application\ECommerce.Ordering.Application.csproj", "{A0060439-E811-4A50-ADF5-AF7AFC5912EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Application", "Services\Ordering\ECommerce.Ordering.Application\ECommerce.Ordering.Application.csproj", "{A0060439-E811-4A50-ADF5-AF7AFC5912EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{A2AF9421-024B-41AB-8617-A0D3552DD817}"
 EndProject

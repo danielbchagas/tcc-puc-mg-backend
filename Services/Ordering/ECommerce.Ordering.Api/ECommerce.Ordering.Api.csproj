@@ -22,8 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ECommerce.Pedido.Application\ECommerce.Ordering.Application.csproj" />
-    <ProjectReference Include="..\ECommerce.Pedido.Infrastructure\ECommerce.Ordering.Infrastructure.csproj" />
+    <ProjectReference Include="..\ECommerce.Ordering.Application\ECommerce.Ordering.Application.csproj" />
+    <ProjectReference Include="..\ECommerce.Ordering.Domain\ECommerce.Ordering.Domain.csproj" />
+    <ProjectReference Include="..\ECommerce.Ordering.Infrastructure\ECommerce.Ordering.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
