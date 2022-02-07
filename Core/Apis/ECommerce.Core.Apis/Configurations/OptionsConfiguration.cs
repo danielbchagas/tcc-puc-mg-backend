@@ -8,8 +8,9 @@ namespace ECommerce.Core.Apis.Configurations
     {
         public static IServiceCollection AddOptionsConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<RabbitMQ>(config => configuration.GetSection("RabbitMQ").Bind(config));
-            services.Configure<Jwt>(config => configuration.GetSection("JWT").Bind(config));
+            services.Configure<RabbitMq>(config => configuration.GetSection("RabbitMqOptions").Bind(config));
+            services.Configure<Jwt>(config => configuration.GetSection("JwtOptions").Bind(config));
+            services.Configure<Swagger>(config => configuration.GetSection("SwaggerOptions").Bind(config));
 
             return services;
         }

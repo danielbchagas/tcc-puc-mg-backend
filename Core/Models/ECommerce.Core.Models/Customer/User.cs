@@ -7,6 +7,14 @@ namespace ECommerce.Core.Models.Customer
 {
     public class User : Entity, IAggregateRoot
     {
+        public User(Guid id, string firstName, string lastName, bool enabled = true)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Enabled = enabled;
+        }
+
         public User(Guid id, string firstName, string lastName, Document document, Email email, Phone phone, bool enabled = true)
         {
             Id = id;
@@ -17,6 +25,19 @@ namespace ECommerce.Core.Models.Customer
             Document = document;
             Email = email;
             Phone = phone;
+        }
+
+        public User(Guid id, string firstName, string lastName, Document document, Email email, Phone phone, Address address, bool enabled = true)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Enabled = enabled;
+
+            Document = document;
+            Email = email;
+            Phone = phone;
+            Address = address;
         }
 
         public string FirstName { get; set; }

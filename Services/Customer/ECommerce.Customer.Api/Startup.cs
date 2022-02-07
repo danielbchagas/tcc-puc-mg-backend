@@ -1,3 +1,4 @@
+using ECommerce.Core.Apis.Configurations;
 using ECommerce.Customer.Api.Configurations;
 using ECommerce.Customer.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
@@ -28,9 +29,10 @@ namespace ECommerce.Customer.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityConfiguration(Configuration);
+            
+            services.AddIdentityConfiguration(Configuration.GetSection("JwtOptions").Get<ECommerce.Core.Apis.Options.Jwt>());
             services.AddEntityFrameworkConfiguration(Configuration);
-            services.AddSwaggerConfiguration();
+            services.AddSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
             services.AddOptionsConfiguration(Configuration);
             services.AddDependencyInjectionConfiguration();
             services.AddCorsConfiguration();
@@ -49,11 +51,11 @@ namespace ECommerce.Customer.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
             }
             else
             {
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
             }
 
             app.UseHttpsRedirection();

@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using ECommerce.Core.Models.Customer;
 using ECommerce.Customer.Application.Queries;
 using ECommerce.Customer.Domain.Interfaces.Repositories;
-using ECommerce.Customer.Domain.Models;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Customer.Application.Handlers.Queries
 {

@@ -1,6 +1,6 @@
-﻿using System;
-using ECommerce.Customer.Domain.Models;
+﻿using ECommerce.Core.Models.Customer;
 using MediatR;
+using System;
 
 namespace ECommerce.Customer.Application.Queries
 {

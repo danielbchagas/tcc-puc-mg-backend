@@ -1,13 +1,13 @@
-﻿using System;
+﻿using ECommerce.Core.Models.Customer;
+using ECommerce.Customer.Domain.Interfaces.Data;
+using ECommerce.Customer.Domain.Interfaces.Repositories;
+using ECommerce.Customer.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using ECommerce.Customer.Domain.Interfaces.Data;
-using ECommerce.Customer.Domain.Interfaces.Repositories;
-using ECommerce.Customer.Domain.Models;
-using ECommerce.Customer.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Customer.Infrastructure.Repositories
 {
