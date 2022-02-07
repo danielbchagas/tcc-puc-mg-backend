@@ -5,15 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ECommerce.Catalog.Domain\ECommerce.Catalog.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Handlers\Commands\" />
   </ItemGroup>
 
 </Project>
