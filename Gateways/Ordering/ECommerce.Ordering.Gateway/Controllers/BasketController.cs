@@ -31,6 +31,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         public async Task<IActionResult> Get(Guid customerId)
         {
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+
             var response = await _basketService.GetCustomerBasket(customerId, accessToken);
 
             if (!response.IsSuccessStatusCode)
