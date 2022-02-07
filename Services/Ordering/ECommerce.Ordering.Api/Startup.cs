@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+using ECommerce.Core.Apis.Configurations;
 using ECommerce.Ordering.Api.Configurations;
 using ECommerce.Ordering.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
@@ -29,9 +29,9 @@ namespace ECommerce.Ordering.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityConfiguration(Configuration);
+            services.AddIdentityConfiguration(Configuration.GetSection("JwtOptions").Get<ECommerce.Core.Apis.Options.Jwt>());
             services.AddEntityFrameworkConfiguration(Configuration);
-            services.AddSwaggerConfiguration();
+            services.AddSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
 
             services.AddControllers();
 
@@ -47,11 +47,11 @@ namespace ECommerce.Ordering.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
             }
             else
             {
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
             }
 
             app.UseHttpsRedirection();

@@ -1,6 +1,6 @@
 using Bogus;
-using ECommerce.Ordering.Domain.Enums;
-using ECommerce.Ordering.Domain.Models;
+using ECommerce.Core.Enums.Customer;
+using ECommerce.Core.Models.Ordering;
 using System;
 using Xunit;
 

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ECommerce.Core.Models.Ordering;
 using MediatR;
-using PedidoCliente = ECommerce.Ordering.Domain.Models.Order;
+using System;
 
 namespace ECommerce.Ordering.Application.Queries
 {
-    public class GetPedidoQuery : IRequest<PedidoCliente>
+    public class GetPedidoQuery : IRequest<Order>
     {
         public GetPedidoQuery(Guid id)
         {

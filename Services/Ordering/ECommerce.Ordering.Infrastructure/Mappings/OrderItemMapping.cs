@@ -1,4 +1,4 @@
-﻿using ECommerce.Ordering.Domain.Models;
+﻿using ECommerce.Core.Models.Ordering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

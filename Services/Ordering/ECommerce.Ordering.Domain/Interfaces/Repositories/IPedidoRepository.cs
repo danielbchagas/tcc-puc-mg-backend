@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using ECommerce.Core.Models.Ordering;
 using ECommerce.Ordering.Domain.Interfaces.Data;
-using PedidoCliente = ECommerce.Ordering.Domain.Models.Order;
+using System;
+using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Domain.Interfaces.Repositories
 {
@@ -9,8 +9,8 @@ namespace ECommerce.Ordering.Domain.Interfaces.Repositories
     {
         IUnitOfWork UnitOfWork { get; }
 
-        Task<PedidoCliente> Buscar(Guid id);
-        Task Adicionar(PedidoCliente pedido);
-        Task Atualizar(PedidoCliente pedido);
+        Task<Order> Get(Guid id);
+        Task Create(Order order);
+        Task Update(Order order);
     }
 }

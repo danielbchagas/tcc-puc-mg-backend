@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using ECommerce.Core.Models.Ordering;
 using ECommerce.Ordering.Domain.Interfaces.Data;
-using ECommerce.Ordering.Domain.Models;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Infrastructure.Data
 {

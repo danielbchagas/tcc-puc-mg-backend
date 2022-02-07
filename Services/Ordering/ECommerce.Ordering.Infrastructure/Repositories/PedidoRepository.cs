@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using ECommerce.Core.Models.Ordering;
 using ECommerce.Ordering.Domain.Interfaces.Data;
 using ECommerce.Ordering.Domain.Interfaces.Repositories;
 using ECommerce.Ordering.Infrastructure.Data;
-using PedidoCliente = ECommerce.Ordering.Domain.Models.Order;
+using System;
+using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Infrastructure.Repositories
 {
@@ -18,19 +18,19 @@ namespace ECommerce.Ordering.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public async Task<PedidoCliente> Buscar(Guid id)
+        public async Task<Order> Get(Guid id)
         {
             return await _context.Ordering.FindAsync(id);
         }
 
-        public async Task Adicionar(PedidoCliente pedido)
+        public async Task Create(Order order)
         {
-            await _context.Ordering.AddAsync(pedido);
+            await _context.Ordering.AddAsync(order);
         }
 
-        public Task Atualizar(PedidoCliente pedido)
+        public Task Update(Order order)
         {
-            _context.Ordering.Update(pedido);
+            _context.Ordering.Update(order);
             
             return Task.CompletedTask;
         }

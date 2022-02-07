@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using ECommerce.Core.Enums.Customer;
+using ECommerce.Core.Models.Ordering;
 using ECommerce.Ordering.Domain.Enums;
-using ECommerce.Ordering.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Collections.Generic;
 
 namespace ECommerce.Ordering.Application.Commands
 {

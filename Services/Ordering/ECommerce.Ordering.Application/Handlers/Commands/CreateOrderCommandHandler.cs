@@ -1,10 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using ECommerce.Core.Models.Ordering;
 using ECommerce.Ordering.Application.Commands;
 using ECommerce.Ordering.Domain.Interfaces.Repositories;
-using ECommerce.Ordering.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Application.Handlers.Commands
 {
@@ -27,7 +27,7 @@ namespace ECommerce.Ordering.Application.Handlers.Commands
 
             if (validation.IsValid)
             {
-                await _repository.Adicionar(order);
+                await _repository.Create(order);
                 await _repository.UnitOfWork.Commit();
             }
 
