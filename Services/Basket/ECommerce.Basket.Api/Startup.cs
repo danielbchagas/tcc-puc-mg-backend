@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using ECommerce.Basket.Api.Configurations;
 using ECommerce.Basket.Api.Middlewares;
+using ECommerce.Core.Apis.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,10 +30,10 @@ namespace ECommerce.Basket.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityConfiguration(Configuration);
+            services.AddIdentityConfiguration(Configuration.GetSection("JwtOptions").Get<ECommerce.Core.Apis.Options.Jwt>());
             services.AddDependencyInjectionConfiguration();
             services.AddEntityFrameworkConfiguration(Configuration);
-            services.AddSwaggerConfiguration();
+            services.AddSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
             
             services.AddControllers();
 
@@ -48,11 +49,11 @@ namespace ECommerce.Basket.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
             }
             else
             {
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
             }
 
             app.UseHttpsRedirection();

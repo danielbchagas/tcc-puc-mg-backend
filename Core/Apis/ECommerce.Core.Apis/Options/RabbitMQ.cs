@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Core.Apis.Options
 {
-    public class RabbitMQ
+    public class RabbitMq
     {
         public string MessageBus { get; set; }
         public string Login { get; set; }

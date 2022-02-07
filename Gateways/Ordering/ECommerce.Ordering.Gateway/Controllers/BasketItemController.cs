@@ -1,12 +1,12 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
+﻿using ECommerce.Core.Models.Basket;
 using ECommerce.Ordering.Gateway.Interfaces;
-using ECommerce.Ordering.Gateway.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Gateway.Controllers
 {
@@ -29,7 +29,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(BasketItemDto item)
+        public async Task<IActionResult> Create(BasketItem item)
         {
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             var response = await _catalogService.Get(item.ProductId);

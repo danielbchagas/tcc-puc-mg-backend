@@ -1,4 +1,4 @@
-﻿using ECommerce.Basket.Domain.Models;
+﻿using ECommerce.Core.Models.Basket;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ECommerce.Basket.Domain.Interfaces.Data;
+using ECommerce.Core.Models.Basket;
+using System;
 using System.Threading.Tasks;
-using ECommerce.Basket.Domain.Interfaces.Data;
-using ECommerce.Basket.Domain.Models;
 
 namespace ECommerce.Basket.Domain.Interfaces.Repositories
 {

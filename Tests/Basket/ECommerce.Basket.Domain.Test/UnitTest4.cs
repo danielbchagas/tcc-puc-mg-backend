@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Bogus;
+using ECommerce.Core.Models.Basket;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bogus;
-using ECommerce.Basket.Domain.Models;
 using Xunit;
 
 namespace ECommerce.Basket.Domain.Test

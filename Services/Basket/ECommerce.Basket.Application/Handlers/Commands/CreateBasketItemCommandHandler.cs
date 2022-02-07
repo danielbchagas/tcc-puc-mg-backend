@@ -1,12 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using ECommerce.Basket.Application.Commands;
-using ECommerce.Basket.Application.Handlers.Queries;
+﻿using ECommerce.Basket.Application.Commands;
 using ECommerce.Basket.Application.Queries;
 using ECommerce.Basket.Domain.Interfaces.Repositories;
-using ECommerce.Basket.Domain.Models;
+using ECommerce.Core.Models.Basket;
 using FluentValidation.Results;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Basket.Application.Handlers.Commands
 {

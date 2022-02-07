@@ -1,4 +1,5 @@
-﻿using ECommerce.Core.Models.Customer;
+﻿using ECommerce.Core.Enums.Customer;
+using ECommerce.Core.Models.Customer;
 using FluentValidation.Results;
 using MediatR;
 using System;

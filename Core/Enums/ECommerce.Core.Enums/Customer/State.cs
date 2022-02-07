@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ECommerce.Core.Models.Customer
+namespace ECommerce.Core.Enums.Customer
 {
     public enum State
     {

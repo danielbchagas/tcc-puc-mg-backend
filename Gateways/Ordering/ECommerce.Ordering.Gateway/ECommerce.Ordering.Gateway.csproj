@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\Apis\ECommerce.Core.Apis\ECommerce.Core.Apis.csproj" />
+    <ProjectReference Include="..\..\..\Core\Models\ECommerce.Core.Models\ECommerce.Core.Models.csproj" />
   </ItemGroup>
 
 </Project>

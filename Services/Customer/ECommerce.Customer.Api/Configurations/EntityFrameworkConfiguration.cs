@@ -9,11 +9,9 @@ namespace ECommerce.Customer.Api.Configurations
     {
         public static void AddEntityFrameworkConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-
             services.AddDbContext<ApplicationDbContext>(optionsAction =>
             {
-                optionsAction.UseSqlite(connectionString);
+                optionsAction.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
             });
         }
     }

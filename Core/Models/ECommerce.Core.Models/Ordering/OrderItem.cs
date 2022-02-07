@@ -3,11 +3,11 @@ using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace ECommerce.Basket.Domain.Models
+namespace ECommerce.Core.Models.Ordering
 {
-    public class BasketItem : Entity
+    public class OrderItem : Entity
     {
-        public BasketItem(string name, int quantity, decimal value, string image, Guid productId, Guid customerBasketId)
+        public OrderItem(string name, int quantity, decimal value, string image, Guid productId, Guid customerBasketId)
         {
             Name = name;
             Quantity = quantity;
@@ -26,17 +26,17 @@ namespace ECommerce.Basket.Domain.Models
         public Guid CustomerBasketId { get; set; }
 
         [JsonIgnore]
-        public CustomerBasket CustomerBasket { get; set; }
+        public Order Order { get; set; }
 
         public ValidationResult Validate()
         {
-            return new ItemValidator().Validate(this);
+            return new BasketItemValidator().Validate(this);
         }
     }
 
-    public class ItemValidator : AbstractValidator<BasketItem>
+    public class BasketItemValidator : AbstractValidator<OrderItem>
     {
-        public ItemValidator()
+        public BasketItemValidator()
         {
             RuleFor(ic => ic.ProductId)
                 .NotEqual(Guid.Empty)

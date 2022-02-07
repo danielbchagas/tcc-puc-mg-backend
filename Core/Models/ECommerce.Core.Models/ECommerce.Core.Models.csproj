@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Contracts\ECommerce.Core.Contracts\ECommerce.Core.Contracts.csproj" />
+    <ProjectReference Include="..\..\Enums\ECommerce.Core.Enums\ECommerce.Core.Enums.csproj" />
   </ItemGroup>
 
 </Project>

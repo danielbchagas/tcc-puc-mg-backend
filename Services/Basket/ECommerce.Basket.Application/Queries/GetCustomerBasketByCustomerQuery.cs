@@ -1,6 +1,6 @@
-﻿using System;
-using ECommerce.Basket.Domain.Models;
+﻿using ECommerce.Core.Models.Basket;
 using MediatR;
+using System;
 
 namespace ECommerce.Basket.Application.Queries
 {

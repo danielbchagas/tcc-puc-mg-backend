@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ECommerce.Core.Enums.Customer;
+using FluentValidation;
 using FluentValidation.Results;
 using System;
 using System.Text.Json.Serialization;

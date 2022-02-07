@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using ECommerce.Basket.Domain.Interfaces.Data;
+﻿using ECommerce.Basket.Domain.Interfaces.Data;
 using ECommerce.Basket.Domain.Interfaces.Repositories;
-using ECommerce.Basket.Domain.Models;
 using ECommerce.Basket.Infrastructure.Data;
+using ECommerce.Core.Models.Basket;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace ECommerce.Basket.Infrastructure.Repositories
 {

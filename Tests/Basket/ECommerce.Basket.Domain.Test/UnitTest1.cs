@@ -1,6 +1,6 @@
-using System;
 using Bogus;
-using ECommerce.Basket.Domain.Models;
+using ECommerce.Core.Models.Basket;
+using System;
 using Xunit;
 
 namespace ECommerce.Basket.Domain.Test
