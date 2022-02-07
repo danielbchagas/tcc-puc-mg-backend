@@ -1,63 +1,83 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31424.327
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0A3079FD-5893-422F-91AD-EF6CF81CB0F8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identidade", "Identidade", "{E97A69CC-FC7C-4C3C-9B26-FA7D8EEF7DE7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{E97A69CC-FC7C-4C3C-9B26-FA7D8EEF7DE7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalogo", "Catalogo", "{56963A82-3D2A-415C-9248-E078E1123AA5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{56963A82-3D2A-415C-9248-E078E1123AA5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cliente", "Cliente", "{85E7C5CC-482A-4E86-BD33-C2F129B5D0EF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customer", "Customer", "{85E7C5CC-482A-4E86-BD33-C2F129B5D0EF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pedido", "Pedido", "{B6B1028B-7BDF-42A6-9043-719960185AC8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{B6B1028B-7BDF-42A6-9043-719960185AC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Cliente.Api", "Services\Cliente\ECommerce.Cliente.Api\ECommerce.Cliente.Api.csproj", "{36999C05-FD8B-4E68-AFEC-D7BE69750E55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customer.Api", "Services\Customer\ECommerce.Customer.Api\ECommerce.Customer.Api.csproj", "{36999C05-FD8B-4E68-AFEC-D7BE69750E55}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Cliente.Domain", "Services\Cliente\ECommerce.Cliente.Domain\ECommerce.Cliente.Domain.csproj", "{EC63E746-90E5-4DE0-BB66-601A195C4F2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customer.Domain", "Services\Customer\ECommerce.Customer.Domain\ECommerce.Customer.Domain.csproj", "{EC63E746-90E5-4DE0-BB66-601A195C4F2F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Cliente.Infrastructure", "Services\Cliente\ECommerce.Cliente.Infrastructure\ECommerce.Cliente.Infrastructure.csproj", "{90A120AC-DE06-44B7-B0FB-25BABA0665D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customer.Infrastructure", "Services\Customer\ECommerce.Customer.Infrastructure\ECommerce.Customer.Infrastructure.csproj", "{90A120AC-DE06-44B7-B0FB-25BABA0665D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedido.Api", "Services\Pedido\ECommerce.Pedido.Api\ECommerce.Pedido.Api.csproj", "{BC2AFD52-BEF8-4EA5-94E3-54CC611B05C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Api", "Services\Ordering\ECommerce.Ordering.Api\ECommerce.Ordering.Api.csproj", "{BC2AFD52-BEF8-4EA5-94E3-54CC611B05C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalogo.Api", "Services\Catalogo\ECommerce.Catalogo.Api\ECommerce.Catalogo.Api.csproj", "{D32398C9-01E9-439A-BFC6-99DCDA75DE62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalog.Api", "Services\Catalog\ECommerce.Catalog.Api\ECommerce.Catalog.Api.csproj", "{D32398C9-01E9-439A-BFC6-99DCDA75DE62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalogo.Domain", "Services\Catalogo\ECommerce.Catalogo.Domain\ECommerce.Catalogo.Domain.csproj", "{5BF3074A-8DAF-439D-9F69-8D8318CD6179}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalog.Domain", "Services\Catalog\ECommerce.Catalog.Domain\ECommerce.Catalog.Domain.csproj", "{5BF3074A-8DAF-439D-9F69-8D8318CD6179}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalogo.Infrastructure", "Services\Catalogo\ECommerce.Catalogo.Infrastructure\ECommerce.Catalogo.Infrastructure.csproj", "{F9F7C042-DBED-484C-AF9E-DE7BB355887F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalog.Infrastructure", "Services\Catalog\ECommerce.Catalog.Infrastructure\ECommerce.Catalog.Infrastructure.csproj", "{F9F7C042-DBED-484C-AF9E-DE7BB355887F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Carrinho", "Carrinho", "{4E898479-FDD5-4AFC-A600-D1FD032214C2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{4E898479-FDD5-4AFC-A600-D1FD032214C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Carrinho.Api", "Services\Carrinho\ECommerce.Carrinho.Api\ECommerce.Carrinho.Api.csproj", "{74F96A48-5C2C-4D5B-93A0-DB6BCECAA1AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Basket.Api", "Services\Basket\ECommerce.Basket.Api\ECommerce.Basket.Api.csproj", "{74F96A48-5C2C-4D5B-93A0-DB6BCECAA1AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedido.Domain", "Services\Pedido\ECommerce.Pedido.Domain\ECommerce.Pedido.Domain.csproj", "{5B5EB371-C892-4F0B-81CB-79D057468874}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Domain", "Services\Ordering\ECommerce.Ordering.Domain\ECommerce.Ordering.Domain.csproj", "{5B5EB371-C892-4F0B-81CB-79D057468874}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedido.Infrastructure", "Services\Pedido\ECommerce.Pedido.Infrastructure\ECommerce.Pedido.Infrastructure.csproj", "{30527CF0-2FB9-4943-9D20-5415B3B62D5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Infrastructure", "Services\Ordering\ECommerce.Ordering.Infrastructure\ECommerce.Ordering.Infrastructure.csproj", "{30527CF0-2FB9-4943-9D20-5415B3B62D5E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Identidade.Api", "Services\Identidade\ECommerce.Identidade.Api\ECommerce.Identidade.Api.csproj", "{E513BA31-CD43-4DCF-8977-C88D0FF6A05F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Identity.Api", "Services\Identity\ECommerce.Identity.Api\ECommerce.Identity.Api.csproj", "{E513BA31-CD43-4DCF-8977-C88D0FF6A05F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{18A1B4F0-EDFB-4258-A7B6-F2533CE4F18A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Carrinho.Test", "Tests\ECommerce.Carrinho.Test\ECommerce.Carrinho.Test.csproj", "{72F3C057-0BA1-49D8-BF01-18BC00B0C0C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Basket.Domain.Test", "Tests\Basket\ECommerce.Basket.Domain.Test\ECommerce.Basket.Domain.Test.csproj", "{72F3C057-0BA1-49D8-BF01-18BC00B0C0C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Carrinho.Domain", "Services\Carrinho\ECommerce.Carrinho.Domain\ECommerce.Carrinho.Domain.csproj", "{8B0B50A8-C455-44EB-BECE-8DAE632C9658}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Basket.Domain", "Services\Basket\ECommerce.Basket.Domain\ECommerce.Basket.Domain.csproj", "{8B0B50A8-C455-44EB-BECE-8DAE632C9658}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Carrinho.Infrastructure", "Services\Carrinho\ECommerce.Carrinho.Infrastructure\ECommerce.Carrinho.Infrastructure.csproj", "{21568A18-B655-463D-8EC6-E43B032C930B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Basket.Infrastructure", "Services\Basket\ECommerce.Basket.Infrastructure\ECommerce.Basket.Infrastructure.csproj", "{21568A18-B655-463D-8EC6-E43B032C930B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Carrinho.Application", "Services\Carrinho\ECommerce.Carrinho.Application\ECommerce.Carrinho.Application.csproj", "{98A9D317-8C59-4ABB-969C-441683539937}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Basket.Application", "Services\Basket\ECommerce.Basket.Application\ECommerce.Basket.Application.csproj", "{98A9D317-8C59-4ABB-969C-441683539937}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalogo.Application", "Services\Catalogo\ECommerce.Catalogo.Application\ECommerce.Catalogo.Application.csproj", "{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Catalog.Application", "Services\Catalog\ECommerce.Catalog.Application\ECommerce.Catalog.Application.csproj", "{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Cliente.Application", "Services\Cliente\ECommerce.Cliente.Application\ECommerce.Cliente.Application.csproj", "{46234CC9-BC00-4221-996A-81134C7D0FAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customer.Application", "Services\Customer\ECommerce.Customer.Application\ECommerce.Customer.Application.csproj", "{46234CC9-BC00-4221-996A-81134C7D0FAD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedido.Application", "Services\Pedido\ECommerce.Pedido.Application\ECommerce.Pedido.Application.csproj", "{A0060439-E811-4A50-ADF5-AF7AFC5912EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Application", "Services\Ordering\ECommerce.Ordering.Application\ECommerce.Ordering.Application.csproj", "{A0060439-E811-4A50-ADF5-AF7AFC5912EA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{A2AF9421-024B-41AB-8617-A0D3552DD817}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{A2AF9421-024B-41AB-8617-A0D3552DD817}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Gateway", "Gateway\ECommerce.Gateway.Api\ECommerce.Gateway.Api.csproj", "{85D3D628-7DEC-403F-9B56-A1283F45BBBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Gateway", "Gateways\Ordering\ECommerce.Ordering.Gateway\ECommerce.Ordering.Gateway.csproj", "{85D3D628-7DEC-403F-9B56-A1283F45BBBD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Pedido.Test", "Tests\ECommerce.Pedido.Test\ECommerce.Pedido.Test.csproj", "{30B570AD-823A-46FB-AF13-39AEC81B2BB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Ordering.Domain.Test", "Tests\Ordering\ECommerce.Ordering.Domain.Test\ECommerce.Ordering.Domain.Test.csproj", "{30B570AD-823A-46FB-AF13-39AEC81B2BB4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{74DF993F-6448-47CF-8A13-7DDE8822B807}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{871A853D-1C57-4240-B828-C4378B99D4B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{309008AE-D8EE-4C33-9282-3A543B242231}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{8B04BA1B-7B46-41BD-BB60-BC060F33BA5F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{5BAC3882-7CF6-4F3E-9CCD-9604594B2354}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Core.Models", "Core\Models\ECommerce.Core.Models\ECommerce.Core.Models.csproj", "{E18F8851-91B8-498C-A1FD-E5FC8AB943C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{FFF51408-C075-43D4-84BF-5803D82DD319}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Core.Contracts", "Core\Contracts\ECommerce.Core.Contracts\ECommerce.Core.Contracts.csproj", "{5B2CA073-119B-4912-90F8-D06691F670F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apis", "Apis", "{0ED4FA9C-3D66-475B-A16B-046594E32B64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Core.Apis", "Core\Apis\ECommerce.Core.Apis\ECommerce.Core.Apis.csproj", "{FD220CC7-EE61-4633-924D-421684F2AFB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -145,6 +165,18 @@ Global
 		{30B570AD-823A-46FB-AF13-39AEC81B2BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30B570AD-823A-46FB-AF13-39AEC81B2BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30B570AD-823A-46FB-AF13-39AEC81B2BB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E18F8851-91B8-498C-A1FD-E5FC8AB943C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E18F8851-91B8-498C-A1FD-E5FC8AB943C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E18F8851-91B8-498C-A1FD-E5FC8AB943C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E18F8851-91B8-498C-A1FD-E5FC8AB943C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B2CA073-119B-4912-90F8-D06691F670F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B2CA073-119B-4912-90F8-D06691F670F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B2CA073-119B-4912-90F8-D06691F670F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B2CA073-119B-4912-90F8-D06691F670F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD220CC7-EE61-4633-924D-421684F2AFB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD220CC7-EE61-4633-924D-421684F2AFB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD220CC7-EE61-4633-924D-421684F2AFB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD220CC7-EE61-4633-924D-421684F2AFB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,15 +198,24 @@ Global
 		{5B5EB371-C892-4F0B-81CB-79D057468874} = {B6B1028B-7BDF-42A6-9043-719960185AC8}
 		{30527CF0-2FB9-4943-9D20-5415B3B62D5E} = {B6B1028B-7BDF-42A6-9043-719960185AC8}
 		{E513BA31-CD43-4DCF-8977-C88D0FF6A05F} = {E97A69CC-FC7C-4C3C-9B26-FA7D8EEF7DE7}
-		{72F3C057-0BA1-49D8-BF01-18BC00B0C0C6} = {18A1B4F0-EDFB-4258-A7B6-F2533CE4F18A}
+		{72F3C057-0BA1-49D8-BF01-18BC00B0C0C6} = {74DF993F-6448-47CF-8A13-7DDE8822B807}
 		{8B0B50A8-C455-44EB-BECE-8DAE632C9658} = {4E898479-FDD5-4AFC-A600-D1FD032214C2}
 		{21568A18-B655-463D-8EC6-E43B032C930B} = {4E898479-FDD5-4AFC-A600-D1FD032214C2}
 		{98A9D317-8C59-4ABB-969C-441683539937} = {4E898479-FDD5-4AFC-A600-D1FD032214C2}
 		{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1} = {56963A82-3D2A-415C-9248-E078E1123AA5}
 		{46234CC9-BC00-4221-996A-81134C7D0FAD} = {85E7C5CC-482A-4E86-BD33-C2F129B5D0EF}
 		{A0060439-E811-4A50-ADF5-AF7AFC5912EA} = {B6B1028B-7BDF-42A6-9043-719960185AC8}
-		{85D3D628-7DEC-403F-9B56-A1283F45BBBD} = {A2AF9421-024B-41AB-8617-A0D3552DD817}
-		{30B570AD-823A-46FB-AF13-39AEC81B2BB4} = {18A1B4F0-EDFB-4258-A7B6-F2533CE4F18A}
+		{85D3D628-7DEC-403F-9B56-A1283F45BBBD} = {309008AE-D8EE-4C33-9282-3A543B242231}
+		{30B570AD-823A-46FB-AF13-39AEC81B2BB4} = {871A853D-1C57-4240-B828-C4378B99D4B1}
+		{74DF993F-6448-47CF-8A13-7DDE8822B807} = {18A1B4F0-EDFB-4258-A7B6-F2533CE4F18A}
+		{871A853D-1C57-4240-B828-C4378B99D4B1} = {18A1B4F0-EDFB-4258-A7B6-F2533CE4F18A}
+		{309008AE-D8EE-4C33-9282-3A543B242231} = {A2AF9421-024B-41AB-8617-A0D3552DD817}
+		{5BAC3882-7CF6-4F3E-9CCD-9604594B2354} = {8B04BA1B-7B46-41BD-BB60-BC060F33BA5F}
+		{E18F8851-91B8-498C-A1FD-E5FC8AB943C7} = {5BAC3882-7CF6-4F3E-9CCD-9604594B2354}
+		{FFF51408-C075-43D4-84BF-5803D82DD319} = {8B04BA1B-7B46-41BD-BB60-BC060F33BA5F}
+		{5B2CA073-119B-4912-90F8-D06691F670F2} = {FFF51408-C075-43D4-84BF-5803D82DD319}
+		{0ED4FA9C-3D66-475B-A16B-046594E32B64} = {8B04BA1B-7B46-41BD-BB60-BC060F33BA5F}
+		{FD220CC7-EE61-4633-924D-421684F2AFB8} = {0ED4FA9C-3D66-475B-A16B-046594E32B64}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67EC54CA-3230-46DB-A00C-B1AF6BCCB2B3}
