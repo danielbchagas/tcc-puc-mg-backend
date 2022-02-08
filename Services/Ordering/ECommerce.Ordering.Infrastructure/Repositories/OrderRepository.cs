@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Infrastructure.Repositories
 {
-    public class PedidoRepository : IPedidoRepository
+    public class OrderRepository : IOrderRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public PedidoRepository(ApplicationDbContext context)
+        public OrderRepository(ApplicationDbContext context)
         {
             _context = context;
         }

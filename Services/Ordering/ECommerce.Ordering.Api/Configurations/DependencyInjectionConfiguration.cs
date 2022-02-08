@@ -19,9 +19,9 @@ namespace ECommerce.Ordering.Api.Configurations
 
             services.AddScoped<IRequestHandler<CreateOrderCommand, ValidationResult>, CreateOrderCommandHandler>();
 
-            services.AddScoped<IRequestHandler<GetPedidoQuery, Order>, GetPedidoQueryHandler>();
+            services.AddScoped<IRequestHandler<GetOrderQuery, Order>, GetOrderQueryHandler>();
 
-            services.AddScoped<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
         }
     }
 }

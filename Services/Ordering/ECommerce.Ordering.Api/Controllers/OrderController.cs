@@ -27,7 +27,7 @@ namespace ECommerce.Ordering.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _mediator.Send(new GetPedidoQuery(id));
+            var result = await _mediator.Send(new GetOrderQuery(id));
 
             if (result is null)
                 return NotFound();

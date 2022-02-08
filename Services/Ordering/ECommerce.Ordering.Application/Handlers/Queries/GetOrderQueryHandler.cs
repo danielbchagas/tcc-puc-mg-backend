@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Application.Handlers.Queries
 {
-    public class GetPedidoQueryHandler : IRequestHandler<GetPedidoQuery, Order>
+    public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, Order>
     {
-        private readonly IPedidoRepository _repository;
+        private readonly IOrderRepository _repository;
 
-        public GetPedidoQueryHandler(IPedidoRepository repository)
+        public GetOrderQueryHandler(IOrderRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<Order> Handle(GetPedidoQuery request, CancellationToken cancellationToken)
+        public async Task<Order> Handle(GetOrderQuery request, CancellationToken cancellationToken)
         {
             var pedido = await _repository.Get(request.Id);
             pedido.Totalize();

@@ -11,9 +11,9 @@ namespace ECommerce.Ordering.Application.Handlers.Commands
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, ValidationResult>
     {
         private readonly IMediator _mediator;
-        private readonly IPedidoRepository _repository;
+        private readonly IOrderRepository _repository;
 
-        public CreateOrderCommandHandler(IMediator mediator, IPedidoRepository repository)
+        public CreateOrderCommandHandler(IMediator mediator, IOrderRepository repository)
         {
             _mediator = mediator;
             _repository = repository;

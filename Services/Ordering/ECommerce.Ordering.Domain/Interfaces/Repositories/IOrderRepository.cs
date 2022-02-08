@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Domain.Interfaces.Repositories
 {
-    public interface IPedidoRepository
+    public interface IOrderRepository
     {
         IUnitOfWork UnitOfWork { get; }
 

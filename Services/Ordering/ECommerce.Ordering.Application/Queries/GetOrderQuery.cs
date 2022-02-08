@@ -4,9 +4,9 @@ using System;
 
 namespace ECommerce.Ordering.Application.Queries
 {
-    public class GetPedidoQuery : IRequest<Order>
+    public class GetOrderQuery : IRequest<Order>
     {
-        public GetPedidoQuery(Guid id)
+        public GetOrderQuery(Guid id)
         {
             Id = id;
         }
