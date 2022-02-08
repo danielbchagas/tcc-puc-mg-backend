@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using ECommerce.Catalog.Application.Commands;
+﻿using ECommerce.Catalog.Application.Commands;
 using ECommerce.Catalog.Application.Handlers.Commands;
 using ECommerce.Catalog.Application.Handlers.Queries;
 using ECommerce.Catalog.Application.Queries;
 using ECommerce.Catalog.Domain.Interfaces.Repositories;
-using ECommerce.Catalog.Domain.Models;
 using ECommerce.Catalog.Infrastructure.Repositories;
+using ECommerce.Core.Models.Catalog;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
 namespace ECommerce.Catalog.Api.Configurations
 {

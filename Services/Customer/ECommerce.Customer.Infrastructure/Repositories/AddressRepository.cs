@@ -1,4 +1,5 @@
-﻿using ECommerce.Customer.Domain.Interfaces.Data;
+﻿using ECommerce.Core.Contracts.Data;
+using ECommerce.Core.Models.Customer;
 using ECommerce.Customer.Domain.Interfaces.Repositories;
 using ECommerce.Customer.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using ECommerce.Core.Models.Customer;
 
 namespace ECommerce.Customer.Infrastructure.Repositories
 {

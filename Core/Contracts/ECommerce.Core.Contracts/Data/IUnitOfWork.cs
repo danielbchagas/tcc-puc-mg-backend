@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ECommerce.Ordering.Domain.Interfaces.Data
+namespace ECommerce.Core.Contracts.Data
 {
     public interface IUnitOfWork
     {

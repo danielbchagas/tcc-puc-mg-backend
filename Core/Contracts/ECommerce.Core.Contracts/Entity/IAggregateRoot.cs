@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Core.Contracts
+﻿namespace ECommerce.Core.Contracts.Entity
 {
     public interface IAggregateRoot
     {

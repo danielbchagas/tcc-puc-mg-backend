@@ -1,5 +1,5 @@
-﻿using ECommerce.Core.Models.Ordering;
-using ECommerce.Ordering.Domain.Interfaces.Data;
+﻿using ECommerce.Core.Contracts.Data;
+using ECommerce.Core.Models.Ordering;
 using System;
 using System.Threading.Tasks;
 

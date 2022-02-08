@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ECommerce.Core.Models.Catalog;
+using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ECommerce.Catalog.Domain.Models;
-using MediatR;
 
 namespace ECommerce.Catalog.Application.Queries
 {

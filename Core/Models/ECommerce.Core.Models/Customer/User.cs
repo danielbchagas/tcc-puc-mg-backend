@@ -1,5 +1,5 @@
 ﻿using System;
-using ECommerce.Core.Contracts;
+using ECommerce.Core.Contracts.Entity;
 using FluentValidation;
 using FluentValidation.Results;
 

@@ -1,4 +1,4 @@
-﻿using ECommerce.Basket.Domain.Interfaces.Data;
+﻿using ECommerce.Core.Contracts.Data;
 using ECommerce.Core.Models.Basket;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;

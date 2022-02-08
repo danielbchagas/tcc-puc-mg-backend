@@ -1,5 +1,5 @@
-﻿using ECommerce.Core.Models.Ordering;
-using ECommerce.Ordering.Domain.Interfaces.Data;
+﻿using ECommerce.Core.Contracts.Data;
+using ECommerce.Core.Models.Ordering;
 using ECommerce.Ordering.Domain.Interfaces.Repositories;
 using ECommerce.Ordering.Infrastructure.Data;
 using System;
@@ -17,6 +17,8 @@ namespace ECommerce.Ordering.Infrastructure.Repositories
         }
 
         public IUnitOfWork UnitOfWork => _context;
+
+        IUnitOfWork IOrderRepository.UnitOfWork => throw new NotImplementedException();
 
         public async Task<Order> Get(Guid id)
         {

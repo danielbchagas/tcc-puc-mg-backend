@@ -1,4 +1,4 @@
-﻿using ECommerce.Catalog.Domain.Models;
+﻿using ECommerce.Core.Models.Catalog;
 using MediatR;
 using System.Collections.Generic;
 

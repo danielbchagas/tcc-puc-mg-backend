@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using ECommerce.Catalog.Application.Queries;
+using ECommerce.Catalog.Domain.Interfaces.Repositories;
+using ECommerce.Core.Models.Catalog;
+using MediatR;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ECommerce.Catalog.Application.Queries;
-using ECommerce.Catalog.Domain.Interfaces.Repositories;
-using ECommerce.Catalog.Domain.Models;
-using MediatR;
 
 namespace ECommerce.Catalog.Application.Handlers.Queries
 {

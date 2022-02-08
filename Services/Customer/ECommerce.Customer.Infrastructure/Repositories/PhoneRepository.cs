@@ -1,5 +1,5 @@
-﻿using ECommerce.Core.Models.Customer;
-using ECommerce.Customer.Domain.Interfaces.Data;
+﻿using ECommerce.Core.Contracts.Data;
+using ECommerce.Core.Models.Customer;
 using ECommerce.Customer.Domain.Interfaces.Repositories;
 using ECommerce.Customer.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

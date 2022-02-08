@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\Apis\ECommerce.Core.Apis\ECommerce.Core.Apis.csproj" />
     <ProjectReference Include="..\ECommerce.Catalog.Application\ECommerce.Catalog.Application.csproj" />
     <ProjectReference Include="..\ECommerce.Catalog.Domain\ECommerce.Catalog.Domain.csproj" />
     <ProjectReference Include="..\ECommerce.Catalog.Infrastructure\ECommerce.Catalog.Infrastructure.csproj" />

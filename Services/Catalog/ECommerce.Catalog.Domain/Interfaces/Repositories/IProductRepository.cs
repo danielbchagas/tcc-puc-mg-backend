@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ECommerce.Core.Contracts.Data;
+using ECommerce.Core.Models.Catalog;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using ECommerce.Catalog.Domain.Interfaces.Data;
-using ECommerce.Catalog.Domain.Models;
 
 namespace ECommerce.Catalog.Domain.Interfaces.Repositories
 {

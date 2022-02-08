@@ -1,10 +1,10 @@
-﻿using System;
-using System.Resources;
-using System.Threading.Tasks;
-using ECommerce.Catalog.Domain.Interfaces.Data;
-using ECommerce.Catalog.Domain.Models;
+﻿using ECommerce.Core.Contracts.Data;
+using ECommerce.Core.Models.Catalog;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Resources;
+using System.Threading.Tasks;
 
 namespace ECommerce.Catalog.Infrastructure.Data
 {

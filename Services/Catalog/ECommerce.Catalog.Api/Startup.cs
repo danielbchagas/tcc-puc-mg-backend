@@ -1,5 +1,6 @@
 using ECommerce.Catalog.Api.Configurations;
 using ECommerce.Catalog.Api.Middlewares;
+using ECommerce.Core.Apis.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,9 @@ namespace ECommerce.Catalog.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityConfiguration(Configuration);
+            services.AddIdentityConfiguration(Configuration.GetSection("JwtOptions").Get<ECommerce.Core.Apis.Options.Jwt>());
             services.AddEntityFrameworkConfiguration(Configuration);
-            services.AddSwaggerConfiguration();
+            services.AddSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
             services.AddDependencyInjectionConfiguration();
             services.AddCorsConfiguration();
 
@@ -48,13 +49,13 @@ namespace ECommerce.Catalog.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
 
                 app.UseCors("development");
             }
             else
             {
-                app.UseSwaggerConfiguration();
+                app.UseSwaggerConfiguration(Configuration.GetSection("SwaggerOptions").Get<ECommerce.Core.Apis.Options.Swagger>());
 
                 app.UseCors("production");
             }
