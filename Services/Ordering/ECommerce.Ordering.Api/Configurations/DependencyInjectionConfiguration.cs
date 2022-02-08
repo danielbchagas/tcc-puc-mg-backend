@@ -22,12 +22,12 @@ namespace ECommerce.Ordering.Api.Configurations
             services.AddScoped<IRequestHandler<CreateOrderCommand, ValidationResult>, CreateOrderCommandHandler>();
 
             // Mediator - Queries
-            services.AddScoped<IRequestHandler<GetPedidoQuery, PedidoCliente>, GetPedidoQueryHandler>();
+            services.AddScoped<IRequestHandler<GetOrderQuery, PedidoCliente>, GetOrderQueryHandler>();
 
             // Mediator - Notificações
 
             // Repositórios
-            services.AddScoped<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
         }
     }
 }

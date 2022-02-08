@@ -4,9 +4,9 @@ using PedidoCliente = ECommerce.Ordering.Domain.Models.Order;
 
 namespace ECommerce.Ordering.Application.Queries
 {
-    public class GetPedidoQuery : IRequest<PedidoCliente>
+    public class GetOrderQuery : IRequest<PedidoCliente>
     {
-        public GetPedidoQuery(Guid id)
+        public GetOrderQuery(Guid id)
         {
             Id = id;
         }

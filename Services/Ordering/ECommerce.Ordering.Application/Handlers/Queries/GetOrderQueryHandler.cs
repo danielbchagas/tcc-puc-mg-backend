@@ -7,16 +7,16 @@ using PedidoCliente = ECommerce.Ordering.Domain.Models.Order;
 
 namespace ECommerce.Ordering.Application.Handlers.Queries
 {
-    public class GetPedidoQueryHandler : IRequestHandler<GetPedidoQuery, PedidoCliente>
+    public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, PedidoCliente>
     {
-        private readonly IPedidoRepository _repository;
+        private readonly IOrderRepository _repository;
 
-        public GetPedidoQueryHandler(IPedidoRepository repository)
+        public GetOrderQueryHandler(IOrderRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<PedidoCliente> Handle(GetPedidoQuery request, CancellationToken cancellationToken)
+        public async Task<PedidoCliente> Handle(GetOrderQuery request, CancellationToken cancellationToken)
         {
             var pedido = await _repository.Buscar(request.Id);
             pedido.Totalize();
