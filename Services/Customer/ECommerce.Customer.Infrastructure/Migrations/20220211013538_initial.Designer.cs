@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Customer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220130003616_initial")]
+    [Migration("20220211013538_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,9 +28,6 @@ namespace ECommerce.Customer.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("FirstLine")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
@@ -42,13 +39,16 @@ namespace ECommerce.Customer.Infrastructure.Migrations
                     b.Property<int>("State")
                         .HasColumnType("char(2)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasColumnType("varchar(9)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Addresses");
@@ -60,16 +60,16 @@ namespace ECommerce.Customer.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("varchar(18)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Documents");
@@ -85,12 +85,12 @@ namespace ECommerce.Customer.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<Guid>("CustomerId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Emails");
@@ -102,16 +102,16 @@ namespace ECommerce.Customer.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("varchar(20)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Phones");
@@ -141,46 +141,46 @@ namespace ECommerce.Customer.Infrastructure.Migrations
 
             modelBuilder.Entity("ECommerce.Customer.Domain.Models.Address", b =>
                 {
-                    b.HasOne("ECommerce.Customer.Domain.Models.User", "Customer")
+                    b.HasOne("ECommerce.Customer.Domain.Models.User", "User")
                         .WithOne("Address")
-                        .HasForeignKey("ECommerce.Customer.Domain.Models.Address", "CustomerId")
+                        .HasForeignKey("ECommerce.Customer.Domain.Models.Address", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ECommerce.Customer.Domain.Models.Document", b =>
                 {
-                    b.HasOne("ECommerce.Customer.Domain.Models.User", "Customer")
+                    b.HasOne("ECommerce.Customer.Domain.Models.User", "User")
                         .WithOne("Document")
-                        .HasForeignKey("ECommerce.Customer.Domain.Models.Document", "CustomerId")
+                        .HasForeignKey("ECommerce.Customer.Domain.Models.Document", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ECommerce.Customer.Domain.Models.Email", b =>
                 {
-                    b.HasOne("ECommerce.Customer.Domain.Models.User", "Customer")
+                    b.HasOne("ECommerce.Customer.Domain.Models.User", "User")
                         .WithOne("Email")
-                        .HasForeignKey("ECommerce.Customer.Domain.Models.Email", "CustomerId")
+                        .HasForeignKey("ECommerce.Customer.Domain.Models.Email", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ECommerce.Customer.Domain.Models.Phone", b =>
                 {
-                    b.HasOne("ECommerce.Customer.Domain.Models.User", "Customer")
+                    b.HasOne("ECommerce.Customer.Domain.Models.User", "User")
                         .WithOne("Phone")
-                        .HasForeignKey("ECommerce.Customer.Domain.Models.Phone", "CustomerId")
+                        .HasForeignKey("ECommerce.Customer.Domain.Models.Phone", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ECommerce.Customer.Domain.Models.User", b =>

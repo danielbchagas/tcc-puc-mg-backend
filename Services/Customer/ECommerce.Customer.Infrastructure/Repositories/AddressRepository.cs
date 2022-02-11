@@ -37,7 +37,7 @@ namespace ECommerce.Customer.Infrastructure.Repositories
         public async Task<Address> Get(Guid id)
         {
             return await _context.Addresses
-                .Include(e => e.Customer)
+                .Include(e => e.User)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
@@ -49,7 +49,7 @@ namespace ECommerce.Customer.Infrastructure.Repositories
         public async Task<IEnumerable<Address>> Get(Expression<Func<Address, bool>> filter)
         {
             return await _context.Addresses
-                .Include(e => e.Customer)
+                .Include(e => e.User)
                 .Where(filter)
                 .ToListAsync();
         }

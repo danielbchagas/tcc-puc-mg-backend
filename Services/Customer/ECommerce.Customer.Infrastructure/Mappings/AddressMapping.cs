@@ -32,7 +32,7 @@ namespace ECommerce.Customer.Infrastructure.Mappings
                 .HasColumnType("char(2)")
                 .IsRequired();
 
-            builder.Property(e => e.CustomerId)
+            builder.Property(e => e.UserId)
                 .HasColumnType("uniqueidentifier")
                 .IsRequired();
         }

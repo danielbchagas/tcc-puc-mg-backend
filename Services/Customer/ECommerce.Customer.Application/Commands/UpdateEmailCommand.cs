@@ -6,15 +6,15 @@ namespace ECommerce.Customer.Application.Commands
 {
     public class UpdateEmailCommand : IRequest<ValidationResult>
     {
-        public UpdateEmailCommand(Guid id, string address, Guid customerId)
+        public UpdateEmailCommand(Guid id, string address, Guid userId)
         {
             Id = id;
             Address = address;
-            CustomerId = customerId;
+            UserId = userId;
         }
 
         public Guid Id { get; set; }
         public string Address { get; set; }
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

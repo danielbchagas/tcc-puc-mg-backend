@@ -136,10 +136,6 @@ namespace ECommerce.Identity.Api.Controllers
                     await _userManager.AddToRoleAsync(user, "Viewer");
                     await _userManager.AddLoginAsync(user, info);
                 }
-                else
-                {
-                    await _userManager.AddLoginAsync(user, info);
-                }
             }
 
             if (user == null)

@@ -22,7 +22,7 @@ namespace ECommerce.Customer.Application.Handlers.Commands
         {
             var validation = new ValidationResult();
 
-            var phones = await _repository.Get(t => t.CustomerId == request.CustomerId);
+            var phones = await _repository.Get(t => t.UserId == request.UserId);
 
             if(phones.Any())
             {
@@ -34,7 +34,7 @@ namespace ECommerce.Customer.Application.Handlers.Commands
                 return validation;
             }
 
-            var phone = new Phone(request.Number, request.CustomerId);
+            var phone = new Phone(request.Number, request.UserId);
 
             validation = phone.Validate();
 

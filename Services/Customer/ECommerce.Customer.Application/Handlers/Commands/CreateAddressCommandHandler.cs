@@ -22,7 +22,7 @@ namespace ECommerce.Customer.Application.Handlers.Commands
         {
             var validation = new ValidationResult();
 
-            var addresses = await _repository.Get(d => d.CustomerId == request.CustomerId);
+            var addresses = await _repository.Get(d => d.UserId == request.UserId);
 
             if (addresses.Any())
             {
@@ -31,7 +31,7 @@ namespace ECommerce.Customer.Application.Handlers.Commands
                 return validation;
             }
 
-            var address = new Address(request.FirstLine, request.SecondLine, request.City, request.ZipCode, request.State, request.CustomerId);
+            var address = new Address(request.FirstLine, request.SecondLine, request.City, request.ZipCode, request.State, request.UserId);
 
             validation = address.Validate();
 

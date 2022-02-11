@@ -7,17 +7,17 @@ namespace ECommerce.Customer.Domain.Models
 {
     public class Phone : Entity
     {
-        public Phone(string number, Guid customerId)
+        public Phone(string number, Guid userId)
         {
             Number = number;
-            CustomerId = customerId;
+            UserId = userId;
         }
 
         public string Number { get; set; }
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
 
         [JsonIgnore]
-        public User Customer { get; set; }
+        public User User { get; set; }
 
         public ValidationResult Validate()
         {
@@ -38,7 +38,7 @@ namespace ECommerce.Customer.Domain.Models
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!")
                 .MaximumLength(100)
                 .WithMessage("{PropertyName} tem um valor maior do que o esperado!");
-            RuleFor(d => d.CustomerId)
+            RuleFor(d => d.UserId)
                 .NotEqual(Guid.Empty)
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
         }

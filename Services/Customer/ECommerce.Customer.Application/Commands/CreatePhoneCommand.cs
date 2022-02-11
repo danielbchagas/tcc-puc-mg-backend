@@ -6,15 +6,15 @@ namespace ECommerce.Customer.Application.Commands
 {
     public class CreatePhoneCommand : IRequest<ValidationResult>
     {
-        public CreatePhoneCommand(Guid id, string number, Guid customerId)
+        public CreatePhoneCommand(Guid id, string number, Guid userId)
         {
             Id = id;
             Number = number;
-            CustomerId = customerId;
+            UserId = userId;
         }
 
         public Guid Id { get; set; }
         public string Number { get; set; }
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

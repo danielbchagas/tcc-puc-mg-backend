@@ -7,7 +7,7 @@ namespace ECommerce.Customer.Application.Commands
 {
     public class UpdateAddressCommand : IRequest<ValidationResult>
     {
-        public UpdateAddressCommand(Guid id, string firstLine, string secondLine, string city, string zipCode, State state, Guid customerId)
+        public UpdateAddressCommand(Guid id, string firstLine, string secondLine, string city, string zipCode, State state, Guid userId)
         {
             Id = id;
             FirstLine = firstLine;
@@ -15,7 +15,7 @@ namespace ECommerce.Customer.Application.Commands
             City = city;
             ZipCode = zipCode;
             State = state;
-            CustomerId = customerId;
+            UserId = userId;
         }
 
         public Guid Id { get; set; }
@@ -24,6 +24,6 @@ namespace ECommerce.Customer.Application.Commands
         public string City { get; set; }
         public string ZipCode { get; set; }
         public State State { get; set; }
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

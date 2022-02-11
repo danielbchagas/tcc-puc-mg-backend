@@ -25,19 +25,19 @@ namespace ECommerce.Customer.Infrastructure.Mappings
                 .IsRequired();
 
             builder.HasOne(c => c.Document)
-                .WithOne(d => d.Customer)
+                .WithOne(d => d.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(c => c.Email)
-                .WithOne(e => e.Customer)
+                .WithOne(e => e.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(c => c.Phone)
-                .WithOne(t => t.Customer)
+                .WithOne(t => t.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(c => c.Address)
-                .WithOne(e => e.Customer)
+                .WithOne(e => e.User)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
