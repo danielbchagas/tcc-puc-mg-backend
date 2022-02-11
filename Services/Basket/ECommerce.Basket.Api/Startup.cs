@@ -33,6 +33,7 @@ namespace ECommerce.Basket.Api
             services.AddDependencyInjectionConfiguration();
             services.AddEntityFrameworkConfiguration(Configuration);
             services.AddSwaggerConfiguration();
+            services.AddCorsConfiguration();
             
             services.AddControllers();
 
@@ -49,10 +50,14 @@ namespace ECommerce.Basket.Api
                 app.UseDeveloperExceptionPage();
 
                 app.UseSwaggerConfiguration();
+
+                app.UseCors("development");
             }
             else
             {
                 app.UseSwaggerConfiguration();
+
+                app.UseCors("production");
             }
 
             app.UseHttpsRedirection();

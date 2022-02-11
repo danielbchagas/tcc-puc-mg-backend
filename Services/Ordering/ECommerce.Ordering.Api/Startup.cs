@@ -32,6 +32,7 @@ namespace ECommerce.Ordering.Api
             services.AddIdentityConfiguration(Configuration);
             services.AddEntityFrameworkConfiguration(Configuration);
             services.AddSwaggerConfiguration();
+            services.AddCorsConfiguration();
 
             services.AddControllers();
 
@@ -48,10 +49,14 @@ namespace ECommerce.Ordering.Api
                 app.UseDeveloperExceptionPage();
 
                 app.UseSwaggerConfiguration();
+
+                app.UseCors("development");
             }
             else
             {
                 app.UseSwaggerConfiguration();
+
+                app.UseCors("production");
             }
 
             app.UseHttpsRedirection();

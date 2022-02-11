@@ -34,7 +34,7 @@ namespace ECommerce.Customer.Api
             services.AddOptionsConfiguration(Configuration);
             services.AddDependencyInjectionConfiguration();
             services.AddCorsConfiguration();
-            
+
             services.AddControllers();
 
             services.Configure<ApiBehaviorOptions>(options =>
@@ -50,10 +50,14 @@ namespace ECommerce.Customer.Api
                 app.UseDeveloperExceptionPage();
 
                 app.UseSwaggerConfiguration();
+
+                app.UseCors("development");
             }
             else
             {
                 app.UseSwaggerConfiguration();
+
+                app.UseCors("production");
             }
 
             app.UseHttpsRedirection();
