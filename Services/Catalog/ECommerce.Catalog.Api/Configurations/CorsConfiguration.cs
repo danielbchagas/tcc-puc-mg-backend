@@ -17,12 +17,16 @@ namespace ECommerce.Catalog.Api.Configurations
 
                 options.AddPolicy("staging", builder =>
                 {
-                    builder.WithOrigins("https://dominio");
+                    builder.WithOrigins("https://ecommerce-spa.azurewebsites.net");
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
                 });
 
                 options.AddPolicy("production", builder =>
                 {
-                    builder.WithOrigins("https://dominio");
+                    builder.WithOrigins("https://ecommerce-spa.azurewebsites.net");
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
                 });
             });
 
