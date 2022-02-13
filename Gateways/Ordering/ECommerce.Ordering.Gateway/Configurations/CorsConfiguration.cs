@@ -17,14 +17,14 @@ namespace ECommerce.Ordering.Gateway.Configurations
 
                 options.AddPolicy("staging", builder =>
                 {
-                    builder.WithOrigins("https://ecommerce-spa.azurewebsites.net");
+                    builder.WithOrigins("https://ecommerce-app.azurewebsites.net");
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
                 });
 
                 options.AddPolicy("production", builder =>
                 {
-                    builder.WithOrigins("https://ecommerce-spa.azurewebsites.net");
+                    builder.WithOrigins("https://ecommerce-app.azurewebsites.net");
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
                 });
