@@ -1,14 +1,13 @@
-﻿using System;
-using System.Net;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using ECommerce.Basket.Domain.Models;
+﻿using ECommerce.Basket.Domain.Models;
 using ECommerce.Ordering.Gateway.Interfaces;
-using ECommerce.Ordering.Gateway.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Gateway.Controllers
 {
@@ -31,7 +30,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpGet("{customerId:Guid}")]
         public async Task<IActionResult> Get(Guid customerId)
         {
-            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            var accessToken = await GetToken();
 
             var response = await _basketService.GetCustomerBasket(customerId, accessToken);
 
@@ -46,7 +45,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CustomerBasket basket)
         {
-            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            var accessToken = await GetToken();
 
             basket.CustomerId = Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             
@@ -63,7 +62,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpDelete("basket/{customerId:Guid}")]
         public async Task<IActionResult> DeleteBasket(Guid customerId)
         {
-            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            var accessToken = await GetToken();
 
             var response = await _basketService.DeleteCustomerBasket(customerId, accessToken);
 
@@ -74,5 +73,10 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             return NoContent();
         }
+
+        #region Helpers
+        protected async Task<string> GetToken()
+            => await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+        #endregion
     }
 }

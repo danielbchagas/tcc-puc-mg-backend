@@ -22,8 +22,11 @@ namespace ECommerce.Ordering.Gateway.Interfaces
         [Post("/api/basketItem")]
         Task<ApiResponse<object>> CreateBasketItem(BasketItem basketItem, [Authorize("Bearer")] string accessToken);
 
-        [Delete("/api/basketItem/{basketItemId}")]
-        Task<ApiResponse<object>> DeleteBasketItem(Guid basketItemId, [Authorize("Bearer")] string accessToken);
+        [Delete("/api/basketItem/{id}")]
+        Task<ApiResponse<object>> DeleteBasketItem(Guid id, [Authorize("Bearer")] string accessToken);
+
+        [Get("/api/basketItem/{id}")]
+        Task<ApiResponse<BasketItem>> GetBasketItem(Guid id, [Authorize("Bearer")] string accessToken);
         #endregion
     }
 }

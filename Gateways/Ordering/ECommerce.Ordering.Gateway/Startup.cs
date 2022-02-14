@@ -28,7 +28,6 @@ namespace ECommerce.Ordering.Gateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRefitConfiguration(Configuration);
-            services.AddDependencyInjectionConfiguration();
             services.AddIdentityConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddOptionsConfiguration(Configuration);

@@ -29,7 +29,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            var accessToken = await GetToken();
             var response = await _orderingService.GetOrder(id, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
@@ -45,7 +45,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Order order)
         {
-            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            var accessToken = await GetToken();
             var response = await _orderingService.Create(order, accessToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
@@ -55,5 +55,10 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             return Ok();
         }
+
+        #region Helpers
+        protected async Task<string> GetToken()
+            => await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+        #endregion
     }
 }

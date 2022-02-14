@@ -9,17 +9,10 @@ namespace ECommerce.Ordering.Gateway.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private bool _aprovado;
-
-        public PaymentController()
-        {
-            _aprovado = new Random().Next(0, 1) != 0;
-        }
-
         [HttpPost("credit-card")]
         public IActionResult CreditCard(decimal value)
         {
-            if (!_aprovado)
+            if (Approved())
                 return Ok(new { valor = value, mensagem = "Saldo insuficiente." });
 
             return Ok(new { valor = value, mensagem = "Pagamento aprovado." });
@@ -28,7 +21,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpPost("bitcoin")]
         public IActionResult Bitcoin(decimal value)
         {
-            if (!_aprovado)
+            if (Approved())
                 return Ok(new { valor = value, mensagem = "Saldo insuficiente." });
 
             return Ok(new { valor = value, mensagem = "Pagamento aprovado." });
@@ -38,6 +31,11 @@ namespace ECommerce.Ordering.Gateway.Controllers
         public IActionResult BankBill(decimal value)
         {
             return Ok(new { valor = value, mensagem = "Pagamento em processamento..." });
+        }
+
+        private bool Approved()
+        {
+            return new Random().Next(0, 1) != 0;
         }
     }
 }
