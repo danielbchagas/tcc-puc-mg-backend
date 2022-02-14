@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using ECommerce.Basket.Application.Queries;
 
 namespace ECommerce.Basket.Api.Controllers
 {
@@ -19,6 +20,19 @@ namespace ECommerce.Basket.Api.Controllers
         public BasketItemController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var result = await _mediator.Send(new GetBasketItemQuery(id));
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
