@@ -51,7 +51,7 @@ namespace ECommerce.Basket.Infrastructure.Repositories
 
         public async Task Delete(Guid id)
         {
-            var cart = await _context.CustomerBaskets.FindAsync(id);
+            var cart = await Get(id);
 
             _context.CustomerBaskets.Remove(cart);
         }

@@ -11,6 +11,6 @@ namespace ECommerce.Ordering.Gateway.Interfaces
         Task<ApiResponse<Product>> Get(Guid id);
 
         [Put("/api/product/{id}")]
-        Task<IApiResponse> Update(Guid id, Product product, [Authorize("Bearer")] string accessToken);
+        Task<ApiResponse<object>> Update(Guid id, Product product, [Authorize("Bearer")] string accessToken);
     }
 }

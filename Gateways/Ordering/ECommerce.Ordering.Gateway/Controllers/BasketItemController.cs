@@ -1,5 +1,6 @@
 ﻿using ECommerce.Basket.Domain.Models;
 using ECommerce.Ordering.Gateway.Interfaces;
+using ECommerce.Ordering.Gateway.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(BasketItem item)
+        public async Task<IActionResult> Create(BasketItemDto item)
         {
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             var response = await _catalogService.Get(item.ProductId);
@@ -41,18 +42,16 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             #region Catalog update
             response.Content.Quantity -= item.Quantity;
-            var result = await _catalogService.Update(item.Id, response.Content, accessToken);
+            var result = await _catalogService.Update(response.Content.Id, response.Content, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
             #endregion
 
             #region Basket update
-            item.Name = response.Content.Name;
-            item.Image = response.Content.Image;
-            item.Value = response.Content.Value;
-
-            result = await _basketService.CreateBasketItem(item, accessToken);
+            var newItem = new BasketItem(response.Content.Name, item.Quantity, response.Content.Value, response.Content.Image, response.Content.Id, item.CustomerBasketId);
+            
+            result = await _basketService.CreateBasketItem(newItem, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
