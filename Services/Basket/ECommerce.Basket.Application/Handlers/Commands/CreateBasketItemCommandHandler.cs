@@ -1,12 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using ECommerce.Basket.Application.Commands;
-using ECommerce.Basket.Application.Handlers.Queries;
-using ECommerce.Basket.Application.Queries;
+﻿using ECommerce.Basket.Application.Commands;
 using ECommerce.Basket.Domain.Interfaces.Repositories;
 using ECommerce.Basket.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.Basket.Application.Handlers.Commands
 {
@@ -14,18 +13,24 @@ namespace ECommerce.Basket.Application.Handlers.Commands
     {
         private readonly ICustomerBasketRepository _basketRepository;
         private readonly IBasketItemRepository _basketItemRepository;
-        private readonly IMediator _mediator;
 
-        public CreateBasketItemCommandHandler(ICustomerBasketRepository basketRepository, IBasketItemRepository basketItemRepository, IMediator mediator)
+        public CreateBasketItemCommandHandler(ICustomerBasketRepository basketRepository, IBasketItemRepository basketItemRepository)
         {
             _basketRepository = basketRepository;
             _basketItemRepository = basketItemRepository;
-            _mediator = mediator;
         }
 
         public async Task<ValidationResult> Handle(CreateBasketItemCommand request, CancellationToken cancellationToken)
         {
-            var basket = await _mediator.Send(new GetCustomerBasketQuery(request.CustomerBasketId));
+            var basket = await _basketRepository.Get(request.CustomerBasketId);
+
+            if(basket == null)
+            {
+                var errors = new List<ValidationFailure>();
+                errors.Add(new ValidationFailure("", "Carrinho não encontrado."));
+                return new ValidationResult(errors);
+            }
+
             var item = new BasketItem(request.Name, request.Quantity, request.Value, request.Image, request.ProductId, basket.Id);
 
             #region Adds new item to basket

@@ -6,7 +6,7 @@ namespace ECommerce.Catalog.Application.Commands
 {
     public class UpdateProductCommand : IRequest<ValidationResult>
     {
-        public UpdateProductCommand(Guid id, string description, string name, string image, long quantity, decimal value, bool enabled)
+        public UpdateProductCommand(Guid id, string description, string name, string image, int quantity, decimal value, bool enabled)
         {
             Id = id;
             Description = description;
@@ -21,7 +21,7 @@ namespace ECommerce.Catalog.Application.Commands
         public string Description { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
-        public long Quantity { get; set; }
+        public int Quantity { get; set; }
         public decimal Value { get; set; }
         public bool Enabled { get; set; }
     }

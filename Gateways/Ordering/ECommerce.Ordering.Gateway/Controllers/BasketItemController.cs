@@ -1,12 +1,13 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
+﻿using ECommerce.Basket.Domain.Models;
 using ECommerce.Ordering.Gateway.Interfaces;
 using ECommerce.Ordering.Gateway.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Gateway.Controllers
 {
@@ -39,20 +40,18 @@ namespace ECommerce.Ordering.Gateway.Controllers
                 return BadRequest("Quantidade indisponível em estoque!");
             #endregion
 
-            #region Stock update
+            #region Catalog update
             response.Content.Quantity -= item.Quantity;
-            var result = await _catalogService.Update(item.Id, response.Content, accessToken);
+            var result = await _catalogService.Update(response.Content.Id, response.Content, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
             #endregion
 
             #region Basket update
-            item.Name = response.Content.Name;
-            item.Image = response.Content.Image;
-            item.Value = response.Content.Value;
-
-            result = await _basketService.CreateBasketItem(item, accessToken);
+            var newItem = new BasketItem(response.Content.Name, item.Quantity, response.Content.Value, response.Content.Image, response.Content.Id, item.CustomerBasketId);
+            
+            result = await _basketService.CreateBasketItem(newItem, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);

@@ -7,7 +7,7 @@ namespace ECommerce.Catalog.Domain.Models
 {
     public class Product : Entity, IAggregateRoot
     {
-        public Product(string description, string name, string image, long quantity, decimal value, bool enabled = true)
+        public Product(string description, string name, string image, int quantity, decimal value, bool enabled = true)
         {
             Description = description;
             Name = name;
@@ -21,7 +21,7 @@ namespace ECommerce.Catalog.Domain.Models
         public string Description { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
-        public long Quantity { get; set; }
+        public int Quantity { get; set; }
         public decimal Value { get; set; }
         public bool Enabled { get; set; }
         public DateTime RegistrationDate { get; set; }
@@ -53,7 +53,7 @@ namespace ECommerce.Catalog.Domain.Models
             RuleFor(p => p.Quantity)
                 .GreaterThan(0)
                 .WithMessage("{PropertyName} tem um value menor do que o esperado!")
-                .LessThan(long.MaxValue)
+                .LessThan(int.MaxValue)
                 .WithMessage("{PropertyName} tem um value maior do que o esperado!");
             RuleFor(p => p.Value)
                 .GreaterThan(0)
