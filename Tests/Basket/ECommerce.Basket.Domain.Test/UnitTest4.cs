@@ -26,7 +26,7 @@ namespace ECommerce.Basket.Domain.Test
         {
             // Arrange
             var faker = new Faker<BasketItem>()
-                .CustomInstantiator(set => new BasketItem(name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), customerBasketId: _basket.Id));
+                .CustomInstantiator(set => new BasketItem(id: Guid.NewGuid(), name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), customerBasketId: _basket.Id));
 
             var item = faker.Generate();
             var item2 = faker.Generate();

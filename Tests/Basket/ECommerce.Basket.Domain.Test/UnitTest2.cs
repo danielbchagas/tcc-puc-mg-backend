@@ -22,7 +22,7 @@ namespace ECommerce.Basket.Domain.Test
         {
             // Arrange
             var faker = new Faker<BasketItem>()
-                .CustomInstantiator(set => new BasketItem(name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), customerBasketId: _basket.Id));
+                .CustomInstantiator(set => new BasketItem(id: Guid.NewGuid(), name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), customerBasketId: _basket.Id));
 
             var item = faker.Generate();
 
@@ -39,13 +39,13 @@ namespace ECommerce.Basket.Domain.Test
             // Arrange
             var fakerItem = new Faker<BasketItem>()
                 .CustomInstantiator(set => 
-                    new BasketItem(name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), customerBasketId: _basket.Id));
+                    new BasketItem(id: Guid.NewGuid(), name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), customerBasketId: _basket.Id));
 
             var firstItem = fakerItem.Generate();
 
             var faker2 = new Faker<BasketItem>()
                 .CustomInstantiator(set => 
-                    new BasketItem(name: firstItem.Name, quantity: 6, value: firstItem.Value, image: firstItem.Image, productId: firstItem.ProductId, customerBasketId: _basket.Id));
+                    new BasketItem(id: firstItem.Id, name: firstItem.Name, quantity: 6, value: firstItem.Value, image: firstItem.Image, customerBasketId: _basket.Id));
 
             var secondItem = faker2.Generate();
 

@@ -29,7 +29,6 @@ namespace ECommerce.Basket.Infrastructure.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Value = table.Column<decimal>(type: "money", nullable: false),
                     Image = table.Column<string>(type: "text", nullable: true),
-                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
                     CustomerBasketId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Basket.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220129010340_initial")]
+    [Migration("20220215012412_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,9 +33,6 @@ namespace ECommerce.Basket.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(20)");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("TEXT");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");

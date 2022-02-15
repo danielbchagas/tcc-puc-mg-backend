@@ -36,8 +36,9 @@ namespace ECommerce.Ordering.Gateway.Controllers
         {
             var accessToken = await GetToken();
 
-            #region Catalog update
-            var product = await GetProduct(item.ProductId);
+            #region Stock update
+            var product = await GetProduct(item.Id);
+            var basketItem = await GetBasketItem(item.Id);
 
             if (product == null)
                 return NotFound();
@@ -45,15 +46,16 @@ namespace ECommerce.Ordering.Gateway.Controllers
             if (product.Quantity < item.Quantity)
                 return BadRequest("Quantidade indisponível em estoque!");
 
-            product.Quantity -= item.Quantity;
-            var createBasketItemResult = await _catalogService.Update(item.ProductId, product, accessToken);
+            product = UpdateProductQuantity(basketItem, item, product);
+
+            var createBasketItemResult = await _catalogService.Update(item.Id, product, accessToken);
 
             if (!createBasketItemResult.IsSuccessStatusCode)
                 return BadRequest(createBasketItemResult.Error);
             #endregion
 
             #region Basket update
-            var newBasketItem = new BasketItem(product.Name, item.Quantity, product.Value, product.Image, product.Id, item.CustomerBasketId);
+            var newBasketItem = new BasketItem(product.Id, product.Name, item.Quantity, product.Value, product.Image, item.CustomerBasketId);
             
             createBasketItemResult = await _basketService.CreateBasketItem(newBasketItem, accessToken);
 
@@ -77,13 +79,13 @@ namespace ECommerce.Ordering.Gateway.Controllers
             #region Catalog update
             var basketItem = await _basketService.GetBasketItem(id, accessToken);
 
-            var product = await GetProduct(basketItem.Content.ProductId);
+            var product = await GetProduct(basketItem.Content.Id);
 
             if (product == null)
                 return NotFound();
 
             product.Quantity += basketItem.Content.Quantity;
-            var result = await _catalogService.Update(basketItem.Content.ProductId, product, accessToken);
+            var result = await _catalogService.Update(basketItem.Content.Id, product, accessToken);
 
             if (!result.IsSuccessStatusCode)
                 return BadRequest(result.Error);
@@ -109,12 +111,32 @@ namespace ECommerce.Ordering.Gateway.Controllers
             return response.Content;
         }
 
+        private async Task<BasketItem> GetBasketItem(Guid id)
+        {
+            var accessToken = await GetToken();
+            var response = await _basketService.GetBasketItem(id, accessToken);
+            return response.Content;
+        }
+
         private async Task ReturnProductsToStock(BasketItemDto item, Product product)
         {
             var accessToken = await GetToken();
 
             product.Quantity += item.Quantity;
-            await _catalogService.Update(item.ProductId, product, accessToken);
+            await _catalogService.Update(item.Id, product, accessToken);
+        }
+
+        private Product UpdateProductQuantity(BasketItem basketItem, BasketItemDto item, Product product)
+        {
+            if (basketItem == null)
+                product.Quantity -= item.Quantity;
+
+            if (basketItem.Quantity > item.Quantity)
+                product.Quantity += (basketItem.Quantity - item.Quantity);
+            else
+                product.Quantity -= Math.Abs(basketItem.Quantity - item.Quantity);
+
+            return product;
         }
         #endregion
     }

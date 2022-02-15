@@ -32,7 +32,6 @@ namespace ECommerce.Basket.Domain.Models
             if (exists != null)
             {
                 exists.Quantity = item.Quantity;
-
                 Items.Remove(exists);
                 Items.Add(exists);
             }

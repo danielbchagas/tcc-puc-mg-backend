@@ -7,13 +7,14 @@ namespace ECommerce.Basket.Domain.Models
 {
     public class BasketItem : Entity
     {
-        public BasketItem(string name, int quantity, decimal value, string image, Guid productId, Guid customerBasketId)
+        public BasketItem(Guid id, string name, int quantity, decimal value, string image, Guid customerBasketId)
         {
+            Id = id;
             Name = name;
             Quantity = quantity;
             Value = value;
             Image = image;
-            ProductId = productId;
+
             CustomerBasketId = customerBasketId;
         }
 
@@ -22,7 +23,6 @@ namespace ECommerce.Basket.Domain.Models
         public decimal Value { get; set; }
         public string Image { get; set; }
 
-        public Guid ProductId { get; set; }
         public Guid CustomerBasketId { get; set; }
 
         [JsonIgnore]
@@ -38,7 +38,7 @@ namespace ECommerce.Basket.Domain.Models
     {
         public ItemValidator()
         {
-            RuleFor(ic => ic.ProductId)
+            RuleFor(ic => ic.Id)
                 .NotEqual(Guid.Empty)
                 .WithMessage("Id do produto inválido");
 

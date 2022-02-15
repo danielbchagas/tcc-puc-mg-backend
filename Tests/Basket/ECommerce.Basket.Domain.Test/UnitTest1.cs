@@ -25,7 +25,7 @@ namespace ECommerce.Basket.Domain.Test
         {
             // Arrange
             var faker = new Faker<BasketItem>()
-                .CustomInstantiator(set => new BasketItem(name: set.Random.String(), quantity: quantity, value: set.Random.Decimal(), image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), customerBasketId: _basket.Id));
+                .CustomInstantiator(set => new BasketItem(id: Guid.NewGuid(), name: set.Random.String(), quantity: quantity, value: set.Random.Decimal(), image: set.Image.PicsumUrl(), customerBasketId: _basket.Id));
 
             var item = faker.Generate();
 
@@ -46,7 +46,7 @@ namespace ECommerce.Basket.Domain.Test
         {
             // Arrange
             var faker = new Faker<BasketItem>()
-                .CustomInstantiator(set => new BasketItem(name: set.Random.String(), quantity: quantity, value: set.Random.Decimal(), image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), customerBasketId: _basket.Id));
+                .CustomInstantiator(set => new BasketItem(id: Guid.NewGuid(), name: set.Random.String(), quantity: quantity, value: set.Random.Decimal(), image: set.Image.PicsumUrl(), customerBasketId: _basket.Id));
 
             var item = faker.Generate();
 

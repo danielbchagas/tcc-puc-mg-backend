@@ -6,6 +6,7 @@ using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ECommerce.Basket.Application.Handlers.Commands
 {
@@ -22,6 +23,8 @@ namespace ECommerce.Basket.Application.Handlers.Commands
 
         public async Task<ValidationResult> Handle(CreateBasketItemCommand request, CancellationToken cancellationToken)
         {
+            var validation = new ValidationResult();
+
             var basket = await _basketRepository.Get(request.CustomerBasketId);
 
             if(basket == null)
@@ -31,31 +34,24 @@ namespace ECommerce.Basket.Application.Handlers.Commands
                 return new ValidationResult(errors);
             }
 
-            var item = new BasketItem(request.Name, request.Quantity, request.Value, request.Image, request.ProductId, basket.Id);
+            var item = new BasketItem(request.Id, request.Name, request.Quantity, request.Value, request.Image, request.CustomerBasketId);
 
-            #region Adds new item to basket
-            var validation = item.Validate();
+            validation = item.Validate();
 
             if (!validation.IsValid)
                 return await Task.FromResult(validation);
 
-            await _basketItemRepository.Create(item);
-            var success = await _basketItemRepository.UnitOfWork.Commit();
-            #endregion
+            if (!basket.Items.Any(i => i.Id == item.Id))
+                await _basketItemRepository.Create(item);
 
             #region Updates basket
-            basket.UpdatesItems(item);
-
-            validation = basket.Validate();
+            validation = basket.UpdatesItems(item);
 
             if (!validation.IsValid)
                 return await Task.FromResult(validation);
 
-            if (success)
-            {
-                await _basketRepository.Update(basket);
-                await _basketRepository.UnitOfWork.Commit();
-            }
+            await _basketRepository.Update(basket);
+            await _basketRepository.UnitOfWork.Commit();
             #endregion
 
             return await Task.FromResult(validation);
