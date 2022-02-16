@@ -1,5 +1,6 @@
 ﻿using ECommerce.Basket.Domain.Models;
 using ECommerce.Ordering.Gateway.Interfaces;
+using ECommerce.Ordering.Gateway.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -43,13 +44,11 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CustomerBasket basket)
+        public async Task<IActionResult> Create(CustomerBasketDTO basket)
         {
             var accessToken = await GetToken();
 
-            basket.CustomerId = Guid.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            
-            var response = await _basketService.CreateCustomerBasket(basket, accessToken);
+            var response = await _basketService.CreateCustomerBasket(new CustomerBasket(basket.CustomerId), accessToken);
 
             if (!response.IsSuccessStatusCode)
                 return BadRequest(response.Error);
