@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "google/protobuf/duration.proto";  
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "ECommerce.Catalog.Api.Protos";
+
+package BasketApi;
+
+service CustomerBasket {
+	rpc GetBasket(GetBasketRequest) returns(GetBasketResponse);
+}
+
+message GetBasketRequest {
+	string customerid = 1;
+}
+
+message GetBasketResponse {
+	string id = 1;
+	double value = 2;
+	string customerid = 3;
+	repeated BasketItemResponse items = 4;
+}
+
+message BasketItemResponse {
+	string id = 1;
+	string name = 2;
+	int32 quantity = 3;
+	double value = 4;
+	string image = 5;
+	string basketid = 6;
+}

@@ -1,6 +1,7 @@
 ﻿using ECommerce.Basket.Domain.Models;
 using ECommerce.Ordering.Gateway.Interfaces;
 using ECommerce.Ordering.Gateway.Models;
+using ECommerce.Ordering.Gateway.Services.gRPC;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,11 +20,13 @@ namespace ECommerce.Ordering.Gateway.Controllers
     {
         private readonly IBasketService _basketService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IBasketGrpcClient _basketGrpcClient;
 
-        public BasketController(IBasketService basketService, IHttpContextAccessor httpContextAccessor)
+        public BasketController(IBasketService basketService, IHttpContextAccessor httpContextAccessor, IBasketGrpcClient basketGrpcClient)
         {
             _basketService = basketService;
             _httpContextAccessor = httpContextAccessor;
+            _basketGrpcClient = basketGrpcClient;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -33,12 +36,16 @@ namespace ECommerce.Ordering.Gateway.Controllers
         {
             var accessToken = await GetToken();
 
-            var response = await _basketService.GetCustomerBasket(customerId, accessToken);
+            //var response = await _basketService.GetCustomerBasket(customerId, accessToken);
 
-            if (!response.IsSuccessStatusCode)
-                return BadRequest(response.Error);
+            //if (!response.IsSuccessStatusCode)
+            //    return BadRequest(response.Error);
 
-            return Ok(response.Content);
+            //return Ok(response.Content);
+
+            var response = await _basketGrpcClient.GetCustomerBasket(customerId);
+
+            return Ok(response);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]

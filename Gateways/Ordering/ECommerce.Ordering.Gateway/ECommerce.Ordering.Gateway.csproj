@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="Google.Protobuf" Version="3.19.4" />
+	  <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
+	  <PackageReference Include="Grpc.Tools" Version="2.44.0">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
 	  <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="FluentValidation" Version="10.3.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
@@ -24,6 +30,10 @@
     <ProjectReference Include="..\..\..\Services\Catalog\ECommerce.Catalog.Domain\ECommerce.Catalog.Domain.csproj" />
     <ProjectReference Include="..\..\..\Services\Customer\ECommerce.Customer.Domain\ECommerce.Customer.Domain.csproj" />
     <ProjectReference Include="..\..\..\Services\Ordering\ECommerce.Ordering.Domain\ECommerce.Ordering.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Protobuf Include="Protos\basket.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>
