@@ -33,6 +33,7 @@ namespace ECommerce.Identity.Api
             services.AddIdentityConfiguration(Configuration);
             services.AddRefitConfiguration(Configuration);
             services.AddCorsConfiguration();
+            services.AddGrpcConfiguration(Configuration);
 
             services.AddControllers();
 

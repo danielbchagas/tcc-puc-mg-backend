@@ -30,13 +30,15 @@ namespace ECommerce.Identity.Api.Controllers
         private readonly JwtHandler _jwtHandler;
         private readonly RabbitMqOption _rabbitMQOptions;
         private readonly ICustomerService _customerService;
+        private readonly ICustomerGrpcClient _customerGrpcClient;
 
         public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
             ILogger<AccountController> logger, 
             IOptions<RabbitMqOption> rabbitMQOptions,
             ICustomerService customerService,
-            JwtHandler jwtHandler)
+            JwtHandler jwtHandler,
+            ICustomerGrpcClient customerGrpcClient)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -44,6 +46,7 @@ namespace ECommerce.Identity.Api.Controllers
             _rabbitMQOptions = rabbitMQOptions.Value;
             _customerService = customerService;
             _jwtHandler = jwtHandler;
+            _customerGrpcClient = customerGrpcClient;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -77,10 +80,12 @@ namespace ECommerce.Identity.Api.Controllers
                     return BadRequest(createCustomerResult.Errors.Select(e => e.ErrorMessage));
 
 #elif REST
-                var createCustomerResult = await CreateCustomerRest(user);
+                //var createCustomerResult = await CreateCustomerRest(user);
 
-                if (!createCustomerResult.IsSuccessStatusCode)
-                    return BadRequest(createCustomerResult.Error);
+                //if (!createCustomerResult.IsSuccessStatusCode)
+                //    return BadRequest(createCustomerResult.Error);
+
+                await CreateCustomerGrpc(user);
 #endif
             }
             catch(Exception e)
@@ -262,6 +267,11 @@ namespace ECommerce.Identity.Api.Controllers
                 await CreateUserRollback(user);
 
             return result;
+        }
+
+        private async Task CreateCustomerGrpc(SignUpUserDto user)
+        {
+            await _customerGrpcClient.Create(user);
         }
         #endregion
     }
