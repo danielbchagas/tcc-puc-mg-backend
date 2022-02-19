@@ -27,7 +27,7 @@ namespace ECommerce.Identity.Api.Services.gRPC
             _jwtHandler = jwtHandler;
         }
 
-        public async Task Create(SignUpUserDto user)
+        public async Task<ECommerce.Customer.Api.Protos.CreateUserResponse> Create(SignUpUserDto user)
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
 
@@ -38,7 +38,7 @@ namespace ECommerce.Identity.Api.Services.gRPC
                 { "Authorization", $"Bearer {token}" }
             };
 
-            _client.CreateCustomer(
+            var result = _client.CreateCustomer(
                 new Customer.Api.Protos.CreateUserRequest
                 {
                     Id = Convert.ToString(identityUser.Id),
@@ -65,6 +65,8 @@ namespace ECommerce.Identity.Api.Services.gRPC
             );
 
             _logger.LogInformation("Cliente registrado com sucesso.");
+
+            return result;
         }
     }
 }

@@ -80,15 +80,13 @@ namespace ECommerce.Identity.Api.Controllers
                     return BadRequest(createCustomerResult.Errors.Select(e => e.ErrorMessage));
 
 #elif REST
-                //var createCustomerResult = await CreateCustomerRest(user);
+                var createCustomerResult = await CreateCustomerGrpc(user);
 
-                //if (!createCustomerResult.IsSuccessStatusCode)
-                //    return BadRequest(createCustomerResult.Error);
-
-                await CreateCustomerGrpc(user);
+                if (!createCustomerResult.Isvalid)
+                    return BadRequest(createCustomerResult.Message);
 #endif
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 await CreateUserRollback(user);
 
@@ -269,9 +267,9 @@ namespace ECommerce.Identity.Api.Controllers
             return result;
         }
 
-        private async Task CreateCustomerGrpc(SignUpUserDto user)
+        private async Task<ECommerce.Customer.Api.Protos.CreateUserResponse> CreateCustomerGrpc(SignUpUserDto user)
         {
-            await _customerGrpcClient.Create(user);
+            return await _customerGrpcClient.Create(user);
         }
         #endregion
     }

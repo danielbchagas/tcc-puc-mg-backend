@@ -4,7 +4,11 @@ using Grpc.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace ECommerce.Customer.Api.Services.gRPC
 {
@@ -47,7 +51,11 @@ namespace ECommerce.Customer.Api.Services.gRPC
 
             var result = await _mediator.Send(createUserCommand);
 
-            return new CreateUserResponse();
+            return new CreateUserResponse()
+            {
+                Isvalid = result.IsValid,
+                Message = JsonSerializer.Serialize(result.Errors)
+            };
         }
     }
 }

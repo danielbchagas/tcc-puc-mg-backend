@@ -5,6 +5,6 @@ namespace ECommerce.Identity.Api.Interfaces
 {
     public interface ICustomerGrpcClient
     {
-        Task Create(SignUpUserDto user);
+        Task<ECommerce.Customer.Api.Protos.CreateUserResponse> Create(SignUpUserDto user);
     }
 }
