@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Gateway.Controllers
@@ -52,7 +51,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("basket/{customerId:Guid}")]
-        public async Task<IActionResult> DeleteBasket(Guid customerId)
+        public async Task<IActionResult> Delete(Guid customerId)
         {
             var response = await _basketGrpcClient.DeleteCustomerBasket(customerId);
 

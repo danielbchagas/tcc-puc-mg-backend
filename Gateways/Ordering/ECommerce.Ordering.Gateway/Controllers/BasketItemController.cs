@@ -72,7 +72,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> DeleteItem(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var accessToken = await GetToken();
 
