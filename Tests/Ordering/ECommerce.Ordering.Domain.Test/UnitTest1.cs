@@ -1,5 +1,4 @@
 using Bogus;
-using ECommerce.Ordering.Domain.Enums;
 using ECommerce.Ordering.Domain.Models;
 using System;
 using Xunit;
@@ -20,7 +19,7 @@ namespace ECommerce.Ordering.Test
                     firstLine: set.Person.Address.Street,
                     secondLine: "",
                     city: set.Person.Address.City, 
-                    state: State.ES,
+                    state: set.Address.State(),
                     zipCode: set.Person.Address.ZipCode));
 
             var customerId = Guid.NewGuid();
@@ -64,7 +63,7 @@ namespace ECommerce.Ordering.Test
                     firstLine: set.Person.Address.Street,
                     secondLine: "",
                     city: set.Person.Address.City,
-                    state: State.ES,
+                    state: set.Address.State(),
                     zipCode: set.Person.Address.ZipCode));
 
             var customerId = Guid.NewGuid();
