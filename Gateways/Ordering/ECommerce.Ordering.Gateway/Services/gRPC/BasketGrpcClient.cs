@@ -1,6 +1,5 @@
-﻿using ECommerce.Catalog.Api.Protos;
+﻿using ECommerce.Basket.Api.Protos;
 using ECommerce.Ordering.Gateway.Interfaces;
-using ECommerce.Ordering.Gateway.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -8,29 +7,24 @@ namespace ECommerce.Ordering.Gateway.Services.gRPC
 {
     public class BasketGrpcClient : IBasketGrpcClient
     {
-        private readonly CustomerBasket.CustomerBasketClient _client;
+        private readonly ShoppingBasketService.ShoppingBasketServiceClient _client;
 
-        public BasketGrpcClient(CustomerBasket.CustomerBasketClient client)
+        public BasketGrpcClient(ShoppingBasketService.ShoppingBasketServiceClient client)
         {
             _client = client;
         }
 
-        public async Task<CreateBasketResponse> CreateCustomerBasket(CustomerBasketDTO customerBasket)
+        public async Task<CreateBasketResponse> CreateShoppingBasket(CreateBasketRequest request)
         {
-            var basketConsumer = new CreateBasketRequest
-            {
-                Customerid = Convert.ToString(customerBasket.CustomerId)
-            };
-
-            return await _client.CreateBasketAsync(basketConsumer);
+            return await _client.CreateBasketAsync(request);
         }
 
-        public async Task<GetBasketResponse> GetCustomerBasket(Guid customerId)
+        public async Task<GetBasketResponse> GetShoppingBasketByCustomer(Guid customerId)
         {
-            return await _client.GetBasketAsync(new GetBasketRequest { Customerid = Convert.ToString(customerId) });
+            return await _client.GetBasketByCustomerAsync(new GetBasketByCustomerRequest { Customerid = Convert.ToString(customerId) });
         }
 
-        public async Task<DeleteBasketResponse> DeleteCustomerBasket(Guid id)
+        public async Task<DeleteBasketResponse> DeleteShoppingBasket(Guid id)
         {
             var basketConsumer = new DeleteBasketRequest
             {

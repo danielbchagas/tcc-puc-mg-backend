@@ -8,20 +8,20 @@ using MediatR;
 
 namespace ECommerce.Basket.Application.Handlers.Commands
 {
-    public class DeleteCustomerBasketCommandHandler : IRequestHandler<DeleteCustomerBasketCommand, ValidationResult>
+    public class DeleteShoppingBasketCommandHandler : IRequestHandler<DeleteShoppingBasketCommand, ValidationResult>
     {
-        private readonly ICustomerBasketRepository _basketRepository;
+        private readonly IShoppingBasketRepository _basketRepository;
         
-        public DeleteCustomerBasketCommandHandler(ICustomerBasketRepository cartRepository)
+        public DeleteShoppingBasketCommandHandler(IShoppingBasketRepository cartRepository)
         {
             _basketRepository = cartRepository;
         }
 
-        public async Task<ValidationResult> Handle(DeleteCustomerBasketCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(DeleteShoppingBasketCommand request, CancellationToken cancellationToken)
         {
             var validationResult = new ValidationResult();
 
-            var basket = await _basketRepository.Get(request.CustomerId);
+            var basket = await _basketRepository.Get(request.Id);
 
             if(basket == null)
             {
@@ -30,7 +30,7 @@ namespace ECommerce.Basket.Application.Handlers.Commands
                 return new ValidationResult(errors);
             }
 
-            await _basketRepository.Delete(request.CustomerId);
+            await _basketRepository.Delete(request.Id);
             await _basketRepository.UnitOfWork.Commit();
 
             return await Task.FromResult(validationResult);

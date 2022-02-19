@@ -1,6 +1,6 @@
 ﻿using ECommerce.Basket.Application.Commands;
 using ECommerce.Basket.Application.Queries;
-using ECommerce.Catalog.Api.Protos;
+using ECommerce.Basket.Api.Protos;
 using Grpc.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace ECommerce.Basket.Api.Services.gRPC
 {
     [Authorize]
-    public class BasketGrpcService : CustomerBasket.CustomerBasketBase
+    public class BasketGrpcService : ShoppingBasketService.ShoppingBasketServiceBase
     {
         private readonly IMediator _mediator;
 
@@ -22,8 +22,8 @@ namespace ECommerce.Basket.Api.Services.gRPC
 
         public override async Task<CreateBasketResponse> CreateBasket(CreateBasketRequest request, ServerCallContext context)
         {
-            var createCustomerBasketCommand = new CreateCustomerBasketCommand(
-                id: Guid.NewGuid(),
+            var createCustomerBasketCommand = new CreateShoppingBasketCommand(
+                id: Guid.Parse(request.Id),
                 customerId: Guid.Parse(request.Customerid)
             );
 
@@ -36,9 +36,9 @@ namespace ECommerce.Basket.Api.Services.gRPC
             };
         }
 
-        public override async Task<GetBasketResponse> GetBasket(GetBasketRequest request, ServerCallContext context)
+        public override async Task<GetBasketResponse> GetBasketByCustomer(GetBasketByCustomerRequest request, ServerCallContext context)
         {
-            var result = await _mediator.Send(new GetCustomerBasketByCustomerQuery(Guid.Parse(request.Customerid)));
+            var result = await _mediator.Send(new GetShoppingBasketByCustomerQuery(Guid.Parse(request.Customerid)));
 
             if(result == null)
             {
@@ -50,7 +50,7 @@ namespace ECommerce.Basket.Api.Services.gRPC
 
             var response = new GetBasketResponse
             {
-                Basket = new Catalog.Api.Protos.Basket
+                Basket = new ShoppingBasket
                 {
                     Id = Convert.ToString(result.Id),
                     Customerid = Convert.ToString(result.CustomerId),
@@ -67,7 +67,7 @@ namespace ECommerce.Basket.Api.Services.gRPC
                     Image = item.Image,
                     Quantity = item.Quantity,
                     Value = Convert.ToDouble(item.Value),
-                    Basketid = Convert.ToString(item.CustomerBasketId)
+                    Shoppingbasketid = Convert.ToString(item.ShoppingBasketId)
                 });
             }
 
@@ -76,7 +76,7 @@ namespace ECommerce.Basket.Api.Services.gRPC
 
         public override async Task<DeleteBasketResponse> DeleteBasket(DeleteBasketRequest request, ServerCallContext context)
         {
-            var result = await _mediator.Send(new DeleteCustomerBasketCommand(Guid.Parse(request.Id)));
+            var result = await _mediator.Send(new DeleteShoppingBasketCommand(Guid.Parse(request.Id)));
 
             return new DeleteBasketResponse
             {

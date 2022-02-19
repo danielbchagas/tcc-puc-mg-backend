@@ -9,10 +9,10 @@ namespace ECommerce.Ordering.Gateway.Interfaces
     {
         #region Basket
         [Get("/api/customerBasket/{customerId}")]
-        Task<ApiResponse<CustomerBasket>> GetCustomerBasket(Guid customerId, [Authorize("Bearer")] string accessToken);
+        Task<ApiResponse<ShoppingBasket>> GetCustomerBasket(Guid customerId, [Authorize("Bearer")] string accessToken);
 
         [Post("/api/customerBasket")]
-        Task<ApiResponse<object>> CreateCustomerBasket(CustomerBasket customerBasket, [Authorize("Bearer")] string accessToken);
+        Task<ApiResponse<object>> CreateCustomerBasket(ShoppingBasket customerBasket, [Authorize("Bearer")] string accessToken);
 
         [Delete("/api/customerBasket/{customerBasketId}")]
         Task<ApiResponse<object>> DeleteCustomerBasket(Guid customerBasketId, [Authorize("Bearer")] string accessToken);

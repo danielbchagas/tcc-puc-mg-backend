@@ -7,19 +7,26 @@ using FluentValidation.Results;
 
 namespace ECommerce.Basket.Domain.Models
 {
-    public class CustomerBasket : Entity, IAggregateRoot
+    public class ShoppingBasket : IAggregateRoot
     {
-        public CustomerBasket(Guid customerId)
+        #region Constructor
+        public ShoppingBasket(Guid id, Guid customerId)
         {
+            Id = id;
             CustomerId = customerId;
             Items = new List<BasketItem>();
         }
+        #endregion
 
+        #region Property
+        public Guid Id { get; set; }
         public decimal Value { get; set; }
         public Guid CustomerId { get; set; }
 
         public ICollection<BasketItem> Items { get; set; }
+        #endregion
 
+        #region Method
         public ValidationResult UpdatesItems(BasketItem item)
         {
             var validationResult = item.Validate();
@@ -66,13 +73,14 @@ namespace ECommerce.Basket.Domain.Models
 
         public ValidationResult Validate()
         {
-            return new CustomerBasketValidator().Validate(this);
+            return new ShoppingBasketValidator().Validate(this);
         }
+        #endregion
     }
 
-    public class CustomerBasketValidator : AbstractValidator<CustomerBasket>
+    public class ShoppingBasketValidator : AbstractValidator<ShoppingBasket>
     {
-        public CustomerBasketValidator()
+        public ShoppingBasketValidator()
         {
             RuleFor(ci => ci.CustomerId)
                 .NotEqual(Guid.Empty)

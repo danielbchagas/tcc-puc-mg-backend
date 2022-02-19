@@ -4,9 +4,9 @@ using MediatR;
 
 namespace ECommerce.Basket.Application.Queries
 {
-    public class GetCustomerBasketByCustomerQuery : IRequest<CustomerBasket>
+    public class GetShoppingBasketByCustomerQuery : IRequest<ShoppingBasket>
     {
-        public GetCustomerBasketByCustomerQuery(Guid customerId)
+        public GetShoppingBasketByCustomerQuery(Guid customerId)
         {
             CustomerId = customerId;
         }

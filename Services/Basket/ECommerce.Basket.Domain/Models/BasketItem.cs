@@ -5,33 +5,40 @@ using FluentValidation.Results;
 
 namespace ECommerce.Basket.Domain.Models
 {
-    public class BasketItem : Entity
+    public class BasketItem
     {
-        public BasketItem(Guid id, string name, int quantity, decimal value, string image, Guid customerBasketId)
+        #region Constructor
+        public BasketItem(Guid id, string name, int quantity, decimal value, string image, Guid productId, Guid shoppingBasketId)
         {
             Id = id;
             Name = name;
             Quantity = quantity;
             Value = value;
             Image = image;
-
-            CustomerBasketId = customerBasketId;
+            ProductId = productId;
+            ShoppingBasketId = shoppingBasketId;
         }
+        #endregion
 
+        #region Property
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
         public decimal Value { get; set; }
         public string Image { get; set; }
-
-        public Guid CustomerBasketId { get; set; }
+        public Guid ProductId { get; set; }
+        public Guid ShoppingBasketId { get; set; }
 
         [JsonIgnore]
-        public CustomerBasket CustomerBasket { get; set; }
+        public ShoppingBasket ShoppingBasket { get; set; }
+        #endregion
 
+        #region Method
         public ValidationResult Validate()
         {
             return new ItemValidator().Validate(this);
         }
+        #endregion
     }
 
     public class ItemValidator : AbstractValidator<BasketItem>
@@ -53,6 +60,14 @@ namespace ECommerce.Basket.Domain.Models
             RuleFor(ic => ic.Value)
                 .GreaterThan(0)
                 .WithMessage(item => $"O value do {item.Name} precisa ser maior que 0");
+
+            RuleFor(ic => ic.ProductId)
+                .NotEqual(Guid.Empty)
+                .WithMessage("Id do produto inválido");
+
+            RuleFor(ic => ic.ShoppingBasketId)
+                .NotEqual(Guid.Empty)
+                .WithMessage("Id do produto inválido");
         }
     }
 }

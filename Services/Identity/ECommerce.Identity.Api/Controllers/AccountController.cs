@@ -1,4 +1,4 @@
-﻿#define REST
+﻿#define gRPC
 //#define RABBITMQ
 
 using System;
@@ -79,7 +79,7 @@ namespace ECommerce.Identity.Api.Controllers
                 if (!createCustomerResult.IsValid)
                     return BadRequest(createCustomerResult.Errors.Select(e => e.ErrorMessage));
 
-#elif REST
+#elif gRPC
                 var createCustomerResult = await CreateCustomerGrpc(user);
 
                 if (!createCustomerResult.Isvalid)

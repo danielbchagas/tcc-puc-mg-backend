@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ECommerce.Basket.Infrastructure.Mappings
 {
-    public class CustomerBasketMapping : IEntityTypeConfiguration<CustomerBasket>
+    public class ShoppingBasketMapping : IEntityTypeConfiguration<ShoppingBasket>
     {
-        public void Configure(EntityTypeBuilder<CustomerBasket> builder)
+        public void Configure(EntityTypeBuilder<ShoppingBasket> builder)
         {
             builder.ToTable("Baskets");
 
@@ -18,8 +18,8 @@ namespace ECommerce.Basket.Infrastructure.Mappings
                 .HasColumnType("money");
 
             builder.HasMany(cc => cc.Items)
-                .WithOne(ic => ic.CustomerBasket)
-                .HasForeignKey(ic => ic.CustomerBasketId)
+                .WithOne(ic => ic.ShoppingBasket)
+                .HasForeignKey(ic => ic.ShoppingBasketId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

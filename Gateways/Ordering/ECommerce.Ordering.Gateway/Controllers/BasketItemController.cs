@@ -55,7 +55,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
             #endregion
 
             #region Basket update
-            var newBasketItem = new BasketItem(product.Id, product.Name, item.Quantity, product.Value, product.Image, item.CustomerBasketId);
+            var newBasketItem = new BasketItem(Guid.NewGuid(), product.Name, item.Quantity, product.Value, product.Image, productId: product.Id, item.CustomerBasketId);
             
             createBasketItemResult = await _basketService.CreateBasketItem(newBasketItem, accessToken);
 

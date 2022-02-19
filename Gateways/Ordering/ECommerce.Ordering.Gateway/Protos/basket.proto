@@ -1,17 +1,18 @@
 syntax = "proto3";
 
-option csharp_namespace = "ECommerce.Catalog.Api.Protos";
+option csharp_namespace = "ECommerce.Basket.Api.Protos";
 
 package BasketApi;
 
-service CustomerBasket {
-	rpc GetBasket(GetBasketRequest) returns(GetBasketResponse);
+service ShoppingBasketService {
+	rpc GetBasketByCustomer(GetBasketByCustomerRequest) returns(GetBasketResponse);
 	rpc CreateBasket(CreateBasketRequest) returns(CreateBasketResponse);
 	rpc DeleteBasket(DeleteBasketRequest) returns(DeleteBasketResponse);
 }
 
 message CreateBasketRequest {
-	string customerid = 3;
+	string id = 1;
+	string customerid = 2;
 }
 
 message CreateBasketResponse {
@@ -19,12 +20,12 @@ message CreateBasketResponse {
     string message = 2;
 }
 
-message GetBasketRequest {
+message GetBasketByCustomerRequest {
 	string customerid = 1;
 }
 
 message GetBasketResponse {
-	Basket basket = 1;
+	ShoppingBasket basket = 1;
 }
 
 message DeleteBasketRequest {
@@ -36,7 +37,7 @@ message DeleteBasketResponse {
     string message = 2;
 }
 
-message Basket {
+message ShoppingBasket {
 	string id = 1;
 	double value = 2;
 	string customerid = 3;
@@ -49,5 +50,6 @@ message BasketItem {
 	int32 quantity = 3;
 	double value = 4;
 	string image = 5;
-	string basketid = 6;
+	string productid = 6;
+	string shoppingbasketid = 7;
 }

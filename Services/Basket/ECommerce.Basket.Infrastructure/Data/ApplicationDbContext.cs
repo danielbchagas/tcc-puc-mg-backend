@@ -10,8 +10,8 @@ namespace ECommerce.Basket.Infrastructure.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options) {}
 
+        public DbSet<ShoppingBasket> ShoppingBaskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
-        public DbSet<CustomerBasket> CustomerBaskets { get; set; }
         
         public async Task<bool> Commit()
         {

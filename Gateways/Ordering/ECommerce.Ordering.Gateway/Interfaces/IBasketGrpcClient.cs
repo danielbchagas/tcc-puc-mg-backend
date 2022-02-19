@@ -1,5 +1,4 @@
-﻿using ECommerce.Catalog.Api.Protos;
-using ECommerce.Ordering.Gateway.Models;
+﻿using ECommerce.Basket.Api.Protos;
 using System;
 using System.Threading.Tasks;
 
@@ -7,8 +6,8 @@ namespace ECommerce.Ordering.Gateway.Interfaces
 {
     public interface IBasketGrpcClient
     {
-        Task<CreateBasketResponse> CreateCustomerBasket(CustomerBasketDTO customerBasket);
-        Task<GetBasketResponse> GetCustomerBasket(Guid customerId);
-        Task<DeleteBasketResponse> DeleteCustomerBasket(Guid id);
+        Task<CreateBasketResponse> CreateShoppingBasket(CreateBasketRequest request);
+        Task<GetBasketResponse> GetShoppingBasketByCustomer(Guid customerId);
+        Task<DeleteBasketResponse> DeleteShoppingBasket(Guid id);
     }
 }

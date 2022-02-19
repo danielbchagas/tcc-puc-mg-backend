@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ECommerce.Basket.Infrastructure.Migrations
 {
-    public partial class initial : Migration
+    public partial class _100 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,23 +29,24 @@ namespace ECommerce.Basket.Infrastructure.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Value = table.Column<decimal>(type: "money", nullable: false),
                     Image = table.Column<string>(type: "text", nullable: true),
-                    CustomerBasketId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ShoppingBasketId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BasketItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BasketItems_Baskets_CustomerBasketId",
-                        column: x => x.CustomerBasketId,
+                        name: "FK_BasketItems_Baskets_ShoppingBasketId",
+                        column: x => x.ShoppingBasketId,
                         principalTable: "Baskets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BasketItems_CustomerBasketId",
+                name: "IX_BasketItems_ShoppingBasketId",
                 table: "BasketItems",
-                column: "CustomerBasketId");
+                column: "ShoppingBasketId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Baskets_CustomerId",

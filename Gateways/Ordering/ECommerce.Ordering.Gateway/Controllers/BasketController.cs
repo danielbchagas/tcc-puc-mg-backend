@@ -1,6 +1,4 @@
 ﻿using ECommerce.Ordering.Gateway.Interfaces;
-using ECommerce.Ordering.Gateway.Models;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +15,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         private readonly IBasketService _basketService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IBasketGrpcClient _basketGrpcClient;
-
+        
         public BasketController(IBasketService basketService, IHttpContextAccessor httpContextAccessor, IBasketGrpcClient basketGrpcClient)
         {
             _basketService = basketService;
@@ -30,22 +28,25 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpGet("{customerId:Guid}")]
         public async Task<IActionResult> Get(Guid customerId)
         {
-            var response = await _basketGrpcClient.GetCustomerBasket(customerId);
-
-            return Ok(response);
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost]
-        public async Task<IActionResult> Create(CustomerBasketDTO basket)
-        {
-            var response = await _basketGrpcClient.CreateCustomerBasket(basket);
-
-            if (!response.Isvalid)
-                return BadRequest(response.Message);
+            var proto = await _basketGrpcClient.GetShoppingBasketByCustomer(customerId);
             
-            return Ok();
+            if(proto.Basket == null)
+            {
+                var basket = new ECommerce.Basket.Api.Protos.CreateBasketRequest
+                {
+                    Id = Convert.ToString(Guid.NewGuid()),
+                    Customerid = Convert.ToString(customerId)
+                };
+
+                var _response = await _basketGrpcClient.CreateShoppingBasket(basket);
+
+                if (!_response.Isvalid)
+                    return BadRequest(_response.Message);
+
+                return Ok(basket);
+            }
+
+            return Ok(proto.Basket);
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -53,17 +54,12 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpDelete("basket/{customerId:Guid}")]
         public async Task<IActionResult> Delete(Guid customerId)
         {
-            var response = await _basketGrpcClient.DeleteCustomerBasket(customerId);
+            var response = await _basketGrpcClient.DeleteShoppingBasket(customerId);
 
             if (!response.Isvalid)
                 return BadRequest(response.Message);
 
             return NoContent();
         }
-
-        #region Helpers
-        protected async Task<string> GetToken()
-            => await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-        #endregion
     }
 }

@@ -9,10 +9,10 @@ namespace ECommerce.Basket.Application.Handlers.Commands
 {
     public class DeleteBasketItemCommandHandler : IRequestHandler<DeleteBasketItemCommand, ValidationResult>
     {
-        private readonly ICustomerBasketRepository _basketRepository;
+        private readonly IShoppingBasketRepository _basketRepository;
         private readonly IBasketItemRepository _basketItemRepository;
 
-        public DeleteBasketItemCommandHandler(ICustomerBasketRepository basketRepository, IBasketItemRepository basketItemRepository)
+        public DeleteBasketItemCommandHandler(IShoppingBasketRepository basketRepository, IBasketItemRepository basketItemRepository)
         {
             _basketRepository = basketRepository;
             _basketItemRepository = basketItemRepository;
@@ -31,7 +31,7 @@ namespace ECommerce.Basket.Application.Handlers.Commands
             }
 
             // Use item to get basket
-            var basket = await _basketRepository.Get(item.CustomerBasketId);
+            var basket = await _basketRepository.Get(item.ShoppingBasketId);
 
             // If item found, remove from basket
             basket.RemoveItem(item);

@@ -6,15 +6,15 @@ namespace ECommerce.Basket.Application.Commands
 {
     public class CreateBasketItemCommand : IRequest<ValidationResult>
     {
-        public CreateBasketItemCommand(Guid id, string name, int quantity, decimal value, string image, Guid customerBasketId)
+        public CreateBasketItemCommand(Guid id, string name, int quantity, decimal value, string image, Guid productId, Guid shoppingBasketId)
         {
             Id = id;
             Name = name;
             Quantity = quantity;
             Value = value;
             Image = image;
-
-            CustomerBasketId = customerBasketId;
+            ProductId = productId;
+            ShoppingBasketId = shoppingBasketId;
         }
 
         public Guid Id { get; set; }
@@ -22,7 +22,7 @@ namespace ECommerce.Basket.Application.Commands
         public int Quantity { get; set; }
         public decimal Value { get; set; }
         public string Image { get; set; }
-
-        public Guid CustomerBasketId { get; set; }
+        public Guid ProductId { get; set; }
+        public Guid ShoppingBasketId { get; set; }
     }
 }

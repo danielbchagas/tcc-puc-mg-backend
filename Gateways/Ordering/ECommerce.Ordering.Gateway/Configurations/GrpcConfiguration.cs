@@ -1,5 +1,5 @@
 ﻿using ECommerce.Basket.Api.Services.gRPC;
-using ECommerce.Catalog.Api.Protos;
+using ECommerce.Basket.Api.Protos;
 using ECommerce.Ordering.Gateway.Interfaces;
 using ECommerce.Ordering.Gateway.Models;
 using ECommerce.Ordering.Gateway.Services.gRPC;
@@ -19,7 +19,7 @@ namespace ECommerce.Ordering.Gateway.Configurations
 
             services.AddScoped<IBasketGrpcClient, BasketGrpcClient>();
 
-            services.AddGrpcClient<CustomerBasket.CustomerBasketClient>(options =>
+            services.AddGrpcClient<ShoppingBasketService.ShoppingBasketServiceClient>(options =>
             {
                 options.Address = new Uri(servicesOptions.BasketServiceUrl);
             })

@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bogus;
+﻿using Bogus;
 using ECommerce.Basket.Domain.Models;
+using System;
+using System.Linq;
 using Xunit;
 
 namespace ECommerce.Basket.Domain.Test
 {
     public class UnitTest4
     {
-        private CustomerBasket _basket;
+        private ShoppingBasket _basket;
 
         public UnitTest4()
         {
-            var faker = new Faker<CustomerBasket>()
-                .CustomInstantiator(set => new CustomerBasket(customerId: Guid.NewGuid()));
+            var faker = new Faker<ShoppingBasket>()
+                .CustomInstantiator(set => new ShoppingBasket(id: Guid.NewGuid(), customerId: Guid.NewGuid()));
 
             _basket = faker.Generate();
         }
@@ -26,7 +23,7 @@ namespace ECommerce.Basket.Domain.Test
         {
             // Arrange
             var faker = new Faker<BasketItem>()
-                .CustomInstantiator(set => new BasketItem(id: Guid.NewGuid(), name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), customerBasketId: _basket.Id));
+                .CustomInstantiator(set => new BasketItem(id: Guid.NewGuid(), name: set.Random.String(), quantity: 5, value: 200, image: set.Image.PicsumUrl(), productId: Guid.NewGuid(), shoppingBasketId: _basket.Id));
 
             var item = faker.Generate();
             var item2 = faker.Generate();

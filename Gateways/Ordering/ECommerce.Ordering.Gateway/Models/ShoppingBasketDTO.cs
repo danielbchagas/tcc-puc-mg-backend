@@ -2,7 +2,7 @@
 
 namespace ECommerce.Ordering.Gateway.Models
 {
-    public class CustomerBasketDTO
+    public class ShoppingBasketDTO
     {
         public Guid CustomerId { get; set; }
     }

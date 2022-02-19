@@ -1,13 +1,10 @@
-using ECommerce.Basket.Api.Services.gRPC;
 using ECommerce.Ordering.Gateway.Configurations;
 using ECommerce.Ordering.Gateway.Middlewares;
-using ECommerce.Ordering.Gateway.Services.gRPC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 
 namespace ECommerce.Ordering.Gateway
 {

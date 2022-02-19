@@ -8,16 +8,16 @@ using MediatR;
 
 namespace ECommerce.Basket.Application.Handlers.Queries
 {
-    public class GetCustomerBasketQueryHandler : IRequestHandler<GetCustomerBasketQuery, CustomerBasket>
+    public class GetShoppingBasketQueryHandler : IRequestHandler<GetShoppingBasketQuery, ShoppingBasket>
     {
-        public GetCustomerBasketQueryHandler(ICustomerBasketRepository repository)
+        public GetShoppingBasketQueryHandler(IShoppingBasketRepository repository)
         {
             _repository = repository;
         }
 
-        private readonly ICustomerBasketRepository _repository;
+        private readonly IShoppingBasketRepository _repository;
 
-        public async Task<CustomerBasket> Handle(GetCustomerBasketQuery request, CancellationToken cancellationToken)
+        public async Task<ShoppingBasket> Handle(GetShoppingBasketQuery request, CancellationToken cancellationToken)
         {
             return await _repository.Get(request.Id);
         }
