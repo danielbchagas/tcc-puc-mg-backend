@@ -10,7 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\customer.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="Google.Protobuf" Version="3.19.4" />
+	  <PackageReference Include="Grpc.Core.Api" Version="2.44.0" />
 	  <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
 	  <PackageReference Include="Grpc.Tools" Version="2.44.0">
 	    <PrivateAssets>all</PrivateAssets>
@@ -34,6 +39,7 @@
 
   <ItemGroup>
 	  <Protobuf Include="Protos\basket.proto" GrpcServices="Client" />
+	  <Protobuf Include="Protos\customer.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

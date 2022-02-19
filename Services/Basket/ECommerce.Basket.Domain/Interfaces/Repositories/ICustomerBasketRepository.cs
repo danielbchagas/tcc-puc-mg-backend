@@ -9,11 +9,32 @@ namespace ECommerce.Basket.Domain.Interfaces.Repositories
     {
         IUnitOfWork UnitOfWork { get; }
 
-        Task<CustomerBasket> Get(Guid id);
+        /// <summary>
+        /// Get basket using custumerId
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns>Basket</returns>
+        Task<CustomerBasket> Get(Guid customerId);
+
+        /// <summary>
+        /// Create new basket
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <returns></returns>
         Task Create(CustomerBasket basket);
-        Task Update(CustomerBasket basket);
-        Task Delete(Guid id);
         
-        Task<CustomerBasket> GetByCustomerId(Guid customerId);
+        /// <summary>
+        /// Update an existing basket
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <returns></returns>
+        Task Update(CustomerBasket basket);
+
+        /// <summary>
+        /// Delete basket using customerId
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
+        Task Delete(Guid customerId);
     }
 }

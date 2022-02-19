@@ -1,14 +1,11 @@
-﻿using ECommerce.Basket.Domain.Models;
-using ECommerce.Ordering.Gateway.Interfaces;
+﻿using ECommerce.Ordering.Gateway.Interfaces;
 using ECommerce.Ordering.Gateway.Models;
-using ECommerce.Ordering.Gateway.Services.gRPC;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Gateway.Controllers
@@ -34,15 +31,6 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpGet("{customerId:Guid}")]
         public async Task<IActionResult> Get(Guid customerId)
         {
-            var accessToken = await GetToken();
-
-            //var response = await _basketService.GetCustomerBasket(customerId, accessToken);
-
-            //if (!response.IsSuccessStatusCode)
-            //    return BadRequest(response.Error);
-
-            //return Ok(response.Content);
-
             var response = await _basketGrpcClient.GetCustomerBasket(customerId);
 
             return Ok(response);
@@ -53,12 +41,10 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CustomerBasketDTO basket)
         {
-            var accessToken = await GetToken();
+            var response = await _basketGrpcClient.CreateCustomerBasket(basket);
 
-            var response = await _basketService.CreateCustomerBasket(new CustomerBasket(basket.CustomerId), accessToken);
-
-            if (!response.IsSuccessStatusCode)
-                return BadRequest(response.Error);
+            if (!response.Isvalid)
+                return BadRequest(response.Message);
             
             return Ok();
         }
@@ -68,14 +54,10 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpDelete("basket/{customerId:Guid}")]
         public async Task<IActionResult> DeleteBasket(Guid customerId)
         {
-            var accessToken = await GetToken();
+            var response = await _basketGrpcClient.DeleteCustomerBasket(customerId);
 
-            var response = await _basketService.DeleteCustomerBasket(customerId, accessToken);
-
-            if (response.StatusCode == HttpStatusCode.NotFound)
-                return NotFound();
-            else if (!response.IsSuccessStatusCode)
-                return BadRequest(response.Error);
+            if (!response.Isvalid)
+                return BadRequest(response.Message);
 
             return NoContent();
         }

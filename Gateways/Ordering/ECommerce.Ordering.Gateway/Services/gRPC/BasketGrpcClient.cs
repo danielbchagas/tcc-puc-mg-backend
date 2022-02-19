@@ -1,5 +1,6 @@
 ﻿using ECommerce.Catalog.Api.Protos;
 using ECommerce.Ordering.Gateway.Interfaces;
+using ECommerce.Ordering.Gateway.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -14,29 +15,29 @@ namespace ECommerce.Ordering.Gateway.Services.gRPC
             _client = client;
         }
 
-        public async Task<Basket.Domain.Models.CustomerBasket> GetCustomerBasket(Guid customerId)
+        public async Task<CreateBasketResponse> CreateCustomerBasket(CustomerBasketDTO customerBasket)
         {
-            var response = await _client.GetBasketAsync(new GetBasketRequest { Customerid = Convert.ToString(customerId)});
-
-            var basket = new Basket.Domain.Models.CustomerBasket(new Guid(response.Customerid))
+            var basketConsumer = new CreateBasketRequest
             {
-                Id = new Guid(response.Id),
-                Value = Convert.ToDecimal(response.Value)
+                Customerid = Convert.ToString(customerBasket.CustomerId)
             };
 
-            foreach(var item in response.Items)
-            {
-                basket.Items.Add(new Basket.Domain.Models.BasketItem(
-                    id: new Guid(item.Id),
-                    name: item.Name,
-                    quantity: item.Quantity,
-                    value: Convert.ToDecimal(item.Value),
-                    image: item.Image,
-                    customerBasketId: new Guid(item.Basketid)
-                ));
-            }
+            return await _client.CreateBasketAsync(basketConsumer);
+        }
 
-            return basket;
+        public async Task<GetBasketResponse> GetCustomerBasket(Guid customerId)
+        {
+            return await _client.GetBasketAsync(new GetBasketRequest { Customerid = Convert.ToString(customerId) });
+        }
+
+        public async Task<DeleteBasketResponse> DeleteCustomerBasket(Guid id)
+        {
+            var basketConsumer = new DeleteBasketRequest
+            {
+                Id = Convert.ToString(id)
+            };
+
+            return await _client.DeleteBasketAsync(basketConsumer);
         }
     }
 }

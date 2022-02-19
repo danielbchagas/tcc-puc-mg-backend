@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ECommerce.Customer.Infrastructure.Migrations
 {
-    public partial class initial : Migration
+    public partial class _100 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,7 @@ namespace ECommerce.Customer.Infrastructure.Migrations
                     FirstLine = table.Column<string>(type: "varchar(200)", nullable: false),
                     SecondLine = table.Column<string>(type: "varchar(200)", nullable: false),
                     City = table.Column<string>(type: "varchar(50)", nullable: false),
-                    State = table.Column<int>(type: "char(2)", nullable: false),
+                    State = table.Column<string>(type: "char(2)", nullable: false),
                     ZipCode = table.Column<string>(type: "varchar(9)", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },

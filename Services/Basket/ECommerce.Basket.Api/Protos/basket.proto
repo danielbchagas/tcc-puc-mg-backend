@@ -1,15 +1,22 @@
 syntax = "proto3";
 
-import "google/protobuf/duration.proto";  
-import "google/protobuf/timestamp.proto";
-import "google/protobuf/wrappers.proto";
-
 option csharp_namespace = "ECommerce.Catalog.Api.Protos";
 
 package BasketApi;
 
 service CustomerBasket {
 	rpc GetBasket(GetBasketRequest) returns(GetBasketResponse);
+	rpc CreateBasket(CreateBasketRequest) returns(CreateBasketResponse);
+	rpc DeleteBasket(DeleteBasketRequest) returns(DeleteBasketResponse);
+}
+
+message CreateBasketRequest {
+	string customerid = 3;
+}
+
+message CreateBasketResponse {
+	bool isvalid = 1;
+    string message = 2;
 }
 
 message GetBasketRequest {
@@ -17,13 +24,26 @@ message GetBasketRequest {
 }
 
 message GetBasketResponse {
+	Basket basket = 1;
+}
+
+message DeleteBasketRequest {
+	string id = 1;
+}
+
+message DeleteBasketResponse {
+	bool isvalid = 1;
+    string message = 2;
+}
+
+message Basket {
 	string id = 1;
 	double value = 2;
 	string customerid = 3;
-	repeated BasketItemResponse items = 4;
+	repeated BasketItem items = 4;
 }
 
-message BasketItemResponse {
+message BasketItem {
 	string id = 1;
 	string name = 2;
 	int32 quantity = 3;

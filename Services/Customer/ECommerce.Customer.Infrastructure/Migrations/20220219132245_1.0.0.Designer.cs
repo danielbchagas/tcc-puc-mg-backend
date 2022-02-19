@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Customer.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220211013538_initial")]
-    partial class initial
+    [Migration("20220219132245_1.0.0")]
+    partial class _100
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,7 +36,8 @@ namespace ECommerce.Customer.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<int>("State")
+                    b.Property<string>("State")
+                        .IsRequired()
                         .HasColumnType("char(2)");
 
                     b.Property<Guid>("UserId")

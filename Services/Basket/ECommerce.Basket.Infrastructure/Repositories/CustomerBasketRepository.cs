@@ -30,18 +30,11 @@ namespace ECommerce.Basket.Infrastructure.Repositories
             return Task.CompletedTask;
         }
 
-        public async Task<CustomerBasket> Get(Guid id)
+        public async Task<CustomerBasket> Get(Guid customerId)
         {
             return await _context.CustomerBaskets
                 .Include(cb => cb.Items)
-                .FirstOrDefaultAsync(cb => cb.Id == id);
-        }
-
-        public async Task<CustomerBasket> GetByCustomerId(Guid customerId)
-        {
-            return await _context.CustomerBaskets
-                .Include(cc => cc.Items)
-                .FirstOrDefaultAsync(cc => cc.CustomerId == customerId);
+                .FirstOrDefaultAsync(cb => cb.CustomerId == customerId);
         }
 
         public void Dispose()
@@ -49,9 +42,9 @@ namespace ECommerce.Basket.Infrastructure.Repositories
             _context?.Dispose();
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(Guid customerId)
         {
-            var cart = await Get(id);
+            var cart = await Get(customerId);
 
             _context.CustomerBaskets.Remove(cart);
         }

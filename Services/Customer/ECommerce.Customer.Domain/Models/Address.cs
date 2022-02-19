@@ -1,14 +1,13 @@
-﻿using System;
-using System.Text.Json.Serialization;
-using ECommerce.Customer.Domain.Enums;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
+using System;
+using System.Text.Json.Serialization;
 
 namespace ECommerce.Customer.Domain.Models
 {
     public class Address : Entity
     {
-        public Address(string firstLine, string secondLine, string city, string zipCode, State state, Guid userId)
+        public Address(string firstLine, string secondLine, string city, string zipCode, string state, Guid userId)
         {
             FirstLine = firstLine;
             SecondLine = secondLine;
@@ -21,7 +20,7 @@ namespace ECommerce.Customer.Domain.Models
         public string FirstLine { get; set; }
         public string SecondLine { get; set; }
         public string City { get; set; }
-        public State State { get; set; }
+        public string State { get; set; }
         public string ZipCode { get; set; }
         public Guid UserId { get; set; }
 

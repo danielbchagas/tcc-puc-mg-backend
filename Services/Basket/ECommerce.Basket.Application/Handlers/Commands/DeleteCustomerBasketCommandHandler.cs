@@ -21,7 +21,7 @@ namespace ECommerce.Basket.Application.Handlers.Commands
         {
             var validationResult = new ValidationResult();
 
-            var basket = await _basketRepository.GetByCustomerId(request.Id);
+            var basket = await _basketRepository.Get(request.CustomerId);
 
             if(basket == null)
             {
@@ -30,7 +30,7 @@ namespace ECommerce.Basket.Application.Handlers.Commands
                 return new ValidationResult(errors);
             }
 
-            await _basketRepository.Delete(request.Id);
+            await _basketRepository.Delete(request.CustomerId);
             await _basketRepository.UnitOfWork.Commit();
 
             return await Task.FromResult(validationResult);
