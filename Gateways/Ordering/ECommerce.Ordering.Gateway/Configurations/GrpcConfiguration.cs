@@ -6,6 +6,7 @@ using ECommerce.Ordering.Gateway.Services.gRPC;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using ECommerce.Catalog.Api.Protos;
 
 namespace ECommerce.Ordering.Gateway.Configurations
 {
@@ -18,10 +19,17 @@ namespace ECommerce.Ordering.Gateway.Configurations
             services.AddSingleton<GrpcServicesInterceptor>();
 
             services.AddScoped<IBasketGrpcClient, BasketGrpcClient>();
+            services.AddScoped<ICatalogGrpcClient, CatalogGrpcClient>();
 
             services.AddGrpcClient<ShoppingBasketService.ShoppingBasketServiceClient>(options =>
             {
                 options.Address = new Uri(servicesOptions.BasketServiceUrl);
+            })
+            .AddInterceptor<GrpcServicesInterceptor>();
+
+            services.AddGrpcClient<CatalogService.CatalogServiceClient>(options =>
+            {
+                options.Address = new Uri(servicesOptions.CatalogServiceUrl);
             })
             .AddInterceptor<GrpcServicesInterceptor>();
         }

@@ -34,23 +34,6 @@ namespace ECommerce.Ordering.Gateway.Configurations
                 })
                 //.AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
-
-            services.AddRefitClient<IBasketService>()
-                .ConfigureHttpClient(config =>
-                {
-                    config.BaseAddress = new Uri(options.BasketServiceUrl);
-                })
-                //.AddPolicyHandler(GetRetryPolicy())
-                .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
-
-
-            services.AddRefitClient<ICatalogService>()
-                .ConfigureHttpClient(config =>
-                {
-                    config.BaseAddress = new Uri(options.CatalogServiceUrl);
-                })
-                //.AddPolicyHandler(GetRetryPolicy())
-                .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
         }
 
         static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
