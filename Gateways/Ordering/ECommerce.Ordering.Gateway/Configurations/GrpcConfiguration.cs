@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using ECommerce.Catalog.Api.Protos;
+using ECommerce.Ordering.Api.Protos;
 
 namespace ECommerce.Ordering.Gateway.Configurations
 {
@@ -20,6 +21,7 @@ namespace ECommerce.Ordering.Gateway.Configurations
 
             services.AddScoped<IBasketGrpcClient, BasketGrpcClient>();
             services.AddScoped<ICatalogGrpcClient, CatalogGrpcClient>();
+            services.AddScoped<IOrderingGrpcClient, OrderingGrpcClient>();
 
             services.AddGrpcClient<ShoppingBasketService.ShoppingBasketServiceClient>(options =>
             {
@@ -30,6 +32,12 @@ namespace ECommerce.Ordering.Gateway.Configurations
             services.AddGrpcClient<CatalogService.CatalogServiceClient>(options =>
             {
                 options.Address = new Uri(servicesOptions.CatalogServiceUrl);
+            })
+            .AddInterceptor<GrpcServicesInterceptor>();
+
+            services.AddGrpcClient<OrderingService.OrderingServiceClient>(options =>
+            {
+                options.Address = new Uri(servicesOptions.OrderingServiceUrl);
             })
             .AddInterceptor<GrpcServicesInterceptor>();
         }

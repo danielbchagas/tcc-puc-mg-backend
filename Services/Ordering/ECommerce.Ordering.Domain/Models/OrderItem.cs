@@ -7,14 +7,15 @@ namespace ECommerce.Ordering.Domain.Models
 {
     public class OrderItem
     {
-        public OrderItem(Guid id, string name, int quantity, decimal value, string image, Guid productId, Guid customerBasketId)
+        public OrderItem(Guid id, string name, int quantity, decimal value, string image, Guid productId, Guid orderId)
         {
+            Id = id;
             Name = name;
             Quantity = quantity;
             Value = value;
             Image = image;
             ProductId = productId;
-            CustomerBasketId = customerBasketId;
+            OrdertId = orderId;
         }
 
         public Guid Id { get; set; }
@@ -24,7 +25,7 @@ namespace ECommerce.Ordering.Domain.Models
         public string Image { get; set; }
 
         public Guid ProductId { get; set; }
-        public Guid CustomerBasketId { get; set; }
+        public Guid OrdertId { get; set; }
 
         [JsonIgnore]
         public Order Order { get; set; }

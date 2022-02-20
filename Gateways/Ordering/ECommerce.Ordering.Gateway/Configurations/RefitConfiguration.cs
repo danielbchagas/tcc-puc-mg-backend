@@ -19,7 +19,7 @@ namespace ECommerce.Ordering.Gateway.Configurations
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
-            services.AddRefitClient<IOrderingService>()
+            services.AddRefitClient<IOrderingClient>()
                 .ConfigureHttpClient(config =>
                 {
                     config.BaseAddress = new Uri(options.OrderingServiceUrl);

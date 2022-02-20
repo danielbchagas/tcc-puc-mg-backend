@@ -8,7 +8,7 @@ namespace ECommerce.Ordering.Application.Commands
 {
     public class CreateOrderCommand : IRequest<ValidationResult>
     {
-        public CreateOrderCommand(Guid id, string fullName, string document, string phone, string email, decimal valor, string firstLine, string secondLine, string city, string state, string zipCode)
+        public CreateOrderCommand(Guid id, string fullName, string document, string phone, string email, decimal value, string firstLine, string secondLine, string city, string state, string zipCode)
         {
             Id = id;
             FullName = fullName;
@@ -22,7 +22,7 @@ namespace ECommerce.Ordering.Application.Commands
             State = state;
             ZipCode = zipCode;
 
-            Value = valor;
+            Value = value;
         }
 
         public Guid Id { get; set; }
