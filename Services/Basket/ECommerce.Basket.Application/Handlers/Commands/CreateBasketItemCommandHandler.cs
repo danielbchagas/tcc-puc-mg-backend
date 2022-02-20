@@ -42,7 +42,7 @@ namespace ECommerce.Basket.Application.Handlers.Commands
             if (!validation.IsValid)
                 return await Task.FromResult(validation);
 
-            if (!basket.Items.Any(i => i.Id == item.Id))
+            if (!basket.Items.Any(i => i.ProductId == item.ProductId))
                 await _basketItemRepository.Create(item);
 
             #region Updates basket

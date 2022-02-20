@@ -12,16 +12,12 @@ namespace ECommerce.Ordering.Gateway.Controllers
     [ApiController]
     public class OrderingController : ControllerBase
     {
-        private readonly IOrderingClient _orderingService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOrderingGrpcClient _orderingGrpcClient;
         private readonly IBasketGrpcClient _basketGrpcClient;
         private readonly ICustomerGrpcClient _customerGrpcClient;
 
-        public OrderingController(IBasketGrpcClient basketGrpcClient, IOrderingClient orderingService, IHttpContextAccessor httpContextAccessor, IOrderingGrpcClient orderingGrpcClient, ICustomerGrpcClient customerGrpcClient)
+        public OrderingController(IBasketGrpcClient basketGrpcClient, IOrderingGrpcClient orderingGrpcClient, ICustomerGrpcClient customerGrpcClient)
         {
-            _orderingService = orderingService;
-            _httpContextAccessor = httpContextAccessor;
             _orderingGrpcClient = orderingGrpcClient;
             _basketGrpcClient = basketGrpcClient;
             _customerGrpcClient = customerGrpcClient;

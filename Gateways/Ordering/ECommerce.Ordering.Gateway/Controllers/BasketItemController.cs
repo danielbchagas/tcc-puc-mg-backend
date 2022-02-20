@@ -69,7 +69,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
             #region Basket update
             var _createBasketItemResult = await _basketGrpcClient.AddBasketItem(new Basket.Api.Protos.AddBasketItemRequest
             {
-                Id = Convert.ToString(newItem.Id),
+                Id = Convert.ToString(Guid.NewGuid()),
                 Name = product.Name,
                 Quantity = newItem.Quantity,
                 Image = product.Image,
