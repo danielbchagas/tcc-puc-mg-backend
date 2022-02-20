@@ -19,14 +19,6 @@ namespace ECommerce.Ordering.Gateway.Configurations
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
-            services.AddRefitClient<ICustomerService>()
-                .ConfigureHttpClient(config =>
-                {
-                    config.BaseAddress = new Uri(options.CustomerServiceUrl);
-                })
-                //.AddPolicyHandler(GetRetryPolicy())
-                .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
-
             services.AddRefitClient<IOrderingService>()
                 .ConfigureHttpClient(config =>
                 {
