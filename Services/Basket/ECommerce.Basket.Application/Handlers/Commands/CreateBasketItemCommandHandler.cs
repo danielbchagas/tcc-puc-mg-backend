@@ -7,15 +7,16 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace ECommerce.Basket.Application.Handlers.Commands
 {
     public class CreateBasketItemCommandHandler : IRequestHandler<CreateBasketItemCommand, ValidationResult>
     {
-        private readonly ICustomerBasketRepository _basketRepository;
+        private readonly IShoppingBasketRepository _basketRepository;
         private readonly IBasketItemRepository _basketItemRepository;
 
-        public CreateBasketItemCommandHandler(ICustomerBasketRepository basketRepository, IBasketItemRepository basketItemRepository)
+        public CreateBasketItemCommandHandler(IShoppingBasketRepository basketRepository, IBasketItemRepository basketItemRepository)
         {
             _basketRepository = basketRepository;
             _basketItemRepository = basketItemRepository;
@@ -25,7 +26,7 @@ namespace ECommerce.Basket.Application.Handlers.Commands
         {
             var validation = new ValidationResult();
 
-            var basket = await _basketRepository.Get(request.CustomerBasketId);
+            var basket = await _basketRepository.Get(request.ShoppingBasketId);
 
             if(basket == null)
             {
@@ -34,14 +35,14 @@ namespace ECommerce.Basket.Application.Handlers.Commands
                 return new ValidationResult(errors);
             }
 
-            var item = new BasketItem(request.Id, request.Name, request.Quantity, request.Value, request.Image, request.CustomerBasketId);
+            var item = new BasketItem(id: request.Id, name: request.Name, quantity: request.Quantity, value: request.Value, image: request.Image, productId: request.ProductId, request.ShoppingBasketId);
 
             validation = item.Validate();
 
             if (!validation.IsValid)
                 return await Task.FromResult(validation);
 
-            if (!basket.Items.Any(i => i.Id == item.Id))
+            if (!basket.Items.Any(i => i.ProductId == item.ProductId))
                 await _basketItemRepository.Create(item);
 
             #region Updates basket

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ECommerce.Pedido.Infrastructure.Migrations
+namespace ECommerce.Ordering.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -16,142 +16,83 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.10");
 
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Cliente", b =>
+            modelBuilder.Entity("ECommerce.Ordering.Domain.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Sobrenome")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clientes");
-                });
-
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Documento", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ClienteId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Numero")
+                    b.Property<string>("Document")
                         .IsRequired()
                         .HasColumnType("varchar(18)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId")
-                        .IsUnique();
-
-                    b.ToTable("Documentos");
-                });
-
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Email", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ClienteId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Endereco")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId")
-                        .IsUnique();
-
-                    b.ToTable("Emails");
-                });
-
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Endereco", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Bairro")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Cep")
-                        .IsRequired()
-                        .HasColumnType("varchar(9)");
-
-                    b.Property<string>("Cidade")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<Guid>("ClienteId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Estado")
-                        .HasColumnType("char(2)");
-
-                    b.Property<string>("Logradouro")
+                    b.Property<string>("FirstLine")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("varchar(150)");
 
-                    b.HasIndex("ClienteId")
-                        .IsUnique();
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
 
-                    b.ToTable("Enderecos");
-                });
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime");
 
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Pedido", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                    b.Property<string>("SecondLine")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
 
-                    b.Property<Guid?>("ClienteId")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("char(2)");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("char(15)");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("money");
 
-                    b.HasKey("Id");
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("varchar(9)");
 
-                    b.HasIndex("ClienteId");
+                    b.HasKey("Id");
 
                     b.ToTable("Ordering");
                 });
 
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.PedidoItem", b =>
+            modelBuilder.Entity("ECommerce.Ordering.Domain.Models.OrderItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Imagem")
+                    b.Property<string>("Image")
                         .HasColumnType("text");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<Guid?>("PedidoId")
-                        .HasColumnType("TEXT");
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Quantidade")
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Value")
@@ -159,104 +100,23 @@ namespace ECommerce.Pedido.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PedidoId");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Telefone", b =>
+            modelBuilder.Entity("ECommerce.Ordering.Domain.Models.OrderItem", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ClienteId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId")
-                        .IsUnique();
-
-                    b.ToTable("Telefones");
-                });
-
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Documento", b =>
-                {
-                    b.HasOne("ECommerce.Pedido.Domain.Models.Cliente", "Cliente")
-                        .WithOne("Documento")
-                        .HasForeignKey("ECommerce.Pedido.Domain.Models.Documento", "ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-                });
-
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Email", b =>
-                {
-                    b.HasOne("ECommerce.Pedido.Domain.Models.Cliente", "Cliente")
-                        .WithOne("Email")
-                        .HasForeignKey("ECommerce.Pedido.Domain.Models.Email", "ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-                });
-
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Endereco", b =>
-                {
-                    b.HasOne("ECommerce.Pedido.Domain.Models.Cliente", "Cliente")
-                        .WithOne("Endereco")
-                        .HasForeignKey("ECommerce.Pedido.Domain.Models.Endereco", "ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-                });
-
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Pedido", b =>
-                {
-                    b.HasOne("ECommerce.Pedido.Domain.Models.Cliente", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteId");
-
-                    b.Navigation("Cliente");
-                });
-
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.PedidoItem", b =>
-                {
-                    b.HasOne("ECommerce.Pedido.Domain.Models.Pedido", null)
+                    b.HasOne("ECommerce.Ordering.Domain.Models.Order", "Order")
                         .WithMany("Items")
-                        .HasForeignKey("PedidoId");
-                });
-
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Telefone", b =>
-                {
-                    b.HasOne("ECommerce.Pedido.Domain.Models.Cliente", "Cliente")
-                        .WithOne("Telefone")
-                        .HasForeignKey("ECommerce.Pedido.Domain.Models.Telefone", "ClienteId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cliente");
+                    b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Cliente", b =>
-                {
-                    b.Navigation("Documento");
-
-                    b.Navigation("Email");
-
-                    b.Navigation("Endereco");
-
-                    b.Navigation("Telefone");
-                });
-
-            modelBuilder.Entity("ECommerce.Pedido.Domain.Models.Pedido", b =>
+            modelBuilder.Entity("ECommerce.Ordering.Domain.Models.Order", b =>
                 {
                     b.Navigation("Items");
                 });

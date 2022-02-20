@@ -22,9 +22,6 @@ namespace ECommerce.Basket.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CustomerBasketId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Image")
                         .HasColumnType("text");
 
@@ -32,20 +29,26 @@ namespace ECommerce.Basket.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(20)");
 
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("ShoppingBasketId")
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("money");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerBasketId");
+                    b.HasIndex("ShoppingBasketId");
 
                     b.ToTable("BasketItems");
                 });
 
-            modelBuilder.Entity("ECommerce.Basket.Domain.Models.CustomerBasket", b =>
+            modelBuilder.Entity("ECommerce.Basket.Domain.Models.ShoppingBasket", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,16 +69,16 @@ namespace ECommerce.Basket.Infrastructure.Migrations
 
             modelBuilder.Entity("ECommerce.Basket.Domain.Models.BasketItem", b =>
                 {
-                    b.HasOne("ECommerce.Basket.Domain.Models.CustomerBasket", "CustomerBasket")
+                    b.HasOne("ECommerce.Basket.Domain.Models.ShoppingBasket", "ShoppingBasket")
                         .WithMany("Items")
-                        .HasForeignKey("CustomerBasketId")
+                        .HasForeignKey("ShoppingBasketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CustomerBasket");
+                    b.Navigation("ShoppingBasket");
                 });
 
-            modelBuilder.Entity("ECommerce.Basket.Domain.Models.CustomerBasket", b =>
+            modelBuilder.Entity("ECommerce.Basket.Domain.Models.ShoppingBasket", b =>
                 {
                     b.Navigation("Items");
                 });

@@ -1,5 +1,4 @@
-﻿using ECommerce.Basket.Domain.Models;
-using ECommerce.Catalog.Domain.Models;
+﻿using ECommerce.Catalog.Domain.Models;
 using ECommerce.Ordering.Gateway.Interfaces;
 using ECommerce.Ordering.Gateway.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -16,53 +15,72 @@ namespace ECommerce.Ordering.Gateway.Controllers
     [ApiController]
     public class BasketItemController : ControllerBase
     {
-        private readonly IBasketService _basketService;
-        private readonly ICatalogService _catalogService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IBasketGrpcClient _basketGrpcClient;
+        private readonly ICatalogGrpcClient _catalogGrpcClient;
 
-        public BasketItemController(IBasketService basketService, 
-            ICatalogService catalogService, 
-            IHttpContextAccessor httpContextAccessor)
+        public BasketItemController(IBasketGrpcClient basketGrpcClient, ICatalogGrpcClient catalogGrpcClient)
         {
-            _basketService = basketService;
-            _catalogService = catalogService;
-            _httpContextAccessor = httpContextAccessor;
+            _basketGrpcClient = basketGrpcClient;
+            _catalogGrpcClient = catalogGrpcClient;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(BasketItemDto item)
+        public async Task<IActionResult> Create(BasketItemDto newItem)
         {
-            var accessToken = await GetToken();
-
-            #region Stock update
-            var product = await GetProduct(item.Id);
-            var basketItem = await GetBasketItem(item.Id);
+            #region Get values
+            var product = await GetProduct(newItem.ProductId);
 
             if (product == null)
                 return NotFound();
 
-            if (product.Quantity < item.Quantity)
+            var currentItem = await GetBasketItemByProduct(newItem.ProductId);
+
+            if (currentItem != null && (currentItem.Quantity == newItem.Quantity))
+                return BadRequest("Operação inválida!");
+            #endregion
+
+            #region Stock update
+            product.Quantity = UpdateProductQuantity(
+                stockQuantity: product.Quantity, 
+                newQuantity: newItem.Quantity,
+                currentQuantity: currentItem != null ? currentItem.Quantity : 0
+            );
+
+            if (product.Quantity < newItem.Quantity)
                 return BadRequest("Quantidade indisponível em estoque!");
 
-            product = UpdateProductQuantity(basketItem, item, product);
+            var createBasketItemResult = await _catalogGrpcClient.UpdateProduct(new Catalog.Api.Protos.UpdateProductRequest
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Image = product.Image,
+                Value = product.Value,
+                Quantity = product.Quantity,
+                Enabled  = product.Enabled
+            });
 
-            var createBasketItemResult = await _catalogService.Update(item.Id, product, accessToken);
-
-            if (!createBasketItemResult.IsSuccessStatusCode)
-                return BadRequest(createBasketItemResult.Error);
+            if (!createBasketItemResult.Isvalid)
+                return BadRequest(createBasketItemResult.Message);
             #endregion
 
             #region Basket update
-            var newBasketItem = new BasketItem(product.Id, product.Name, item.Quantity, product.Value, product.Image, item.CustomerBasketId);
-            
-            createBasketItemResult = await _basketService.CreateBasketItem(newBasketItem, accessToken);
-
-            if (!createBasketItemResult.IsSuccessStatusCode)
+            var _createBasketItemResult = await _basketGrpcClient.AddBasketItem(new Basket.Api.Protos.AddBasketItemRequest
             {
-                await ReturnProductsToStock(item, product);
-                return BadRequest(createBasketItemResult.Error);
+                Id = Convert.ToString(Guid.NewGuid()),
+                Name = product.Name,
+                Quantity = newItem.Quantity,
+                Image = product.Image,
+                Value = product.Value,
+                Productid = product.Id,
+                Shoppingbasketid = Convert.ToString(newItem.BasketId),
+            });
+
+            if (!_createBasketItemResult.Isvalid)
+            {
+                return BadRequest(_createBasketItemResult.Message);
             }
 
             return Ok();
@@ -72,71 +90,90 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> DeleteItem(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var accessToken = await GetToken();
+            #region Get Values
+            var currentItem = await GetBasketItem(id);
 
-            #region Catalog update
-            var basketItem = await _basketService.GetBasketItem(id, accessToken);
+            if (currentItem == null)
+                return BadRequest("Operação inválida!");
 
-            var product = await GetProduct(basketItem.Content.Id);
+            var product = await GetProduct(Guid.Parse(currentItem.Productid));
 
             if (product == null)
                 return NotFound();
+            #endregion
 
-            product.Quantity += basketItem.Content.Quantity;
-            var result = await _catalogService.Update(basketItem.Content.Id, product, accessToken);
+            #region Catalog update
+            product.Quantity += currentItem.Quantity;
 
-            if (!result.IsSuccessStatusCode)
-                return BadRequest(result.Error);
+            var createBasketItemResult = await _catalogGrpcClient.UpdateProduct(new Catalog.Api.Protos.UpdateProductRequest
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Image = product.Image,
+                Value = product.Value,
+                Quantity = product.Quantity,
+                Enabled = product.Enabled
+            });
+
+            if (!createBasketItemResult.Isvalid)
+                return BadRequest(createBasketItemResult.Message);
             #endregion
 
             #region Delete Basket Item
-            var deleteBasketItemResponse = await _basketService.DeleteBasketItem(id, accessToken);
+            var removeBasketItemResult = await _basketGrpcClient.RemoveBasketItem(new Basket.Api.Protos.RemoveBasketItemRequest
+            {
+                Id = Convert.ToString(id)
+            });
 
-            if (!deleteBasketItemResponse.IsSuccessStatusCode)
-                return BadRequest(deleteBasketItemResponse.Error);
+            if (!removeBasketItemResult.Isvalid)
+                return BadRequest(removeBasketItemResult.Message);
 
             return NoContent();
             #endregion
         }
 
         #region Helpers
-        protected async Task<string> GetToken()
-            => await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-
-        private async Task<Product> GetProduct(Guid id)
+        private async Task<Catalog.Api.Protos.Product> GetProduct(Guid productId)
         {
-            var response = await _catalogService.Get(id);
-            return response.Content;
+            var catalogResponse = await _catalogGrpcClient.GetProduct(new Catalog.Api.Protos.GetProductRequest
+            {
+                Id = Convert.ToString(productId)
+            });
+
+            return catalogResponse.Product;
         }
 
-        private async Task<BasketItem> GetBasketItem(Guid id)
+        private async Task<Basket.Api.Protos.BasketItem> GetBasketItemByProduct(Guid productId)
         {
-            var accessToken = await GetToken();
-            var response = await _basketService.GetBasketItem(id, accessToken);
-            return response.Content;
+            var basketResponse = await _basketGrpcClient.GetBasketItemByProduct(new Basket.Api.Protos.GetBasketItemByProductRequest
+            {
+                Produtid = Convert.ToString(productId)
+            });
+
+            return basketResponse.Item;
         }
 
-        private async Task ReturnProductsToStock(BasketItemDto item, Product product)
+        private async Task<Basket.Api.Protos.BasketItem> GetBasketItem(Guid id)
         {
-            var accessToken = await GetToken();
+            var basketResponse = await _basketGrpcClient.GetBasketItem(new Basket.Api.Protos.GetBasketItemRequest
+            {
+                Id = Convert.ToString(id)
+            });
 
-            product.Quantity += item.Quantity;
-            await _catalogService.Update(item.Id, product, accessToken);
+            return basketResponse.Item;
         }
 
-        private Product UpdateProductQuantity(BasketItem basketItem, BasketItemDto item, Product product)
+        private int UpdateProductQuantity(int stockQuantity, int newQuantity, int currentQuantity)
         {
-            if (basketItem == null)
-                product.Quantity -= item.Quantity;
-
-            if (basketItem.Quantity > item.Quantity)
-                product.Quantity += (basketItem.Quantity - item.Quantity);
+            if (currentQuantity > newQuantity)
+                stockQuantity += (currentQuantity - newQuantity);
             else
-                product.Quantity -= Math.Abs(basketItem.Quantity - item.Quantity);
+                stockQuantity -= Math.Abs(currentQuantity - newQuantity);
 
-            return product;
+            return stockQuantity;
         }
         #endregion
     }

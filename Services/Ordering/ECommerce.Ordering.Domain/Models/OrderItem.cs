@@ -5,25 +5,27 @@ using FluentValidation.Results;
 
 namespace ECommerce.Ordering.Domain.Models
 {
-    public class OrderItem : Entity
+    public class OrderItem
     {
-        public OrderItem(string name, int quantity, decimal value, string image, Guid productId, Guid customerBasketId)
+        public OrderItem(Guid id, string name, int quantity, decimal value, string image, Guid productId, Guid orderId)
         {
+            Id = id;
             Name = name;
             Quantity = quantity;
             Value = value;
             Image = image;
             ProductId = productId;
-            CustomerBasketId = customerBasketId;
+            OrderId = orderId;
         }
 
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
         public decimal Value { get; set; }
         public string Image { get; set; }
 
         public Guid ProductId { get; set; }
-        public Guid CustomerBasketId { get; set; }
+        public Guid OrderId { get; set; }
 
         [JsonIgnore]
         public Order Order { get; set; }

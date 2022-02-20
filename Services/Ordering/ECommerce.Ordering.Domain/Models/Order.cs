@@ -1,16 +1,16 @@
-﻿using System;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ECommerce.Ordering.Domain.Enums;
-using FluentValidation;
-using FluentValidation.Results;
 
 namespace ECommerce.Ordering.Domain.Models
 {
-    public class Order : Entity
+    public class Order
     {
-        public Order(string fullName, string document, string phone, string email, string firstLine, string secondLine, string city, State state, string zipCode)
+        public Order(Guid id, string fullName, string document, string phone, string email, string firstLine, string secondLine, string city, string state, string zipCode)
         {
+            Id = id;
             FullName = fullName;
             Document = document;
             Phone = phone;
@@ -22,10 +22,12 @@ namespace ECommerce.Ordering.Domain.Models
             State = state;
             ZipCode = zipCode;
 
-            Status = OrderStatus.Processando;
+            Status = "PROCESSANDO";
+            RegistrationDate = DateTime.Now;
             Items = new List<OrderItem>();
         }
 
+        public Guid Id { get; set; }
         public string FullName { get; set; }
         public string Document { get; set; }
         public string Phone { get; set; }
@@ -34,12 +36,14 @@ namespace ECommerce.Ordering.Domain.Models
         public string FirstLine { get; set; }
         public string SecondLine { get; set; }
         public string City { get; set; }
-        public State State { get; set; }
+        public string State { get; set; }
         public string ZipCode { get; set; }
 
         public decimal Value { get; private set; }
-        public OrderStatus Status { get; set; }
-        
+        public string Status { get; set; }
+
+        public DateTime RegistrationDate { get; set; }
+
         public ICollection<OrderItem> Items { get; set; }
 
         public ValidationResult Validate()

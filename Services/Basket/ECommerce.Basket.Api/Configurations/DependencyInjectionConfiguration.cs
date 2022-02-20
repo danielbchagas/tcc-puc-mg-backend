@@ -19,19 +19,20 @@ namespace ECommerce.Basket.Api.Configurations
             #region Mediator
             services.AddMediatR(typeof(Startup));
             
-            services.AddScoped<IRequestHandler<CreateCustomerBasketCommand, ValidationResult>, CreateCustomerBasketCommandHandler>();
-            services.AddScoped<IRequestHandler<DeleteCustomerBasketCommand, ValidationResult>, DeleteCustomerBasketCommandHandler>();
-            services.AddScoped<IRequestHandler<GetCustomerBasketByCustomerQuery, CustomerBasket>, GetCustomerBasketByCustomerQueryHandler>();
-            services.AddScoped<IRequestHandler<GetCustomerBasketQuery, CustomerBasket>, GetCustomerBasketQueryHandler>();
+            services.AddScoped<IRequestHandler<CreateShoppingBasketCommand, ValidationResult>, CreateShoppingBasketCommandHandler>();
+            services.AddScoped<IRequestHandler<DeleteShoppingBasketCommand, ValidationResult>, DeleteShoppingBasketCommandHandler>();
+            services.AddScoped<IRequestHandler<GetShoppingBasketByCustomerQuery, ShoppingBasket>, GetShoppingBasketByCustomerQueryHandler>();
+            services.AddScoped<IRequestHandler<GetShoppingBasketQuery, ShoppingBasket>, GetShoppingBasketQueryHandler>();
             
             services.AddScoped<IRequestHandler<CreateBasketItemCommand, ValidationResult>, CreateBasketItemCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteBasketItemCommand, ValidationResult>, DeleteBasketItemCommandHandler>();
             services.AddScoped<IRequestHandler<GetBasketItemQuery, BasketItem>, GetBasketItemQueryHandler>();
+            services.AddScoped<IRequestHandler<GetBasketItemByProductQuery, BasketItem>, GetBasketItemByProductQueryHandler>();
             #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
-            services.AddScoped<ICustomerBasketRepository, CustomerBasketRepository>();
+            services.AddScoped<IShoppingBasketRepository, ShoppingBasketRepository>();
             services.AddScoped<IBasketItemRepository, BasketItemRepository>();
         }
     }

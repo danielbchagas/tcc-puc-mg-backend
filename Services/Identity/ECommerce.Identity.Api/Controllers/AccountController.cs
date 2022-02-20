@@ -1,4 +1,4 @@
-﻿#define REST
+﻿#define gRPC
 //#define RABBITMQ
 
 using System;
@@ -30,13 +30,15 @@ namespace ECommerce.Identity.Api.Controllers
         private readonly JwtHandler _jwtHandler;
         private readonly RabbitMqOption _rabbitMQOptions;
         private readonly ICustomerService _customerService;
+        private readonly ICustomerGrpcClient _customerGrpcClient;
 
         public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
             ILogger<AccountController> logger, 
             IOptions<RabbitMqOption> rabbitMQOptions,
             ICustomerService customerService,
-            JwtHandler jwtHandler)
+            JwtHandler jwtHandler,
+            ICustomerGrpcClient customerGrpcClient)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -44,6 +46,7 @@ namespace ECommerce.Identity.Api.Controllers
             _rabbitMQOptions = rabbitMQOptions.Value;
             _customerService = customerService;
             _jwtHandler = jwtHandler;
+            _customerGrpcClient = customerGrpcClient;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -76,14 +79,14 @@ namespace ECommerce.Identity.Api.Controllers
                 if (!createCustomerResult.IsValid)
                     return BadRequest(createCustomerResult.Errors.Select(e => e.ErrorMessage));
 
-#elif REST
-                var createCustomerResult = await CreateCustomerRest(user);
+#elif gRPC
+                var createCustomerResult = await CreateCustomerGrpc(user);
 
-                if (!createCustomerResult.IsSuccessStatusCode)
-                    return BadRequest(createCustomerResult.Error);
+                if (!createCustomerResult.Isvalid)
+                    return BadRequest(createCustomerResult.Message);
 #endif
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 await CreateUserRollback(user);
 
@@ -262,6 +265,11 @@ namespace ECommerce.Identity.Api.Controllers
                 await CreateUserRollback(user);
 
             return result;
+        }
+
+        private async Task<ECommerce.Customer.Api.Protos.CreateUserResponse> CreateCustomerGrpc(SignUpUserDto user)
+        {
+            return await _customerGrpcClient.Create(user);
         }
         #endregion
     }

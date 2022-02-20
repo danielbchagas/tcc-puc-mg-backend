@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.42.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
   <PackageReference Include="MediatR" Version="9.0.0" />
@@ -25,6 +26,10 @@
     <ProjectReference Include="..\ECommerce.Ordering.Application\ECommerce.Ordering.Application.csproj" />
     <ProjectReference Include="..\ECommerce.Ordering.Domain\ECommerce.Ordering.Domain.csproj" />
     <ProjectReference Include="..\ECommerce.Ordering.Infrastructure\ECommerce.Ordering.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Protobuf Include="Protos\order.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 using ECommerce.Customer.Api.Configurations;
 using ECommerce.Customer.Api.Middlewares;
+using ECommerce.Customer.Api.Services.gRPC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,8 @@ namespace ECommerce.Customer.Api
 
             services.AddControllers();
 
+            services.AddGrpc();
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
@@ -72,6 +75,7 @@ namespace ECommerce.Customer.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<CustomerGrpcService>();
             });
         }
     }

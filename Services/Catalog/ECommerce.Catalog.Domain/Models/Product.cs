@@ -5,10 +5,11 @@ using FluentValidation.Results;
 
 namespace ECommerce.Catalog.Domain.Models
 {
-    public class Product : Entity, IAggregateRoot
+    public class Product : IAggregateRoot
     {
-        public Product(string description, string name, string image, int quantity, decimal value, bool enabled = true)
+        public Product(Guid id, string description, string name, string image, int quantity, decimal value, bool enabled = true)
         {
+            Id = id;
             Description = description;
             Name = name;
             Image = image;
@@ -18,6 +19,7 @@ namespace ECommerce.Catalog.Domain.Models
             RegistrationDate = DateTime.Now;
         }
 
+        public Guid Id { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }

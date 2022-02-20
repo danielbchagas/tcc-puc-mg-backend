@@ -32,6 +32,7 @@ namespace ECommerce.Ordering.Gateway
             services.AddSwaggerConfiguration();
             services.AddOptionsConfiguration(Configuration);
             services.AddCorsConfiguration();
+            services.AddGrpcConfiguration(Configuration);
 
             services.AddControllers();
         }

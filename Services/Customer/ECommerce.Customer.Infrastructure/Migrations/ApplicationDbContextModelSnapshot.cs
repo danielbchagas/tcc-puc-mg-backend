@@ -34,7 +34,8 @@ namespace ECommerce.Customer.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<int>("State")
+                    b.Property<string>("State")
+                        .IsRequired()
                         .HasColumnType("char(2)");
 
                     b.Property<Guid>("UserId")

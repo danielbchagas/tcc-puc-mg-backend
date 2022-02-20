@@ -1,11 +1,8 @@
-﻿using ECommerce.Ordering.Domain.Models;
-using ECommerce.Ordering.Gateway.Interfaces;
-using Microsoft.AspNetCore.Authentication;
+﻿using ECommerce.Ordering.Gateway.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Gateway.Controllers
@@ -15,50 +12,93 @@ namespace ECommerce.Ordering.Gateway.Controllers
     [ApiController]
     public class OrderingController : ControllerBase
     {
-        private readonly IOrderingService _orderingService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IOrderingGrpcClient _orderingGrpcClient;
+        private readonly IBasketGrpcClient _basketGrpcClient;
+        private readonly ICustomerGrpcClient _customerGrpcClient;
 
-        public OrderingController(IOrderingService orderingService, IHttpContextAccessor httpContextAccessor)
+        public OrderingController(IBasketGrpcClient basketGrpcClient, IOrderingGrpcClient orderingGrpcClient, ICustomerGrpcClient customerGrpcClient)
         {
-            _orderingService = orderingService;
-            _httpContextAccessor = httpContextAccessor;
-        }
-
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{id:Guid}")]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            var accessToken = await GetToken();
-            var response = await _orderingService.GetOrder(id, accessToken);
-
-            if (response.StatusCode == HttpStatusCode.NotFound)
-                return NotFound();
-            else if (!response.IsSuccessStatusCode)
-                return BadRequest(response.Error);
-
-            return Ok(response.Content);
+            _orderingGrpcClient = orderingGrpcClient;
+            _basketGrpcClient = basketGrpcClient;
+            _customerGrpcClient = customerGrpcClient;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(Order order)
+        public async Task<IActionResult> Create(Guid customerId)
         {
-            var accessToken = await GetToken();
-            var response = await _orderingService.Create(order, accessToken);
+            var basket = await GetBasket(customerId);
 
-            if (response.StatusCode == HttpStatusCode.NotFound)
-                return NotFound();
-            else if (!response.IsSuccessStatusCode)
-                return BadRequest(response.Error);
+            if (basket == null)
+                return BadRequest("Carrinho de compras não encontrado.");
+
+            var customer = await GetUser(Guid.Parse(basket.Customerid));
+
+            if (customer == null)
+                return BadRequest("Cliente não encontrado.");
+
+            if (customer.Document == null || customer.Email == null || customer.Phone == null || customer.Address == null)
+                return BadRequest("Verifique seus dados cadastrais.");
+
+            var order = new Api.Protos.CreateOrderRequest
+            {
+                Id = Convert.ToString(Guid.NewGuid()),
+                Fullname = $"{customer.Firstname} {customer.Lastname}",
+                Document = customer.Document.Number,
+                Email = customer.Email.Address,
+                Phone = customer.Phone.Number,
+                Status = "PROCESSANDO",
+                Firstline = customer.Address.Firstline,
+                Secondline = customer.Address.Secondline,
+                City = customer.Address.City,
+                State = customer.Address.State,
+                Zipcode = customer.Address.Zipcode,
+                Value = basket.Value,
+            };
+
+            foreach (var item in basket.Items)
+            {
+                order.Items.Add(new Api.Protos.OrderItem
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Image = item.Image,
+                    Value = item.Value,
+                    Quantity = item.Quantity,
+                    Productid = item.Productid,
+                    Orderid = order.Id
+                });
+            }
+
+            var response = await _orderingGrpcClient.CreateOrder(order);
+
+            if (!response.Isvalid)
+                return BadRequest("Falha ao criar o pedido.");
 
             return Ok();
         }
 
         #region Helpers
-        protected async Task<string> GetToken()
-            => await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+        private async Task<Basket.Api.Protos.ShoppingBasket> GetBasket(Guid customerId)
+        {
+            var basketResponse = await _basketGrpcClient.GetShoppingBasketByCustomer(new Basket.Api.Protos.GetBasketByCustomerRequest
+            {
+                Customerid = Convert.ToString(customerId)
+            });
+
+            return basketResponse.Basket;
+        }
+
+        private async Task<Customer.Api.Protos.User> GetUser(Guid id)
+        {
+            var customerResponse = await _customerGrpcClient.GetCustomer(new Customer.Api.Protos.GetUserRequest
+            {
+                Id = Convert.ToString(id)
+            });
+
+            return customerResponse.User;
+        }
         #endregion
     }
 }

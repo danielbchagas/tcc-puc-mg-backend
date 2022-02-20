@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using ECommerce.Ordering.Api.Configurations;
 using ECommerce.Ordering.Api.Middlewares;
+using ECommerce.Ordering.Api.Services.gRPC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,8 @@ namespace ECommerce.Ordering.Api
             services.AddCorsConfiguration();
 
             services.AddControllers();
+
+            services.AddGrpc();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -71,6 +74,7 @@ namespace ECommerce.Ordering.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<OrderingGrpcService>();
             });
         }
     }

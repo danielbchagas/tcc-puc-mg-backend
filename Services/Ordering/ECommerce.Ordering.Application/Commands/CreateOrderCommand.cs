@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using ECommerce.Ordering.Domain.Enums;
-using ECommerce.Ordering.Domain.Models;
+﻿using ECommerce.Ordering.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System;
+using System.Collections.Generic;
 
 namespace ECommerce.Ordering.Application.Commands
 {
     public class CreateOrderCommand : IRequest<ValidationResult>
     {
-        public CreateOrderCommand(string fullName, string document, string phone, string email, decimal valor, string firstLine, string secondLine, string city, State state, string zipCode)
+        public CreateOrderCommand(Guid id, string fullName, string document, string phone, string email, decimal value, string firstLine, string secondLine, string city, string state, string zipCode)
         {
+            Id = id;
             FullName = fullName;
             Document = document;
             Phone = phone;
@@ -21,9 +22,10 @@ namespace ECommerce.Ordering.Application.Commands
             State = state;
             ZipCode = zipCode;
 
-            Value = valor;
+            Value = value;
         }
 
+        public Guid Id { get; set; }
         public string FullName { get; set; }
         public string Document { get; set; }
         public string Phone { get; set; }
@@ -32,11 +34,11 @@ namespace ECommerce.Ordering.Application.Commands
         public string FirstLine { get; set; }
         public string SecondLine { get; set; }
         public string City { get; set; }
-        public State State { get; set; }
+        public string State { get; set; }
         public string ZipCode { get; set; }
 
         public decimal Value { get; set; }
-        public OrderStatus Status { get; set; }
+        public string Status { get; set; }
 
         public ICollection<OrderItem> Items { get; set; }
     }

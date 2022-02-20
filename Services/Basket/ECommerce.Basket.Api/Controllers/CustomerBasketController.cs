@@ -27,7 +27,7 @@ namespace ECommerce.Basket.Api.Controllers
         [HttpGet("{customerId:Guid}")]
         public async Task<IActionResult> Get(Guid customerId)
         {
-            var result = await _mediator.Send(new GetCustomerBasketByCustomerQuery(customerId));
+            var result = await _mediator.Send(new GetShoppingBasketByCustomerQuery(customerId));
 
             if (result is null)
                 return NotFound();
@@ -38,7 +38,7 @@ namespace ECommerce.Basket.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCustomerBasketCommand request)
+        public async Task<IActionResult> Create(CreateShoppingBasketCommand request)
         {
             var result = await _mediator.Send(request);
 
@@ -54,7 +54,7 @@ namespace ECommerce.Basket.Api.Controllers
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _mediator.Send(new DeleteCustomerBasketCommand(id));
+            var result = await _mediator.Send(new DeleteShoppingBasketCommand(id));
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));

@@ -21,7 +21,7 @@ namespace ECommerce.Identity.Api.Configurations
             services.AddRefitClient<ICustomerService>()
                 .ConfigureHttpClient(config => 
                 {
-                    var options = configuration.GetSection("ServiceOptions").Get<ServiceOptions>();
+                    var options = configuration.GetSection("ServiceOptions").Get<ServiceOption>();
 
                     config.BaseAddress = new Uri(options.CustomerServiceUrl);
                 })

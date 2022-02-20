@@ -19,35 +19,10 @@ namespace ECommerce.Ordering.Gateway.Configurations
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
-            services.AddRefitClient<ICustomerService>()
-                .ConfigureHttpClient(config =>
-                {
-                    config.BaseAddress = new Uri(options.CustomerServiceUrl);
-                })
-                //.AddPolicyHandler(GetRetryPolicy())
-                .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
-
-            services.AddRefitClient<IOrderingService>()
+            services.AddRefitClient<IOrderingClient>()
                 .ConfigureHttpClient(config =>
                 {
                     config.BaseAddress = new Uri(options.OrderingServiceUrl);
-                })
-                //.AddPolicyHandler(GetRetryPolicy())
-                .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
-
-            services.AddRefitClient<IBasketService>()
-                .ConfigureHttpClient(config =>
-                {
-                    config.BaseAddress = new Uri(options.BasketServiceUrl);
-                })
-                //.AddPolicyHandler(GetRetryPolicy())
-                .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
-
-
-            services.AddRefitClient<ICatalogService>()
-                .ConfigureHttpClient(config =>
-                {
-                    config.BaseAddress = new Uri(options.CatalogServiceUrl);
                 })
                 //.AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(config => config.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));

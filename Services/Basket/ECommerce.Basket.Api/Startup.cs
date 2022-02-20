@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using ECommerce.Basket.Api.Configurations;
 using ECommerce.Basket.Api.Middlewares;
+using ECommerce.Basket.Api.Services.gRPC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,8 @@ namespace ECommerce.Basket.Api
             
             services.AddControllers();
 
+            services.AddGrpc();
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
@@ -72,6 +75,7 @@ namespace ECommerce.Basket.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<BasketGrpcService>();
             });
         }
     }

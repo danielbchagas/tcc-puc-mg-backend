@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+option csharp_namespace = "ECommerce.Basket.Api.Protos";
+
+package BasketApi;
+
+service ShoppingBasketService {
+	rpc GetBasketByCustomer(GetBasketByCustomerRequest) returns(GetBasketResponse);
+	rpc CreateBasket(CreateBasketRequest) returns(CreateBasketResponse);
+	rpc DeleteBasket(DeleteBasketRequest) returns(DeleteBasketResponse);
+
+	rpc GetBasketItem(GetBasketItemRequest) returns(GetBasketItemResponse);
+	rpc GetBasketItemByProduct(GetBasketItemByProductRequest) returns(GetBasketItemByProductResponse);
+	rpc AddBasketItem(AddBasketItemRequest) returns(AddBasketItemResponse);
+	rpc RemoveBasketItem(RemoveBasketItemRequest) returns(RemoveBasketItemResponse);
+}
+
+message CreateBasketRequest {
+	string id = 1;
+	string customerid = 2;
+}
+
+message CreateBasketResponse {
+	bool isvalid = 1;
+    string message = 2;
+}
+
+message GetBasketByCustomerRequest {
+	string customerid = 1;
+}
+
+message GetBasketResponse {
+	ShoppingBasket basket = 1;
+}
+
+message DeleteBasketRequest {
+	string id = 1;
+}
+
+message DeleteBasketResponse {
+	bool isvalid = 1;
+    string message = 2;
+}
+
+message GetBasketItemByProductRequest {
+	string produtid = 1;
+}
+
+message GetBasketItemByProductResponse {
+	BasketItem item = 1;
+}
+
+message GetBasketItemRequest {
+	string id = 1;
+}
+
+message GetBasketItemResponse {
+	BasketItem item = 1;
+}
+
+message AddBasketItemRequest {
+	string id = 1;
+	string name = 2;
+    int32 Quantity = 3;
+    double value = 4;
+    string image = 5;
+    string productid = 6;
+    string shoppingbasketid = 7;
+}
+
+message AddBasketItemResponse {
+	bool isvalid = 1;
+    string message = 2;
+}
+
+message RemoveBasketItemRequest {
+	string id = 1;
+}
+
+message RemoveBasketItemResponse {
+	bool isvalid = 1;
+    string message = 2;
+}
+
+message ShoppingBasket {
+	string id = 1;
+	double value = 2;
+	string customerid = 3;
+	repeated BasketItem items = 4;
+}
+
+message BasketItem {
+	string id = 1;
+	string name = 2;
+	int32 quantity = 3;
+	double value = 4;
+	string image = 5;
+	string productid = 6;
+	string shoppingbasketid = 7;
+}

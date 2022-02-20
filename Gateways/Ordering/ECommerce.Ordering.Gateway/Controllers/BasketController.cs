@@ -1,13 +1,8 @@
-﻿using ECommerce.Basket.Domain.Models;
-using ECommerce.Ordering.Gateway.Interfaces;
-using ECommerce.Ordering.Gateway.Models;
-using Microsoft.AspNetCore.Authentication;
+﻿using ECommerce.Ordering.Gateway.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Gateway.Controllers
@@ -17,13 +12,11 @@ namespace ECommerce.Ordering.Gateway.Controllers
     [ApiController]
     public class BasketController : ControllerBase
     {
-        private readonly IBasketService _basketService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public BasketController(IBasketService basketService, IHttpContextAccessor httpContextAccessor)
+        private readonly IBasketGrpcClient _basketGrpcClient;
+        
+        public BasketController(IBasketGrpcClient basketGrpcClient)
         {
-            _basketService = basketService;
-            _httpContextAccessor = httpContextAccessor;
+            _basketGrpcClient = basketGrpcClient;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -31,51 +24,44 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpGet("{customerId:Guid}")]
         public async Task<IActionResult> Get(Guid customerId)
         {
-            var accessToken = await GetToken();
-
-            var response = await _basketService.GetCustomerBasket(customerId, accessToken);
-
-            if (!response.IsSuccessStatusCode)
-                return BadRequest(response.Error);
-
-            return Ok(response.Content);
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost]
-        public async Task<IActionResult> Create(CustomerBasketDTO basket)
-        {
-            var accessToken = await GetToken();
-
-            var response = await _basketService.CreateCustomerBasket(new CustomerBasket(basket.CustomerId), accessToken);
-
-            if (!response.IsSuccessStatusCode)
-                return BadRequest(response.Error);
+            var proto = await _basketGrpcClient.GetShoppingBasketByCustomer(new Basket.Api.Protos.GetBasketByCustomerRequest
+            {
+                Customerid = Convert.ToString(customerId)
+            });
             
-            return Ok();
+            if(proto.Basket == null)
+            {
+                var basket = new ECommerce.Basket.Api.Protos.CreateBasketRequest
+                {
+                    Id = Convert.ToString(Guid.NewGuid()),
+                    Customerid = Convert.ToString(customerId)
+                };
+
+                var _response = await _basketGrpcClient.CreateShoppingBasket(basket);
+
+                if (!_response.Isvalid)
+                    return BadRequest(_response.Message);
+
+                return Ok(basket);
+            }
+
+            return Ok(proto.Basket);
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("basket/{customerId:Guid}")]
-        public async Task<IActionResult> DeleteBasket(Guid customerId)
+        public async Task<IActionResult> Delete(Guid customerId)
         {
-            var accessToken = await GetToken();
+            var response = await _basketGrpcClient.DeleteShoppingBasket(new Basket.Api.Protos.DeleteBasketRequest
+            {
+                Id = Convert.ToString(customerId)
+            });
 
-            var response = await _basketService.DeleteCustomerBasket(customerId, accessToken);
-
-            if (response.StatusCode == HttpStatusCode.NotFound)
-                return NotFound();
-            else if (!response.IsSuccessStatusCode)
-                return BadRequest(response.Error);
+            if (!response.Isvalid)
+                return BadRequest(response.Message);
 
             return NoContent();
         }
-
-        #region Helpers
-        protected async Task<string> GetToken()
-            => await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-        #endregion
     }
 }

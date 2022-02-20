@@ -1,5 +1,4 @@
 using Bogus;
-using ECommerce.Ordering.Domain.Enums;
 using ECommerce.Ordering.Domain.Models;
 using System;
 using Xunit;
@@ -13,29 +12,30 @@ namespace ECommerce.Ordering.Test
         {
             // Arrange
             var orderFaker = new Faker<Order>().CustomInstantiator(set => 
-                new Order(fullName: set.Person.FirstName + set.Person.LastName, 
+                new Order(id: Guid.NewGuid(), 
+                    fullName: set.Person.FirstName + set.Person.LastName, 
                     document: set.Random.String(), 
                     phone: set.Person.Phone, 
                     email: set.Person.Email, 
                     firstLine: set.Person.Address.Street,
                     secondLine: "",
                     city: set.Person.Address.City, 
-                    state: State.ES,
+                    state: set.Address.State(),
                     zipCode: set.Person.Address.ZipCode));
 
             var customerId = Guid.NewGuid();
             var productId = Guid.NewGuid();
 
             var itemFaker1 = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
             var item2Faker = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
             var item3Faker = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
             var item4Faker = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
             var item5Faker = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
 
             var order = orderFaker.Generate();
             
@@ -57,31 +57,32 @@ namespace ECommerce.Ordering.Test
         {
             // Arrange
             var orderFaker = new Faker<Order>().CustomInstantiator(set =>
-                new Order(fullName: set.Person.FirstName + set.Person.LastName,
+                new Order(id: Guid.NewGuid(), 
+                    fullName: set.Person.FirstName + set.Person.LastName,
                     document: set.Random.String(),
                     phone: set.Person.Phone,
                     email: set.Person.Email,
                     firstLine: set.Person.Address.Street,
                     secondLine: "",
                     city: set.Person.Address.City,
-                    state: State.ES,
+                    state: set.Address.State(),
                     zipCode: set.Person.Address.ZipCode));
 
             var customerId = Guid.NewGuid();
             var productId = Guid.NewGuid();
 
             var itemFaker1 = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
             var item2Faker = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
             var item3Faker = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
             var item4Faker = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
             var item5Faker = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
             var item6Faker = new Faker<OrderItem>().CustomInstantiator(set => 
-                new OrderItem(name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, customerBasketId: customerId));
+                new OrderItem(id: Guid.NewGuid(), name: set.Random.String(), 5, 100, image: set.Image.PicsumUrl(), productId: productId, orderId: customerId));
 
             var order = orderFaker.Generate();
 
