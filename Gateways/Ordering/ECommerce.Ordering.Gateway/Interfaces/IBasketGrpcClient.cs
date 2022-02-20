@@ -12,6 +12,7 @@ namespace ECommerce.Ordering.Gateway.Interfaces
         #endregion
 
         #region BasketItem
+        Task<GetBasketItemResponse> GetBasketItem(GetBasketItemRequest request);
         Task<GetBasketItemByProductResponse> GetBasketItemByProduct(GetBasketItemByProductRequest request);
         Task<AddBasketItemResponse> AddBasketItem(AddBasketItemRequest request);
         Task<RemoveBasketItemResponse> RemoveBasketItem(RemoveBasketItemRequest request);

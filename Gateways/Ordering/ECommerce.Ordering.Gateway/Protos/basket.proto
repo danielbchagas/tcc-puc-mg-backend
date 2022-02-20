@@ -9,6 +9,7 @@ service ShoppingBasketService {
 	rpc CreateBasket(CreateBasketRequest) returns(CreateBasketResponse);
 	rpc DeleteBasket(DeleteBasketRequest) returns(DeleteBasketResponse);
 
+	rpc GetBasketItem(GetBasketItemRequest) returns(GetBasketItemResponse);
 	rpc GetBasketItemByProduct(GetBasketItemByProductRequest) returns(GetBasketItemByProductResponse);
 	rpc AddBasketItem(AddBasketItemRequest) returns(AddBasketItemResponse);
 	rpc RemoveBasketItem(RemoveBasketItemRequest) returns(RemoveBasketItemResponse);
@@ -46,6 +47,14 @@ message GetBasketItemByProductRequest {
 }
 
 message GetBasketItemByProductResponse {
+	BasketItem item = 1;
+}
+
+message GetBasketItemRequest {
+	string id = 1;
+}
+
+message GetBasketItemResponse {
 	BasketItem item = 1;
 }
 

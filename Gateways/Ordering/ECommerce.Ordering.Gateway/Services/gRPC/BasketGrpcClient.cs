@@ -32,6 +32,11 @@ namespace ECommerce.Ordering.Gateway.Services.gRPC
         #endregion
 
         #region BasketItem
+        public async Task<GetBasketItemResponse> GetBasketItem(GetBasketItemRequest request)
+        {
+            return await _client.GetBasketItemAsync(request);
+        }
+
         public async Task<GetBasketItemByProductResponse> GetBasketItemByProduct(GetBasketItemByProductRequest request)
         {
             return await _client.GetBasketItemByProductAsync(request);

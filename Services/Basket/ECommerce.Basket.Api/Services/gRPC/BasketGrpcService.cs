@@ -88,6 +88,33 @@ namespace ECommerce.Basket.Api.Services.gRPC
         #endregion
 
         #region ShoppingBasketItem
+        public override async Task<GetBasketItemResponse> GetBasketItem(GetBasketItemRequest request, ServerCallContext context)
+        {
+            var result = await _mediator.Send(new GetBasketItemQuery(Guid.Parse(request.Id)));
+
+            if (result == null)
+            {
+                return new GetBasketItemResponse
+                {
+                    Item = null
+                };
+            }
+
+            return new GetBasketItemResponse
+            {
+                Item = new BasketItem
+                {
+                    Id = Convert.ToString(result.Id),
+                    Name = result.Name,
+                    Image = result.Image,
+                    Value = Convert.ToDouble(result.Value),
+                    Quantity = result.Quantity,
+                    Productid = Convert.ToString(result.ProductId),
+                    Shoppingbasketid = Convert.ToString(result.ShoppingBasketId)
+                }
+            };
+        }
+
         public override async Task<GetBasketItemByProductResponse> GetBasketItemByProduct(GetBasketItemByProductRequest request, ServerCallContext context)
         {
             var result = await _mediator.Send(new GetBasketItemByProductQuery(Guid.Parse(request.Produtid)));
