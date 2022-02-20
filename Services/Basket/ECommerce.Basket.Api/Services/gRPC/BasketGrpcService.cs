@@ -20,6 +20,7 @@ namespace ECommerce.Basket.Api.Services.gRPC
             _mediator = mediator;
         }
 
+        #region ShoppingBasket
         public override async Task<CreateBasketResponse> CreateBasket(CreateBasketRequest request, ServerCallContext context)
         {
             var createCustomerBasketCommand = new CreateShoppingBasketCommand(
@@ -84,5 +85,67 @@ namespace ECommerce.Basket.Api.Services.gRPC
                 Message = JsonSerializer.Serialize(result.Errors)
             };
         }
+        #endregion
+
+        #region ShoppingBasketItem
+        public override async Task<GetBasketItemByProductResponse> GetBasketItemByProduct(GetBasketItemByProductRequest request, ServerCallContext context)
+        {
+            var result = await _mediator.Send(new GetBasketItemByProductQuery(Guid.Parse(request.Produtid)));
+
+            if(result == null)
+            {
+                return new GetBasketItemByProductResponse
+                {
+                    Item = null
+                };
+            }
+
+            return new GetBasketItemByProductResponse
+            {
+                Item = new BasketItem
+                {
+                    Id = Convert.ToString(result.Id),
+                    Name = result.Name,
+                    Image= result.Image,
+                    Value = Convert.ToDouble(result.Value),
+                    Quantity = result.Quantity,
+                    Productid = Convert.ToString(result.ProductId),
+                    Shoppingbasketid = Convert.ToString(result.ShoppingBasketId)
+                }
+            };
+        }
+
+        public override async Task<AddBasketItemResponse> AddBasketItem(AddBasketItemRequest request, ServerCallContext context)
+        {
+            var createBasketItemCommand = new CreateBasketItemCommand(
+                id: Guid.Parse(request.Id),
+                name: request.Name,
+                quantity: request.Quantity,
+                value: Convert.ToDecimal(request.Value),
+                image: request.Image,
+                productId: Guid.Parse(request.Productid),
+                shoppingBasketId: Guid.Parse(request.Shoppingbasketid)
+            );
+
+            var result = await _mediator.Send(createBasketItemCommand);
+
+            return new AddBasketItemResponse
+            {
+                Isvalid = result.IsValid,
+                Message = JsonSerializer.Serialize(result.Errors)
+            };
+        }
+
+        public override async Task<RemoveBasketItemResponse> RemoveBasketItem(RemoveBasketItemRequest request, ServerCallContext context)
+        {
+            var result = await _mediator.Send(new DeleteBasketItemCommand(Guid.Parse(request.Id)));
+
+            return new RemoveBasketItemResponse
+            {
+                Isvalid = result.IsValid,
+                Message = JsonSerializer.Serialize(result.Errors)
+            };
+        }
+        #endregion
     }
 }

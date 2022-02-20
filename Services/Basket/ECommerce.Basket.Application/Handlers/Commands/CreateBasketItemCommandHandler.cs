@@ -35,7 +35,7 @@ namespace ECommerce.Basket.Application.Handlers.Commands
                 return new ValidationResult(errors);
             }
 
-            var item = new BasketItem(id: request.Id, name: request.Name, quantity: request.Quantity, value: request.Value, image: request.Image, productId: Guid.NewGuid(), request.ShoppingBasketId);
+            var item = new BasketItem(id: request.Id, name: request.Name, quantity: request.Quantity, value: request.Value, image: request.Image, productId: request.ProductId, request.ShoppingBasketId);
 
             validation = item.Validate();
 

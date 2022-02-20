@@ -14,24 +14,38 @@ namespace ECommerce.Ordering.Gateway.Services.gRPC
             _client = client;
         }
 
+        #region ShoppingBasket
         public async Task<CreateBasketResponse> CreateShoppingBasket(CreateBasketRequest request)
         {
             return await _client.CreateBasketAsync(request);
         }
 
-        public async Task<GetBasketResponse> GetShoppingBasketByCustomer(Guid customerId)
+        public async Task<GetBasketResponse> GetShoppingBasketByCustomer(GetBasketByCustomerRequest request)
         {
-            return await _client.GetBasketByCustomerAsync(new GetBasketByCustomerRequest { Customerid = Convert.ToString(customerId) });
+            return await _client.GetBasketByCustomerAsync(request);
         }
 
-        public async Task<DeleteBasketResponse> DeleteShoppingBasket(Guid id)
+        public async Task<DeleteBasketResponse> DeleteShoppingBasket(DeleteBasketRequest request)
         {
-            var basketConsumer = new DeleteBasketRequest
-            {
-                Id = Convert.ToString(id)
-            };
-
-            return await _client.DeleteBasketAsync(basketConsumer);
+            return await _client.DeleteBasketAsync(request);
         }
+        #endregion
+
+        #region BasketItem
+        public async Task<GetBasketItemByProductResponse> GetBasketItemByProduct(GetBasketItemByProductRequest request)
+        {
+            return await _client.GetBasketItemByProductAsync(request);
+        }
+
+        public async Task<AddBasketItemResponse> AddBasketItem(AddBasketItemRequest request)
+        {
+            return await _client.AddBasketItemAsync(request);
+        }
+
+        public async Task<RemoveBasketItemResponse> RemoveBasketItem(RemoveBasketItemRequest request)
+        {
+            return await _client.RemoveBasketItemAsync(request);
+        }
+        #endregion
     }
 }

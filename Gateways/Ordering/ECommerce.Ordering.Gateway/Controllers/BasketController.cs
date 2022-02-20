@@ -12,14 +12,10 @@ namespace ECommerce.Ordering.Gateway.Controllers
     [ApiController]
     public class BasketController : ControllerBase
     {
-        private readonly IBasketService _basketService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IBasketGrpcClient _basketGrpcClient;
         
-        public BasketController(IBasketService basketService, IHttpContextAccessor httpContextAccessor, IBasketGrpcClient basketGrpcClient)
+        public BasketController(IBasketGrpcClient basketGrpcClient)
         {
-            _basketService = basketService;
-            _httpContextAccessor = httpContextAccessor;
             _basketGrpcClient = basketGrpcClient;
         }
 
@@ -28,7 +24,10 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpGet("{customerId:Guid}")]
         public async Task<IActionResult> Get(Guid customerId)
         {
-            var proto = await _basketGrpcClient.GetShoppingBasketByCustomer(customerId);
+            var proto = await _basketGrpcClient.GetShoppingBasketByCustomer(new Basket.Api.Protos.GetBasketByCustomerRequest
+            {
+                Customerid = Convert.ToString(customerId)
+            });
             
             if(proto.Basket == null)
             {
@@ -54,7 +53,10 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpDelete("basket/{customerId:Guid}")]
         public async Task<IActionResult> Delete(Guid customerId)
         {
-            var response = await _basketGrpcClient.DeleteShoppingBasket(customerId);
+            var response = await _basketGrpcClient.DeleteShoppingBasket(new Basket.Api.Protos.DeleteBasketRequest
+            {
+                Id = Convert.ToString(customerId)
+            });
 
             if (!response.Isvalid)
                 return BadRequest(response.Message);

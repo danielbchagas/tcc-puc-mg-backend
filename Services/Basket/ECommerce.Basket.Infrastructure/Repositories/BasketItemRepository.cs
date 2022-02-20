@@ -33,7 +33,7 @@ namespace ECommerce.Basket.Infrastructure.Repositories
 
         public async Task<BasketItem> GetByProductId(Guid productId)
         {
-            return await _context.BasketItems.FirstOrDefaultAsync(ic => ic.Id == productId);
+            return await _context.BasketItems.FirstOrDefaultAsync(ic => ic.ProductId == productId);
         }
 
         public async Task<BasketItem> Get(Guid id)

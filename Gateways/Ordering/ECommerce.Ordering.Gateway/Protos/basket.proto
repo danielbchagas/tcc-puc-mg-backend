@@ -8,6 +8,10 @@ service ShoppingBasketService {
 	rpc GetBasketByCustomer(GetBasketByCustomerRequest) returns(GetBasketResponse);
 	rpc CreateBasket(CreateBasketRequest) returns(CreateBasketResponse);
 	rpc DeleteBasket(DeleteBasketRequest) returns(DeleteBasketResponse);
+
+	rpc GetBasketItemByProduct(GetBasketItemByProductRequest) returns(GetBasketItemByProductResponse);
+	rpc AddBasketItem(AddBasketItemRequest) returns(AddBasketItemResponse);
+	rpc RemoveBasketItem(RemoveBasketItemRequest) returns(RemoveBasketItemResponse);
 }
 
 message CreateBasketRequest {
@@ -33,6 +37,38 @@ message DeleteBasketRequest {
 }
 
 message DeleteBasketResponse {
+	bool isvalid = 1;
+    string message = 2;
+}
+
+message GetBasketItemByProductRequest {
+	string produtid = 1;
+}
+
+message GetBasketItemByProductResponse {
+	BasketItem item = 1;
+}
+
+message AddBasketItemRequest {
+	string id = 1;
+	string name = 2;
+    int32 Quantity = 3;
+    double value = 4;
+    string image = 5;
+    string productid = 6;
+    string shoppingbasketid = 7;
+}
+
+message AddBasketItemResponse {
+	bool isvalid = 1;
+    string message = 2;
+}
+
+message RemoveBasketItemRequest {
+	string id = 1;
+}
+
+message RemoveBasketItemResponse {
 	bool isvalid = 1;
     string message = 2;
 }
