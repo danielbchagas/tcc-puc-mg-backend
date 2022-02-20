@@ -1,14 +1,16 @@
 ﻿using ECommerce.Ordering.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
+using System;
 using System.Collections.Generic;
 
 namespace ECommerce.Ordering.Application.Commands
 {
     public class CreateOrderCommand : IRequest<ValidationResult>
     {
-        public CreateOrderCommand(string fullName, string document, string phone, string email, decimal valor, string firstLine, string secondLine, string city, string state, string zipCode)
+        public CreateOrderCommand(Guid id, string fullName, string document, string phone, string email, decimal valor, string firstLine, string secondLine, string city, string state, string zipCode)
         {
+            Id = id;
             FullName = fullName;
             Document = document;
             Phone = phone;
@@ -23,6 +25,7 @@ namespace ECommerce.Ordering.Application.Commands
             Value = valor;
         }
 
+        public Guid Id { get; set; }
         public string FullName { get; set; }
         public string Document { get; set; }
         public string Phone { get; set; }

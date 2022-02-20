@@ -5,9 +5,9 @@ using FluentValidation.Results;
 
 namespace ECommerce.Ordering.Domain.Models
 {
-    public class OrderItem : Entity
+    public class OrderItem
     {
-        public OrderItem(string name, int quantity, decimal value, string image, Guid productId, Guid customerBasketId)
+        public OrderItem(Guid id, string name, int quantity, decimal value, string image, Guid productId, Guid customerBasketId)
         {
             Name = name;
             Quantity = quantity;
@@ -17,6 +17,7 @@ namespace ECommerce.Ordering.Domain.Models
             CustomerBasketId = customerBasketId;
         }
 
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
         public decimal Value { get; set; }

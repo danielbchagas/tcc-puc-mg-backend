@@ -10,18 +10,16 @@ namespace ECommerce.Ordering.Application.Handlers.Commands
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, ValidationResult>
     {
-        private readonly IMediator _mediator;
         private readonly IOrderRepository _repository;
 
-        public CreateOrderCommandHandler(IMediator mediator, IOrderRepository repository)
+        public CreateOrderCommandHandler(IOrderRepository repository)
         {
-            _mediator = mediator;
             _repository = repository;
         }
 
         public async Task<ValidationResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = new Order(fullName: request.FullName, document: request.Document, phone: request.Phone, email: request.Email, firstLine: request.FirstLine, secondLine: request.SecondLine, city: request.City, state: request.State, zipCode: request.ZipCode);
+            var order = new Order(id: request.Id, fullName: request.FullName, document: request.Document, phone: request.Phone, email: request.Email, firstLine: request.FirstLine, secondLine: request.SecondLine, city: request.City, state: request.State, zipCode: request.ZipCode);
 
             var validation = order.Validate();
 
