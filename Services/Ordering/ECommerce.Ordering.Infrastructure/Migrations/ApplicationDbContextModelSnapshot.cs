@@ -46,6 +46,9 @@ namespace ECommerce.Ordering.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(20)");
 
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime");
+
                     b.Property<string>("SecondLine")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
@@ -76,9 +79,6 @@ namespace ECommerce.Ordering.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CustomerBasketId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Image")
                         .HasColumnType("text");
 
@@ -86,11 +86,11 @@ namespace ECommerce.Ordering.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("TEXT");
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ProductId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -109,7 +109,9 @@ namespace ECommerce.Ordering.Infrastructure.Migrations
                 {
                     b.HasOne("ECommerce.Ordering.Domain.Models.Order", "Order")
                         .WithMany("Items")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
                 });

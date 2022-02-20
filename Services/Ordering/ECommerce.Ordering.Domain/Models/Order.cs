@@ -22,7 +22,8 @@ namespace ECommerce.Ordering.Domain.Models
             State = state;
             ZipCode = zipCode;
 
-            Status = "Processando";
+            Status = "PROCESSANDO";
+            RegistrationDate = DateTime.Now;
             Items = new List<OrderItem>();
         }
 
@@ -40,7 +41,9 @@ namespace ECommerce.Ordering.Domain.Models
 
         public decimal Value { get; private set; }
         public string Status { get; set; }
-        
+
+        public DateTime RegistrationDate { get; set; }
+
         public ICollection<OrderItem> Items { get; set; }
 
         public ValidationResult Validate()

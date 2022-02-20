@@ -4,6 +4,6 @@ namespace ECommerce.Ordering.Gateway.Interfaces
 {
     public interface IOrderingGrpcClient
     {
-        Task<Ordering.Api.Protos.CreateOrderResponse> Create(Ordering.Api.Protos.CreateOrderRequest request);
+        Task<Ordering.Api.Protos.CreateOrderResponse> CreateOrder(Ordering.Api.Protos.CreateOrderRequest request);
     }
 }

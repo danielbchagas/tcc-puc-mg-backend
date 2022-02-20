@@ -4,7 +4,7 @@ option csharp_namespace = "ECommerce.Customer.Api.Protos";
 
 package CustomerApi;
 
-service Customer {
+service CustomerService {
 	rpc CreateCustomer(CreateUserRequest) returns(CreateUserResponse);
 	rpc GetCustomer(GetUserRequest) returns (GetUserResponse);
 }

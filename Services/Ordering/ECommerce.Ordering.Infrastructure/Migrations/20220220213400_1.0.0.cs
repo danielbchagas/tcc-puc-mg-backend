@@ -22,7 +22,8 @@ namespace ECommerce.Ordering.Infrastructure.Migrations
                     State = table.Column<string>(type: "char(2)", nullable: false),
                     ZipCode = table.Column<string>(type: "varchar(9)", nullable: false),
                     Value = table.Column<decimal>(type: "money", nullable: false),
-                    Status = table.Column<string>(type: "char(15)", nullable: false)
+                    Status = table.Column<string>(type: "char(15)", nullable: false),
+                    RegistrationDate = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,9 +39,8 @@ namespace ECommerce.Ordering.Infrastructure.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Value = table.Column<decimal>(type: "money", nullable: false),
                     Image = table.Column<string>(type: "text", nullable: true),
-                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CustomerBasketId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    OrderId = table.Column<Guid>(type: "TEXT", nullable: true)
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,7 +50,7 @@ namespace ECommerce.Ordering.Infrastructure.Migrations
                         column: x => x.OrderId,
                         principalTable: "Ordering",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

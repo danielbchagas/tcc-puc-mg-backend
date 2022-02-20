@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace ECommerce.Customer.Api.Services.gRPC
 {
     [Authorize]
-    public class CustomerGrpcService : ECommerce.Customer.Api.Protos.Customer.CustomerBase
+    public class CustomerGrpcService : ECommerce.Customer.Api.Protos.CustomerService.CustomerServiceBase
     {
         private readonly IMediator _mediator;
 
@@ -82,19 +82,19 @@ namespace ECommerce.Customer.Api.Services.gRPC
                         Number = result.Document.Number,
                         Userid = Convert.ToString(result.Document.UserId)
                     },
-                    Email = new Email
+                    Email = result.Email != null ? new Email
                     {
                         Id = Convert.ToString(result.Email.Id),
                         Address = result.Email.Address,
                         Userid = Convert.ToString(result.Email.UserId)
-                    },
-                    Phone = new Phone
+                    } : null,
+                    Phone = result.Phone != null ? new Phone
                     {
                         Id = Convert.ToString(result.Phone.Id),
                         Number= result.Phone.Number,
                         Userid = Convert.ToString(result.Phone.UserId)
-                    },
-                    Address = new Address
+                    } : null,
+                    Address = result.Address != null ? new Address
                     {
                         Id = Convert.ToString(result.Address.Id),
                         Firstline = result.Address.FirstLine,
@@ -103,7 +103,7 @@ namespace ECommerce.Customer.Api.Services.gRPC
                         State = result.Address.State,
                         Zipcode = result.Address.ZipCode,
                         Userid = Convert.ToString(result.Address.UserId)
-                    }
+                    } : null
                 }
             };
         }

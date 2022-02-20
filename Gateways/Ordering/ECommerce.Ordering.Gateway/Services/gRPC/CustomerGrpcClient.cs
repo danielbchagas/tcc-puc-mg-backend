@@ -5,9 +5,9 @@ namespace ECommerce.Ordering.Gateway.Services.gRPC
 {
     public class CustomerGrpcClient : ICustomerGrpcClient
     {
-        private readonly ECommerce.Customer.Api.Protos.Customer.CustomerClient _client;
+        private readonly ECommerce.Customer.Api.Protos.CustomerService.CustomerServiceClient _client;
 
-        public CustomerGrpcClient(ECommerce.Customer.Api.Protos.Customer.CustomerClient client)
+        public CustomerGrpcClient(ECommerce.Customer.Api.Protos.CustomerService.CustomerServiceClient client)
         {
             _client = client;
         }

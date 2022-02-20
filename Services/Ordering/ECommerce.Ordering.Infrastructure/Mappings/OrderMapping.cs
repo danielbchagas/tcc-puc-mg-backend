@@ -58,6 +58,10 @@ namespace ECommerce.Ordering.Infrastructure.Mappings
             builder.Property(o => o.Status)
                 .HasColumnType("char(15)")
                 .IsRequired();
+
+            builder.Property(o => o.RegistrationDate)
+                .HasColumnType("datetime")
+                .IsRequired();
             
             builder.HasMany(c => c.Items);
         }

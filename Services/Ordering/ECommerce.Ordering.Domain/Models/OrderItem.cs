@@ -15,7 +15,7 @@ namespace ECommerce.Ordering.Domain.Models
             Value = value;
             Image = image;
             ProductId = productId;
-            OrdertId = orderId;
+            OrderId = orderId;
         }
 
         public Guid Id { get; set; }
@@ -25,7 +25,7 @@ namespace ECommerce.Ordering.Domain.Models
         public string Image { get; set; }
 
         public Guid ProductId { get; set; }
-        public Guid OrdertId { get; set; }
+        public Guid OrderId { get; set; }
 
         [JsonIgnore]
         public Order Order { get; set; }

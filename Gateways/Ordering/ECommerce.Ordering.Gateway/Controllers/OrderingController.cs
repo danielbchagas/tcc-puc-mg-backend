@@ -38,6 +38,9 @@ namespace ECommerce.Ordering.Gateway.Controllers
             if (customer == null)
                 return BadRequest("Cliente não encontrado.");
 
+            if (customer.Document == null || customer.Email == null || customer.Phone == null || customer.Address == null)
+                return BadRequest("Verifique seus dados cadastrais.");
+
             var order = new Api.Protos.CreateOrderRequest
             {
                 Id = Convert.ToString(Guid.NewGuid()),
@@ -54,7 +57,6 @@ namespace ECommerce.Ordering.Gateway.Controllers
                 Value = basket.Value,
             };
 
-
             foreach (var item in basket.Items)
             {
                 order.Items.Add(new Api.Protos.OrderItem
@@ -69,7 +71,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
                 });
             }
 
-            var response = await _orderingGrpcClient.Create(order);
+            var response = await _orderingGrpcClient.CreateOrder(order);
 
             if (!response.Isvalid)
                 return BadRequest("Falha ao criar o pedido.");

@@ -34,7 +34,7 @@ namespace ECommerce.Basket.Domain.Models
             if (!validationResult.IsValid)
                 return validationResult;
 
-            var exists = Items.FirstOrDefault(i => i.Id == item.Id);
+            var exists = Items.FirstOrDefault(i => i.ProductId == item.ProductId);
 
             if (exists != null)
             {

@@ -13,7 +13,7 @@ namespace ECommerce.Ordering.Gateway.Services.gRPC
             _client = client;
         }
 
-        public async Task<CreateOrderResponse> Create(CreateOrderRequest request)
+        public async Task<CreateOrderResponse> CreateOrder(CreateOrderRequest request)
         {
             return await _client.CreateOrderAsync(request);
         }
