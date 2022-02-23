@@ -17,14 +17,20 @@ namespace ECommerce.Ordering.Api.Configurations
 
                 options.AddPolicy("staging", builder =>
                 {
-                    builder.WithOrigins("https://ecommerce-app.azurewebsites.net");
+                    builder.WithOrigins(
+                        "http://ecommerce-app.azurewebsites.net",
+                        "https://ecommerce-app.azurewebsites.net"
+                    );
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
                 });
 
                 options.AddPolicy("production", builder =>
                 {
-                    builder.WithOrigins("https://ecommerce-app.azurewebsites.net");
+                    builder.WithOrigins(
+                        "http://ecommerce-app.azurewebsites.net",
+                        "https://ecommerce-app.azurewebsites.net"
+                    );
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
                 });
