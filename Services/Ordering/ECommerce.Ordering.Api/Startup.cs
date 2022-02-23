@@ -34,6 +34,7 @@ namespace ECommerce.Ordering.Api
             services.AddEntityFrameworkConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddCorsConfiguration();
+            services.AddDependencyInjectionConfiguration();
 
             services.AddControllers();
 
