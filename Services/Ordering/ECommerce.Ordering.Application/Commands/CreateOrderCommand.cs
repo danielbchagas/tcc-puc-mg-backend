@@ -23,6 +23,7 @@ namespace ECommerce.Ordering.Application.Commands
             ZipCode = zipCode;
 
             Value = value;
+            Items = new List<OrderItem>();
         }
 
         public Guid Id { get; set; }
@@ -38,7 +39,6 @@ namespace ECommerce.Ordering.Application.Commands
         public string ZipCode { get; set; }
 
         public decimal Value { get; set; }
-        public string Status { get; set; }
 
         public ICollection<OrderItem> Items { get; set; }
     }

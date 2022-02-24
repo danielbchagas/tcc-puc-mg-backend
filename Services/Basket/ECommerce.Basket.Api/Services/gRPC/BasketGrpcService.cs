@@ -68,6 +68,7 @@ namespace ECommerce.Basket.Api.Services.gRPC
                     Image = item.Image,
                     Quantity = item.Quantity,
                     Value = Convert.ToDouble(item.Value),
+                    Productid = Convert.ToString(item.ProductId),
                     Shoppingbasketid = Convert.ToString(item.ShoppingBasketId)
                 });
             }

@@ -19,7 +19,22 @@ namespace ECommerce.Ordering.Application.Handlers.Commands
 
         public async Task<ValidationResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = new Order(id: request.Id, fullName: request.FullName, document: request.Document, phone: request.Phone, email: request.Email, firstLine: request.FirstLine, secondLine: request.SecondLine, city: request.City, state: request.State, zipCode: request.ZipCode);
+            var order = new Order(
+                id: request.Id, 
+                fullName: request.FullName, 
+                document: request.Document, 
+                phone: request.Phone, 
+                email: request.Email, 
+                firstLine: request.FirstLine, 
+                secondLine: request.SecondLine, 
+                city: request.City, 
+                state: request.State, 
+                zipCode: request.ZipCode
+            );
+
+            order.Items = request.Items;
+
+            order.Totalize();
 
             var validation = order.Validate();
 
