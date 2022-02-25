@@ -60,7 +60,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
             {
                 order.Items.Add(new Api.Protos.OrderItem
                 {
-                    Id = item.Id,
+                    Id = Convert.ToString(Guid.NewGuid()),
                     Name = item.Name,
                     Image = item.Image,
                     Value = item.Value,
