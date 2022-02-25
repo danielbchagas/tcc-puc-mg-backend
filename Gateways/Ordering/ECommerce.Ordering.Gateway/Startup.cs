@@ -2,6 +2,7 @@ using ECommerce.Ordering.Gateway.Configurations;
 using ECommerce.Ordering.Gateway.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,12 +28,13 @@ namespace ECommerce.Ordering.Gateway
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRefitConfiguration(Configuration);
             services.AddIdentityConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddOptionsConfiguration(Configuration);
             services.AddCorsConfiguration();
             services.AddGrpcConfiguration(Configuration);
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddControllers();
         }
