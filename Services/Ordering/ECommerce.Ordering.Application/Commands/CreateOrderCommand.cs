@@ -22,7 +22,6 @@ namespace ECommerce.Ordering.Application.Commands
             State = state;
             ZipCode = zipCode;
 
-            Value = value;
             Items = new List<OrderItem>();
         }
 
@@ -37,8 +36,6 @@ namespace ECommerce.Ordering.Application.Commands
         public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
-
-        public decimal Value { get; set; }
 
         public ICollection<OrderItem> Items { get; set; }
     }

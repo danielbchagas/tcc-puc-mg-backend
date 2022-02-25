@@ -48,7 +48,6 @@ namespace ECommerce.Ordering.Gateway.Controllers
                 Document = customer.Document.Number,
                 Email = customer.Email.Address,
                 Phone = customer.Phone.Number,
-                Status = "PROCESSANDO",
                 Firstline = customer.Address.Firstline,
                 Secondline = customer.Address.Secondline,
                 City = customer.Address.City,

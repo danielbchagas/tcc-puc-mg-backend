@@ -20,8 +20,7 @@ message CreateOrderRequest {
     string state = 9;
     string zipcode = 10;
     double value = 11;
-    string status = 12;
-	repeated OrderItem items = 13;
+	repeated OrderItem items = 12;
 }
 
 message CreateOrderResponse {
