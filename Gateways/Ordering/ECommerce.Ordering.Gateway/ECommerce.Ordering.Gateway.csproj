@@ -29,13 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Services\Basket\ECommerce.Basket.Domain\ECommerce.Basket.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Services\Catalog\ECommerce.Catalog.Domain\ECommerce.Catalog.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Services\Customer\ECommerce.Customer.Domain\ECommerce.Customer.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Services\Ordering\ECommerce.Ordering.Domain\ECommerce.Ordering.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
 	  <Protobuf Include="Protos\basket.proto" GrpcServices="Client" />
 	  <Protobuf Include="Protos\catalog.proto" GrpcServices="Client" />
 	  <Protobuf Include="Protos\customer.proto" GrpcServices="Client" />

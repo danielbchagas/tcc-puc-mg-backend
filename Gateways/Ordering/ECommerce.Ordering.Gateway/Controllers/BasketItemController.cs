@@ -1,7 +1,5 @@
-﻿using ECommerce.Catalog.Domain.Models;
-using ECommerce.Ordering.Gateway.Interfaces;
+﻿using ECommerce.Ordering.Gateway.Interfaces;
 using ECommerce.Ordering.Gateway.Models;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

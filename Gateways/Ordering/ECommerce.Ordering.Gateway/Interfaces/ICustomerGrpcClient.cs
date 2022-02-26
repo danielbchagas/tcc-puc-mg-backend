@@ -1,6 +1,4 @@
-﻿using ECommerce.Customer.Domain.Models;
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Gateway.Interfaces
 {
