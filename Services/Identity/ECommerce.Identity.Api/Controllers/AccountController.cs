@@ -141,9 +141,6 @@ namespace ECommerce.Identity.Api.Controllers
                 }
             }
 
-            if (user == null)
-                return BadRequest("Autenticação externa inválida.");
-            
             var token = await _jwtHandler.GenerateNewToken(user.Email);
 
             return Ok(new { Token = token, IsAuthSuccessful = true });
