@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace ECommerce.Identity.Api.Middlewares
 {
@@ -27,10 +27,11 @@ namespace ECommerce.Identity.Api.Middlewares
             {
                 _logger.LogError(e.Message);
 
-                var details = new ProblemDetails 
+                var details = new ProblemDetails
                 {
-                    Title = e.Message ?? "Ocorreu um erro com a requisição.",
-                    Instance = context.Request.Path
+                    Title = e.Message,
+                    Instance = context.Request.Path,
+                    Status = context.Response.StatusCode
                 };
 
                 await context.Response.WriteAsJsonAsync(details);
