@@ -19,7 +19,7 @@ namespace ECommerce.Customer.Api.Services.gRPC
             _mediator = mediator;
         }
 
-        public override async Task<ECommerce.Customer.Api.Protos.CreateUserResponse> CreateCustomer(ECommerce.Customer.Api.Protos.CreateUserRequest request, ServerCallContext context)
+        public override async Task<Protos.CreateUserResponse> CreateCustomer(Protos.CreateUserRequest request, ServerCallContext context)
         {
             var document = new Domain.Models.Document(
                 number: request.Document.Number,
@@ -75,12 +75,12 @@ namespace ECommerce.Customer.Api.Services.gRPC
                     Firstname = result.FirstName,
                     Lastname = result.LastName,
                     Enabled = result.Enabled,
-                    Document = new Protos.Document
+                    Document = result.Document != null ? new Protos.Document
                     {
                         Id = Convert.ToString(result.Document.Id),
                         Number = result.Document.Number,
                         Userid = Convert.ToString(result.Document.UserId)
-                    },
+                    } : null,
                     Email = result.Email != null ? new Protos.Email
                     {
                         Id = Convert.ToString(result.Email.Id),
