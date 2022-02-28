@@ -15,7 +15,7 @@ namespace ECommerce.Identity.Api.Configurations
 
             services.AddScoped<ICustomerGrpcClient, CustomerGrpcClient>();
 
-            services.AddGrpcClient<Customer.Api.Protos.Customer.CustomerClient>(options =>
+            services.AddGrpcClient<Customer.Api.Protos.CustomerService.CustomerServiceClient>(options =>
             {
                 options.Address = new Uri(servicesOptions.CustomerServiceUrl);
             });

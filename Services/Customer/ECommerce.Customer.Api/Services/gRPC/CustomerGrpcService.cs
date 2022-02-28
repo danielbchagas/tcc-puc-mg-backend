@@ -1,5 +1,4 @@
-﻿using ECommerce.Customer.Api.Protos;
-using ECommerce.Customer.Application.Commands;
+﻿using ECommerce.Customer.Application.Commands;
 using ECommerce.Customer.Application.Queries;
 using Grpc.Core;
 using MediatR;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 namespace ECommerce.Customer.Api.Services.gRPC
 {
     [Authorize]
-    public class CustomerGrpcService : ECommerce.Customer.Api.Protos.CustomerService.CustomerServiceBase
+    public class CustomerGrpcService : Protos.CustomerService.CustomerServiceBase
     {
         private readonly IMediator _mediator;
 
@@ -22,17 +21,17 @@ namespace ECommerce.Customer.Api.Services.gRPC
 
         public override async Task<ECommerce.Customer.Api.Protos.CreateUserResponse> CreateCustomer(ECommerce.Customer.Api.Protos.CreateUserRequest request, ServerCallContext context)
         {
-            var document = new ECommerce.Customer.Domain.Models.Document(
+            var document = new Domain.Models.Document(
                 number: request.Document.Number,
                 userId: Guid.Parse(request.Document.Userid)
             );
 
-            var email = new ECommerce.Customer.Domain.Models.Email(
+            var email = new Domain.Models.Email(
                 address: request.Email.Address,
                 userId: Guid.Parse(request.Email.Userid)
             );
 
-            var phone = new ECommerce.Customer.Domain.Models.Phone(
+            var phone = new Domain.Models.Phone(
                 number: request.Phone.Number,
                 userId: Guid.Parse(request.Phone.Userid)
             );
@@ -49,52 +48,52 @@ namespace ECommerce.Customer.Api.Services.gRPC
 
             var result = await _mediator.Send(createUserCommand);
 
-            return new CreateUserResponse()
+            return new Protos.CreateUserResponse()
             {
                 Isvalid = result.IsValid,
                 Message = JsonSerializer.Serialize(result.Errors)
             };
         }
 
-        public override async Task<GetUserResponse> GetCustomer(GetUserRequest request, ServerCallContext context)
+        public override async Task<Protos.GetUserResponse> GetCustomer(Protos.GetUserRequest request, ServerCallContext context)
         {
             var result = await _mediator.Send(new GetUserQuery(Guid.Parse(request.Id)));
 
             if(result == null)
             {
-                return new GetUserResponse
+                return new Protos.GetUserResponse
                 {
                     User = null
                 };
             }
 
-            return new GetUserResponse
+            return new Protos.GetUserResponse
             {
-                User = new User
+                User = new Protos.User
                 {
                     Id = Convert.ToString(result.Id),
                     Firstname = result.FirstName,
                     Lastname = result.LastName,
                     Enabled = result.Enabled,
-                    Document = new Document
+                    Document = new Protos.Document
                     {
                         Id = Convert.ToString(result.Document.Id),
                         Number = result.Document.Number,
                         Userid = Convert.ToString(result.Document.UserId)
                     },
-                    Email = result.Email != null ? new Email
+                    Email = result.Email != null ? new Protos.Email
                     {
                         Id = Convert.ToString(result.Email.Id),
                         Address = result.Email.Address,
                         Userid = Convert.ToString(result.Email.UserId)
                     } : null,
-                    Phone = result.Phone != null ? new Phone
+                    Phone = result.Phone != null ? new Protos.Phone
                     {
                         Id = Convert.ToString(result.Phone.Id),
                         Number= result.Phone.Number,
                         Userid = Convert.ToString(result.Phone.UserId)
                     } : null,
-                    Address = result.Address != null ? new Address
+                    Address = result.Address != null ? new Protos.Address
                     {
                         Id = Convert.ToString(result.Address.Id),
                         Firstline = result.Address.FirstLine,

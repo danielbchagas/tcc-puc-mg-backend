@@ -80,7 +80,7 @@ namespace ECommerce.Identity.Api.Controllers
                     return BadRequest(createCustomerResult.Errors.Select(e => e.ErrorMessage));
 
 #elif gRPC
-                var createCustomerResult = await CreateCustomerGrpc(user);
+                var createCustomerResult = await _customerGrpcClient.Create(user);
 
                 if (!createCustomerResult.Isvalid)
                     return BadRequest(createCustomerResult.Message);
@@ -135,7 +135,7 @@ namespace ECommerce.Identity.Api.Controllers
                 {
                     user = new IdentityUser { Email = payload.Email, UserName = payload.Email };
                     await _userManager.CreateAsync(user);
-                    
+
                     await _userManager.AddToRoleAsync(user, "Viewer");
                     await _userManager.AddLoginAsync(user, info);
                 }
@@ -262,11 +262,6 @@ namespace ECommerce.Identity.Api.Controllers
                 await CreateUserRollback(user);
 
             return result;
-        }
-
-        private async Task<ECommerce.Customer.Api.Protos.CreateUserResponse> CreateCustomerGrpc(SignUpUserDto user)
-        {
-            return await _customerGrpcClient.Create(user);
         }
         #endregion
     }
