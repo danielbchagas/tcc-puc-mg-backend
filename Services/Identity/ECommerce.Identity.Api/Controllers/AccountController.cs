@@ -29,14 +29,12 @@ namespace ECommerce.Identity.Api.Controllers
         private readonly ILogger<AccountController> _logger;
         private readonly JwtHandler _jwtHandler;
         private readonly RabbitMqOption _rabbitMQOptions;
-        private readonly ICustomerService _customerService;
         private readonly ICustomerGrpcClient _customerGrpcClient;
 
         public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
             ILogger<AccountController> logger, 
             IOptions<RabbitMqOption> rabbitMQOptions,
-            ICustomerService customerService,
             JwtHandler jwtHandler,
             ICustomerGrpcClient customerGrpcClient)
         {
@@ -44,7 +42,6 @@ namespace ECommerce.Identity.Api.Controllers
             _userManager = userManager;
             _logger = logger;
             _rabbitMQOptions = rabbitMQOptions.Value;
-            _customerService = customerService;
             _jwtHandler = jwtHandler;
             _customerGrpcClient = customerGrpcClient;
         }
@@ -54,25 +51,27 @@ namespace ECommerce.Identity.Api.Controllers
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp(SignUpUserDto user)
         {
-            var newUser = new IdentityUser
-            {
-                UserName = user.Email,
-                Email = user.Email,
-                PhoneNumber = user.Phone
-            };
-
-            var createUserResult = await _userManager.CreateAsync(newUser, user.Password);
-
-            if (!createUserResult.Succeeded)
-            {
-                var errors = createUserResult.Errors.Select(e => e.Description);
-
-                _logger.LogError($"Erro em: {HttpContext.Request.Path}", errors);
-                return BadRequest(errors);
-            }
+            var identityUser = new IdentityUser();
 
             try
             {
+                var createUserResult = await _userManager.CreateAsync(
+                    new IdentityUser { UserName = user.Email, Email = user.Email, PhoneNumber = user.Phone}, 
+                    user.Password
+                );
+
+                identityUser = await _userManager.FindByEmailAsync(user.Email);
+
+                await _userManager.AddToRoleAsync(identityUser, "Customer");
+
+                if (!createUserResult.Succeeded)
+                {
+                    var errors = createUserResult.Errors.Select(e => e.Description);
+
+                    _logger.LogError($"Erro em: {HttpContext.Request.Path}", errors);
+                    return BadRequest(errors);
+                }
+
 #if RABBITMQ
                 var createCustomerResult = await CreateCustomerRabbitMq(user);
 
@@ -88,7 +87,8 @@ namespace ECommerce.Identity.Api.Controllers
             }
             catch (Exception e)
             {
-                await CreateUserRollback(user);
+                if(identityUser != null)
+                    await _userManager.DeleteAsync(identityUser);
 
                 _logger.LogError(e.Message, e.InnerException);
                 return BadRequest("Não foi possível efetivar o seu cadastro.");
@@ -131,13 +131,36 @@ namespace ECommerce.Identity.Api.Controllers
             {
                 user = await _userManager.FindByEmailAsync(payload.Email);
 
-                if (user == null)
+                try
                 {
-                    user = new IdentityUser { Email = payload.Email, UserName = payload.Email };
-                    await _userManager.CreateAsync(user);
+                    if (user == null)
+                    {
+                        user = new IdentityUser { Email = payload.Email, UserName = payload.Email };
+                        await _userManager.CreateAsync(user);
 
-                    await _userManager.AddToRoleAsync(user, "Viewer");
-                    await _userManager.AddLoginAsync(user, info);
+                        await _userManager.AddToRoleAsync(user, "Customer");
+                        //await _userManager.AddLoginAsync(user, info);
+
+                        var createCustomerResult = await _customerGrpcClient.Create(new SignUpUserDto
+                        {
+                            FirstName = payload.GivenName,
+                            LastName = payload.FamilyName,
+                            Email = payload.Email,
+                            Phone = string.Empty,
+                            Document = string.Empty
+                        });
+
+                        if (!createCustomerResult.Isvalid)
+                            return BadRequest(createCustomerResult.Message);
+                    }
+                }
+                catch (Exception e)
+                {
+                    if(user != null)
+                        await _userManager.DeleteAsync(user);
+
+                    _logger.LogError(e.Message, e.InnerException);
+                    return BadRequest("Não foi possível efetivar o seu cadastro.");
                 }
             }
 
@@ -147,12 +170,6 @@ namespace ECommerce.Identity.Api.Controllers
         }
 
         #region Customer registration
-        private async Task CreateUserRollback(SignUpUserDto user)
-        {
-            var identityUser = await _userManager.FindByEmailAsync(user.Email);
-            await _userManager.DeleteAsync(identityUser);
-        }
-
         private async Task<ValidationResult> CreateCustomerRabbitMq(SignUpUserDto user)
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
@@ -217,51 +234,9 @@ namespace ECommerce.Identity.Api.Controllers
                 validation.Errors.AddRange(phoneResult.Errors);
 
             if (!validation.IsValid)
-                await CreateUserRollback(user);
+                await _userManager.DeleteAsync(identityUser);
 
             return validation;
-        }
-
-        private async Task<IApiResponse> CreateCustomerRest(SignUpUserDto user)
-        {
-            var identityUser = await _userManager.FindByEmailAsync(user.Email);
-
-            var customer = new CustomerDto() 
-            {
-                Id = Guid.Parse(identityUser.Id),
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Enabled = true
-            };
-
-            var document = new DocumentDto
-            {
-                Number = user.Document,
-                UserId = customer.Id
-            };
-
-            var email = new EmailDto
-            {
-                Address = user.Email,
-                UserId = customer.Id
-            };
-
-            var phone = new PhoneDto
-            {
-                Number = user.Phone,
-                UserId = customer.Id
-            };
-
-            customer.Document = document;
-            customer.Email = email;
-            customer.Phone = phone;
-
-            var result = await _customerService.Create(customer, await _jwtHandler.GenerateNewToken(user.Email));
-
-            if (!result.IsSuccessStatusCode)
-                await CreateUserRollback(user);
-
-            return result;
         }
         #endregion
     }

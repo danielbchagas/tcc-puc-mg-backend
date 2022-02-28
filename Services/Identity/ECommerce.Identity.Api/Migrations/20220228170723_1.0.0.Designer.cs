@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Identity.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220126221423_initial")]
-    partial class initial
+    [Migration("20220228170723_1.0.0")]
+    partial class _100
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,9 +47,16 @@ namespace ECommerce.Identity.Api.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "b4aa11ea-ad2a-49bd-b59d-c13c0f50629b",
+                            ConcurrencyStamp = "0c5dcb0b-1ce5-4cc9-b052-1824fe3ee51c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "5EB7CD58-2775-48A5-8E6B-BC935C582222",
+                            ConcurrencyStamp = "5de7bf49-94dc-40a0-93fb-a3d527373e4f",
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
                         });
                 });
 
@@ -144,13 +151,13 @@ namespace ECommerce.Identity.Api.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ec4d216b-7787-4473-8353-f100e2b46c8c",
+                            ConcurrencyStamp = "c5d4a6b0-09f4-431c-9e44-321f69336271",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKo6INvNwm6UO3fKRXRZExK8Jvk/SmHP+sprCvqzBv/3+c7+2wtoQ0+XQRqe8sNmww==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGE/5qvKC0d9BZu0zmvB7f78y16AFXfdx/+g9A4x4Lk1qWzNPyCNXV5F7tSwcH+DcQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "504ef2e5-40fe-4867-a143-98417ca24487",
+                            SecurityStamp = "c94642ee-a7d0-4023-a4d5-352691308517",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });

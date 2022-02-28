@@ -31,7 +31,6 @@ namespace ECommerce.Identity.Api
             services.AddOptionsConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddIdentityConfiguration(Configuration);
-            services.AddRefitConfiguration(Configuration);
             services.AddCorsConfiguration();
             services.AddGrpcConfiguration(Configuration);
 
