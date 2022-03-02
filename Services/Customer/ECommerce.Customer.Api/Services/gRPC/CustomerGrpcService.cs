@@ -21,29 +21,23 @@ namespace ECommerce.Customer.Api.Services.gRPC
 
         public override async Task<Protos.CreateUserResponse> CreateCustomer(Protos.CreateUserRequest request, ServerCallContext context)
         {
-            var document = new Domain.Models.Document(
-                number: request.Document.Number,
-                userId: Guid.Parse(request.Document.Userid)
-            );
-
-            var email = new Domain.Models.Email(
-                address: request.Email.Address,
-                userId: Guid.Parse(request.Email.Userid)
-            );
-
-            var phone = new Domain.Models.Phone(
-                number: request.Phone.Number,
-                userId: Guid.Parse(request.Phone.Userid)
-            );
-
             var createUserCommand = new CreateUserCommand(
                 id: Guid.Parse(request.Id),
                 firstName: request.Firstname,
                 lastName: request.Lastname,
                 enabled: true,
-                document: document,
-                email: email,
-                phone: phone
+                document: request.Document != null ? new Domain.Models.Document(
+                    number: request.Document.Number,
+                    userId: Guid.Parse(request.Document.Userid)
+                ) : null,
+                email: request.Email != null ? new Domain.Models.Email(
+                    address: request.Email.Address,
+                    userId: Guid.Parse(request.Email.Userid)
+                ) : null,
+                phone: request.Phone != null ? new Domain.Models.Phone(
+                    number: request.Phone.Number,
+                    userId: Guid.Parse(request.Phone.Userid)
+                ) : null
             );
 
             var result = await _mediator.Send(createUserCommand);

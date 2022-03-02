@@ -51,6 +51,9 @@ namespace ECommerce.Identity.Api.Controllers
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp(SignUpUserDto user)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.SelectMany(e => e.Errors.Select(e => e.ErrorMessage)));
+
             var identityUser = new IdentityUser();
 
             try
@@ -146,8 +149,8 @@ namespace ECommerce.Identity.Api.Controllers
                             FirstName = payload.GivenName,
                             LastName = payload.FamilyName,
                             Email = payload.Email,
-                            Phone = string.Empty,
-                            Document = string.Empty
+                            Phone = null,
+                            Document = null
                         });
 
                         if (!createCustomerResult.Isvalid)
