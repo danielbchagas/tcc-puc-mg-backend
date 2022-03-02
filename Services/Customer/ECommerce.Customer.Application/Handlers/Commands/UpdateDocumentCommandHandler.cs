@@ -25,7 +25,7 @@ namespace ECommerce.Customer.Application.Handlers.Commands
 
             if (validation.IsValid)
             {
-                await _repository.Create(document);
+                await _repository.Update(document);
                 await _repository.UnitOfWork.Commit();
             }
 
