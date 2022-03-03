@@ -18,7 +18,7 @@ namespace ECommerce.Customer.Infrastructure.Mappings
 
             builder.Property(e => e.SecondLine)
                 .HasColumnType("varchar(200)")
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(e => e.City)
                 .HasColumnType("varchar(50)")

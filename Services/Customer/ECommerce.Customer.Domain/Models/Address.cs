@@ -46,12 +46,6 @@ namespace ECommerce.Customer.Domain.Models
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
-            RuleFor(_ => _.SecondLine)
-                .MaximumLength(50)
-                .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
             RuleFor(_ => _.City)
                 .MaximumLength(50)
                 .WithMessage("{PropertyName} tem um valor maior do que o esperado!")

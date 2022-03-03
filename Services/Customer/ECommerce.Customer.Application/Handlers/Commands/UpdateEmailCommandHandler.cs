@@ -25,7 +25,7 @@ namespace ECommerce.Customer.Application.Handlers.Commands
 
             if (validation.IsValid)
             {
-                await _repository.Create(email);
+                await _repository.Update(email);
                 await _repository.UnitOfWork.Commit();
             }
 
