@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ECommerce.Identity.Api.Models
+namespace ECommerce.Identity.Api.DTOs.Request
 {
-    public class EmailDto
+    public class EmailRequest
     {
         public Guid Id { get; set; }
         public string Address { get; set; }

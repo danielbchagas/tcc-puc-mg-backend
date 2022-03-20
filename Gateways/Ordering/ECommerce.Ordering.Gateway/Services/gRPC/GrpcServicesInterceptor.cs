@@ -2,7 +2,7 @@
 using Grpc.Core.Interceptors;
 using Microsoft.AspNetCore.Http;
 
-namespace ECommerce.Basket.Api.Services.gRPC
+namespace ECommerce.Ordering.Gateway.Services.gRPC
 {
     public class GrpcServicesInterceptor : Interceptor
     {

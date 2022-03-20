@@ -1,6 +1,6 @@
-﻿using ECommerce.Identity.Api.Handlers;
+﻿using ECommerce.Identity.Api.DTOs.Request;
+using ECommerce.Identity.Api.Handlers;
 using ECommerce.Identity.Api.Interfaces;
-using ECommerce.Identity.Api.Models;
 using Grpc.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -27,7 +27,7 @@ namespace ECommerce.Identity.Api.Services.gRPC
             _jwtHandler = jwtHandler;
         }
 
-        public async Task<Customer.Api.Protos.CreateUserResponse> Create(SignUpUserDto user)
+        public async Task<Customer.Api.Protos.CreateUserResponse> Create(SignUpUserRequest user)
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
 

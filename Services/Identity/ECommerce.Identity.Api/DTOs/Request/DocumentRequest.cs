@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ECommerce.Identity.Api.Models
+namespace ECommerce.Identity.Api.DTOs.Request
 {
-    public class DocumentDto
+    public class DocumentRequest
     {
         public string Number { get; set; }
         public Guid UserId { get; set; }

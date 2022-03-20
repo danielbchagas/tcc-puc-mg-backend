@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ECommerce.Identity.Api.Models
+namespace ECommerce.Identity.Api.DTOs.Request
 {
-    public class PhoneDto
+    public class PhoneRequest
     {
         public Guid Id { get; set; }
         public string Number { get; set; }

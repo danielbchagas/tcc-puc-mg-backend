@@ -1,6 +1,6 @@
-﻿namespace ECommerce.Identity.Api.Models
+﻿namespace ECommerce.Identity.Api.DTOs.Request
 {
-    public class ExternalAuthDto
+    public class ExternalAuthRequest
     {
         public string Provider { get; set; }
         public string IdToken { get; set; }

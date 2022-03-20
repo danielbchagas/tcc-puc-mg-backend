@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerce.Identity.Api.DTOs.Request;
 using ECommerce.Identity.Api.Models;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
@@ -66,7 +67,7 @@ namespace ECommerce.Identity.Api.Handlers
         private long ToUnixEpochDate(DateTime data)
             => (long)Math.Round((data.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
 
-        public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalAuthDto externalAuth)
+        public async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(ExternalAuthRequest externalAuth)
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {

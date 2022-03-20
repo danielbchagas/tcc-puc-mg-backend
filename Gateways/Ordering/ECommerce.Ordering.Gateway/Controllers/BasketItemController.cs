@@ -1,9 +1,10 @@
-﻿using ECommerce.Ordering.Gateway.Interfaces;
-using ECommerce.Ordering.Gateway.Models;
+﻿using ECommerce.Ordering.Gateway.DTOs.Request;
+using ECommerce.Ordering.Gateway.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Gateway.Controllers
@@ -25,28 +26,31 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(BasketItemDto newItem)
+        public async Task<IActionResult> Create(BasketItemRequest basketItem)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.SelectMany(e => e.Errors.Select(e => e.ErrorMessage)));
+
             #region Get values
-            var product = await GetProduct(newItem.ProductId);
+            var product = await GetProduct(basketItem.ProductId);
 
             if (product == null)
                 return NotFound();
 
-            var currentItem = await GetBasketItemByProduct(newItem.ProductId);
+            var currentItem = await GetBasketItemByProduct(basketItem.ProductId);
 
-            if (currentItem != null && (currentItem.Quantity == newItem.Quantity))
+            if (currentItem != null && (currentItem.Quantity == basketItem.Quantity))
                 return BadRequest("Operação inválida!");
             #endregion
 
             #region Stock update
             product.Quantity = UpdateProductQuantity(
                 stockQuantity: product.Quantity, 
-                newQuantity: newItem.Quantity,
+                newQuantity: basketItem.Quantity,
                 currentQuantity: currentItem != null ? currentItem.Quantity : 0
             );
 
-            if (product.Quantity < newItem.Quantity)
+            if (product.Quantity < basketItem.Quantity)
                 return BadRequest("Quantidade indisponível em estoque!");
 
             var createBasketItemResult = await _catalogGrpcClient.UpdateProduct(new Catalog.Api.Protos.UpdateProductRequest
@@ -69,11 +73,11 @@ namespace ECommerce.Ordering.Gateway.Controllers
             {
                 Id = Convert.ToString(Guid.NewGuid()),
                 Name = product.Name,
-                Quantity = newItem.Quantity,
+                Quantity = basketItem.Quantity,
                 Image = product.Image,
                 Value = product.Value,
                 Productid = product.Id,
-                Shoppingbasketid = Convert.ToString(newItem.BasketId),
+                Shoppingbasketid = Convert.ToString(basketItem.BasketId),
             });
 
             if (!_createBasketItemResult.Isvalid)

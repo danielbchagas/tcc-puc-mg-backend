@@ -1,10 +1,8 @@
 ﻿#define gRPC
 //#define RABBITMQ
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using EasyNetQ;
+using ECommerce.Identity.Api.DTOs.Request;
 using ECommerce.Identity.Api.Handlers;
 using ECommerce.Identity.Api.Interfaces;
 using ECommerce.Identity.Api.Models;
@@ -16,7 +14,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 using RabbitMQ.Client.Exceptions;
-using Refit;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Identity.Api.Controllers
 {
@@ -49,7 +49,7 @@ namespace ECommerce.Identity.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUp(SignUpUserDto user)
+        public async Task<IActionResult> SignUp(SignUpUserRequest user)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.SelectMany(e => e.Errors.Select(e => e.ErrorMessage)));
@@ -99,14 +99,17 @@ namespace ECommerce.Identity.Api.Controllers
 
             var token = await _jwtHandler.GenerateNewToken(user.Email);
 
-            return Ok(new { Token = token, IsAuthSuccessful = true });
+            return Ok(token);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("sign-in")]
-        public async Task<IActionResult> SignIn(SignInUserDto user)
+        public async Task<IActionResult> SignIn(SignInUserRequest user)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.SelectMany(e => e.Errors.Select(e => e.ErrorMessage)));
+
             var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, isPersistent: false, lockoutOnFailure: true);
 
             if (!result.Succeeded)
@@ -114,13 +117,13 @@ namespace ECommerce.Identity.Api.Controllers
 
             var token = await _jwtHandler.GenerateNewToken(user.Email);
 
-            return Ok(new { Token = token, IsAuthSuccessful = true });
+            return Ok(token);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("sign-in-google")]
-        public async Task<IActionResult> SignInWithGoogle(ExternalAuthDto externalAuth)
+        public async Task<IActionResult> SignInWithGoogle(ExternalAuthRequest externalAuth)
         {
             var payload = await _jwtHandler.VerifyGoogleToken(externalAuth);
 
@@ -142,9 +145,8 @@ namespace ECommerce.Identity.Api.Controllers
                         await _userManager.CreateAsync(user);
 
                         await _userManager.AddToRoleAsync(user, "Customer");
-                        //await _userManager.AddLoginAsync(user, info);
-
-                        var createCustomerResult = await _customerGrpcClient.Create(new SignUpUserDto
+                        
+                        var createCustomerResult = await _customerGrpcClient.Create(new SignUpUserRequest
                         {
                             FirstName = payload.GivenName,
                             LastName = payload.FamilyName,
@@ -169,15 +171,15 @@ namespace ECommerce.Identity.Api.Controllers
 
             var token = await _jwtHandler.GenerateNewToken(user.Email);
 
-            return Ok(new { Token = token, IsAuthSuccessful = true });
+            return Ok(token);
         }
 
         #region Customer registration
-        private async Task<ValidationResult> CreateCustomerRabbitMq(SignUpUserDto user)
+        private async Task<ValidationResult> CreateCustomerRabbitMq(SignUpUserRequest user)
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
 
-            var customer = new CustomerDto 
+            var customer = new CustomerRequest 
             {
                 Id = Guid.Parse(identityUser.Id),
                 FirstName = user.FirstName,
@@ -185,19 +187,19 @@ namespace ECommerce.Identity.Api.Controllers
                 Enabled = true
             };
 
-            var document = new DocumentDto 
+            var document = new DocumentRequest 
             {
                 Number = user.Document,
                 UserId = customer.Id
             };
 
-            var email = new EmailDto 
+            var email = new EmailRequest 
             {
                 Address = user.Email,
                 UserId = customer.Id
             };
 
-            var phone = new PhoneDto 
+            var phone = new PhoneRequest 
             {
                 Number = user.Phone,
                 UserId = customer.Id
@@ -217,10 +219,10 @@ namespace ECommerce.Identity.Api.Controllers
             var bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus);
             bus.Advanced.Disconnected += OnDisconnect;
 
-            var customerResult = await bus.Rpc.RequestAsync<CustomerDto, ValidationResult>(customer);
-            var documentResult = await bus.Rpc.RequestAsync<DocumentDto, ValidationResult>(document);
-            var emailResult = await bus.Rpc.RequestAsync<EmailDto, ValidationResult>(email);
-            var phoneResult = await bus.Rpc.RequestAsync<PhoneDto, ValidationResult>(phone);
+            var customerResult = await bus.Rpc.RequestAsync<CustomerRequest, ValidationResult>(customer);
+            var documentResult = await bus.Rpc.RequestAsync<DocumentRequest, ValidationResult>(document);
+            var emailResult = await bus.Rpc.RequestAsync<EmailRequest, ValidationResult>(email);
+            var phoneResult = await bus.Rpc.RequestAsync<PhoneRequest, ValidationResult>(phone);
 
             var validation = new ValidationResult();
 

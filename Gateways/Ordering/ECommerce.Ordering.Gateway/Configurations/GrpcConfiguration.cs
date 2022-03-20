@@ -1,5 +1,4 @@
-﻿using ECommerce.Basket.Api.Services.gRPC;
-using ECommerce.Basket.Api.Protos;
+﻿using ECommerce.Basket.Api.Protos;
 using ECommerce.Ordering.Gateway.Interfaces;
 using ECommerce.Ordering.Gateway.Models;
 using ECommerce.Ordering.Gateway.Services.gRPC;

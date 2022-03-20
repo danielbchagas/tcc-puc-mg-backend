@@ -1,8 +1,10 @@
-﻿using ECommerce.Ordering.Gateway.Interfaces;
+﻿using ECommerce.Ordering.Gateway.DTOs.Request;
+using ECommerce.Ordering.Gateway.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.Ordering.Gateway.Controllers
@@ -26,9 +28,12 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(Guid customerId)
+        public async Task<IActionResult> Create(OrderingRequest order)
         {
-            var basket = await GetBasket(customerId);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.SelectMany(e => e.Errors.Select(e => e.ErrorMessage)));
+
+            var basket = await GetBasket(order.CustomerId);
 
             if (basket == null)
                 return BadRequest("Carrinho de compras não encontrado.");
@@ -41,7 +46,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
             if (customer.Document == null || customer.Email == null || customer.Phone == null || customer.Address == null)
                 return BadRequest("Verifique seus dados cadastrais.");
 
-            var order = new Api.Protos.CreateOrderRequest
+            var newOrder = new Api.Protos.CreateOrderRequest
             {
                 Id = Convert.ToString(Guid.NewGuid()),
                 Fullname = $"{customer.Firstname} {customer.Lastname}",
@@ -58,7 +63,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             foreach (var item in basket.Items)
             {
-                order.Items.Add(new Api.Protos.OrderItem
+                newOrder.Items.Add(new Api.Protos.OrderItem
                 {
                     Id = Convert.ToString(Guid.NewGuid()),
                     Name = item.Name,
@@ -66,11 +71,11 @@ namespace ECommerce.Ordering.Gateway.Controllers
                     Value = item.Value,
                     Quantity = item.Quantity,
                     Productid = item.Productid,
-                    Orderid = order.Id
+                    Orderid = newOrder.Id
                 });
             }
 
-            var response = await _orderingGrpcClient.CreateOrder(order);
+            var response = await _orderingGrpcClient.CreateOrder(newOrder);
 
             if (!response.Isvalid)
                 return BadRequest("Falha ao criar o pedido.");
