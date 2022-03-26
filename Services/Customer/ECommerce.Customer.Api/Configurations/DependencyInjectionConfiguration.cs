@@ -23,6 +23,7 @@ namespace ECommerce.Customer.Api.Configurations
             services.AddScoped<IRequestHandler<CreateUserCommand, ValidationResult>, CreateUserCommandHandler>();
             services.AddScoped<IRequestHandler<DisableUserCommand, ValidationResult>, DisableUserCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteUserCommand, ValidationResult>, DeleteUserCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateUserCommand, ValidationResult>, UpdateUserCommandHandler>();
 
             services.AddScoped<IRequestHandler<CreateAddressCommand, ValidationResult>, CreateAddressCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateAddressCommand, ValidationResult>, UpdateAddressCommandHandler>();
