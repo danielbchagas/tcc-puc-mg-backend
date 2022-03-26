@@ -2,6 +2,7 @@
 using ECommerce.Basket.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,16 +23,15 @@ namespace ECommerce.Basket.Application.Handlers.Commands
         {
             var validation = new ValidationResult();
 
-            var item = await _basketItemRepository.Get(request.Id);
-            
+            var basket = await _basketRepository.Get(request.BasketId);
+
+            var item = basket.Items.FirstOrDefault(i => i.Id == request.Id);
+
             if (item == null)
             {
                 validation.Errors.Add(new ValidationFailure("", "Item não encontrado."));
                 return validation;
             }
-
-            // Use item to get basket
-            var basket = await _basketRepository.Get(item.ShoppingBasketId);
 
             // If item found, remove from basket
             basket.RemoveItem(item);

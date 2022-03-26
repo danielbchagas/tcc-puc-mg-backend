@@ -33,12 +33,18 @@ namespace ECommerce.Ordering.Gateway.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.SelectMany(e => e.Errors.Select(e => e.ErrorMessage)));
 
-            var basket = await GetBasket(order.CustomerId);
+            var basket = (await _basketGrpcClient.GetShoppingBasketByCustomer(new Basket.Api.Protos.GetBasketByCustomerRequest
+            {
+                Customerid = Convert.ToString(order.CustomerId)
+            })).Basket;
 
             if (basket == null)
                 return BadRequest("Carrinho de compras não encontrado.");
 
-            var customer = await GetUser(Guid.Parse(basket.Customerid));
+            var customer = (await _customerGrpcClient.GetCustomer(new Customer.Api.Protos.GetUserRequest
+            {
+                Id = basket.Customerid
+            })).User;
 
             if (customer == null)
                 return BadRequest("Cliente não encontrado.");
@@ -82,27 +88,5 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             return Ok();
         }
-
-        #region Helpers
-        private async Task<Basket.Api.Protos.ShoppingBasket> GetBasket(Guid customerId)
-        {
-            var basketResponse = await _basketGrpcClient.GetShoppingBasketByCustomer(new Basket.Api.Protos.GetBasketByCustomerRequest
-            {
-                Customerid = Convert.ToString(customerId)
-            });
-
-            return basketResponse.Basket;
-        }
-
-        private async Task<Customer.Api.Protos.User> GetUser(Guid id)
-        {
-            var customerResponse = await _customerGrpcClient.GetCustomer(new Customer.Api.Protos.GetUserRequest
-            {
-                Id = Convert.ToString(id)
-            });
-
-            return customerResponse.User;
-        }
-        #endregion
     }
 }

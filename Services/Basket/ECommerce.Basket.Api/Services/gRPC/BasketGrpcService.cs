@@ -37,19 +37,19 @@ namespace ECommerce.Basket.Api.Services.gRPC
             };
         }
 
-        public override async Task<GetBasketResponse> GetBasketByCustomer(GetBasketByCustomerRequest request, ServerCallContext context)
+        public override async Task<GetBasketByCustomerResponse> GetBasketByCustomer(GetBasketByCustomerRequest request, ServerCallContext context)
         {
             var result = await _mediator.Send(new GetShoppingBasketByCustomerQuery(Guid.Parse(request.Customerid)));
 
             if(result == null)
             {
-                return new GetBasketResponse
+                return new GetBasketByCustomerResponse
                 {
                     Basket = null
                 };
             }
 
-            var response = new GetBasketResponse
+            var response = new GetBasketByCustomerResponse
             {
                 Basket = new ShoppingBasket
                 {
@@ -145,7 +145,7 @@ namespace ECommerce.Basket.Api.Services.gRPC
 
         public override async Task<AddBasketItemResponse> AddBasketItem(AddBasketItemRequest request, ServerCallContext context)
         {
-            var createBasketItemCommand = new CreateBasketItemCommand(
+            var createBasketItemCommand = new UpdateBasketItemCommand(
                 id: Guid.Parse(request.Id),
                 name: request.Name,
                 quantity: request.Quantity,
@@ -166,7 +166,7 @@ namespace ECommerce.Basket.Api.Services.gRPC
 
         public override async Task<RemoveBasketItemResponse> RemoveBasketItem(RemoveBasketItemRequest request, ServerCallContext context)
         {
-            var result = await _mediator.Send(new DeleteBasketItemCommand(Guid.Parse(request.Id)));
+            var result = await _mediator.Send(new DeleteBasketItemCommand(Guid.Parse(request.Id), Guid.Parse(request.Basketid)));
 
             return new RemoveBasketItemResponse
             {

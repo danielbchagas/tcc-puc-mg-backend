@@ -38,7 +38,7 @@ namespace ECommerce.Basket.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateBasketItemCommand request)
+        public async Task<IActionResult> Create(UpdateBasketItemCommand request)
         {
             var result = await _mediator.Send(request);
 
@@ -50,10 +50,10 @@ namespace ECommerce.Basket.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("{id:Guid}/basket/{basketId:Guid}")]
+        public async Task<IActionResult> Delete(Guid id, Guid basketId)
         {
-            var result = await _mediator.Send(new DeleteBasketItemCommand(id));
+            var result = await _mediator.Send(new DeleteBasketItemCommand(id, basketId));
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));

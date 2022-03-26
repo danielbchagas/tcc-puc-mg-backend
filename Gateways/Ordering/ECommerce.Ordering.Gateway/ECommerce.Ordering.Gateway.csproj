@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\basket.proto" />
     <None Remove="Protos\catalog.proto" />
     <None Remove="Protos\customer.proto" />
     <None Remove="Protos\order.proto" />
