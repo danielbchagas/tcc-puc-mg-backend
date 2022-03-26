@@ -1,4 +1,5 @@
 ﻿using System;
+using ECommerce.Ordering.Gateway.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,24 +14,24 @@ namespace ECommerce.Ordering.Gateway.Controllers
         public IActionResult CreditCard(decimal value)
         {
             if (Approved())
-                return Ok(new { valor = value, mensagem = "Saldo insuficiente." });
+                return Ok(new { valor = value, mensagem = ResponseMessages.PaymentRefused });
 
-            return Ok(new { valor = value, mensagem = "Pagamento aprovado." });
+            return Ok(new { valor = value, mensagem = ResponseMessages.PaymentAccepted });
         }
 
         [HttpPost("bitcoin")]
         public IActionResult Bitcoin(decimal value)
         {
             if (Approved())
-                return Ok(new { valor = value, mensagem = "Saldo insuficiente." });
+                return Ok(new { valor = value, mensagem = ResponseMessages.PaymentRefused });
 
-            return Ok(new { valor = value, mensagem = "Pagamento aprovado." });
+            return Ok(new { valor = value, mensagem = ResponseMessages.PaymentAccepted });
         }
 
         [HttpPost("bank-bill")]
         public IActionResult BankBill(decimal value)
         {
-            return Ok(new { valor = value, mensagem = "Pagamento em processamento..." });
+            return Ok(new { valor = value, mensagem = ResponseMessages.PaymentIsProcessing });
         }
 
         private bool Approved()

@@ -1,4 +1,5 @@
-﻿using ECommerce.Ordering.Gateway.DTOs.Request;
+﻿using ECommerce.Ordering.Gateway.Constants;
+using ECommerce.Ordering.Gateway.DTOs.Request;
 using ECommerce.Ordering.Gateway.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +40,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
             })).Basket;
 
             if (basket == null)
-                return BadRequest("Carrinho de compras não encontrado.");
+                return BadRequest(ResponseMessages.BasketNotFound);
 
             var customer = (await _customerGrpcClient.GetCustomer(new Customer.Api.Protos.GetUserRequest
             {
@@ -47,10 +48,10 @@ namespace ECommerce.Ordering.Gateway.Controllers
             })).User;
 
             if (customer == null)
-                return BadRequest("Cliente não encontrado.");
+                return BadRequest(ResponseMessages.CustomerNotFound);
 
             if (customer.Document == null || customer.Email == null || customer.Phone == null || customer.Address == null)
-                return BadRequest("Verifique seus dados cadastrais.");
+                return BadRequest(ResponseMessages.CustomerInformationsNotFound);
 
             var newOrder = new Api.Protos.CreateOrderRequest
             {
@@ -84,7 +85,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
             var response = await _orderingGrpcClient.CreateOrder(newOrder);
 
             if (!response.Isvalid)
-                return BadRequest("Falha ao criar o pedido.");
+                return BadRequest(ResponseMessages.CreateOrderFail);
 
             return Ok();
         }
