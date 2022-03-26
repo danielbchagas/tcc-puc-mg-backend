@@ -2,6 +2,7 @@
 //#define RABBITMQ
 
 using EasyNetQ;
+using ECommerce.Identity.Api.Constants;
 using ECommerce.Identity.Api.DTOs.Request;
 using ECommerce.Identity.Api.Handlers;
 using ECommerce.Identity.Api.Interfaces;
@@ -65,7 +66,7 @@ namespace ECommerce.Identity.Api.Controllers
 
                 identityUser = await _userManager.FindByEmailAsync(user.Email);
 
-                await _userManager.AddToRoleAsync(identityUser, "Customer");
+                await _userManager.AddToRoleAsync(identityUser, UserRoles.Customer);
 
                 if (!createUserResult.Succeeded)
                 {
@@ -94,7 +95,7 @@ namespace ECommerce.Identity.Api.Controllers
                     await _userManager.DeleteAsync(identityUser);
 
                 _logger.LogError(e.Message, e.InnerException);
-                return BadRequest("Não foi possível efetivar o seu cadastro.");
+                return BadRequest(ResponseMessages.UserNotCreated);
             }
 
             var token = await _jwtHandler.GenerateNewToken(user.Email);
@@ -128,7 +129,7 @@ namespace ECommerce.Identity.Api.Controllers
             var payload = await _jwtHandler.VerifyGoogleToken(externalAuth);
 
             if (payload == null)
-                return BadRequest("Autenticação externa inválida.");
+                return BadRequest(ResponseMessages.ExternalLoginFailed);
             
             var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
             var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
@@ -144,7 +145,7 @@ namespace ECommerce.Identity.Api.Controllers
                         user = new IdentityUser { Email = payload.Email, UserName = payload.Email };
                         await _userManager.CreateAsync(user);
 
-                        await _userManager.AddToRoleAsync(user, "Customer");
+                        await _userManager.AddToRoleAsync(user, UserRoles.Customer);
                         
                         var createCustomerResult = await _customerGrpcClient.Create(new SignUpUserRequest
                         {
@@ -165,7 +166,7 @@ namespace ECommerce.Identity.Api.Controllers
                         await _userManager.DeleteAsync(user);
 
                     _logger.LogError(e.Message, e.InnerException);
-                    return BadRequest("Não foi possível efetivar o seu cadastro.");
+                    return BadRequest(ResponseMessages.UserNotCreated);
                 }
             }
 

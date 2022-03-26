@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using ECommerce.Customer.Api.Constants;
 using ECommerce.Customer.Application.Commands;
 using ECommerce.Customer.Application.Queries;
 using MediatR;
@@ -52,7 +53,7 @@ namespace ECommerce.Customer.Api.Controllers
         public async Task<IActionResult> Update(Guid id, UpdatePhoneCommand request)
         {
             if (id != request.Id)
-                return BadRequest("Inconsistent Identifier");
+                return BadRequest(ResponseMessages.InconsistentIdentifiers);
 
             var result = await _mediator.Send(request);
 

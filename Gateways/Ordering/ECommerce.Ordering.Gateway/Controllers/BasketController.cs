@@ -153,7 +153,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:Guid}/item/{basketItemId:Guid}")]
-        public async Task<IActionResult> DeleteItem(Guid id, Guid basketItemId)
+        public async Task<IActionResult> Delete(Guid id, Guid basketItemId)
         {
             #region Get Values
             var currentItem = (await _basketGrpcClient.GetBasketItem(new Basket.Api.Protos.GetBasketItemRequest
@@ -205,7 +205,6 @@ namespace ECommerce.Ordering.Gateway.Controllers
             #endregion
         }
 
-        #region Helpers
         private int UpdateProductQuantity(int stockQuantity, int newQuantity, int currentQuantity)
         {
             if (currentQuantity > newQuantity)
@@ -215,7 +214,6 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             return stockQuantity;
         }
-        #endregion
         #endregion
     }
 }
