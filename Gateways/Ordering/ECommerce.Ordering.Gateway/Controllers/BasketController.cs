@@ -48,7 +48,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             var newBasket = new ECommerce.Basket.Api.Protos.CreateBasketRequest
             {
-                Id = Convert.ToString(request.Id == Guid.Empty ? Guid.NewGuid() : request.Id),
+                Id = Convert.ToString(request.Id),
                 Customerid = Convert.ToString(request.CustomerId)
             };
 
