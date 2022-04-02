@@ -1,5 +1,6 @@
 ﻿using ECommerce.Ordering.Api.Protos;
 using ECommerce.Ordering.Application.Commands;
+using ECommerce.Ordering.Application.Queries;
 using Grpc.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +18,46 @@ namespace ECommerce.Ordering.Api.Services.gRPC
         public OrderingGrpcService(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        public override async Task<GetOrderResponse> GetOrder(GetOrderRequest request, ServerCallContext context)
+        {
+            var query = await _mediator.Send(new GetOrderQuery(Guid.Parse(request.Id)));
+
+            var order = new Order
+            {
+                Id = Convert.ToString(query.Id),
+                Fullname = query.FullName,
+                Document = query.Document,
+                Phone = query.Phone,
+                Email = query.Email,
+                Firstline = query.FirstLine,
+                Secondline = query.SecondLine,
+                City = query.City,
+                State = query.State,
+                Zipcode = query.ZipCode,
+                Value = Convert.ToDouble(query.Value),
+                Status = query.Status
+            };
+
+            foreach(var item in query.Items)
+            {
+                order.Items.Add(new OrderItem
+                {
+                    Id = Convert.ToString(item.Id),
+                    Image = item.Image,
+                    Name = item.Name,
+                    Quantity = item.Quantity,
+                    Value = Convert.ToDouble(item.Value),
+                    Productid = Convert.ToString(item.ProductId),
+                    Orderid = Convert.ToString(item.OrderId)
+                });
+            }
+
+            return new GetOrderResponse
+            {
+                Order = order,
+            };
         }
 
         public override async Task<CreateOrderResponse> CreateOrder(CreateOrderRequest request, ServerCallContext context)

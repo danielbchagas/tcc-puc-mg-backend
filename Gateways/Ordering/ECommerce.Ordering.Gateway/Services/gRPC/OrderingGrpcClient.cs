@@ -17,5 +17,10 @@ namespace ECommerce.Ordering.Gateway.Services.gRPC
         {
             return await _client.CreateOrderAsync(request);
         }
+
+        public async Task<GetOrderResponse> GetOrder(GetOrderRequest request)
+        {
+            return await _client.GetOrderAsync(request);
+        }
     }
 }

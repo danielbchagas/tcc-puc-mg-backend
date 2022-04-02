@@ -5,6 +5,7 @@ namespace ECommerce.Ordering.Gateway.DTOs.Request
 {
     public class BasketItemRequest
     {
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "O campo identificador do produto é obrigatório.")]
         public Guid ProductId { get; set; }
         [Required(ErrorMessage = "O campo identificador do carrinho é obrigatório.")]

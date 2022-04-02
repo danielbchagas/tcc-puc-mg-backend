@@ -37,6 +37,45 @@ namespace ECommerce.Basket.Api.Services.gRPC
             };
         }
 
+        public override async Task<GetBasketByIdResponse> GetBasketById(GetBasketByIdRequest request, ServerCallContext context)
+        {
+            var result = await _mediator.Send(new GetShoppingBasketQuery(Guid.Parse(request.Id)));
+
+            if (result == null)
+            {
+                return new GetBasketByIdResponse
+                {
+                    Basket = null
+                };
+            }
+
+            var response = new GetBasketByIdResponse
+            {
+                Basket = new ShoppingBasket
+                {
+                    Id = Convert.ToString(result.Id),
+                    Customerid = Convert.ToString(result.CustomerId),
+                    Value = Convert.ToDouble(result.Value),
+                }
+            };
+
+            foreach (var item in result.Items)
+            {
+                response.Basket.Items.Add(new BasketItem
+                {
+                    Id = Convert.ToString(item.Id),
+                    Name = item.Name,
+                    Image = item.Image,
+                    Quantity = item.Quantity,
+                    Value = Convert.ToDouble(item.Value),
+                    Productid = Convert.ToString(item.ProductId),
+                    Shoppingbasketid = Convert.ToString(item.ShoppingBasketId)
+                });
+            }
+
+            return response;
+        }
+
         public override async Task<GetBasketByCustomerResponse> GetBasketByCustomer(GetBasketByCustomerRequest request, ServerCallContext context)
         {
             var result = await _mediator.Send(new GetShoppingBasketByCustomerQuery(Guid.Parse(request.Customerid)));

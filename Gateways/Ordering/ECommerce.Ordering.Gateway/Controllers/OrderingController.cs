@@ -28,6 +28,22 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var result = await _orderingGrpcClient.GetOrder(new Api.Protos.GetOrderRequest
+            {
+                Id = Convert.ToString(id)
+            });
+
+            if(result.Order == null)
+                return NotFound(ResponseMessages.OrderNotFound);
+
+            return Ok(result);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<IActionResult> Create(OrderingRequest order)
         {
@@ -55,7 +71,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             var newOrder = new Api.Protos.CreateOrderRequest
             {
-                Id = Convert.ToString(Guid.NewGuid()),
+                Id = Convert.ToString(order.Id == Guid.Empty ? Guid.NewGuid() : order.Id),
                 Fullname = $"{customer.Firstname} {customer.Lastname}",
                 Document = customer.Document.Number,
                 Email = customer.Email.Address,
@@ -87,7 +103,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
             if (!response.Isvalid)
                 return BadRequest(ResponseMessages.CreateOrderFail);
 
-            return Ok();
+            return Ok(newOrder);
         }
     }
 }

@@ -27,12 +27,12 @@ namespace ECommerce.Ordering.Gateway.Controllers
         #region Shopping Basket
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{customerId:Guid}")]
-        public async Task<IActionResult> Get(Guid customerId)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> Get(Guid id)
         {
             var response = await _basketGrpcClient.GetShoppingBasketByCustomer(new Basket.Api.Protos.GetBasketByCustomerRequest
             {
-                Customerid = Convert.ToString(customerId)
+                Customerid = Convert.ToString(id)
             });
             
             return Ok(response.Basket);
@@ -48,7 +48,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
 
             var newBasket = new ECommerce.Basket.Api.Protos.CreateBasketRequest
             {
-                Id = Convert.ToString(request.Id),
+                Id = Convert.ToString(request.Id == Guid.Empty ? Guid.NewGuid() : request.Id),
                 Customerid = Convert.ToString(request.CustomerId)
             };
 
@@ -132,7 +132,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
             #region Basket update
             var _createBasketItemResult = await _basketGrpcClient.AddBasketItem(new Basket.Api.Protos.AddBasketItemRequest
             {
-                Id = Convert.ToString(Guid.NewGuid()),
+                Id = Convert.ToString(request.Id == Guid.Empty ? Guid.NewGuid() : request.Id),
                 Name = product.Name,
                 Quantity = request.Quantity,
                 Image = product.Image,

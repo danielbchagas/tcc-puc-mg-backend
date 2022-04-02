@@ -7,6 +7,7 @@ namespace ECommerce.Ordering.Gateway.Interfaces
     {
         #region ShoppingBasket
         Task<CreateBasketResponse> CreateShoppingBasket(CreateBasketRequest request);
+        Task<GetBasketByIdResponse> GetShoppingBasketById(GetBasketByIdRequest request);
         Task<GetBasketByCustomerResponse> GetShoppingBasketByCustomer(GetBasketByCustomerRequest request);
         Task<DeleteBasketResponse> DeleteShoppingBasket(DeleteBasketRequest request);
         #endregion

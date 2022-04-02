@@ -20,6 +20,11 @@ namespace ECommerce.Ordering.Gateway.Services.gRPC
             return await _client.CreateBasketAsync(request);
         }
 
+        public async Task<GetBasketByIdResponse> GetShoppingBasketById(GetBasketByIdRequest request)
+        {
+            return await _client.GetBasketByIdAsync(request);
+        }
+
         public async Task<GetBasketByCustomerResponse> GetShoppingBasketByCustomer(GetBasketByCustomerRequest request)
         {
             return await _client.GetBasketByCustomerAsync(request);

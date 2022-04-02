@@ -6,6 +6,7 @@ package BasketApi;
 
 service ShoppingBasketService {
 	rpc GetBasketByCustomer(GetBasketByCustomerRequest) returns(GetBasketByCustomerResponse);
+	rpc GetBasketById(GetBasketByIdRequest) returns(GetBasketByIdResponse);
 	rpc CreateBasket(CreateBasketRequest) returns(CreateBasketResponse);
 	rpc DeleteBasket(DeleteBasketRequest) returns(DeleteBasketResponse);
 
@@ -13,6 +14,14 @@ service ShoppingBasketService {
 	rpc GetBasketItemByProduct(GetBasketItemByProductRequest) returns(GetBasketItemByProductResponse);
 	rpc AddBasketItem(AddBasketItemRequest) returns(AddBasketItemResponse);
 	rpc RemoveBasketItem(RemoveBasketItemRequest) returns(RemoveBasketItemResponse);
+}
+
+message GetBasketByIdRequest {
+	string id = 1;
+}
+
+message GetBasketByIdResponse {
+	ShoppingBasket basket = 1;
 }
 
 message CreateBasketRequest {

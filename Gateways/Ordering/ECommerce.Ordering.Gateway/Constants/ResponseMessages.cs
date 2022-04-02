@@ -12,5 +12,6 @@
         public const string PaymentRefused = "Saldo insuficiente.";
         public const string PaymentAccepted = "Pagamento aprovado.";
         public const string PaymentIsProcessing = "Pagamento em processamento.";
+        public const string OrderNotFound = "Pedido não encontrado.";
     }
 }
