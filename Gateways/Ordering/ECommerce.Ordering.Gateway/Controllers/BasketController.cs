@@ -27,12 +27,25 @@ namespace ECommerce.Ordering.Gateway.Controllers
         #region Shopping Basket
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("customer/{customerId:Guid}")]
+        public async Task<IActionResult> GetAll(Guid customerId)
+        {
+            var response = await _basketGrpcClient.GetAllShoppingBasket(new Basket.Api.Protos.GetAllBasketRequest
+            {
+                Customerid = Convert.ToString(customerId)
+            });
+
+            return Ok(response.Baskets);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var response = await _basketGrpcClient.GetShoppingBasketByCustomer(new Basket.Api.Protos.GetBasketByCustomerRequest
+            var response = await _basketGrpcClient.GetShoppingBasketById(new Basket.Api.Protos.GetBasketByIdRequest
             {
-                Customerid = Convert.ToString(id)
+                Id = Convert.ToString(id)
             });
             
             return Ok(response.Basket);
@@ -41,7 +54,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(BasketRequest request)
+        public async Task<IActionResult> Create(CreateBasketRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.SelectMany(e => e.Errors.Select(e => e.ErrorMessage)));
@@ -60,14 +73,40 @@ namespace ECommerce.Ordering.Gateway.Controllers
             return Ok(newBasket);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Update(Guid id, UpdateBasketRequest request)
+        {
+            if (id != request.Id)
+                return BadRequest(ResponseMessages.InconsistentIdentifiers);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.Values.SelectMany(e => e.Errors.Select(e => e.ErrorMessage)));
+
+            var newBasket = new ECommerce.Basket.Api.Protos.UpdateBasketRequest
+            {
+                Id = Convert.ToString(request.Id == Guid.Empty ? Guid.NewGuid() : request.Id),
+                Isended = request.IsEnded,
+                Customerid = Convert.ToString(request.CustomerId)
+            };
+
+            var response = await _basketGrpcClient.UpdateShoppingBasket(newBasket);
+
+            if (!response.Isvalid)
+                return BadRequest(response.Message);
+
+            return Ok(newBasket);
+        }
+
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("{customerId:Guid}")]
-        public async Task<IActionResult> Delete(Guid customerId)
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
             var response = await _basketGrpcClient.DeleteShoppingBasket(new Basket.Api.Protos.DeleteBasketRequest
             {
-                Id = Convert.ToString(customerId)
+                Id = Convert.ToString(id)
             });
 
             if (!response.Isvalid)
@@ -81,7 +120,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id:Guid}/item")]
-        public async Task<IActionResult> Update(Guid id, BasketItemRequest request)
+        public async Task<IActionResult> UpdateItem(Guid id, CreateBasketItemRequest request)
         {
             if (id != request.BasketId)
                 return BadRequest(ResponseMessages.InconsistentIdentifiers);
@@ -153,7 +192,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:Guid}/item/{basketItemId:Guid}")]
-        public async Task<IActionResult> Delete(Guid id, Guid basketItemId)
+        public async Task<IActionResult> DeleteItem(Guid id, Guid basketItemId)
         {
             #region Get Values
             var currentItem = (await _basketGrpcClient.GetBasketItem(new Basket.Api.Protos.GetBasketItemRequest

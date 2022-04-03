@@ -14,6 +14,8 @@ namespace ECommerce.Basket.Domain.Models
         {
             Id = id;
             CustomerId = customerId;
+            IsEnded = false;
+            RegistrationDate = DateTime.Now;
             Items = new List<BasketItem>();
         }
         #endregion
@@ -22,6 +24,8 @@ namespace ECommerce.Basket.Domain.Models
         public Guid Id { get; set; }
         public decimal Value { get; set; }
         public Guid CustomerId { get; set; }
+        public bool IsEnded { get; set; }
+        public DateTime RegistrationDate { get; set; }
 
         public ICollection<BasketItem> Items { get; set; }
         #endregion
@@ -74,6 +78,13 @@ namespace ECommerce.Basket.Domain.Models
         public ValidationResult Validate()
         {
             return new ShoppingBasketValidator().Validate(this);
+        }
+
+        public ValidationResult Finalize()
+        {
+            this.IsEnded = true;
+
+            return Validate();
         }
         #endregion
     }

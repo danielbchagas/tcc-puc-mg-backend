@@ -1,16 +1,16 @@
-﻿using System;
-using ECommerce.Basket.Domain.Models;
+﻿using ECommerce.Basket.Domain.Models;
 using MediatR;
+using System;
+using System.Collections.Generic;
 
 namespace ECommerce.Basket.Application.Queries
 {
-    public class GetShoppingBasketQuery : IRequest<ShoppingBasket>
+    public class GetShoppingBasketQuery : IRequest<IList<ShoppingBasket>>
     {
-        public GetShoppingBasketQuery(Guid id)
+        public GetShoppingBasketQuery(Guid customerId)
         {
-            Id = id;
+            CustomerId = customerId;
         }
-
-        public Guid Id { get; set; }
+        public Guid CustomerId { get; set; }
     }
 }

@@ -98,10 +98,20 @@ namespace ECommerce.Ordering.Gateway.Controllers
                 });
             }
 
-            var response = await _orderingGrpcClient.CreateOrder(newOrder);
+            var createOrderResult = await _orderingGrpcClient.CreateOrder(newOrder);
 
-            if (!response.Isvalid)
+            if (!createOrderResult.Isvalid)
                 return BadRequest(ResponseMessages.CreateOrderFail);
+
+            var updateBasketResult = await _basketGrpcClient.UpdateShoppingBasket(new Basket.Api.Protos.UpdateBasketRequest
+            {
+                Id = basket.Id,
+                Isended = true,
+                Customerid = basket.Customerid
+            });
+
+            if(!updateBasketResult.Isvalid)
+                return BadRequest(ResponseMessages.UpdateBasketFail);
 
             return Ok(newOrder);
         }

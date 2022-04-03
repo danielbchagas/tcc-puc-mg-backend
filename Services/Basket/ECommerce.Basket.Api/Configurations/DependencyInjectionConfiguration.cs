@@ -9,6 +9,7 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
 namespace ECommerce.Basket.Api.Configurations
 {
@@ -22,8 +23,10 @@ namespace ECommerce.Basket.Api.Configurations
             services.AddScoped<IRequestHandler<CreateShoppingBasketCommand, ValidationResult>, CreateShoppingBasketCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteShoppingBasketCommand, ValidationResult>, DeleteShoppingBasketCommandHandler>();
             services.AddScoped<IRequestHandler<GetShoppingBasketByCustomerQuery, ShoppingBasket>, GetShoppingBasketByCustomerQueryHandler>();
-            services.AddScoped<IRequestHandler<GetShoppingBasketQuery, ShoppingBasket>, GetShoppingBasketQueryHandler>();
-            
+            services.AddScoped<IRequestHandler<GetShoppingBasketByIdQuery, ShoppingBasket>, GetShoppingBasketByIdQueryHandler>();
+            services.AddScoped<IRequestHandler<UpdateShoppingBasketCommand, ValidationResult>, UpdateShoppingBasketCommandHandler>();
+            services.AddScoped<IRequestHandler<GetShoppingBasketQuery, IList<ShoppingBasket>>, GetShoppingBasketQueryHandler>();
+
             services.AddScoped<IRequestHandler<UpdateBasketItemCommand, ValidationResult>, UpdateBasketItemCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteBasketItemCommand, ValidationResult>, DeleteBasketItemCommandHandler>();
             services.AddScoped<IRequestHandler<GetBasketItemQuery, BasketItem>, GetBasketItemQueryHandler>();

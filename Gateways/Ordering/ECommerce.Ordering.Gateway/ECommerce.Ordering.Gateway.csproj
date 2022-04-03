@@ -36,8 +36,4 @@
 	  <Protobuf Include="Protos\order.proto" GrpcServices="Client" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\Response\" />
-  </ItemGroup>
-
 </Project>

@@ -57,6 +57,12 @@ namespace ECommerce.Basket.Infrastructure.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsEnded")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<decimal>("Value")
                         .HasColumnType("money");
 

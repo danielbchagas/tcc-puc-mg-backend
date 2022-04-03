@@ -39,7 +39,7 @@ namespace ECommerce.Basket.Api.Services.gRPC
 
         public override async Task<GetBasketByIdResponse> GetBasketById(GetBasketByIdRequest request, ServerCallContext context)
         {
-            var result = await _mediator.Send(new GetShoppingBasketQuery(Guid.Parse(request.Id)));
+            var result = await _mediator.Send(new GetShoppingBasketByIdQuery(Guid.Parse(request.Id)));
 
             if (result == null)
             {
@@ -56,6 +56,13 @@ namespace ECommerce.Basket.Api.Services.gRPC
                     Id = Convert.ToString(result.Id),
                     Customerid = Convert.ToString(result.CustomerId),
                     Value = Convert.ToDouble(result.Value),
+                    Registrationdate = new date
+                    {
+                        Day = result.RegistrationDate.Day,
+                        Month = result.RegistrationDate.Month,
+                        Year = result.RegistrationDate.Year,
+                    },
+                    Isended = result.IsEnded
                 }
             };
 
@@ -95,6 +102,13 @@ namespace ECommerce.Basket.Api.Services.gRPC
                     Id = Convert.ToString(result.Id),
                     Customerid = Convert.ToString(result.CustomerId),
                     Value = Convert.ToDouble(result.Value),
+                    Registrationdate = new date
+                    {
+                        Day = result.RegistrationDate.Day,
+                        Month = result.RegistrationDate.Month,
+                        Year = result.RegistrationDate.Year,
+                    },
+                    Isended = result.IsEnded
                 }
             };
 
@@ -115,11 +129,59 @@ namespace ECommerce.Basket.Api.Services.gRPC
             return response;
         }
 
+        public override async Task<GetAllBasketResponse> GetAllBasket(GetAllBasketRequest request, ServerCallContext context)
+        {
+            var result = await _mediator.Send(new GetShoppingBasketQuery(Guid.Parse(request.Customerid)));
+
+            var response = new GetAllBasketResponse
+            {
+
+            };
+
+            foreach (var basket in result)
+            {
+                var newBasket = new ShoppingBasket
+                {
+                    Id = Convert.ToString(basket.Id),
+                    Customerid = Convert.ToString(basket.CustomerId),
+                    Value = Convert.ToDouble(basket.Value),
+                    Registrationdate = new date
+                    {
+                        Day = basket.RegistrationDate.Day,
+                        Month = basket.RegistrationDate.Month,
+                        Year = basket.RegistrationDate.Year,
+                    },
+                    Isended = basket.IsEnded
+                };
+
+                response.Baskets.Add(newBasket);
+            }
+
+            return response;
+        }
+
         public override async Task<DeleteBasketResponse> DeleteBasket(DeleteBasketRequest request, ServerCallContext context)
         {
             var result = await _mediator.Send(new DeleteShoppingBasketCommand(Guid.Parse(request.Id)));
 
             return new DeleteBasketResponse
+            {
+                Isvalid = result.IsValid,
+                Message = JsonSerializer.Serialize(result.Errors)
+            };
+        }
+
+        public override async Task<UpdateBasketResponse> UpdateBasket(UpdateBasketRequest request, ServerCallContext context)
+        {
+            var createCustomerBasketCommand = new UpdateShoppingBasketCommand(
+                id: Guid.Parse(request.Id),
+                isEnded: request.Isended,
+                customerId: Guid.Parse(request.Customerid)
+            );
+
+            var result = await _mediator.Send(createCustomerBasketCommand);
+
+            return new UpdateBasketResponse()
             {
                 Isvalid = result.IsValid,
                 Message = JsonSerializer.Serialize(result.Errors)

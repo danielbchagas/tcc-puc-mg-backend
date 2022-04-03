@@ -9,11 +9,21 @@ service ShoppingBasketService {
 	rpc GetBasketById(GetBasketByIdRequest) returns(GetBasketByIdResponse);
 	rpc CreateBasket(CreateBasketRequest) returns(CreateBasketResponse);
 	rpc DeleteBasket(DeleteBasketRequest) returns(DeleteBasketResponse);
+	rpc UpdateBasket(UpdateBasketRequest) returns(UpdateBasketResponse);
+	rpc GetAllBasket(GetAllBasketRequest) returns(GetAllBasketResponse);
 
 	rpc GetBasketItem(GetBasketItemRequest) returns(GetBasketItemResponse);
 	rpc GetBasketItemByProduct(GetBasketItemByProductRequest) returns(GetBasketItemByProductResponse);
 	rpc AddBasketItem(AddBasketItemRequest) returns(AddBasketItemResponse);
 	rpc RemoveBasketItem(RemoveBasketItemRequest) returns(RemoveBasketItemResponse);
+}
+
+message GetAllBasketRequest {
+	string customerid = 1;
+}
+
+message GetAllBasketResponse {
+	repeated ShoppingBasket baskets = 1;
 }
 
 message GetBasketByIdRequest {
@@ -47,6 +57,17 @@ message DeleteBasketRequest {
 }
 
 message DeleteBasketResponse {
+	bool isvalid = 1;
+    string message = 2;
+}
+
+message UpdateBasketRequest {
+	string id = 1;
+	bool isended = 2;
+	string customerid = 3;
+}
+
+message UpdateBasketResponse {
 	bool isvalid = 1;
     string message = 2;
 }
@@ -96,7 +117,9 @@ message ShoppingBasket {
 	string id = 1;
 	double value = 2;
 	string customerid = 3;
-	repeated BasketItem items = 4;
+	date registrationdate = 4;
+	bool isended = 5;
+	repeated BasketItem items = 6;
 }
 
 message BasketItem {
@@ -107,4 +130,10 @@ message BasketItem {
 	string image = 5;
 	string productid = 6;
 	string shoppingbasketid = 7;
+}
+
+message date {
+	int32 day = 1;
+	int32 month = 2;
+	int32 year = 3;
 }

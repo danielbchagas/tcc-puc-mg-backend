@@ -13,5 +13,6 @@
         public const string PaymentAccepted = "Pagamento aprovado.";
         public const string PaymentIsProcessing = "Pagamento em processamento.";
         public const string OrderNotFound = "Pedido não encontrado.";
+        public const string UpdateBasketFail = "Falha ao atualizar o carrinho.";
     }
 }

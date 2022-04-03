@@ -20,6 +20,11 @@ namespace ECommerce.Ordering.Gateway.Services.gRPC
             return await _client.CreateBasketAsync(request);
         }
 
+        public async Task<GetAllBasketResponse> GetAllShoppingBasket(GetAllBasketRequest request)
+        {
+            return await _client.GetAllBasketAsync(request);
+        }
+
         public async Task<GetBasketByIdResponse> GetShoppingBasketById(GetBasketByIdRequest request)
         {
             return await _client.GetBasketByIdAsync(request);
@@ -33,6 +38,11 @@ namespace ECommerce.Ordering.Gateway.Services.gRPC
         public async Task<DeleteBasketResponse> DeleteShoppingBasket(DeleteBasketRequest request)
         {
             return await _client.DeleteBasketAsync(request);
+        }
+
+        public async Task<UpdateBasketResponse> UpdateShoppingBasket(UpdateBasketRequest request)
+        {
+            return await _client.UpdateBasketAsync(request);
         }
         #endregion
 
