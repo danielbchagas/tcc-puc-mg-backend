@@ -34,6 +34,8 @@ namespace ECommerce.Basket.Domain.Test
 
             _basket.RemoveItem(item2);
 
+            _basket.UpdateBasketValue();
+
             // Assert
             Assert.True(_basket.Items.Count() == 1 && _basket.Value == 1000);
         }

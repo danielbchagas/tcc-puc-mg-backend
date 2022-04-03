@@ -37,6 +37,8 @@ namespace ECommerce.Basket.Domain.Test
 
             _basket.UpdatesItems(item);
 
+            _basket.UpdateBasketValue();
+
             // Assert
             Assert.True(_basket.Value == 200);
         }

@@ -51,8 +51,6 @@ namespace ECommerce.Basket.Domain.Models
                 Items.Add(item);
             }
 
-            Value = Items.Sum(i => i.Quantity * i.Value);
-
             return Validate();
         }
 
@@ -70,8 +68,6 @@ namespace ECommerce.Basket.Domain.Models
                 Items.Remove(exists);
             }
 
-            Value = Items.Sum(i => i.Quantity * i.Value);
-
             return Validate();
         }
 
@@ -80,9 +76,16 @@ namespace ECommerce.Basket.Domain.Models
             return new ShoppingBasketValidator().Validate(this);
         }
 
+        public ValidationResult UpdateBasketValue()
+        {
+            Value = Items.Sum(i => i.Quantity * i.Value);
+
+            return Validate();
+        }
+
         public ValidationResult Finalize()
         {
-            this.IsEnded = true;
+            IsEnded = true;
 
             return Validate();
         }

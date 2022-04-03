@@ -29,6 +29,8 @@ namespace ECommerce.Basket.Domain.Test
             // Act
             _basket.UpdatesItems(item);
 
+            _basket.UpdateBasketValue();
+
             // Assert
             Assert.Equal(1000, _basket.Value);
         }

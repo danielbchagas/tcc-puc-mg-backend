@@ -40,33 +40,19 @@ namespace ECommerce.Basket.Application.Handlers.Commands
             if (item is null)
             {
                 item = new BasketItem(id: request.Id, name: request.Name, quantity: request.Quantity, value: request.Value, image: request.Image, productId: request.ProductId, request.ShoppingBasketId);
-
                 validation = item.Validate();
-
-                if (!validation.IsValid)
-                    return await Task.FromResult(validation);
-
                 await _basketItemRepository.Create(item);
             }
             else
             {
                 item.Quantity = request.Quantity;
+                validation = item.Validate();
+                await _basketItemRepository.Update(item);
             }
 
-            #region Updates basket
-            validation = basket.UpdatesItems(item);
-
-            if (!validation.IsValid)
-                return await Task.FromResult(validation);
-
-            validation = basket.Validate();
-
-            if (!validation.IsValid)
-                return await Task.FromResult(validation);
-
+            validation = basket.UpdateBasketValue();
             await _basketRepository.Update(basket);
             await _basketRepository.UnitOfWork.Commit();
-            #endregion
 
             return await Task.FromResult(validation);
         }

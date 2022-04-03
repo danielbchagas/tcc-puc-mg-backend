@@ -153,7 +153,8 @@ namespace ECommerce.Ordering.Gateway.Controllers
             if (product.Quantity < request.Quantity)
                 return BadRequest(ResponseMessages.OutOfStock);
 
-            var createBasketItemResult = await _catalogGrpcClient.UpdateProduct(new Catalog.Api.Protos.UpdateProductRequest
+            // New item to be added to the basket
+            var newItem = new Catalog.Api.Protos.UpdateProductRequest
             {
                 Id = product.Id,
                 Name = product.Name,
@@ -162,7 +163,8 @@ namespace ECommerce.Ordering.Gateway.Controllers
                 Value = product.Value,
                 Quantity = product.Quantity,
                 Enabled = product.Enabled
-            });
+            };
+            var createBasketItemResult = await _catalogGrpcClient.UpdateProduct(newItem);
 
             if (!createBasketItemResult.Isvalid)
                 return BadRequest(createBasketItemResult.Message);
@@ -185,7 +187,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
                 return BadRequest(_createBasketItemResult.Message);
             }
 
-            return Ok();
+            return Ok(newItem);
             #endregion
         }
 
