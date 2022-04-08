@@ -23,6 +23,16 @@ namespace ECommerce.Basket.Api.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("customer/{customerId:Guid}")]
+        public async Task<IActionResult> GetAll(Guid customerId)
+        {
+            var result = await _mediator.Send(new GetShoppingBasketByCustomerQuery(customerId));
+
+            return Ok(result);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status302Found)]
         [HttpGet("{customerId:Guid}")]
         public async Task<IActionResult> Get(Guid customerId)
