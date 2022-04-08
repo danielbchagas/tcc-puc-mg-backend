@@ -31,15 +31,15 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _orderingGrpcClient.GetOrder(new Api.Protos.GetOrderRequest
+            var order = (await _orderingGrpcClient.GetOrder(new Api.Protos.GetOrderRequest
             {
                 Id = Convert.ToString(id)
-            });
+            })).Order;
 
-            if(result.Order == null)
+            if(order == null)
                 return NotFound(ResponseMessages.OrderNotFound);
 
-            return Ok(result);
+            return Ok(order);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]

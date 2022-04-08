@@ -30,12 +30,12 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpGet("customer/{customerId:Guid}")]
         public async Task<IActionResult> GetAll(Guid customerId)
         {
-            var response = await _basketGrpcClient.GetAllShoppingBasket(new Basket.Api.Protos.GetAllBasketRequest
+            var baskets = (await _basketGrpcClient.GetAllShoppingBasket(new Basket.Api.Protos.GetAllBasketRequest
             {
                 Customerid = Convert.ToString(customerId)
-            });
+            })).Baskets;
 
-            return Ok(response.Baskets);
+            return Ok(baskets);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
