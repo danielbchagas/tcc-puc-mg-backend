@@ -66,6 +66,8 @@ namespace ECommerce.Catalog.Api
 
             app.UseRouting();
 
+            app.UseGrpcWeb();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -74,7 +76,7 @@ namespace ECommerce.Catalog.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGrpcService<CatalogGrpcService>();
+                endpoints.MapGrpcService<CatalogGrpcService>().EnableGrpcWeb();
             });
         }
     }
