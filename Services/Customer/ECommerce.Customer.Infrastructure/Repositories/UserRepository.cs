@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ECommerce.Customer.Domain.Interfaces.Data;
@@ -52,6 +53,17 @@ namespace ECommerce.Customer.Infrastructure.Repositories
         public void Dispose()
         {
             _context?.Dispose();
+        }
+
+        public async Task<IList<User>> Get()
+        {
+            return await _context.Users
+                .Include(c => c.Document)
+                .Include(c => c.Email)
+                .Include(c => c.Address)
+                .Include(c => c.Phone)
+                .Where(c => c.Enabled == true)
+                .ToListAsync();
         }
     }
 }

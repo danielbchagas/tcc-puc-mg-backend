@@ -10,6 +10,7 @@ using ECommerce.Customer.Infrastructure.Repositories;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
 namespace ECommerce.Customer.Api.Configurations
 {
@@ -24,7 +25,7 @@ namespace ECommerce.Customer.Api.Configurations
             services.AddScoped<IRequestHandler<DisableUserCommand, ValidationResult>, DisableUserCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteUserCommand, ValidationResult>, DeleteUserCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateUserCommand, ValidationResult>, UpdateUserCommandHandler>();
-
+            
             services.AddScoped<IRequestHandler<CreateAddressCommand, ValidationResult>, CreateAddressCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateAddressCommand, ValidationResult>, UpdateAddressCommandHandler>();
 
@@ -40,7 +41,8 @@ namespace ECommerce.Customer.Api.Configurations
 
             #region
             services.AddScoped<IRequestHandler<GetUserQuery, User>, GetUserQueryHandler>();
-            
+            services.AddScoped<IRequestHandler<GetAllUsersQuery, IList<User>>, GetAllUsersQueryHandler>();
+
             services.AddScoped<IRequestHandler<GetAddressQuery, Address>, GetAddressQueryHandler>();
 
             services.AddScoped<IRequestHandler<GetEmailQuery, Email>, GetEmailQueryHandler>();

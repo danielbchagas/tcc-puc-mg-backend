@@ -25,6 +25,19 @@ namespace ECommerce.Customer.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var result = await _mediator.Send(new GetAllUsersQuery());
+
+            if (result is null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
