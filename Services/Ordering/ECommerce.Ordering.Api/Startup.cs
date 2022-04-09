@@ -67,6 +67,8 @@ namespace ECommerce.Ordering.Api
 
             app.UseRouting();
 
+            app.UseGrpcWeb();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -75,7 +77,7 @@ namespace ECommerce.Ordering.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGrpcService<OrderingGrpcService>();
+                endpoints.MapGrpcService<OrderingGrpcService>().EnableGrpcWeb();
             });
         }
     }
