@@ -1,5 +1,6 @@
 using ECommerce.Ordering.Gateway.Configurations;
 using ECommerce.Ordering.Gateway.Middlewares;
+using ECommerce.Ordering.Gateway.Services.gRPC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -60,6 +61,8 @@ namespace ECommerce.Ordering.Gateway
 
             app.UseRouting();
 
+            app.UseGrpcWeb();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -68,6 +71,10 @@ namespace ECommerce.Ordering.Gateway
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<BasketGrpcClient>().EnableGrpcWeb();
+                endpoints.MapGrpcService<CatalogGrpcClient>().EnableGrpcWeb();
+                endpoints.MapGrpcService<CustomerGrpcClient>().EnableGrpcWeb();
+                endpoints.MapGrpcService<OrderingGrpcClient>().EnableGrpcWeb();
             });
         }
     }
