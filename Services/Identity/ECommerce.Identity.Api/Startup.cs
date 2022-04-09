@@ -1,5 +1,6 @@
 using ECommerce.Identity.Api.Configurations;
 using ECommerce.Identity.Api.Handlers;
+using ECommerce.Identity.Api.Services.gRPC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -65,12 +66,15 @@ namespace ECommerce.Identity.Api
 
             app.UseRouting();
 
+            app.UseGrpcWeb();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<CustomerGrpcClient>().EnableGrpcWeb();
             });
         }
     }

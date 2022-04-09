@@ -26,11 +26,9 @@
   <ItemGroup>
 	  <PackageReference Include="Google.Apis.Auth" Version="1.55.0" />
 	  <PackageReference Include="Google.Protobuf" Version="3.19.4" />
-	  <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
-	  <PackageReference Include="Grpc.Tools" Version="2.44.0">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
+	  <PackageReference Include="Grpc.AspNetCore" Version="2.42.0" />
+	  <PackageReference Include="Grpc.AspNetCore.Web" Version="2.42.0" />
+	  <PackageReference Include="Grpc.Net.Client.Web" Version="2.42.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.13" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.8" />
@@ -43,9 +41,6 @@
 	  <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="5.0.8" />
 	  <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="5.0.1" />
 	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
-	  <PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
-	  <PackageReference Include="Refit" Version="6.1.15" />
-	  <PackageReference Include="Refit.HttpClientFactory" Version="6.1.15" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
 	  <PackageReference Include="EasyNetQ" Version="6.3.1" />
 	  <PackageReference Include="FluentValidation" Version="10.3.0" />

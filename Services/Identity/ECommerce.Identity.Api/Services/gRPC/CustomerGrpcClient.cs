@@ -60,7 +60,7 @@ namespace ECommerce.Identity.Api.Services.gRPC
                         Number = user.Phone,
                         Userid = Convert.ToString(identityUser.Id)
                     } : null
-                }, 
+                },
                 headers: headers
             );
 
