@@ -67,6 +67,8 @@ namespace ECommerce.Basket.Api
 
             app.UseRouting();
 
+            app.UseGrpcWeb();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -75,7 +77,7 @@ namespace ECommerce.Basket.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGrpcService<BasketGrpcService>();
+                endpoints.MapGrpcService<BasketGrpcService>().EnableGrpcWeb();
             });
         }
     }
