@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ECommerce.Ordering.Gateway.DTOs.Request
 {
-    public class CreateBasketItemRequest
+    public class UpdateBasketItemRequest
     {
         public Guid Id { get; set; }
         [Required(ErrorMessage = "O campo identificador do produto é obrigatório.")]

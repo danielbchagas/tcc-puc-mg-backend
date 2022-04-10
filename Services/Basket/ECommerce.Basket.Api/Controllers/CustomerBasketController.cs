@@ -27,7 +27,7 @@ namespace ECommerce.Basket.Api.Controllers
         [HttpGet("customer/{customerId:Guid}")]
         public async Task<IActionResult> GetAll(Guid customerId)
         {
-            var result = await _mediator.Send(new GetShoppingBasketByCustomerQuery(customerId));
+            var result = await _mediator.Send(new GetShoppingBasketQuery(customerId));
 
             return Ok(result);
         }

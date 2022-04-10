@@ -43,12 +43,12 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var response = await _basketGrpcClient.GetShoppingBasketById(new Basket.Api.Protos.GetBasketByIdRequest
+            var response = (await _basketGrpcClient.GetShoppingBasketById(new Basket.Api.Protos.GetBasketByIdRequest
             {
                 Id = Convert.ToString(id)
-            });
+            })).Basket;
             
-            return Ok(response.Basket);
+            return Ok(response);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -91,10 +91,10 @@ namespace ECommerce.Ordering.Gateway.Controllers
                 Customerid = Convert.ToString(request.CustomerId)
             };
 
-            var response = await _basketGrpcClient.UpdateShoppingBasket(newBasket);
+            var updatedBasket = await _basketGrpcClient.UpdateShoppingBasket(newBasket);
 
-            if (!response.Isvalid)
-                return BadRequest(response.Message);
+            if (!updatedBasket.Isvalid)
+                return BadRequest(updatedBasket.Message);
 
             return Ok(newBasket);
         }
@@ -120,7 +120,7 @@ namespace ECommerce.Ordering.Gateway.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id:Guid}/item")]
-        public async Task<IActionResult> UpdateItem(Guid id, CreateBasketItemRequest request)
+        public async Task<IActionResult> UpdateItem(Guid id, UpdateBasketItemRequest request)
         {
             if (id != request.BasketId)
                 return BadRequest(ResponseMessages.InconsistentIdentifiers);
