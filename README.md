@@ -9,5 +9,6 @@ Tecnologias empregadas:
 - [EasyNetQ](https://github.com/EasyNetQ/EasyNetQ)
 - [Bogus](https://github.com/bchavez/Bogus)
 
-### Usuários
-- Administrador: admin@ecommerce.com - Trocar@123
+### Usuário para teste:
+Login: `admin@ecommerce.com`  
+senha: `Trocar@123` 
