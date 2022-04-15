@@ -10,4 +10,4 @@ Tecnologias empregadas:
 - [Bogus](https://github.com/bchavez/Bogus)
 
 ### Usuário para teste:
-`admin@ecommerce.com` - Trocar@123
+`admin@ecommerce.com` - `Trocar@123`
