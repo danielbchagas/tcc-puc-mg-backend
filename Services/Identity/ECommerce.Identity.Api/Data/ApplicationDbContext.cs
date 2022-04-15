@@ -38,9 +38,11 @@ namespace ECommerce.Identity.Api.Data
                 new IdentityUser
                 {
                     Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
-                    UserName = "admin",
-                    NormalizedUserName = "ADMIN",
-                    PasswordHash = hasher.HashPassword(null, "Pa$$w0rd")
+                    UserName = "admin@ecommerce.com",
+                    NormalizedUserName = "ADMIN@ECOMMERCE.COM",
+                    Email = "admin@ecommerce.com",
+                    NormalizedEmail = "ADMIN@ECOMMERCE.COM",
+                    PasswordHash = hasher.HashPassword(null, "Trocar@123"),
                 }
             );
 
