@@ -10,4 +10,5 @@ Tecnologias empregadas:
 - [Bogus](https://github.com/bchavez/Bogus)
 
 ### Usuário para teste:
-`admin@ecommerce.com` - `Trocar@123`
+Login: `admin@ecommerce.com`  
+senha: `Trocar@123` 
