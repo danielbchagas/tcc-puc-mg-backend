@@ -114,7 +114,7 @@ namespace ECommerce.Identity.Api.Controllers
             var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, isPersistent: false, lockoutOnFailure: true);
 
             if (!result.Succeeded)
-                return BadRequest();
+                return BadRequest(ResponseMessages.LoginFailed);
 
             var token = await _jwtHandler.GenerateNewToken(user.Email);
 
