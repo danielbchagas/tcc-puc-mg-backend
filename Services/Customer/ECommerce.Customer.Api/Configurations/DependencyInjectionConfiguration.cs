@@ -1,5 +1,6 @@
-﻿#define REST
+﻿#define RABBITMQ
 
+using ECommerce.Customer.Api.Services;
 using ECommerce.Customer.Application.Commands;
 using ECommerce.Customer.Application.Handlers.Commands;
 using ECommerce.Customer.Application.Handlers.Queries;
@@ -62,9 +63,6 @@ namespace ECommerce.Customer.Api.Configurations
 
 #if RABBITMQ
             services.AddHostedService<CreateCustomerIntegrationHandler>();
-            services.AddHostedService<CreateDocumentIntegrationHandler>();
-            services.AddHostedService<CreateEmailIntegrationHandler>();
-            services.AddHostedService<CreatePhoneIntegrationHandler>();
 #endif
         }
     }

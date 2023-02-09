@@ -1,20 +1,16 @@
-﻿#define gRPC
-//#define RABBITMQ
+﻿#define RABBITMQ
 
-using EasyNetQ;
 using ECommerce.Identity.Api.Constants;
 using ECommerce.Identity.Api.DTOs.Request;
 using ECommerce.Identity.Api.Handlers;
 using ECommerce.Identity.Api.Interfaces;
 using ECommerce.Identity.Api.Models;
-using FluentValidation.Results;
+using ECommerce.Identity.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Polly;
-using RabbitMQ.Client.Exceptions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,22 +25,22 @@ namespace ECommerce.Identity.Api.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<AccountController> _logger;
         private readonly JwtHandler _jwtHandler;
-        private readonly RabbitMqOption _rabbitMQOptions;
         private readonly ICustomerGrpcClient _customerGrpcClient;
+        public RabbitMqOption _rabbitMqOptions;
 
         public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
-            ILogger<AccountController> logger, 
-            IOptions<RabbitMqOption> rabbitMQOptions,
+            ILogger<AccountController> logger,
             JwtHandler jwtHandler,
-            ICustomerGrpcClient customerGrpcClient)
+            ICustomerGrpcClient customerGrpcClient,
+            IOptions<RabbitMqOption> options)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
-            _rabbitMQOptions = rabbitMQOptions.Value;
             _jwtHandler = jwtHandler;
             _customerGrpcClient = customerGrpcClient;
+            _rabbitMqOptions = options.Value;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -77,11 +73,7 @@ namespace ECommerce.Identity.Api.Controllers
                 }
 
 #if RABBITMQ
-                var createCustomerResult = await CreateCustomerRabbitMq(user);
-
-                if (!createCustomerResult.IsValid)
-                    return BadRequest(createCustomerResult.Errors.Select(e => e.ErrorMessage));
-
+                await CreateCustomerRabbitMq(user);
 #elif gRPC
                 var createCustomerResult = await _customerGrpcClient.Create(user);
 
@@ -176,7 +168,7 @@ namespace ECommerce.Identity.Api.Controllers
         }
 
         #region Customer registration
-        private async Task<ValidationResult> CreateCustomerRabbitMq(SignUpUserRequest user)
+        private async Task<bool> CreateCustomerRabbitMq(SignUpUserRequest user)
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
 
@@ -185,64 +177,37 @@ namespace ECommerce.Identity.Api.Controllers
                 Id = Guid.Parse(identityUser.Id),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Enabled = true
+                Enabled = true,
+                Document = new DocumentRequest
+                {
+                    Number = user.Document,
+                    UserId = Guid.Parse(identityUser.Id)
+                },
+                Email = new EmailRequest
+                {
+                    Address = user.Email,
+                    UserId = Guid.Parse(identityUser.Id)
+                },
+                Phone = new PhoneRequest
+                {
+                    Number = user.Phone,
+                    UserId = Guid.Parse(identityUser.Id)
+                }
             };
 
-            var document = new DocumentRequest 
-            {
-                Number = user.Document,
-                UserId = customer.Id
-            };
+            return await new CreateCustomerIntegrationService(_rabbitMqOptions.Host, 
+                _rabbitMqOptions.Username, 
+                _rabbitMqOptions.Password, 
+                _rabbitMqOptions.Queue,
+                string.Empty)
+                .CreateCustomer(customer)
+                .ContinueWith(result =>
+                {
+                    if (result.IsCompleted)
+                        return result.IsCompleted;
 
-            var email = new EmailRequest 
-            {
-                Address = user.Email,
-                UserId = customer.Id
-            };
-
-            var phone = new PhoneRequest 
-            {
-                Number = user.Phone,
-                UserId = customer.Id
-            };
-
-            customer.Document = document;
-            customer.Email = email;
-            customer.Phone = phone;
-
-            void OnDisconnect(object source, EventArgs e)
-            {
-                Policy.Handle<EasyNetQException>()
-                    .Or<BrokerUnreachableException>()
-                    .Retry(10);
-            }
-
-            var bus = RabbitHutch.CreateBus(_rabbitMQOptions.MessageBus);
-            bus.Advanced.Disconnected += OnDisconnect;
-
-            var customerResult = await bus.Rpc.RequestAsync<CustomerRequest, ValidationResult>(customer);
-            var documentResult = await bus.Rpc.RequestAsync<DocumentRequest, ValidationResult>(document);
-            var emailResult = await bus.Rpc.RequestAsync<EmailRequest, ValidationResult>(email);
-            var phoneResult = await bus.Rpc.RequestAsync<PhoneRequest, ValidationResult>(phone);
-
-            var validation = new ValidationResult();
-
-            if (!customerResult.IsValid)
-                validation.Errors.AddRange(customerResult.Errors);
-            
-            if (!documentResult.IsValid)
-                validation.Errors.AddRange(documentResult.Errors);
-            
-            if (!emailResult.IsValid)
-                validation.Errors.AddRange(emailResult.Errors);
-            
-            if (!phoneResult.IsValid)
-                validation.Errors.AddRange(phoneResult.Errors);
-
-            if (!validation.IsValid)
-                await _userManager.DeleteAsync(identityUser);
-
-            return validation;
+                    throw result.Exception;
+                });
         }
         #endregion
     }
