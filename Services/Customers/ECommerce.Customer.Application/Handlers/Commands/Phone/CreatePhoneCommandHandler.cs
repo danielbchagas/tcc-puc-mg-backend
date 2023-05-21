@@ -1,4 +1,5 @@
 ﻿using ECommerce.Customers.Application.Commands.Phone;
+using ECommerce.Customers.Application.Constants;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -25,10 +26,10 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Phone
 
             if (phones.Any())
             {
-                validation.Errors.Add(new ValidationFailure("", "O cliente já possui um telefone cadastrado."));
+                validation.Errors.Add(new ValidationFailure("", PhoneErrorMessage.PHONE_EXISTS));
 
                 if (phones.Any(t => t.Number == request.Number))
-                    validation.Errors.Add(new ValidationFailure("", "O telefone informado já está em uso."));
+                    validation.Errors.Add(new ValidationFailure("", PhoneErrorMessage.PHONE_ALREADY_IN_USER));
 
                 return validation;
             }

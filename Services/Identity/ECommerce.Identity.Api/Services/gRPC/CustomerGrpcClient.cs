@@ -1,4 +1,4 @@
-﻿using ECommerce.Identity.Api.DTOs.Request;
+﻿using ECommerce.Identity.Api.Descriptors.Request;
 using ECommerce.Identity.Api.Handlers;
 using ECommerce.Identity.Api.Interfaces;
 using Grpc.Core;

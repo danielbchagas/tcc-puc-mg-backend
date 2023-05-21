@@ -1,4 +1,5 @@
-﻿using ECommerce.Customers.Application.Commands.User;
+﻿using ECommerce.Customer.Api.Services.gRPC.Validators;
+using ECommerce.Customers.Application.Commands.User;
 using ECommerce.Customers.Application.Queries;
 using Grpc.Core;
 using MediatR;
@@ -21,23 +22,34 @@ namespace ECommerce.Customer.Api.Services.gRPC
 
         public override async Task<Customers.Api.Protos.CreateUserResponse> CreateCustomer(Customers.Api.Protos.CreateUserRequest request, ServerCallContext context)
         {
+            var validation = await new CustomerGrpcValidator().ValidateAsync(request);
+
+            if (!validation.IsValid)
+            {
+                return new Customers.Api.Protos.CreateUserResponse()
+                {
+                    Isvalid = false,
+                    Message = JsonSerializer.Serialize(validation.Errors)
+                };
+            }
+            
             var createUserCommand = new CreateUserCommand(
                 id: Guid.Parse(request.Id),
                 firstName: request.Firstname,
                 lastName: request.Lastname,
                 enabled: true,
-                document: request.Document != null ? new Customers.Domain.Models.Document(
+                document: new Customers.Domain.Models.Document(
                     number: request.Document.Number,
                     userId: Guid.Parse(request.Document.Userid)
-                ) : null,
-                email: request.Email != null ? new Customers.Domain.Models.Email(
+                ),
+                email: new Customers.Domain.Models.Email(
                     address: request.Email.Address,
                     userId: Guid.Parse(request.Email.Userid)
-                ) : null,
-                phone: request.Phone != null ? new Customers.Domain.Models.Phone(
+                ),
+                phone: new Customers.Domain.Models.Phone(
                     number: request.Phone.Number,
                     userId: Guid.Parse(request.Phone.Userid)
-                ) : null
+                )
             );
 
             var result = await _mediator.Send(createUserCommand);
@@ -53,7 +65,9 @@ namespace ECommerce.Customer.Api.Services.gRPC
         {
             var result = await _mediator.Send(new GetUserQuery(Guid.Parse(request.Id)));
 
-            if (result == null)
+            var valid = result.Validate();
+
+            if (!valid.IsValid)
             {
                 return new Customers.Api.Protos.GetUserResponse
                 {
@@ -69,25 +83,25 @@ namespace ECommerce.Customer.Api.Services.gRPC
                     Firstname = result.FirstName,
                     Lastname = result.LastName,
                     Enabled = result.Enabled,
-                    Document = result.Document != null ? new Customers.Api.Protos.Document
+                    Document = new Customers.Api.Protos.Document
                     {
                         Id = Convert.ToString(result.Document.Id),
                         Number = result.Document.Number,
                         Userid = Convert.ToString(result.Document.UserId)
-                    } : null,
-                    Email = result.Email != null ? new Customers.Api.Protos.Email
+                    },
+                    Email = new Customers.Api.Protos.Email
                     {
                         Id = Convert.ToString(result.Email.Id),
                         Address = result.Email.Address,
                         Userid = Convert.ToString(result.Email.UserId)
-                    } : null,
-                    Phone = result.Phone != null ? new Customers.Api.Protos.Phone
+                    },
+                    Phone = new Customers.Api.Protos.Phone
                     {
                         Id = Convert.ToString(result.Phone.Id),
                         Number = result.Phone.Number,
                         Userid = Convert.ToString(result.Phone.UserId)
-                    } : null,
-                    Address = result.Address != null ? new Customers.Api.Protos.Address
+                    },
+                    Address = new Customers.Api.Protos.Address
                     {
                         Id = Convert.ToString(result.Address.Id),
                         Firstline = result.Address.FirstLine,
@@ -96,7 +110,7 @@ namespace ECommerce.Customer.Api.Services.gRPC
                         State = result.Address.State,
                         Zipcode = result.Address.ZipCode,
                         Userid = Convert.ToString(result.Address.UserId)
-                    } : null
+                    }
                 }
             };
         }

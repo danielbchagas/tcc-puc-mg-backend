@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Identity.Api.DTOs.Request
+﻿namespace ECommerce.Identity.Api.Descriptors.Request
 {
     public class ExternalAuthRequest
     {

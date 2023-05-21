@@ -1,4 +1,5 @@
 ﻿using ECommerce.Customers.Application.Commands.Document;
+using ECommerce.Customers.Application.Constants;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -25,10 +26,10 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Document
 
             if (documents.Any())
             {
-                validation.Errors.Add(new ValidationFailure("", "O cliente já possui um documento cadastrado."));
+                validation.Errors.Add(new ValidationFailure("", DocumentErrorMessage.DOCUMENT_EXISTS));
 
                 if (documents.Any(d => d.Number == request.Number))
-                    validation.Errors.Add(new ValidationFailure("", "O documento informado já está em uso."));
+                    validation.Errors.Add(new ValidationFailure("", DocumentErrorMessage.DOCUMENT_ALREADY_IN_USER));
 
                 return validation;
             }

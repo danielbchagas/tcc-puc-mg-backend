@@ -1,4 +1,4 @@
-﻿using ECommerce.Identity.Api.DTOs.Request;
+﻿using ECommerce.Identity.Api.Descriptors.Request;
 using RabbitMQ.Client;
 using System.Text.Json;
 using System.Threading.Tasks;

@@ -1,4 +1,4 @@
-﻿using ECommerce.Identity.Api.DTOs.Request;
+﻿using ECommerce.Identity.Api.Descriptors.Request;
 using System.Threading.Tasks;
 
 namespace ECommerce.Identity.Api.Interfaces

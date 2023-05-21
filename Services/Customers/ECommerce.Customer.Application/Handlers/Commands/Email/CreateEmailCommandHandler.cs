@@ -1,4 +1,5 @@
 ﻿using ECommerce.Customers.Application.Commands.Email;
+using ECommerce.Customers.Application.Constants;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -25,10 +26,10 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Email
 
             if (emails.Any())
             {
-                validation.Errors.Add(new ValidationFailure("", "O cliente já possui um documento cadastrado."));
+                validation.Errors.Add(new ValidationFailure("", EmailErrorMessage.EMAIL_EXISTS));
 
                 if (emails.Any(e => e.Address == request.Address))
-                    validation.Errors.Add(new ValidationFailure("", "O e-mail informado já está em uso."));
+                    validation.Errors.Add(new ValidationFailure("", EmailErrorMessage.EMAIL_ALREADY_IN_USE));
 
                 return validation;
             }

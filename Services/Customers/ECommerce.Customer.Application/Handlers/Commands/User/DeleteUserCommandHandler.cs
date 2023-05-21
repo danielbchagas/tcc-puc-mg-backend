@@ -21,10 +21,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
             var validation = new ValidationResult();
 
             await _repository.Delete(request.Id);
-            var success = await _repository.UnitOfWork.Commit();
-
-            if (!success)
-                validation.Errors.Add(new ValidationFailure("", "Customer can not be deleted."));
+            await _repository.UnitOfWork.Commit();
 
             return await Task.FromResult(validation);
         }

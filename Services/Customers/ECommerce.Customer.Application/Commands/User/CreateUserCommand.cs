@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using System;
 
@@ -26,5 +27,17 @@ namespace ECommerce.Customers.Application.Commands.User
         public Domain.Models.Document Document { get; set; }
         public Domain.Models.Email Email { get; set; }
         public Domain.Models.Phone Phone { get; set; }
+    }
+
+    public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+    {
+        public CreateUserCommandValidator()
+        {
+            RuleFor(u => u.FirstName).NotEmpty().NotNull();
+            RuleFor(u => u.LastName).NotEmpty().NotNull();
+            RuleFor(u => u.Document).NotNull();
+            RuleFor(u => u.Email).NotNull();
+            RuleFor(u => u.Phone).NotNull();
+        }
     }
 }

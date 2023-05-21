@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using ECommerce.Identity.Api.DTOs.Request;
+using ECommerce.Identity.Api.Descriptors.Request;
 using ECommerce.Identity.Api.Models;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
