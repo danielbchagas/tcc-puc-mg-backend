@@ -11,12 +11,12 @@ namespace ECommerce.Identity.Api.Services.gRPC
 {
     public class CustomerGrpcClient : ICustomerGrpcClient
     {
-        private readonly Customer.Api.Protos.CustomerService.CustomerServiceClient _client;
+        private readonly Customers.Api.Protos.CustomerService.CustomerServiceClient _client;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly JwtHandler _jwtHandler;
         private readonly ILogger<CustomerGrpcClient> _logger;
 
-        public CustomerGrpcClient(Customer.Api.Protos.CustomerService.CustomerServiceClient client,
+        public CustomerGrpcClient(Customers.Api.Protos.CustomerService.CustomerServiceClient client,
             UserManager<IdentityUser> userManager,
             JwtHandler jwtHandler,
             ILogger<CustomerGrpcClient> logger)
@@ -27,7 +27,7 @@ namespace ECommerce.Identity.Api.Services.gRPC
             _jwtHandler = jwtHandler;
         }
 
-        public async Task<Customer.Api.Protos.CreateUserResponse> Create(SignUpUserRequest user)
+        public async Task<Customers.Api.Protos.CreateUserResponse> Create(SignUpUserRequest user)
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
 
@@ -39,23 +39,23 @@ namespace ECommerce.Identity.Api.Services.gRPC
             };
 
             var result = _client.CreateCustomer(
-                new Customer.Api.Protos.CreateUserRequest
+                new Customers.Api.Protos.CreateUserRequest
                 {
                     Id = Convert.ToString(identityUser.Id),
                     Firstname = user.FirstName,
                     Lastname = user.LastName,
                     Enabled = true,
-                    Document = user.Document != null ? new Customer.Api.Protos.Document
+                    Document = user.Document != null ? new Customers.Api.Protos.Document
                     {
                         Number = user.Document,
                         Userid = Convert.ToString(identityUser.Id)
                     } : null,
-                    Email = user.Email != null ? new Customer.Api.Protos.Email
+                    Email = user.Email != null ? new Customers.Api.Protos.Email
                     {
                         Address = user.Email,
                         Userid = Convert.ToString(identityUser.Id)
                     } : null,
-                    Phone = user.Phone != null ? new Customer.Api.Protos.Phone
+                    Phone = user.Phone != null ? new Customers.Api.Protos.Phone
                     {
                         Number = user.Phone,
                         Userid = Convert.ToString(identityUser.Id)

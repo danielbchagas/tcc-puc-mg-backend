@@ -19,7 +19,7 @@ namespace ECommerce.Identity.Api.Configurations
 
             services.AddScoped<ICustomerGrpcClient, CustomerGrpcClient>();
 
-            services.AddGrpcClient<Customer.Api.Protos.CustomerService.CustomerServiceClient>(options =>
+            services.AddGrpcClient<Customers.Api.Protos.CustomerService.CustomerServiceClient>(options =>
             {
                 options.Address = new Uri(servicesOptions.CustomerServiceUrl);
             }).ConfigurePrimaryHttpMessageHandler(() => new GrpcWebHandler(new HttpClientHandler()));
