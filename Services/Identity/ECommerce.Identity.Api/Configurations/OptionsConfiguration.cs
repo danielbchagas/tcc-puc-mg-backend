@@ -1,4 +1,4 @@
-﻿using ECommerce.Identity.Api.Models;
+﻿using ECommerce.Identity.Api.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

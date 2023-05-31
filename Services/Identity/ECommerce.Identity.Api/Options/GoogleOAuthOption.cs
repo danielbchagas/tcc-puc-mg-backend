@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Identity.Api.Models
+﻿namespace ECommerce.Identity.Api.Options
 {
     public class GoogleOAuthOption
     {

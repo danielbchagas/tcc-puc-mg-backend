@@ -1,6 +1,6 @@
-﻿using ECommerce.Identity.Api.Descriptors.Request;
-using ECommerce.Identity.Api.Handlers;
+﻿using ECommerce.Identity.Api.Handlers;
 using ECommerce.Identity.Api.Interfaces;
+using ECommerce.Identity.Api.Models.Request;
 using Grpc.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -45,21 +45,21 @@ namespace ECommerce.Identity.Api.Services.gRPC
                     Firstname = user.FirstName,
                     Lastname = user.LastName,
                     Enabled = true,
-                    Document = user.Document != null ? new Customers.Api.Protos.Document
+                    Document = new Customers.Api.Protos.Document
                     {
                         Number = user.Document,
                         Userid = Convert.ToString(identityUser.Id)
-                    } : null,
-                    Email = user.Email != null ? new Customers.Api.Protos.Email
+                    },
+                    Email = new Customers.Api.Protos.Email
                     {
                         Address = user.Email,
                         Userid = Convert.ToString(identityUser.Id)
-                    } : null,
-                    Phone = user.Phone != null ? new Customers.Api.Protos.Phone
+                    },
+                    Phone = new Customers.Api.Protos.Phone
                     {
                         Number = user.Phone,
                         Userid = Convert.ToString(identityUser.Id)
-                    } : null
+                    }
                 },
                 headers: headers
             );

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using ECommerce.Identity.Api.Data;
-using ECommerce.Identity.Api.Models;
+using ECommerce.Identity.Api.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

@@ -1,10 +1,10 @@
-﻿#define RABBITMQ
+﻿#define gRPC
 
 using ECommerce.Identity.Api.Constants;
-using ECommerce.Identity.Api.Descriptors.Request;
 using ECommerce.Identity.Api.Handlers;
 using ECommerce.Identity.Api.Interfaces;
-using ECommerce.Identity.Api.Models;
+using ECommerce.Identity.Api.Models.Request;
+using ECommerce.Identity.Api.Options;
 using ECommerce.Identity.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -75,8 +75,17 @@ namespace ECommerce.Identity.Api.Controllers
 #if RABBITMQ
                 await CreateCustomerRabbitMq(user);
 #elif gRPC
-                Must be implemented
-                Use ICustomerGrpcClient
+                var createCustomerResult = await _customerGrpcClient.Create(new SignUpUserRequest
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Phone = user.Phone,
+                    Document = user.Document
+                });
+
+                if (!createCustomerResult.Isvalid)
+                    return BadRequest(createCustomerResult.Message);
 #endif
             }
             catch (Exception e)

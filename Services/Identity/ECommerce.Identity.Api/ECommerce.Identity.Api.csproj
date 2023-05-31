@@ -14,13 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Descriptors\Response\**" />
-    <Content Remove="Descriptors\Response\**" />
-    <EmbeddedResource Remove="Descriptors\Response\**" />
-    <None Remove="Descriptors\Response\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Database\Identity.db" />
   </ItemGroup>
 
@@ -55,6 +48,10 @@
 
   <ItemGroup>
 	  <Protobuf Include="Protos\customer.proto" GrpcServices="Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Response\" />
   </ItemGroup>
 
 </Project>

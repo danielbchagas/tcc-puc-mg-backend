@@ -1,5 +1,5 @@
 ﻿using ECommerce.Identity.Api.Interfaces;
-using ECommerce.Identity.Api.Models;
+using ECommerce.Identity.Api.Options;
 using ECommerce.Identity.Api.Services.gRPC;
 using Grpc.Net.Client.Web;
 using Microsoft.Extensions.Configuration;

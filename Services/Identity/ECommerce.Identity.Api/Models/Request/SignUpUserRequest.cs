@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ECommerce.Identity.Api.Descriptors.Request
+namespace ECommerce.Identity.Api.Models.Request
 {
     public class SignUpUserRequest
     {
@@ -8,7 +8,9 @@ namespace ECommerce.Identity.Api.Descriptors.Request
         public string FirstName { get; set; }
         [Required(ErrorMessage = "O campo sobrenome é obrigatório.")]
         public string LastName { get; set; }
+        [Required(ErrorMessage = "O campo documento é obrigatório.")]
         public string Document { get; set; }
+        [Required(ErrorMessage = "O campo telefone é obrigatório.")]
         public string Phone { get; set; }
         [Required(ErrorMessage = "O campo email é obrigatório.")]
         public string Email { get; set; }

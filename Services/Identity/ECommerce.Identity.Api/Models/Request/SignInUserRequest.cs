@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ECommerce.Identity.Api.Descriptors.Request
+namespace ECommerce.Identity.Api.Models.Request
 {
     public class SignInUserRequest
     {
