@@ -166,7 +166,7 @@ namespace ECommerce.Identity.Api.Controllers
         }
 
         #region Customer registration
-        private async Task<bool> CreateCustomerRabbitMq(SignUpUserRequest user)
+        private async Task CreateCustomerRabbitMq(SignUpUserRequest user)
         {
             var identityUser = await _userManager.FindByEmailAsync(user.Email);
 
@@ -193,19 +193,12 @@ namespace ECommerce.Identity.Api.Controllers
                 }
             };
 
-            return await new CreateCustomerIntegrationService(_rabbitMqOptions.Host, 
-                _rabbitMqOptions.Username, 
-                _rabbitMqOptions.Password, 
+            await new CreateCustomerIntegrationService(_rabbitMqOptions.Host,
+                _rabbitMqOptions.Username,
+                _rabbitMqOptions.Password,
                 _rabbitMqOptions.Queue,
                 string.Empty)
-                .CreateCustomer(customer)
-                .ContinueWith(result =>
-                {
-                    if (result.IsCompleted)
-                        return result.IsCompleted;
-
-                    throw result.Exception;
-                });
+                .CreateCustomer(customer);
         }
         #endregion
     }
