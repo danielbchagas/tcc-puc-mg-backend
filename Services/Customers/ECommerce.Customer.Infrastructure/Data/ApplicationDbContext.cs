@@ -2,6 +2,7 @@
 using ECommerce.Customers.Domain.Models;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Threading.Tasks;
 
 namespace ECommerce.Customers.Infrastructure.Data
@@ -28,6 +29,21 @@ namespace ECommerce.Customers.Infrastructure.Data
         public async Task<bool> Commit()
         {
             return await base.SaveChangesAsync() > 0;
+        }
+
+        public async Task<IDbContextTransaction> OpenTransaction()
+        {
+            return await base.Database.BeginTransactionAsync();
+        }
+
+        public async Task CommitTransaction()
+        {
+            await base.Database.CommitTransactionAsync();
+        }
+
+        public async Task RollbackTransaction()
+        {
+            await base.Database.RollbackTransactionAsync();
         }
     }
 }
