@@ -90,7 +90,7 @@ namespace ECommerce.Identity.Api.Controllers
 
             var token = await _jwtHandler.GenerateNewToken(user.Email);
 
-            return Ok(token);
+            return Created("/sign-in", identityUser.Id);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
