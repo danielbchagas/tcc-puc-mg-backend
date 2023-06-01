@@ -19,7 +19,7 @@ namespace ECommerce.Customers.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("Customers");
+            modelBuilder.HasDefaultSchema("Customer");
 
             modelBuilder.Ignore<ValidationResult>();
 
