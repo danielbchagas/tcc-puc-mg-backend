@@ -24,7 +24,6 @@ message UpdateProductRequest {
     string image = 4;
     int32 quantity = 5;
     double value = 6;
-    bool enabled = 7;
 }
 
 message UpdateProductResponse {
@@ -39,5 +38,4 @@ message Product {
     string image = 4;
     int32 quantity = 5;
     double value = 6;
-    bool enabled = 7;
 }

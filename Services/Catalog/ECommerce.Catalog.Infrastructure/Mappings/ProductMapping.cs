@@ -28,17 +28,11 @@ namespace ECommerce.Catalog.Infrastructure.Mappings
                 .HasColumnType("text")
                 .IsRequired(false);
 
-            builder.Property(p => p.Enabled)
-                .HasColumnType("bit")
-                .IsRequired();
-
             builder.Property(p => p.Value)
                 .HasColumnType("money")
                 .IsRequired();
 
-            builder.Property(p => p.RegistrationDate)
-                .HasColumnType("datetime")
-                .IsRequired();
+            builder.HasQueryFilter(p => p.DeletedAt == null);
         }
     }
 }

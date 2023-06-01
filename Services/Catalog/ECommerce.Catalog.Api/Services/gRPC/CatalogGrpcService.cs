@@ -41,8 +41,7 @@ namespace ECommerce.Catalog.Api.Services.gRPC
                     Description = result.Description,
                     Image = result.Image,
                     Value = Convert.ToDouble(result.Value),
-                    Quantity = result.Quantity,
-                    Enabled = result.Enabled,
+                    Quantity = result.Quantity
                 }
             };
         }
@@ -55,8 +54,7 @@ namespace ECommerce.Catalog.Api.Services.gRPC
                 name: request.Name,
                 image: request.Image,
                 quantity: request.Quantity,
-                value: Convert.ToDecimal(request.Value),
-                enabled: true
+                value: Convert.ToDecimal(request.Value)
             ));
 
             return new Catalog.Api.Protos.UpdateProductResponse

@@ -1,13 +1,14 @@
-﻿using System;
+﻿using ECommerce.Catalog.Domain.Interfaces.Data;
 using ECommerce.Catalog.Domain.Interfaces.Entities;
 using FluentValidation;
 using FluentValidation.Results;
+using System;
 
 namespace ECommerce.Catalog.Domain.Models
 {
-    public class Product : IAggregateRoot
+    public class Product : IAggregateRoot, IAuditable
     {
-        public Product(Guid id, string description, string name, string image, int quantity, decimal value, bool enabled = true)
+        public Product(Guid id, string description, string name, string image, int quantity, decimal value)
         {
             Id = id;
             Description = description;
@@ -15,8 +16,6 @@ namespace ECommerce.Catalog.Domain.Models
             Image = image;
             Quantity = quantity;
             Value = value;
-            Enabled = enabled;
-            RegistrationDate = DateTime.Now;
         }
 
         public Guid Id { get; set; }
@@ -25,8 +24,9 @@ namespace ECommerce.Catalog.Domain.Models
         public string Image { get; set; }
         public int Quantity { get; set; }
         public decimal Value { get; set; }
-        public bool Enabled { get; set; }
-        public DateTime RegistrationDate { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public ValidationResult Validate()
         {

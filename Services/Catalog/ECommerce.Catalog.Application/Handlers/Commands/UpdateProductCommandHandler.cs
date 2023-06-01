@@ -2,6 +2,7 @@
 using ECommerce.Catalog.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,10 +26,10 @@ namespace ECommerce.Catalog.Application.Handlers.Commands
             product.Id = request.Id;
             product.Name = request.Name;
             product.Description = request.Description;
-            product.Enabled = request.Enabled;
             product.Image = request.Image;
             product.Value = request.Value;
             product.Quantity = request.Quantity;
+            product.UpdatedAt = DateTime.Now;
 
             validation = product.Validate();
 

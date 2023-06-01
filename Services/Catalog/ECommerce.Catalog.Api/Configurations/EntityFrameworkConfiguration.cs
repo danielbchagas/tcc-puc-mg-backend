@@ -11,7 +11,7 @@ namespace ECommerce.Catalog.Api.Configurations
         {
             services.AddDbContext<ApplicationDbContext>(optionsAction =>
             {
-                optionsAction.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                optionsAction.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             });
         }
     }
