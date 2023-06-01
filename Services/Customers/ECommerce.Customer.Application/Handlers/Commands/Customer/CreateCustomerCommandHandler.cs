@@ -2,8 +2,10 @@
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Models = ECommerce.Customers.Domain.Models;
 
 namespace ECommerce.Customers.Application.Handlers.Commands.User
 {
@@ -18,11 +20,11 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
 
         public async Task<ValidationResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = new Domain.Models.Customer(
+            var customer = new Models.Customer(
                 id: request.Id, 
                 firstName: request.FirstName, 
                 lastName: request.LastName, 
-                createdAt: request.CreatedAt, 
+                createdAt: DateTime.Now, 
                 document: request.Document, 
                 email: request.Email, 
                 phone: request.Phone);

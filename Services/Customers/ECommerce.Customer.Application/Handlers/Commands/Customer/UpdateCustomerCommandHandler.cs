@@ -2,6 +2,7 @@
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
             var customer = await _repository.Get(request.Id);
             customer.FirstName = request.FirstName;
             customer.LastName = request.LastName;
+            customer.UpdatedAt = DateTime.Now;
 
             var validation = customer.Validate();
 

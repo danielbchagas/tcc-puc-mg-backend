@@ -22,7 +22,6 @@ namespace ECommerce.Customers.Application.Commands.User
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime CreatedAt => DateTime.Now;
 
         public Models.Document Document { get; set; }
         public Models.Email Email { get; set; }
