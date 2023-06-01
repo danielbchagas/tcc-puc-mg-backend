@@ -1,5 +1,4 @@
-﻿using ECommerce.Catalog.Domain.Interfaces.Data;
-using ECommerce.Catalog.Domain.Interfaces.Entities;
+﻿using ECommerce.Catalog.Domain.Interfaces.Entities;
 using FluentValidation;
 using FluentValidation.Results;
 using System;

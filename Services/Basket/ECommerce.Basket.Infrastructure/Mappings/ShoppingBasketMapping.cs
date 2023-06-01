@@ -21,6 +21,8 @@ namespace ECommerce.Basket.Infrastructure.Mappings
                 .WithOne(ic => ic.ShoppingBasket)
                 .HasForeignKey(ic => ic.ShoppingBasketId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasQueryFilter(cc => cc.DeletedAt == null);
         }
     }
 }

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ECommerce.Basket.Domain.Interfaces.Entities;
+﻿using ECommerce.Basket.Domain.Interfaces.Entities;
 using FluentValidation;
 using FluentValidation.Results;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ECommerce.Basket.Domain.Models
 {
-    public class ShoppingBasket : IAggregateRoot
+    public class ShoppingBasket : IAggregateRoot, IAuditable
     {
         #region Constructor
         public ShoppingBasket(Guid id, Guid customerId)
@@ -15,7 +15,6 @@ namespace ECommerce.Basket.Domain.Models
             Id = id;
             CustomerId = customerId;
             IsEnded = false;
-            RegistrationDate = DateTime.Now;
             Items = new List<BasketItem>();
         }
         #endregion
@@ -25,7 +24,9 @@ namespace ECommerce.Basket.Domain.Models
         public decimal Value { get; set; }
         public Guid CustomerId { get; set; }
         public bool IsEnded { get; set; }
-        public DateTime RegistrationDate { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public ICollection<BasketItem> Items { get; set; }
         #endregion

@@ -56,12 +56,6 @@ namespace ECommerce.Basket.Api.Services.gRPC
                     Id = Convert.ToString(result.Id),
                     Customerid = Convert.ToString(result.CustomerId),
                     Value = Convert.ToDouble(result.Value),
-                    Registrationdate = new date
-                    {
-                        Day = result.RegistrationDate.Day,
-                        Month = result.RegistrationDate.Month,
-                        Year = result.RegistrationDate.Year,
-                    },
                     Isended = result.IsEnded
                 }
             };
@@ -102,12 +96,6 @@ namespace ECommerce.Basket.Api.Services.gRPC
                     Id = Convert.ToString(result.Id),
                     Customerid = Convert.ToString(result.CustomerId),
                     Value = Convert.ToDouble(result.Value),
-                    Registrationdate = new date
-                    {
-                        Day = result.RegistrationDate.Day,
-                        Month = result.RegistrationDate.Month,
-                        Year = result.RegistrationDate.Year,
-                    },
                     Isended = result.IsEnded
                 }
             };
@@ -145,12 +133,6 @@ namespace ECommerce.Basket.Api.Services.gRPC
                     Id = Convert.ToString(basket.Id),
                     Customerid = Convert.ToString(basket.CustomerId),
                     Value = Convert.ToDouble(basket.Value),
-                    Registrationdate = new date
-                    {
-                        Day = basket.RegistrationDate.Day,
-                        Month = basket.RegistrationDate.Month,
-                        Year = basket.RegistrationDate.Year,
-                    },
                     Isended = basket.IsEnded
                 };
 

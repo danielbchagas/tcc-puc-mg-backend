@@ -117,9 +117,8 @@ message ShoppingBasket {
 	string id = 1;
 	double value = 2;
 	string customerid = 3;
-	date registrationdate = 4;
-	bool isended = 5;
-	repeated BasketItem items = 6;
+	bool isended = 4;
+	repeated BasketItem items = 5;
 }
 
 message BasketItem {

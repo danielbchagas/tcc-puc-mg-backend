@@ -6,29 +6,22 @@
 
   <ItemGroup>
     <Compile Remove="Databases\**" />
+    <Compile Remove="Database\**" />
     <EmbeddedResource Remove="Databases\**" />
+    <EmbeddedResource Remove="Database\**" />
     <None Remove="Databases\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Database\Basket.db" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Database\Basket.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <None Remove="Database\**" />
   </ItemGroup>
 
   <ItemGroup>
 
-	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.9" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.9" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.17" />
+	  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
   </ItemGroup>
 
   <ItemGroup>

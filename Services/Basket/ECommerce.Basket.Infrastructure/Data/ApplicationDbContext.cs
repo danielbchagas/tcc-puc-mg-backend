@@ -20,6 +20,8 @@ namespace ECommerce.Basket.Infrastructure.Data
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("Basket");
+
             modelBuilder.Ignore<ValidationResult>();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
