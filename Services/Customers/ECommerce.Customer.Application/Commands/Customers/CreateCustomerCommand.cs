@@ -2,17 +2,17 @@
 using FluentValidation.Results;
 using MediatR;
 using System;
+using Models = ECommerce.Customers.Domain.Models;
 
 namespace ECommerce.Customers.Application.Commands.User
 {
     public class CreateCustomerCommand : IRequest<ValidationResult>
     {
-        public CreateCustomerCommand(Guid id, string firstName, string lastName, bool enabled, Domain.Models.Document document, Domain.Models.Email email, Domain.Models.Phone phone)
+        public CreateCustomerCommand(Guid id, string firstName, string lastName, Models.Document document, Models.Email email, Models.Phone phone)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
-            Enabled = enabled;
 
             Document = document;
             Email = email;
@@ -22,16 +22,16 @@ namespace ECommerce.Customers.Application.Commands.User
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public bool Enabled { get; set; }
+        public DateTime CreatedAt => DateTime.Now;
 
-        public Domain.Models.Document Document { get; set; }
-        public Domain.Models.Email Email { get; set; }
-        public Domain.Models.Phone Phone { get; set; }
+        public Models.Document Document { get; set; }
+        public Models.Email Email { get; set; }
+        public Models.Phone Phone { get; set; }
     }
 
-    public class CreateUserCommandValidator : AbstractValidator<CreateCustomerCommand>
+    public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCommand>
     {
-        public CreateUserCommandValidator()
+        public CreateCustomerCommandValidator()
         {
             RuleFor(u => u.FirstName).NotEmpty().NotNull();
             RuleFor(u => u.LastName).NotEmpty().NotNull();

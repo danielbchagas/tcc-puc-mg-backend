@@ -33,7 +33,6 @@ namespace ECommerce.Customer.Api.Configurations
             #region
             services.AddScoped<IRequestHandler<CreateCustomerCommand, ValidationResult>, CreateCustomerCommandHandler>();
             services.AddScoped<IRequestHandler<DisableCustomerCommand, ValidationResult>, DisableCustomerCommandHandler>();
-            services.AddScoped<IRequestHandler<DeleteCustomerCommand, ValidationResult>, DeleteCustomerCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateCustomerCommand, ValidationResult>, UpdateCustomerCommandHandler>();
 
             services.AddScoped<IRequestHandler<CreateAddressCommand, ValidationResult>, CreateAddressCommandHandler>();

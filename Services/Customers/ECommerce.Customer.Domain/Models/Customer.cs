@@ -15,22 +15,24 @@ namespace ECommerce.Customers.Domain.Models
             CreatedAt = DateTime.Now;
         }
 
-        public Customer(Guid id, string firstName, string lastName, Document document, Email email, Phone phone)
+        public Customer(Guid id, string firstName, string lastName, DateTime createdAt, Document document, Email email, Phone phone)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
+            CreatedAt = createdAt;
 
             Document = document;
             Email = email;
             Phone = phone;
         }
 
-        public Customer(Guid id, string firstName, string lastName, Document document, Email email, Phone phone, Address address)
+        public Customer(Guid id, string firstName, string lastName, DateTime createdAt, Document document, Email email, Phone phone, Address address)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
+            CreatedAt = createdAt;
 
             Document = document;
             Email = email;
@@ -40,15 +42,15 @@ namespace ECommerce.Customers.Domain.Models
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public Document Document { get; set; }
         public Email Email { get; set; }
         public Phone Phone { get; set; }
         public Address Address { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
-
+        
         public ValidationResult Validate()
         {
             return new CustomerValidator().Validate(this);

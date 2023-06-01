@@ -37,7 +37,6 @@ namespace ECommerce.Customer.Api.Services.gRPC
                 id: Guid.Parse(request.Id),
                 firstName: request.Firstname,
                 lastName: request.Lastname,
-                enabled: true,
                 document: new Customers.Domain.Models.Document(
                     number: request.Document.Number,
                     customerId: Guid.Parse(request.Document.Userid)

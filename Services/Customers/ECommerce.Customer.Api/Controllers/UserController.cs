@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerce.Customer.Api.Constants;
+﻿using ECommerce.Customer.Api.Constants;
 using ECommerce.Customers.Application.Commands.User;
 using ECommerce.Customers.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Customer.Api.Controllers
 {
@@ -84,20 +84,6 @@ namespace ECommerce.Customer.Api.Controllers
         public async Task<IActionResult> Disable(Guid id)
         {
             var result = await _mediator.Send(new DisableCustomerCommand(id));
-
-            if (!result.IsValid)
-                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
-
-            return Ok();
-        }
-
-        [Authorize("Administrator")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("delete/{id:Guid}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var result = await _mediator.Send(new DeleteCustomerCommand(id));
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));
