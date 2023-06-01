@@ -8,7 +8,7 @@ namespace ECommerce.Customers.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Customers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -20,7 +20,7 @@ namespace ECommerce.Customers.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Customers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,15 +33,15 @@ namespace ECommerce.Customers.Infrastructure.Migrations
                     City = table.Column<string>(type: "varchar(50)", nullable: false),
                     State = table.Column<string>(type: "char(2)", nullable: false),
                     ZipCode = table.Column<string>(type: "varchar(9)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Addresses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Addresses_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Addresses_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -52,15 +52,15 @@ namespace ECommerce.Customers.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Number = table.Column<string>(type: "varchar(18)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Documents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Documents_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Documents_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -71,15 +71,15 @@ namespace ECommerce.Customers.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Address = table.Column<string>(type: "varchar(100)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Emails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Emails_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Emails_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -90,41 +90,41 @@ namespace ECommerce.Customers.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Number = table.Column<string>(type: "varchar(20)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Phones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Phones_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Phones_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_UserId",
+                name: "IX_Addresses_CustomerId",
                 table: "Addresses",
-                column: "UserId",
+                column: "CustomerId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Documents_UserId",
+                name: "IX_Documents_CustomerId",
                 table: "Documents",
-                column: "UserId",
+                column: "CustomerId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Emails_UserId",
+                name: "IX_Emails_CustomerId",
                 table: "Emails",
-                column: "UserId",
+                column: "CustomerId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Phones_UserId",
+                name: "IX_Phones_CustomerId",
                 table: "Phones",
-                column: "UserId",
+                column: "CustomerId",
                 unique: true);
         }
 
@@ -143,7 +143,7 @@ namespace ECommerce.Customers.Infrastructure.Migrations
                 name: "Phones");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Customers");
         }
     }
 }

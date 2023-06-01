@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Customers.Application.Handlers.Commands.User
 {
-    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, ValidationResult>
+    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, ValidationResult>
     {
-        public UpdateUserCommandHandler(IUserRepository repository)
+        public UpdateCustomerCommandHandler(IUserRepository repository)
         {
             _repository = repository;
         }
 
         private readonly IUserRepository _repository;
 
-        public async Task<ValidationResult> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
             var customer = await _repository.Get(request.Id);
             customer.FirstName = request.FirstName;

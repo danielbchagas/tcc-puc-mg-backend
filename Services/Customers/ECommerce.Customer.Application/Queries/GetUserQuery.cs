@@ -4,7 +4,7 @@ using System;
 
 namespace ECommerce.Customers.Application.Queries
 {
-    public class GetUserQuery : IRequest<User>
+    public class GetUserQuery : IRequest<Customer>
     {
         public GetUserQuery(Guid id)
         {

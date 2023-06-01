@@ -5,9 +5,9 @@ using System;
 
 namespace ECommerce.Customers.Application.Commands.User
 {
-    public class CreateUserCommand : IRequest<ValidationResult>
+    public class CreateCustomerCommand : IRequest<ValidationResult>
     {
-        public CreateUserCommand(Guid id, string firstName, string lastName, bool enabled, Domain.Models.Document document, Domain.Models.Email email, Domain.Models.Phone phone)
+        public CreateCustomerCommand(Guid id, string firstName, string lastName, bool enabled, Domain.Models.Document document, Domain.Models.Email email, Domain.Models.Phone phone)
         {
             Id = id;
             FirstName = firstName;
@@ -29,7 +29,7 @@ namespace ECommerce.Customers.Application.Commands.User
         public Domain.Models.Phone Phone { get; set; }
     }
 
-    public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+    public class CreateUserCommandValidator : AbstractValidator<CreateCustomerCommand>
     {
         public CreateUserCommandValidator()
         {

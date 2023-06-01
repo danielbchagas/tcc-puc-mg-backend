@@ -36,7 +36,7 @@ namespace ECommerce.Customers.Infrastructure.Repositories
         public async Task<Document> Get(Guid id)
         {
             return await _context.Documents
-                .Include(d => d.User)
+                .Include(d => d.Customer)
                 .FirstOrDefaultAsync(d => d.Id == id);
         }
 
@@ -48,7 +48,7 @@ namespace ECommerce.Customers.Infrastructure.Repositories
         public async Task<IEnumerable<Document>> Get(Expression<Func<Document, bool>> filter)
         {
             return await _context.Documents
-                .Include(d => d.User)
+                .Include(d => d.Customer)
                 .Where(filter)
                 .ToListAsync();
         }

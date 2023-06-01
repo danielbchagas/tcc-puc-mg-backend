@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Customers.Application.Handlers.Commands.User
 {
-    public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, ValidationResult>
+    public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, ValidationResult>
     {
-        public DeleteUserCommandHandler(IUserRepository repository)
+        public DeleteCustomerCommandHandler(IUserRepository repository)
         {
             _repository = repository;
         }
 
         private readonly IUserRepository _repository;
 
-        public async Task<ValidationResult> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
         {
             var validation = new ValidationResult();
 

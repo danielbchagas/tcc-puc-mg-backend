@@ -7,14 +7,14 @@ namespace ECommerce.Customers.Domain.Models
 {
     public class Address : Entity
     {
-        public Address(string firstLine, string secondLine, string city, string zipCode, string state, Guid userId)
+        public Address(string firstLine, string secondLine, string city, string zipCode, string state, Guid customerId)
         {
             FirstLine = firstLine;
             SecondLine = secondLine;
             City = city;
             State = state;
             ZipCode = zipCode;
-            UserId = userId;
+            CustomerId = customerId;
         }
 
         public string FirstLine { get; set; }
@@ -22,10 +22,10 @@ namespace ECommerce.Customers.Domain.Models
         public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
-        public Guid UserId { get; set; }
+        public Guid CustomerId { get; set; }
 
         [JsonIgnore]
-        public User User { get; set; }
+        public Customer Customer { get; set; }
 
         public ValidationResult Validate()
         {
@@ -58,7 +58,7 @@ namespace ECommerce.Customers.Domain.Models
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
-            RuleFor(_ => _.UserId)
+            RuleFor(_ => _.CustomerId)
                 .NotEqual(Guid.Empty)
                 .WithMessage("{PropertyName} tem um valor maior do que o esperado!");
         }

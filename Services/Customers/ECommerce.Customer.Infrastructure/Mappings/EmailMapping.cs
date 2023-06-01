@@ -15,8 +15,6 @@ namespace ECommerce.Customers.Infrastructure.Mappings
             builder.Property(e => e.Address)
                 .HasColumnType("varchar(100)")
                 .IsRequired();
-
-            builder.HasOne(e => e.User);
         }
     }
 }

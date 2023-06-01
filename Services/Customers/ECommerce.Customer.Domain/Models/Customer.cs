@@ -5,9 +5,9 @@ using System;
 
 namespace ECommerce.Customers.Domain.Models
 {
-    public class User : Entity, IAggregateRoot, IAuditable
+    public class Customer : Entity, IAggregateRoot, IAuditable
     {
-        public User(Guid id, string firstName, string lastName)
+        public Customer(Guid id, string firstName, string lastName)
         {
             Id = id;
             FirstName = firstName;
@@ -15,7 +15,7 @@ namespace ECommerce.Customers.Domain.Models
             CreatedAt = DateTime.Now;
         }
 
-        public User(Guid id, string firstName, string lastName, Document document, Email email, Phone phone)
+        public Customer(Guid id, string firstName, string lastName, Document document, Email email, Phone phone)
         {
             Id = id;
             FirstName = firstName;
@@ -26,7 +26,7 @@ namespace ECommerce.Customers.Domain.Models
             Phone = phone;
         }
 
-        public User(Guid id, string firstName, string lastName, Document document, Email email, Phone phone, Address address)
+        public Customer(Guid id, string firstName, string lastName, Document document, Email email, Phone phone, Address address)
         {
             Id = id;
             FirstName = firstName;
@@ -55,7 +55,7 @@ namespace ECommerce.Customers.Domain.Models
         }
     }
 
-    public class CustomerValidator : AbstractValidator<User>
+    public class CustomerValidator : AbstractValidator<Customer>
     {
         public CustomerValidator()
         {

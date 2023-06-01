@@ -13,6 +13,8 @@ namespace ECommerce.Identity.Api.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.HasDefaultSchema("Identity");
+
             Seed(builder);
 
             base.OnModelCreating(builder);

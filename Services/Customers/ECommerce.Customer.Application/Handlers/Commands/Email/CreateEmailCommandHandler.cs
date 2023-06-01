@@ -22,7 +22,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Email
         {
             var validation = new ValidationResult();
 
-            var emails = await _repository.Get(e => e.UserId == request.UserId);
+            var emails = await _repository.Get(e => e.CustomerId == request.UserId);
 
             if (emails.Any())
             {

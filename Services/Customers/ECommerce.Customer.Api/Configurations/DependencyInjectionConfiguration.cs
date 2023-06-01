@@ -31,10 +31,10 @@ namespace ECommerce.Customer.Api.Configurations
             services.AddMediatR(typeof(Startup));
 
             #region
-            services.AddScoped<IRequestHandler<CreateUserCommand, ValidationResult>, CreateUserCommandHandler>();
-            services.AddScoped<IRequestHandler<DisableUserCommand, ValidationResult>, DisableUserCommandHandler>();
-            services.AddScoped<IRequestHandler<DeleteUserCommand, ValidationResult>, DeleteUserCommandHandler>();
-            services.AddScoped<IRequestHandler<UpdateUserCommand, ValidationResult>, UpdateUserCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateCustomerCommand, ValidationResult>, CreateCustomerCommandHandler>();
+            services.AddScoped<IRequestHandler<DisableCustomerCommand, ValidationResult>, DisableCustomerCommandHandler>();
+            services.AddScoped<IRequestHandler<DeleteCustomerCommand, ValidationResult>, DeleteCustomerCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateCustomerCommand, ValidationResult>, UpdateCustomerCommandHandler>();
 
             services.AddScoped<IRequestHandler<CreateAddressCommand, ValidationResult>, CreateAddressCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateAddressCommand, ValidationResult>, UpdateAddressCommandHandler>();
@@ -50,8 +50,8 @@ namespace ECommerce.Customer.Api.Configurations
             #endregion
 
             #region
-            services.AddScoped<IRequestHandler<GetUserQuery, User>, GetUserQueryHandler>();
-            services.AddScoped<IRequestHandler<GetAllUsersQuery, IList<User>>, GetAllUsersQueryHandler>();
+            services.AddScoped<IRequestHandler<GetUserQuery, Customers.Domain.Models.Customer>, GetCustomerQueryHandler>();
+            services.AddScoped<IRequestHandler<GetAllUsersQuery, IList<Customers.Domain.Models.Customer>>, GetAllCustomerQueryHandler>();
 
             services.AddScoped<IRequestHandler<GetAddressQuery, Address>, GetAddressQueryHandler>();
 

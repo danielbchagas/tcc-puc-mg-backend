@@ -21,21 +21,21 @@ namespace ECommerce.Customers.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public async Task Create(User person)
+        public async Task Create(Customer person)
         {
-            await _context.Users.AddAsync(person);
+            await _context.Customers.AddAsync(person);
         }
 
-        public async Task Update(User person)
+        public async Task Update(Customer person)
         {
-            _context.Users.Update(person);
+            _context.Customers.Update(person);
 
             await Task.CompletedTask;
         }
 
-        public async Task<User> Get(Guid id)
+        public async Task<Customer> Get(Guid id)
         {
-            return await _context.Users
+            return await _context.Customers
                 .Include(c => c.Document)
                 .Include(c => c.Email)
                 .Include(c => c.Address)
@@ -46,7 +46,7 @@ namespace ECommerce.Customers.Infrastructure.Repositories
         public async Task Delete(Guid id)
         {
             var customer = await Get(id);
-            _context.Users.Remove(customer);
+            _context.Customers.Remove(customer);
         }
 
         public void Dispose()
@@ -54,9 +54,9 @@ namespace ECommerce.Customers.Infrastructure.Repositories
             _context?.Dispose();
         }
 
-        public async Task<IList<User>> Get()
+        public async Task<IList<Customer>> Get()
         {
-            return await _context.Users
+            return await _context.Customers
                 .Include(c => c.Document)
                 .Include(c => c.Email)
                 .Include(c => c.Address)

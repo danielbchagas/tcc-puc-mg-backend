@@ -4,9 +4,9 @@ using MediatR;
 
 namespace ECommerce.Customers.Application.Commands.User
 {
-    public class UpdateUserCommand : IRequest<ValidationResult>
+    public class UpdateCustomerCommand : IRequest<ValidationResult>
     {
-        public UpdateUserCommand(Guid id, string firstName, string lastName, bool enabled)
+        public UpdateCustomerCommand(Guid id, string firstName, string lastName, bool enabled)
         {
             Id = id;
             FirstName = firstName;

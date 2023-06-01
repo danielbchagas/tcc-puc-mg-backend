@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ECommerce.Customers.Infrastructure.Mappings
 {
-    public class UserMapping : IEntityTypeConfiguration<User>
+    public class CustomerMapping : IEntityTypeConfiguration<Customer>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Customer> builder)
         {
-            builder.ToTable("Users");
+            builder.ToTable("Customers");
 
             builder.HasKey(c => c.Id);
 
@@ -21,19 +21,23 @@ namespace ECommerce.Customers.Infrastructure.Mappings
                 .IsRequired();
 
             builder.HasOne(c => c.Document)
-                .WithOne(d => d.User)
+                .WithOne(c => c.Customer)
+                .HasForeignKey<Document>(c => c.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(c => c.Email)
-                .WithOne(e => e.User)
+                .WithOne(c => c.Customer)
+                .HasForeignKey<Email>(c => c.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(c => c.Phone)
-                .WithOne(t => t.User)
+                .WithOne(c => c.Customer)
+                .HasForeignKey<Phone>(c => c.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(c => c.Address)
-                .WithOne(e => e.User)
+                .WithOne(c => c.Customer)
+                .HasForeignKey<Address>(c => c.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasQueryFilter(c => c.DeletedAt == null);

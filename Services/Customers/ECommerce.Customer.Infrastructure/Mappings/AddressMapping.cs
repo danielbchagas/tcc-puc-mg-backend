@@ -31,8 +31,6 @@ namespace ECommerce.Customers.Infrastructure.Mappings
             builder.Property(e => e.State)
                 .HasColumnType("char(2)")
                 .IsRequired();
-
-            builder.HasOne(e => e.User);
         }
     }
 }

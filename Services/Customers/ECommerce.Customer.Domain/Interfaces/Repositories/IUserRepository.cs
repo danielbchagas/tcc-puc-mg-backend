@@ -9,10 +9,10 @@ namespace ECommerce.Customers.Domain.Interfaces.Repositories
     public interface IUserRepository : IDisposable
     {
         IUnitOfWork UnitOfWork { get; }
-        Task Create(User person);
-        Task Update(User person);
+        Task Create(Customer person);
+        Task Update(Customer person);
         Task Delete(Guid id);
-        Task<User> Get(Guid id);
-        Task<IList<User>> Get();
+        Task<Customer> Get(Guid id);
+        Task<IList<Customer>> Get();
     }
 }

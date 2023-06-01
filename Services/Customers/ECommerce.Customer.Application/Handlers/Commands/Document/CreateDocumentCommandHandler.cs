@@ -22,7 +22,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Document
         {
             var validation = new ValidationResult();
 
-            var documents = await _repository.Get(d => d.UserId == request.UserId);
+            var documents = await _repository.Get(d => d.CustomerId == request.UserId);
 
             if (documents.Any())
             {

@@ -4,9 +4,9 @@ using MediatR;
 
 namespace ECommerce.Customers.Application.Commands.User
 {
-    public class DeleteUserCommand : IRequest<ValidationResult>
+    public class DeleteCustomerCommand : IRequest<ValidationResult>
     {
-        public DeleteUserCommand(Guid id)
+        public DeleteCustomerCommand(Guid id)
         {
             Id = id;
         }

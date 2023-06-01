@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Customers.Application.Handlers.Commands.User
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ValidationResult>
+    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, ValidationResult>
     {
-        public CreateUserCommandHandler(IUserRepository repository)
+        public CreateCustomerCommandHandler(IUserRepository repository)
         {
             _repository = repository;
         }
 
         private readonly IUserRepository _repository;
 
-        public async Task<ValidationResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<ValidationResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = new Domain.Models.User(id: request.Id, firstName: request.FirstName, lastName: request.LastName, document: request.Document, email: request.Email, phone: request.Phone);
+            var customer = new Domain.Models.Customer(id: request.Id, firstName: request.FirstName, lastName: request.LastName, document: request.Document, email: request.Email, phone: request.Phone);
 
             var validation = customer.Validate();
 

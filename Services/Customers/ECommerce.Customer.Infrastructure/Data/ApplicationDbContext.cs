@@ -11,7 +11,7 @@ namespace ECommerce.Customers.Infrastructure.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<Email> Emails { get; set; }
@@ -19,6 +19,8 @@ namespace ECommerce.Customers.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("Customers");
+
             modelBuilder.Ignore<ValidationResult>();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

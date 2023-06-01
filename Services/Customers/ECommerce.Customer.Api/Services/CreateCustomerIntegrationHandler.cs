@@ -53,7 +53,7 @@ namespace ECommerce.Customer.Api.Services
             consumer.Received += async (model, ea) =>
             {
                 byte[] body = ea.Body.ToArray();
-                var message = JsonSerializer.Deserialize<CreateUserCommand>(body);
+                var message = JsonSerializer.Deserialize<CreateCustomerCommand>(body);
 
                 await AddCustomer(message);
 
@@ -67,7 +67,7 @@ namespace ECommerce.Customer.Api.Services
             await Task.CompletedTask;
         }
 
-        private async Task<ValidationResult> AddCustomer(CreateUserCommand request)
+        private async Task<ValidationResult> AddCustomer(CreateCustomerCommand request)
         {
             using (var scope = _serviceProvider.CreateScope())
             {

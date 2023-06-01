@@ -22,7 +22,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Phone
         {
             var validation = new ValidationResult();
 
-            var phones = await _repository.Get(t => t.UserId == request.UserId);
+            var phones = await _repository.Get(t => t.CustomerId == request.UserId);
 
             if (phones.Any())
             {

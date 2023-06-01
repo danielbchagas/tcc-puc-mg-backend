@@ -7,17 +7,17 @@ namespace ECommerce.Customers.Domain.Models
 {
     public class Email : Entity
     {
-        public Email(string address, Guid userId)
+        public Email(string address, Guid customerId)
         {
             Address = address;
-            UserId = userId;
+            CustomerId = customerId;
         }
 
         public string Address { get; set; }
-        public Guid UserId { get; set; }
+        public Guid CustomerId { get; set; }
 
         [JsonIgnore]
-        public User User { get; set; }
+        public Customer Customer { get; set; }
 
         public ValidationResult Validate()
         {
@@ -39,7 +39,7 @@ namespace ECommerce.Customers.Domain.Models
                 .MaximumLength(100)
                 .WithMessage("{PropertyName} tem um valor maior do que o esperado!")
                 .EmailAddress();
-            RuleFor(d => d.UserId)
+            RuleFor(d => d.CustomerId)
                 .NotEqual(Guid.Empty)
                 .WithMessage("{PropertyName} não pode ser nulo ou vazio!");
         }

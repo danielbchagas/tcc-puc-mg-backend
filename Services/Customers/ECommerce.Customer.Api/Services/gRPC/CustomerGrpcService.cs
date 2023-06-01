@@ -33,22 +33,22 @@ namespace ECommerce.Customer.Api.Services.gRPC
                 };
             }
             
-            var createUserCommand = new CreateUserCommand(
+            var createUserCommand = new CreateCustomerCommand(
                 id: Guid.Parse(request.Id),
                 firstName: request.Firstname,
                 lastName: request.Lastname,
                 enabled: true,
                 document: new Customers.Domain.Models.Document(
                     number: request.Document.Number,
-                    userId: Guid.Parse(request.Document.Userid)
+                    customerId: Guid.Parse(request.Document.Userid)
                 ),
                 email: new Customers.Domain.Models.Email(
                     address: request.Email.Address,
-                    userId: Guid.Parse(request.Email.Userid)
+                    customerId: Guid.Parse(request.Email.Userid)
                 ),
                 phone: new Customers.Domain.Models.Phone(
                     number: request.Phone.Number,
-                    userId: Guid.Parse(request.Phone.Userid)
+                    customerId: Guid.Parse(request.Phone.Userid)
                 )
             );
 
@@ -86,19 +86,19 @@ namespace ECommerce.Customer.Api.Services.gRPC
                     {
                         Id = Convert.ToString(result.Document.Id),
                         Number = result.Document.Number,
-                        Userid = Convert.ToString(result.Document.UserId)
+                        Userid = Convert.ToString(result.Document.CustomerId)
                     },
                     Email = new Customers.Api.Protos.Email
                     {
                         Id = Convert.ToString(result.Email.Id),
                         Address = result.Email.Address,
-                        Userid = Convert.ToString(result.Email.UserId)
+                        Userid = Convert.ToString(result.Email.CustomerId)
                     },
                     Phone = new Customers.Api.Protos.Phone
                     {
                         Id = Convert.ToString(result.Phone.Id),
                         Number = result.Phone.Number,
-                        Userid = Convert.ToString(result.Phone.UserId)
+                        Userid = Convert.ToString(result.Phone.CustomerId)
                     },
                     Address = new Customers.Api.Protos.Address
                     {
@@ -108,7 +108,7 @@ namespace ECommerce.Customer.Api.Services.gRPC
                         City = result.Address.City,
                         State = result.Address.State,
                         Zipcode = result.Address.ZipCode,
-                        Userid = Convert.ToString(result.Address.UserId)
+                        Userid = Convert.ToString(result.Address.CustomerId)
                     }
                 }
             };

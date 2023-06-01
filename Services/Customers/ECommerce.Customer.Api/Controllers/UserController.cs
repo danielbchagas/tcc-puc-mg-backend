@@ -52,7 +52,7 @@ namespace ECommerce.Customer.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateUserCommand request)
+        public async Task<IActionResult> Create(CreateCustomerCommand request)
         {
             var result = await _mediator.Send(request);
 
@@ -65,7 +65,7 @@ namespace ECommerce.Customer.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id:Guid}")]
-        public async Task<IActionResult> Update(Guid id, UpdateUserCommand request)
+        public async Task<IActionResult> Update(Guid id, UpdateCustomerCommand request)
         {
             if (id != request.Id)
                 return BadRequest(ResponseMessages.InconsistentIdentifiers);
@@ -83,7 +83,7 @@ namespace ECommerce.Customer.Api.Controllers
         [HttpDelete("disable/{id:Guid}")]
         public async Task<IActionResult> Disable(Guid id)
         {
-            var result = await _mediator.Send(new DisableUserCommand(id));
+            var result = await _mediator.Send(new DisableCustomerCommand(id));
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));
@@ -97,7 +97,7 @@ namespace ECommerce.Customer.Api.Controllers
         [HttpDelete("delete/{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _mediator.Send(new DeleteUserCommand(id));
+            var result = await _mediator.Send(new DeleteCustomerCommand(id));
 
             if (!result.IsValid)
                 return BadRequest(result.Errors.Select(e => e.ErrorMessage));

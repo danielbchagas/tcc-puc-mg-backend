@@ -4,9 +4,9 @@ using MediatR;
 
 namespace ECommerce.Customers.Application.Commands.User
 {
-    public class DisableUserCommand : IRequest<ValidationResult>
+    public class DisableCustomerCommand : IRequest<ValidationResult>
     {
-        public DisableUserCommand(Guid id)
+        public DisableCustomerCommand(Guid id)
         {
             Id = id;
         }
