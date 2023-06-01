@@ -13,7 +13,7 @@ namespace ECommerce.Customer.Api.Configurations
 
             services.AddDbContext<ApplicationDbContext>(optionsAction =>
             {
-                optionsAction.UseSqlite(connectionString);
+                optionsAction.UseNpgsql(connectionString);
             });
         }
     }

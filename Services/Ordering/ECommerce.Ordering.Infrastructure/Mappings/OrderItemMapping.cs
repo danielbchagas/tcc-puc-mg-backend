@@ -27,14 +27,6 @@ namespace ECommerce.Ordering.Infrastructure.Mappings
             builder.Property(p => p.Value)
                 .HasColumnType("money")
                 .IsRequired();
-
-            builder.Property(p => p.ProductId)
-                .HasColumnType("uniqueidentifier")
-                .IsRequired();
-
-            builder.Property(p => p.OrderId)
-                .HasColumnType("uniqueidentifier")
-                .IsRequired();
         }
     }
 }

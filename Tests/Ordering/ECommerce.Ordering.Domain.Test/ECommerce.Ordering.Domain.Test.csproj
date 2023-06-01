@@ -20,8 +20,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Services\Ordering\ECommerce.Ordering.Domain\ECommerce.Ordering.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

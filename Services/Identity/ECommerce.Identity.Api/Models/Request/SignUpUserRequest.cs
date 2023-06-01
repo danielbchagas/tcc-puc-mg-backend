@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ECommerce.Identity.Api.Models.Request
 {
     public class SignUpUserRequest
     {
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "O campo nome é obrigatório.")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "O campo sobrenome é obrigatório.")]

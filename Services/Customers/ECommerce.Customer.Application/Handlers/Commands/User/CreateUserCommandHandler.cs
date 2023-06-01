@@ -18,7 +18,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
 
         public async Task<ValidationResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var customer = new Domain.Models.User(id: request.Id, firstName: request.FirstName, lastName: request.LastName, enabled: request.Enabled, document: request.Document, email: request.Email, phone: request.Phone);
+            var customer = new Domain.Models.User(id: request.Id, firstName: request.FirstName, lastName: request.LastName, document: request.Document, email: request.Email, phone: request.Phone);
 
             var validation = customer.Validate();
 

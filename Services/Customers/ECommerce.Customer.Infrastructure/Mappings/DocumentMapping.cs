@@ -16,9 +16,7 @@ namespace ECommerce.Customers.Infrastructure.Mappings
                 .HasColumnType("varchar(18)")
                 .IsRequired();
 
-            builder.Property(e => e.UserId)
-                .HasColumnType("uniqueidentifier")
-                .IsRequired();
+            builder.HasOne(e => e.User);
         }
     }
 }

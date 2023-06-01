@@ -40,7 +40,6 @@ namespace ECommerce.Customers.Infrastructure.Repositories
                 .Include(c => c.Email)
                 .Include(c => c.Address)
                 .Include(c => c.Phone)
-                .Where(c => c.Enabled == true)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
@@ -62,7 +61,6 @@ namespace ECommerce.Customers.Infrastructure.Repositories
                 .Include(c => c.Email)
                 .Include(c => c.Address)
                 .Include(c => c.Phone)
-                .Where(c => c.Enabled == true)
                 .ToListAsync();
         }
     }

@@ -14,8 +14,6 @@ namespace ECommerce.Ordering.Domain.Models
             Quantity = quantity;
             Value = value;
             Image = image;
-            ProductId = productId;
-            OrderId = orderId;
         }
 
         public Guid Id { get; set; }
@@ -23,9 +21,6 @@ namespace ECommerce.Ordering.Domain.Models
         public int Quantity { get; set; }
         public decimal Value { get; set; }
         public string Image { get; set; }
-
-        public Guid ProductId { get; set; }
-        public Guid OrderId { get; set; }
 
         [JsonIgnore]
         public Order Order { get; set; }

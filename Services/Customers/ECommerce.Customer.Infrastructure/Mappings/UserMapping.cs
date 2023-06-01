@@ -20,10 +20,6 @@ namespace ECommerce.Customers.Infrastructure.Mappings
                 .HasColumnType("varchar(100)")
                 .IsRequired();
 
-            builder.Property(c => c.Enabled)
-                .HasColumnType("bit")
-                .IsRequired();
-
             builder.HasOne(c => c.Document)
                 .WithOne(d => d.User)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -39,6 +35,8 @@ namespace ECommerce.Customers.Infrastructure.Mappings
             builder.HasOne(c => c.Address)
                 .WithOne(e => e.User)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasQueryFilter(c => c.DeletedAt == null);
         }
     }
 }

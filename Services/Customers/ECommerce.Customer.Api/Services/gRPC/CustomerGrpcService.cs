@@ -82,7 +82,6 @@ namespace ECommerce.Customer.Api.Services.gRPC
                     Id = Convert.ToString(result.Id),
                     Firstname = result.FirstName,
                     Lastname = result.LastName,
-                    Enabled = result.Enabled,
                     Document = new Customers.Api.Protos.Document
                     {
                         Id = Convert.ToString(result.Document.Id),

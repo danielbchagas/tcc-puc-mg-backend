@@ -1,5 +1,4 @@
-﻿using ECommerce.Identity.Api.Handlers;
-using ECommerce.Identity.Api.Interfaces;
+﻿using ECommerce.Identity.Api.Interfaces;
 using ECommerce.Identity.Api.Models.Request;
 using Grpc.Core;
 using Microsoft.AspNetCore.Identity;
@@ -13,12 +12,12 @@ namespace ECommerce.Identity.Api.Services.gRPC
     {
         private readonly Customers.Api.Protos.CustomerService.CustomerServiceClient _client;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly JwtHandler _jwtHandler;
+        private readonly JwtService _jwtHandler;
         private readonly ILogger<CustomerGrpcClient> _logger;
 
         public CustomerGrpcClient(Customers.Api.Protos.CustomerService.CustomerServiceClient client,
             UserManager<IdentityUser> userManager,
-            JwtHandler jwtHandler,
+            JwtService jwtHandler,
             ILogger<CustomerGrpcClient> logger)
         {
             _client = client;
@@ -27,11 +26,9 @@ namespace ECommerce.Identity.Api.Services.gRPC
             _jwtHandler = jwtHandler;
         }
 
-        public async Task<Customers.Api.Protos.CreateUserResponse> Create(SignUpUserRequest user)
+        public async Task<Customers.Api.Protos.CreateUserResponse> Create(CustomerRequest user)
         {
-            var identityUser = await _userManager.FindByEmailAsync(user.Email);
-
-            var token = await _jwtHandler.GenerateNewToken(user.Email);
+            var token = await _jwtHandler.GenerateNewToken(user.Email.Address);
 
             var headers = new Metadata
             {
@@ -41,24 +38,24 @@ namespace ECommerce.Identity.Api.Services.gRPC
             var result = _client.CreateCustomer(
                 new Customers.Api.Protos.CreateUserRequest
                 {
-                    Id = Convert.ToString(identityUser.Id),
+                    Id = Convert.ToString(user.Id),
                     Firstname = user.FirstName,
                     Lastname = user.LastName,
                     Enabled = true,
                     Document = new Customers.Api.Protos.Document
                     {
-                        Number = user.Document,
-                        Userid = Convert.ToString(identityUser.Id)
+                        Number = user.Document.Number,
+                        Userid = Convert.ToString(user.Id)
                     },
                     Email = new Customers.Api.Protos.Email
                     {
-                        Address = user.Email,
-                        Userid = Convert.ToString(identityUser.Id)
+                        Address = user.Email.Address,
+                        Userid = Convert.ToString(user.Id)
                     },
                     Phone = new Customers.Api.Protos.Phone
                     {
-                        Number = user.Phone,
-                        Userid = Convert.ToString(identityUser.Id)
+                        Number = user.Phone.Number,
+                        Userid = Convert.ToString(user.Id)
                     }
                 },
                 headers: headers

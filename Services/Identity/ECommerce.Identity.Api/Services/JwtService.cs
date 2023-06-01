@@ -12,15 +12,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ECommerce.Identity.Api.Handlers
+namespace ECommerce.Identity.Api.Services
 {
-    public class JwtHandler
+    public class JwtService
     {
         private readonly JwtOption _jwtOption;
         private readonly GoogleOAuthOption _googleOAuthOption;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public JwtHandler(UserManager<IdentityUser> userManager, IOptions<JwtOption> jwtOptions, IOptions<GoogleOAuthOption> googleOAuthOption)
+        public JwtService(UserManager<IdentityUser> userManager, IOptions<JwtOption> jwtOptions, IOptions<GoogleOAuthOption> googleOAuthOption)
         {
             _userManager = userManager;
             _jwtOption = jwtOptions.Value;

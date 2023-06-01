@@ -21,7 +21,6 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
             var customer = await _repository.Get(request.Id);
             customer.FirstName = request.FirstName;
             customer.LastName = request.LastName;
-            customer.Enabled = request.Enabled;
 
             var validation = customer.Validate();
 

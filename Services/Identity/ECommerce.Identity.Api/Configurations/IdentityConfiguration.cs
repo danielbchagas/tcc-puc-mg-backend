@@ -1,5 +1,4 @@
-﻿using System.Text;
-using ECommerce.Identity.Api.Data;
+﻿using ECommerce.Identity.Api.Data;
 using ECommerce.Identity.Api.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ECommerce.Identity.Api.Configurations
 {
@@ -16,7 +16,7 @@ namespace ECommerce.Identity.Api.Configurations
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddDefaultIdentity<IdentityUser>()

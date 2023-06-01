@@ -1,5 +1,4 @@
 using ECommerce.Identity.Api.Configurations;
-using ECommerce.Identity.Api.Handlers;
 using ECommerce.Identity.Api.Services.gRPC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using AutoMapper;
+using ECommerce.Identity.Api.Services;
 
 namespace ECommerce.Identity.Api
 {
@@ -34,6 +35,8 @@ namespace ECommerce.Identity.Api
             services.AddIdentityConfiguration(Configuration);
             services.AddCorsConfiguration();
             services.AddGrpcConfiguration(Configuration);
+            services.AddRabbitMqConfiguration(Configuration);
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers();
 
@@ -42,7 +45,7 @@ namespace ECommerce.Identity.Api
                 options.SuppressModelStateInvalidFilter = true;
             });
 
-            services.AddScoped<JwtHandler>();
+            services.AddScoped<JwtService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

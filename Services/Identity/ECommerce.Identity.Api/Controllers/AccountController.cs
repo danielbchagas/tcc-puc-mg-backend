@@ -1,16 +1,14 @@
 ﻿#define gRPC
 
+using AutoMapper;
 using ECommerce.Identity.Api.Constants;
-using ECommerce.Identity.Api.Handlers;
 using ECommerce.Identity.Api.Interfaces;
 using ECommerce.Identity.Api.Models.Request;
-using ECommerce.Identity.Api.Options;
 using ECommerce.Identity.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,23 +22,26 @@ namespace ECommerce.Identity.Api.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<AccountController> _logger;
-        private readonly JwtHandler _jwtHandler;
+        private readonly JwtService _jwtHandler;
         private readonly ICustomerGrpcClient _customerGrpcClient;
-        public RabbitMqOption _rabbitMqOptions;
+        private readonly ICustomerRabbitMqClient _customerRabbitMqClient;
+        private readonly IMapper _mapper;
 
         public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
             ILogger<AccountController> logger,
-            JwtHandler jwtHandler,
+            JwtService jwtHandler,
             ICustomerGrpcClient customerGrpcClient,
-            IOptions<RabbitMqOption> options)
+            ICustomerRabbitMqClient customerRabbitMqClient,
+            IMapper mapper)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _jwtHandler = jwtHandler;
             _customerGrpcClient = customerGrpcClient;
-            _rabbitMqOptions = options.Value;
+            _customerRabbitMqClient = customerRabbitMqClient;
+            _mapper = mapper;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -55,34 +56,29 @@ namespace ECommerce.Identity.Api.Controllers
 
             try
             {
-                var createUserResult = await _userManager.CreateAsync(
+                var identityResult = await _userManager.CreateAsync(
                     new IdentityUser { UserName = user.Email, Email = user.Email, PhoneNumber = user.Phone}, 
                     user.Password
                 );
 
-                identityUser = await _userManager.FindByEmailAsync(user.Email);
-
-                await _userManager.AddToRoleAsync(identityUser, UserRoles.Customer);
-
-                if (!createUserResult.Succeeded)
+                if (!identityResult.Succeeded)
                 {
-                    var errors = createUserResult.Errors.Select(e => e.Description);
+                    var errors = identityResult.Errors.Select(e => e.Description);
 
                     _logger.LogError($"Erro em: {HttpContext.Request.Path}", errors);
                     return BadRequest(errors);
                 }
 
+                identityUser = await _userManager.FindByEmailAsync(user.Email);
+
+                await _userManager.AddToRoleAsync(identityUser, UserRoles.Customer);
+
+                user.Id = Guid.Parse(identityUser.Id);
+
 #if RABBITMQ
-                await CreateCustomerRabbitMq(user);
+                // Use ICustomerRabbitMqClient
 #elif gRPC
-                var createCustomerResult = await _customerGrpcClient.Create(new SignUpUserRequest
-                {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    Phone = user.Phone,
-                    Document = user.Document
-                });
+                var createCustomerResult = await _customerGrpcClient.Create(_mapper.Map<CustomerRequest>(user));
 
                 if (!createCustomerResult.Isvalid)
                     return BadRequest(createCustomerResult.Message);
@@ -146,13 +142,25 @@ namespace ECommerce.Identity.Api.Controllers
 
                         await _userManager.AddToRoleAsync(user, UserRoles.Customer);
                         
-                        var createCustomerResult = await _customerGrpcClient.Create(new SignUpUserRequest
+                        var createCustomerResult = await _customerGrpcClient.Create(new CustomerRequest
                         {
                             FirstName = payload.GivenName,
                             LastName = payload.FamilyName,
-                            Email = payload.Email,
-                            Phone = null,
-                            Document = null
+                            Email = new EmailRequest
+                            {
+                                Address = user.Email,
+                                UserId = Guid.Parse(user.Id)
+                            },
+                            Phone = new PhoneRequest
+                            {
+                                Number = user.PhoneNumber,
+                                UserId = Guid.Parse(user.Id)
+                            },
+                            Document = new DocumentRequest 
+                            {
+                                Number = "000.000.000-00",
+                                UserId = Guid.Parse(user.Id)
+                            },
                         });
 
                         if (!createCustomerResult.Isvalid)
@@ -202,12 +210,7 @@ namespace ECommerce.Identity.Api.Controllers
                 }
             };
 
-            await new CreateCustomerIntegrationService(_rabbitMqOptions.Host,
-                _rabbitMqOptions.Username,
-                _rabbitMqOptions.Password,
-                _rabbitMqOptions.Queue,
-                string.Empty)
-                .CreateCustomer(customer);
+            await _customerRabbitMqClient.CreateCustomer(customer);
         }
         #endregion
     }

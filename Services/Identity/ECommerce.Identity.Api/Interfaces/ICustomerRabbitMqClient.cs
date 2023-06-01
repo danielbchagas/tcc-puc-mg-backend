@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Identity.Api.Interfaces
 {
-    public interface ICustomerGrpcClient
+    public interface ICustomerRabbitMqClient
     {
-        Task<Customers.Api.Protos.CreateUserResponse> Create(CustomerRequest user);
+        Task CreateCustomer(CustomerRequest request);
     }
 }

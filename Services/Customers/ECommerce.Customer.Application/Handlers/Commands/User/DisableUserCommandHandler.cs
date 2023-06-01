@@ -2,6 +2,7 @@
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
 
                 if (validation.IsValid)
                 {
-                    customer.Enabled = false;
+                    customer.DeletedAt = DateTime.UtcNow;
 
                     await _repository.UnitOfWork.Commit();
                 }
