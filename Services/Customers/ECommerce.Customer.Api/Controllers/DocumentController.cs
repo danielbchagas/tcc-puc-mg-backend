@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerce.Customer.Api.Constants;
+﻿using ECommerce.Customer.Api.Constants;
 using ECommerce.Customers.Application.Commands.Document;
 using ECommerce.Customers.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Customer.Api.Controllers
 {
@@ -34,19 +34,6 @@ namespace ECommerce.Customer.Api.Controllers
                 return NotFound();
 
             return Ok(result);
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateDocumentCommand request)
-        {
-            var result = await _mediator.Send(request);
-
-            if (!result.IsValid)
-                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
-
-            return Ok();
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]

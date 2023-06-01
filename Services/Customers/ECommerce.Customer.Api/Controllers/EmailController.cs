@@ -38,19 +38,6 @@ namespace ECommerce.Customer.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateEmailCommand request)
-        {
-            var result = await _mediator.Send(request);
-
-            if (!result.IsValid)
-                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
-
-            return Ok();
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> Update(Guid id, UpdateEmailCommand request)
         {

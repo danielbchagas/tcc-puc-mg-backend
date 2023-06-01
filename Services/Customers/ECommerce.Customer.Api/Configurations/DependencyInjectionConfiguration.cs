@@ -38,13 +38,10 @@ namespace ECommerce.Customer.Api.Configurations
             services.AddScoped<IRequestHandler<CreateAddressCommand, ValidationResult>, CreateAddressCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateAddressCommand, ValidationResult>, UpdateAddressCommandHandler>();
 
-            services.AddScoped<IRequestHandler<CreateDocumentCommand, ValidationResult>, CreateDocumentCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateDocumentCommand, ValidationResult>, UpdateDocumentCommandHandler>();
 
-            services.AddScoped<IRequestHandler<CreateEmailCommand, ValidationResult>, CreateEmailCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateEmailCommand, ValidationResult>, UpdateEmailCommandHandler>();
 
-            services.AddScoped<IRequestHandler<CreatePhoneCommand, ValidationResult>, CreatePhoneCommandHandler>();
             services.AddScoped<IRequestHandler<UpdatePhoneCommand, ValidationResult>, UpdatePhoneCommandHandler>();
             #endregion
 
