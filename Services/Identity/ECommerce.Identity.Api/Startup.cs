@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AutoMapper;
-using ECommerce.Identity.Api.Services;
+using ECommerce.Identity.Api.Handler;
 
 namespace ECommerce.Identity.Api
 {
@@ -45,7 +45,7 @@ namespace ECommerce.Identity.Api
                 options.SuppressModelStateInvalidFilter = true;
             });
 
-            services.AddScoped<JwtService>();
+            services.AddScoped<JwtHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

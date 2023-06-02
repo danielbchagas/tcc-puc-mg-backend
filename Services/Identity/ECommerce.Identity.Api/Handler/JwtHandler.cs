@@ -1,26 +1,26 @@
-﻿using System;
+﻿using ECommerce.Identity.Api.Models.Request;
+using ECommerce.Identity.Api.Options;
+using Google.Apis.Auth;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using ECommerce.Identity.Api.Models.Request;
-using ECommerce.Identity.Api.Options;
-using Google.Apis.Auth;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
-namespace ECommerce.Identity.Api.Services
+namespace ECommerce.Identity.Api.Handler
 {
-    public class JwtService
+    public class JwtHandler
     {
         private readonly JwtOption _jwtOption;
         private readonly GoogleOAuthOption _googleOAuthOption;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public JwtService(UserManager<IdentityUser> userManager, IOptions<JwtOption> jwtOptions, IOptions<GoogleOAuthOption> googleOAuthOption)
+        public JwtHandler(UserManager<IdentityUser> userManager, IOptions<JwtOption> jwtOptions, IOptions<GoogleOAuthOption> googleOAuthOption)
         {
             _userManager = userManager;
             _jwtOption = jwtOptions.Value;

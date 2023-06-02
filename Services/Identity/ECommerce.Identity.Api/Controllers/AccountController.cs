@@ -2,9 +2,9 @@
 
 using AutoMapper;
 using ECommerce.Identity.Api.Constants;
+using ECommerce.Identity.Api.Handler;
 using ECommerce.Identity.Api.Interfaces;
 using ECommerce.Identity.Api.Models.Request;
-using ECommerce.Identity.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,15 +22,14 @@ namespace ECommerce.Identity.Api.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<AccountController> _logger;
-        private readonly JwtService _jwtHandler;
+        private readonly JwtHandler _jwtHandler;
         private readonly ICustomerGrpcClient _customerGrpcClient;
-        private readonly ICustomerRabbitMqClient _customerRabbitMqClient;
         private readonly IMapper _mapper;
 
         public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
             ILogger<AccountController> logger,
-            JwtService jwtHandler,
+            JwtHandler jwtHandler,
             ICustomerGrpcClient customerGrpcClient,
             ICustomerRabbitMqClient customerRabbitMqClient,
             IMapper mapper)
@@ -40,7 +39,6 @@ namespace ECommerce.Identity.Api.Controllers
             _logger = logger;
             _jwtHandler = jwtHandler;
             _customerGrpcClient = customerGrpcClient;
-            _customerRabbitMqClient = customerRabbitMqClient;
             _mapper = mapper;
         }
 
@@ -78,7 +76,7 @@ namespace ECommerce.Identity.Api.Controllers
 #if RABBITMQ
                 // Use ICustomerRabbitMqClient
 #elif gRPC
-                var createCustomerResult = await _customerGrpcClient.Create(_mapper.Map<CustomerRequest>(user));
+                var createCustomerResult = await _customerGrpcClient.Create(_mapper.Map<Customers.Api.Protos.CreateUserRequest>(user));
 
                 if (!createCustomerResult.Isvalid)
                     return BadRequest(createCustomerResult.Message);
@@ -130,88 +128,11 @@ namespace ECommerce.Identity.Api.Controllers
             var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
             
             if (user == null)
-            {
-                user = await _userManager.FindByEmailAsync(payload.Email);
-
-                try
-                {
-                    if (user == null)
-                    {
-                        user = new IdentityUser { Email = payload.Email, UserName = payload.Email };
-                        await _userManager.CreateAsync(user);
-
-                        await _userManager.AddToRoleAsync(user, UserRoles.Customer);
-                        
-                        var createCustomerResult = await _customerGrpcClient.Create(new CustomerRequest
-                        {
-                            FirstName = payload.GivenName,
-                            LastName = payload.FamilyName,
-                            Email = new EmailRequest
-                            {
-                                Address = user.Email,
-                                UserId = Guid.Parse(user.Id)
-                            },
-                            Phone = new PhoneRequest
-                            {
-                                Number = user.PhoneNumber,
-                                UserId = Guid.Parse(user.Id)
-                            },
-                            Document = new DocumentRequest 
-                            {
-                                Number = "000.000.000-00",
-                                UserId = Guid.Parse(user.Id)
-                            },
-                        });
-
-                        if (!createCustomerResult.Isvalid)
-                            return BadRequest(createCustomerResult.Message);
-                    }
-                }
-                catch (Exception e)
-                {
-                    if(user != null)
-                        await _userManager.DeleteAsync(user);
-
-                    _logger.LogError(e.Message, e.InnerException);
-                    return BadRequest(ResponseMessages.UserNotCreated);
-                }
-            }
+                return BadRequest(ResponseMessages.UserNotFound);
 
             var token = await _jwtHandler.GenerateNewToken(user.Email);
 
             return Ok(token);
         }
-
-        #region Customer registration
-        private async Task CreateCustomerRabbitMq(SignUpUserRequest user)
-        {
-            var identityUser = await _userManager.FindByEmailAsync(user.Email);
-
-            var customer = new CustomerRequest 
-            {
-                Id = Guid.Parse(identityUser.Id),
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Enabled = true,
-                Document = new DocumentRequest
-                {
-                    Number = user.Document,
-                    UserId = Guid.Parse(identityUser.Id)
-                },
-                Email = new EmailRequest
-                {
-                    Address = user.Email,
-                    UserId = Guid.Parse(identityUser.Id)
-                },
-                Phone = new PhoneRequest
-                {
-                    Number = user.Phone,
-                    UserId = Guid.Parse(identityUser.Id)
-                }
-            };
-
-            await _customerRabbitMqClient.CreateCustomer(customer);
-        }
-        #endregion
     }
 }
