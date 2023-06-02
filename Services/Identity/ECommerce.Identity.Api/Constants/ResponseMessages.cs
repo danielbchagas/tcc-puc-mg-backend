@@ -5,5 +5,6 @@
         public const string UserNotCreated = "Não foi possível efetivar o seu cadastro.";
         public const string LoginFailed = "Autenticação inválida.";
         public const string ExternalLoginFailed = "Autenticação externa inválida.";
+        public const string UserNotFound = "Usuário não encontrado.";
     }
 }
