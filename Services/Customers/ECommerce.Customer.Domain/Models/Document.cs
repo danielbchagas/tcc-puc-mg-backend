@@ -7,6 +7,11 @@ namespace ECommerce.Customers.Domain.Models
 {
     public class Document : Entity
     {
+        public Document()
+        {
+            
+        }
+
         public Document(string number, Guid customerId)
         {
             Number = number;

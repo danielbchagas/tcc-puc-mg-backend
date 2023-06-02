@@ -12,7 +12,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECommerce.Customer.Api.Services
+namespace ECommerce.Customer.Api.Services.RabbitMQ
 {
     public class CreateCustomerIntegrationHandler : BackgroundService
     {

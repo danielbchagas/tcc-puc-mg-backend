@@ -25,9 +25,21 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
                 firstName: request.FirstName, 
                 lastName: request.LastName, 
                 createdAt: DateTime.Now, 
-                document: request.Document, 
-                email: request.Email, 
-                phone: request.Phone);
+                document: new Models.Document
+                {
+                    Number = request.Document.Number,
+                    CustomerId = request.Document.CustomerId
+                }, 
+                email: new Models.Email
+                {
+                    Address = request.Email.Address,
+                    CustomerId = request.Email.CustomerId
+                }, 
+                phone: new Models.Phone
+                {
+                    Number = request.Phone.Number,
+                    CustomerId = request.Phone.CustomerId
+                });
 
             var validation = customer.Validate();
 

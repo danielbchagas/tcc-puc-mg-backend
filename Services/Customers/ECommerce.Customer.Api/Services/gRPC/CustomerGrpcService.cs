@@ -1,4 +1,5 @@
-﻿using ECommerce.Customer.Api.Services.gRPC.Validators;
+﻿using AutoMapper;
+using ECommerce.Customer.Api.Services.gRPC.Validators;
 using ECommerce.Customers.Application.Commands.User;
 using ECommerce.Customers.Application.Queries;
 using Grpc.Core;
@@ -14,10 +15,12 @@ namespace ECommerce.Customer.Api.Services.gRPC
     public class CustomerGrpcService : Customers.Api.Protos.CustomerService.CustomerServiceBase
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public CustomerGrpcService(IMediator mediator)
+        public CustomerGrpcService(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         public override async Task<Customers.Api.Protos.CreateUserResponse> CreateCustomer(Customers.Api.Protos.CreateUserRequest request, ServerCallContext context)
@@ -32,26 +35,8 @@ namespace ECommerce.Customer.Api.Services.gRPC
                     Message = JsonSerializer.Serialize(validation.Errors)
                 };
             }
-            
-            var createUserCommand = new CreateCustomerCommand(
-                id: Guid.Parse(request.Id),
-                firstName: request.Firstname,
-                lastName: request.Lastname,
-                document: new Customers.Domain.Models.Document(
-                    number: request.Document.Number,
-                    customerId: Guid.Parse(request.Document.Userid)
-                ),
-                email: new Customers.Domain.Models.Email(
-                    address: request.Email.Address,
-                    customerId: Guid.Parse(request.Email.Userid)
-                ),
-                phone: new Customers.Domain.Models.Phone(
-                    number: request.Phone.Number,
-                    customerId: Guid.Parse(request.Phone.Userid)
-                )
-            );
 
-            var result = await _mediator.Send(createUserCommand);
+            var result = await _mediator.Send(_mapper.Map<CreateCustomerCommand>(request));
 
             return new Customers.Api.Protos.CreateUserResponse()
             {

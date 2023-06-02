@@ -1,7 +1,7 @@
 ﻿#define RABBITMQ
 
 using ECommerce.Customer.Api;
-using ECommerce.Customer.Api.Services;
+using ECommerce.Customer.Api.Services.RabbitMQ;
 using ECommerce.Customers.Application.Commands.Address;
 using ECommerce.Customers.Application.Commands.Document;
 using ECommerce.Customers.Application.Commands.Email;

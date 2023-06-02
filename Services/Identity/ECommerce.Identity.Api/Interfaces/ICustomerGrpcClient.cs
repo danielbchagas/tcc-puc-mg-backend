@@ -1,5 +1,4 @@
-﻿using ECommerce.Identity.Api.Models.Request;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace ECommerce.Identity.Api.Interfaces
 {

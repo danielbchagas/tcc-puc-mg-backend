@@ -2,13 +2,12 @@
 using FluentValidation.Results;
 using MediatR;
 using System;
-using Models = ECommerce.Customers.Domain.Models;
 
 namespace ECommerce.Customers.Application.Commands.User
 {
     public class CreateCustomerCommand : IRequest<ValidationResult>
     {
-        public CreateCustomerCommand(Guid id, string firstName, string lastName, Models.Document document, Models.Email email, Models.Phone phone)
+        public CreateCustomerCommand(Guid id, string firstName, string lastName, CreateDocumentCommand document, CreateEmailCommand email, CreatePhoneCommand phone)
         {
             Id = id;
             FirstName = firstName;
@@ -23,9 +22,30 @@ namespace ECommerce.Customers.Application.Commands.User
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public Models.Document Document { get; set; }
-        public Models.Email Email { get; set; }
-        public Models.Phone Phone { get; set; }
+        public CreateDocumentCommand Document { get; set; }
+        public CreateEmailCommand Email { get; set; }
+        public CreatePhoneCommand Phone { get; set; }
+    }
+
+    public class CreateDocumentCommand
+    {
+        public Guid Id { get; set; }
+        public string Number { get; set; }
+        public Guid CustomerId { get; set; }
+    }
+
+    public class CreateEmailCommand
+    {
+        public Guid Id { get; set; }
+        public string Address { get; set; }
+        public Guid CustomerId { get; set; }
+    }
+
+    public class CreatePhoneCommand
+    {
+        public Guid Id { get; set; }
+        public string Number { get; set; }
+        public Guid CustomerId { get; set; }
     }
 
     public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCommand>

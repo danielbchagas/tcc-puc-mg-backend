@@ -35,6 +35,7 @@ namespace ECommerce.Customer.Api
             services.AddOptionsConfiguration(Configuration);
             services.AddDependencyInjectionConfiguration();
             services.AddCorsConfiguration();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers();
 

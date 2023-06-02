@@ -7,6 +7,11 @@ namespace ECommerce.Customers.Domain.Models
 {
     public class Email : Entity
     {
+        public Email()
+        {
+            
+        }
+
         public Email(string address, Guid customerId)
         {
             Address = address;
