@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option csharp_namespace = "ECommerce.Products.Api.Protos";
+
+package ProductApi;
+
+service ProductsService {
+	rpc GetProduct(GetProductRequest) returns(GetProductResponse);
+    rpc UpdateProduct(UpdateProductRequest) returns(UpdateProductResponse);
+}
+
+message GetProductRequest {
+    string id = 1;
+}
+
+message GetProductResponse {
+    Product product = 1;
+}
+
+message UpdateProductRequest {
+    string id = 1;
+    string description = 2;
+    string name = 3;
+    string image = 4;
+    int32 quantity = 5;
+    double value = 6;
+}
+
+message UpdateProductResponse {
+    bool isvalid = 1;
+    string message = 2;
+}
+
+message Product {
+	string id = 1;
+    string description = 2;
+    string name = 3;
+    string image = 4;
+    int32 quantity = 5;
+    double value = 6;
+}

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>5d9829f3-b606-4285-8b8d-ec3a606eb92a</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Grpc.AspNetCore" Version="2.42.0" />
+	  <PackageReference Include="Grpc.AspNetCore.Web" Version="2.42.0" />
+	  <PackageReference Include="Grpc.Net.Client.Web" Version="2.42.0" />
+	  <PackageReference Include="MediatR" Version="9.0.0" />
+	  <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
+	  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+	  <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="5.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ECommerce.Products.Application\ECommerce.Products.Application.csproj" />
+    <ProjectReference Include="..\ECommerce.Products.Domain\ECommerce.Products.Domain.csproj" />
+    <ProjectReference Include="..\ECommerce.Products.Infrastructure\ECommerce.Products.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Protobuf Include="Protos\product.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+</Project>
