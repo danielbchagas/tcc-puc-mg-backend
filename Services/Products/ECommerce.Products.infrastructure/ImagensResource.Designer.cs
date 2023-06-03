@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ECommerce.Catalog.Infrastructure {
+namespace ECommerce.Products.Infrastructure {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ECommerce.Catalog.Infrastructure {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ECommerce.Catalog.Infrastructure.ImagensResource", typeof(ImagensResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ECommerce.Products.Infrastructure.ImagensResource", typeof(ImagensResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

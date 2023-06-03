@@ -1,11 +1,10 @@
-﻿using System;
-using System.Resources;
-using System.Threading.Tasks;
-using ECommerce.Catalog.Infrastructure;
-using ECommerce.Products.Domain.Interfaces.Data;
+﻿using ECommerce.Products.Domain.Interfaces.Data;
 using ECommerce.Products.Domain.Models;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Resources;
+using System.Threading.Tasks;
 
 namespace ECommerce.Products.Infrastructure.Data
 {
@@ -22,7 +21,7 @@ namespace ECommerce.Products.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("Catalog");
+            modelBuilder.HasDefaultSchema("Product");
 
             modelBuilder.Ignore<ValidationResult>();
 
