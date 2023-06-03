@@ -67,7 +67,7 @@ namespace ECommerce.Customer.Api.Configurations
             #endregion
 
 #if RABBITMQ
-            services.AddHostedService<CreateCustomerIntegrationHandler>();
+            services.AddHostedService<CustomerRabbitMqService>();
 #endif
         }
     }

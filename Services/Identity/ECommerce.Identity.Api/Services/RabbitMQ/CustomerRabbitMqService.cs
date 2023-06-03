@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Identity.Api.Services.RabbitMQ
 {
-    public class CustomerRabbitMqClient : ICustomerRabbitMqClient
+    public class CustomerRabbitMqService : ICustomerRabbitMqClient
     {
         public RabbitMqOption _rabbitMqOptions;
 
-        public CustomerRabbitMqClient(IOptions<RabbitMqOption> options)
+        public CustomerRabbitMqService(IOptions<RabbitMqOption> options)
         {
             _rabbitMqOptions = options.Value;
         }

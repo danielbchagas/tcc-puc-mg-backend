@@ -9,7 +9,7 @@ namespace ECommerce.Identity.Api.Configurations
     {
         public static void AddRabbitMqConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<ICustomerRabbitMqClient, CustomerRabbitMqClient>();
+            services.AddScoped<ICustomerRabbitMqClient, CustomerRabbitMqService>();
         }
     }
 }

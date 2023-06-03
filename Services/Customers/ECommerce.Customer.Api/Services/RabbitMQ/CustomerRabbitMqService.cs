@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Customer.Api.Services.RabbitMQ
 {
-    public class CreateCustomerIntegrationHandler : BackgroundService
+    public class CustomerRabbitMqService : BackgroundService
     {
         private readonly RabbitMqOption _rabbitMQOptions;
         private readonly IServiceProvider _serviceProvider;
         private IModel _channel;
 
-        public CreateCustomerIntegrationHandler(IOptions<RabbitMqOption> rabbitMQOptions, IServiceProvider serviceProvider)
+        public CustomerRabbitMqService(IOptions<RabbitMqOption> rabbitMQOptions, IServiceProvider serviceProvider)
         {
             _rabbitMQOptions = rabbitMQOptions.Value;
             _serviceProvider = serviceProvider;

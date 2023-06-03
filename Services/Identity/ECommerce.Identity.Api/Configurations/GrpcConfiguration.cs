@@ -17,7 +17,7 @@ namespace ECommerce.Identity.Api.Configurations
 
             var servicesOptions = configuration.GetSection("ServiceOptions").Get<ServiceOption>();
 
-            services.AddScoped<ICustomerGrpcClient, CustomerGrpcClient>();
+            services.AddScoped<ICustomerGrpcClient, CustomerGrpcService>();
 
             services.AddGrpcClient<Customers.Api.Protos.CustomerService.CustomerServiceClient>(options =>
             {

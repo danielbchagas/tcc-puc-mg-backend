@@ -77,7 +77,7 @@ namespace ECommerce.Identity.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGrpcService<CustomerGrpcClient>().EnableGrpcWeb();
+                endpoints.MapGrpcService<CustomerGrpcService>().EnableGrpcWeb();
             });
         }
     }

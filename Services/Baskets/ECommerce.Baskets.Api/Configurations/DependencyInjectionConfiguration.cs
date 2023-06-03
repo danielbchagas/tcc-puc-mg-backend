@@ -4,6 +4,7 @@ using ECommerce.Basket.Application.Handlers.Queries;
 using ECommerce.Basket.Application.Queries;
 using ECommerce.Basket.Domain.Interfaces.Repositories;
 using ECommerce.Basket.Infrastructure.Repositories;
+using ECommerce.Baskets.Api.Services;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -27,6 +28,8 @@ namespace ECommerce.Basket.Api.Configurations
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
             services.AddScoped<IBasketRepository, BasketRepository>();
+
+            services.AddHostedService<CloseAbandonedBasketService>();
         }
     }
 }

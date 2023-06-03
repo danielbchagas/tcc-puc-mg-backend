@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Identity.Api.Services.gRPC
 {
-    public class CustomerGrpcClient : ICustomerGrpcClient
+    public class CustomerGrpcService : ICustomerGrpcClient
     {
         private readonly Customers.Api.Protos.CustomerService.CustomerServiceClient _client;
         private readonly JwtHandler _jwtHandler;
-        private readonly ILogger<CustomerGrpcClient> _logger;
+        private readonly ILogger<CustomerGrpcService> _logger;
         
-        public CustomerGrpcClient(Customers.Api.Protos.CustomerService.CustomerServiceClient client,
+        public CustomerGrpcService(Customers.Api.Protos.CustomerService.CustomerServiceClient client,
             JwtHandler jwtHandler,
-            ILogger<CustomerGrpcClient> logger)
+            ILogger<CustomerGrpcService> logger)
         {
             _client = client;
             _logger = logger;
