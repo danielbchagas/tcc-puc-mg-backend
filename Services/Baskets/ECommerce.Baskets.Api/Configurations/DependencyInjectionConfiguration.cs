@@ -21,7 +21,7 @@ namespace ECommerce.Basket.Api.Configurations
             services.AddScoped<IRequestHandler<CreateBasketCommand, (ValidationResult, Domain.Models.Basket) >, CreateBasketCommandHandler>();
             services.AddScoped<IRequestHandler<DisableBasketCommand, ValidationResult>, DisableBasketCommandHandler>();
             services.AddScoped<IRequestHandler<GetBasketByCustomerQuery, Domain.Models.Basket>, GetBasketByCustomerQueryHandler>();
-            services.AddScoped<IRequestHandler<UpdateBasketCommand, ValidationResult>, UpdateBasketCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateBasketCommand, (ValidationResult, Domain.Models.Basket) >, UpdateBasketCommandHandler>();
             #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

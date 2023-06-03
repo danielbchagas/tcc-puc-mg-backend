@@ -68,8 +68,7 @@ namespace ECommerce.Basket.Api.Services.gRPC
                     Image = item.Image,
                     Quantity = item.Quantity,
                     Value = Convert.ToDouble(item.Value),
-                    Productid = Convert.ToString(item.ProductId),
-                    Shoppingbasketid = Convert.ToString(item.BasketId)
+                    Productid = Convert.ToString(item.ProductId)
                 });
             }
 
@@ -89,18 +88,14 @@ namespace ECommerce.Basket.Api.Services.gRPC
 
         public override async Task<UpdateBasketResponse> UpdateBasket(UpdateBasketRequest request, ServerCallContext context)
         {
-            var createCustomerBasketCommand = new UpdateBasketCommand(
-                id: Guid.Parse(request.Id),
-                isEnded: request.Isended,
-                customerId: Guid.Parse(request.Customerid)
-            );
+            var createCustomerBasketCommand = new UpdateBasketCommand(id: Guid.Parse(request.Id));
 
             var result = await _mediator.Send(createCustomerBasketCommand);
 
             return new UpdateBasketResponse()
             {
-                Isvalid = result.IsValid,
-                Message = JsonSerializer.Serialize(result.Errors)
+                Isvalid = result.Item1.IsValid,
+                Message = JsonSerializer.Serialize(result.Item1.Errors)
             };
         }
     }

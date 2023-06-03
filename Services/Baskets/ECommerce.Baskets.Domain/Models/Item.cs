@@ -7,7 +7,7 @@ namespace ECommerce.Basket.Domain.Models
 {
     public class Item
     {
-        public Item(Guid id, string name, int quantity, decimal value, string image, Guid productId, Guid basketId)
+        public Item(Guid id, string name, int quantity, decimal value, string image, Guid productId)
         {
             Id = id;
             Name = name;
@@ -15,7 +15,6 @@ namespace ECommerce.Basket.Domain.Models
             Value = value;
             Image = image;
             ProductId = productId;
-            BasketId = basketId;
         }
 
         public Guid Id { get; set; }
@@ -24,11 +23,7 @@ namespace ECommerce.Basket.Domain.Models
         public decimal Value { get; set; }
         public string Image { get; set; }
         public Guid ProductId { get; set; }
-        public Guid BasketId { get; set; }
-
-        [JsonIgnore]
-        public Basket ShoppingBasket { get; set; }
-
+        
         public ValidationResult Validate()
         {
             return new ItemValidator().Validate(this);
@@ -56,10 +51,6 @@ namespace ECommerce.Basket.Domain.Models
                 .WithMessage(item => $"O value do {item.Name} precisa ser maior que 0");
 
             RuleFor(ic => ic.ProductId)
-                .NotEqual(Guid.Empty)
-                .WithMessage("Id do produto inválido");
-
-            RuleFor(ic => ic.BasketId)
                 .NotEqual(Guid.Empty)
                 .WithMessage("Id do produto inválido");
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Basket.Application.Handlers.Commands
 {
-    public class UpdateBasketCommandHandler : IRequestHandler<UpdateBasketCommand, ValidationResult>
+    public class UpdateBasketCommandHandler : IRequestHandler<UpdateBasketCommand, (ValidationResult, Domain.Models.Basket)>
     {
         private readonly IBasketRepository _repository;
 
@@ -16,7 +16,7 @@ namespace ECommerce.Basket.Application.Handlers.Commands
             _repository = repository;
         }
 
-        public async Task<ValidationResult> Handle(UpdateBasketCommand request, CancellationToken cancellationToken)
+        public async Task<(ValidationResult, Domain.Models.Basket)> Handle(UpdateBasketCommand request, CancellationToken cancellationToken)
         {
             var validation = new ValidationResult();
 
@@ -25,12 +25,12 @@ namespace ECommerce.Basket.Application.Handlers.Commands
             validation = basket.Validate();
 
             if (!validation.IsValid)
-                return await Task.FromResult(validation);
+                return (await Task.FromResult(validation), basket);
 
             await _repository.Update(basket);
             await _repository.UnitOfWork.Commit();
 
-            return await Task.FromResult(validation);
+            return (await Task.FromResult(validation), basket);
         }
     }
 }

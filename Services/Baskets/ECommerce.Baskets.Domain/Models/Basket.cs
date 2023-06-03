@@ -4,6 +4,7 @@ using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Basket.Domain.Models
 {
@@ -27,44 +28,22 @@ namespace ECommerce.Basket.Domain.Models
 
         public ICollection<Item> Items { get; set; }
 
-        public ValidationResult UpdatesItems(Item item)
+        public IList<ValidationResult> UpdatesItems(IEnumerable<Item> items)
         {
-            var validationResult = item.Validate();
+            var validationResult = new List<ValidationResult>();
 
-            if (!validationResult.IsValid)
+            foreach(var item in items)
+                validationResult.Add(item.Validate());
+
+            if(validationResult.Any(vr => !vr.IsValid))
                 return validationResult;
 
-            var exists = Items.FirstOrDefault(i => i.ProductId == item.ProductId);
-
-            if (exists != null)
-            {
-                exists.Quantity = item.Quantity;
-                Items.Remove(exists);
-                Items.Add(exists);
-            }
-            else
-            {
+            Items.Clear();
+            
+            foreach(var item in items)
                 Items.Add(item);
-            }
 
-            return Validate();
-        }
-
-        public ValidationResult RemoveItem(Item item)
-        {
-            var validationResult = item.Validate();
-
-            if (!validationResult.IsValid)
-                return validationResult;
-
-            var exists = Items.FirstOrDefault(i => i.ProductId == item.ProductId);
-
-            if (exists != null)
-            {
-                Items.Remove(exists);
-            }
-
-            return Validate();
+            return validationResult;
         }
 
         public ValidationResult Validate()

@@ -64,7 +64,6 @@ message DeleteBasketResponse {
 message UpdateBasketRequest {
 	string id = 1;
 	bool isended = 2;
-	string customerid = 3;
 }
 
 message UpdateBasketResponse {

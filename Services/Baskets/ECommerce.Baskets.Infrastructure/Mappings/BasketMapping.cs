@@ -16,10 +16,7 @@ namespace ECommerce.Basket.Infrastructure.Mappings
             builder.Property(cc => cc.Value)
                 .HasColumnType("money");
 
-            builder.HasMany(cc => cc.Items)
-                .WithOne(ic => ic.ShoppingBasket)
-                .HasForeignKey(ic => ic.BasketId)
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(cc => cc.Items);
 
             builder.HasQueryFilter(cc => cc.DeletedAt == null || !cc.IsEnded);
         }
