@@ -1,4 +1,5 @@
 ﻿using ECommerce.Basket.Domain.Interfaces.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,44 +8,65 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Baskets.Api.Services
 {
-    public class CloseAbandonedBasketService : BackgroundService
+    public class CloseAbandonedBasketService : IHostedService, IDisposable
     {
-        private readonly IBasketRepository _repository;
         private readonly ILogger<CloseAbandonedBasketService> _logger;
+        private readonly IServiceProvider _serviceProvider;
         private Timer? _timer = null;
 
-        public CloseAbandonedBasketService(IBasketRepository repository, ILogger<CloseAbandonedBasketService> logger)
+        public CloseAbandonedBasketService(ILogger<CloseAbandonedBasketService> logger, IServiceProvider serviceProvider)
         {
-            _repository = repository;
             _logger = logger;
-        }
-
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            _logger.LogInformation("Hosted Service running...");
-
-            while(!stoppingToken.IsCancellationRequested)
-            {
-                _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromMinutes(10));
-            }
-
-            _logger.LogInformation("Hosted Service stopping...");
-
-            return Task.CompletedTask;
+            _serviceProvider = serviceProvider;
         }
 
         private void DoWork(object? state)
         {
-            var result = _repository.Filter(b => !b.IsEnded && DateTime.Compare(b.CreatedAt, DateTime.Now.AddDays(5)) < 0).Result;
-
-            foreach (var item in result)
+            using (var scope = _serviceProvider.CreateScope())
             {
-                item.DeletedAt = DateTime.Now;
-            }
+                var _repository = scope.ServiceProvider.GetRequiredService<IBasketRepository>();
 
-            _logger.LogInformation(
-                "Hosted Service is working...");
+                var baskets = _repository.Filter(b => !b.IsEnded && DateTime.Compare(b.CreatedAt, DateTime.Now.AddDays(5)) < 0).Result;
+
+                foreach (var basket in baskets)
+                {
+                    basket.DeletedAt = DateTime.Now;
+                }
+
+                _logger.LogInformation(
+                    "Hosted Service is working...");
+            };
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Hosted Service running...");
+
+#if DEBUG
+            _timer = new Timer(DoWork, null, TimeSpan.Zero,
+                               TimeSpan.FromMinutes(1));
+#else
+            _timer = new Timer(DoWork, null, TimeSpan.Zero,
+                TimeSpan.FromMinutes(30));
+#endif
+
+            
+
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Timed Hosted Service is stopping...");
+
+            _timer?.Change(Timeout.Infinite, 0);
+
+            return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
         }
     }
 }
