@@ -13,9 +13,9 @@ namespace ECommerce.Products.Api.Configurations
             {
                 setupAction.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "ECommerce.Catalog.Api",
+                    Title = "ECommerce.Products.Api",
                     Version = "v1",
-                    Description = "TCC PUC Minas - Api de Catálogo do E-Commerce",
+                    Description = "TCC PUC Minas - Api de produtos do E-Commerce",
                     Contact = new OpenApiContact { Name = "Daniel Boasquevisque das Chagas", Email = "daniel.boasq@gmail.com" },
                     License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/mit") }
                 });
