@@ -8,7 +8,7 @@ namespace ECommerce.Basket.Infrastructure.Mappings
     {
         public void Configure(EntityTypeBuilder<Item> builder)
         {
-            builder.ToTable("BasketItems");
+            builder.ToTable("Items");
 
             builder.HasKey(ci => ci.Id);
 
