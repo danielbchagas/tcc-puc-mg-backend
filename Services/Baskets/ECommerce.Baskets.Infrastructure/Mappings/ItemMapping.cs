@@ -1,8 +1,8 @@
-﻿using ECommerce.Basket.Domain.Models;
+﻿using ECommerce.Baskets.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ECommerce.Basket.Infrastructure.Mappings
+namespace ECommerce.Baskets.Infrastructure.Mappings
 {
     public class ItemMapping : IEntityTypeConfiguration<Item>
     {
@@ -24,6 +24,8 @@ namespace ECommerce.Basket.Infrastructure.Mappings
             builder.Property(ic => ic.Quantity)
                 .HasColumnType("int")
                 .IsRequired();
+
+            builder.HasQueryFilter(cc => cc.DeletedAt == null);
         }
     }
 }

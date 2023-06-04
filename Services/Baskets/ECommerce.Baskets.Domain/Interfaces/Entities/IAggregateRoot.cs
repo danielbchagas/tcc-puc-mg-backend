@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Basket.Domain.Interfaces.Entities
+﻿namespace ECommerce.Baskets.Domain.Interfaces.Entities
 {
     public interface IAggregateRoot
     {

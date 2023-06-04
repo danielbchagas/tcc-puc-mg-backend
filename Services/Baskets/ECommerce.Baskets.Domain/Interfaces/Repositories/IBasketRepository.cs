@@ -1,10 +1,10 @@
-﻿using ECommerce.Basket.Domain.Interfaces.Data;
+﻿using ECommerce.Baskets.Domain.Interfaces.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ECommerce.Basket.Domain.Interfaces.Repositories
+namespace ECommerce.Baskets.Domain.Interfaces.Repositories
 {
     public interface IBasketRepository : IDisposable
     {

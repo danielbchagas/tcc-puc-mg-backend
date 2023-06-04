@@ -1,7 +1,6 @@
-using System.Text.Json.Serialization;
-using ECommerce.Basket.Api.Configurations;
-using ECommerce.Basket.Api.Middlewares;
-using ECommerce.Basket.Api.Services.gRPC;
+using ECommerce.Baskets.Api.Configurations;
+using ECommerce.Baskets.Api.Middlewares;
+using ECommerce.Baskets.Api.Services.gRPC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace ECommerce.Basket.Api
+namespace ECommerce.Baskets.Api
 {
     public class Startup
     {
@@ -35,7 +34,8 @@ namespace ECommerce.Basket.Api
             services.AddEntityFrameworkConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.AddCorsConfiguration();
-            
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllers();
 
             services.AddGrpc();

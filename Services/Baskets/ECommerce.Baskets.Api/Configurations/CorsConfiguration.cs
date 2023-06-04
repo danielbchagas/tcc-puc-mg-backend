@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace ECommerce.Basket.Api.Configurations
+namespace ECommerce.Baskets.Api.Configurations
 {
     public static class CorsConfiguration
     {

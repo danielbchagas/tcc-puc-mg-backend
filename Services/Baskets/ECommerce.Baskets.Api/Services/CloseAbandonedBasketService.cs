@@ -1,4 +1,4 @@
-﻿using ECommerce.Basket.Domain.Interfaces.Repositories;
+﻿using ECommerce.Baskets.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -31,6 +31,9 @@ namespace ECommerce.Baskets.Api.Services
                 foreach (var basket in baskets)
                 {
                     basket.DeletedAt = DateTime.Now;
+
+                    _repository.Update(basket);
+                    _repository.UnitOfWork.Commit();
                 }
 
                 _logger.LogInformation(
@@ -44,13 +47,11 @@ namespace ECommerce.Baskets.Api.Services
 
 #if DEBUG
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                               TimeSpan.FromMinutes(1));
+                               TimeSpan.FromMinutes(10));
 #else
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
                 TimeSpan.FromMinutes(30));
 #endif
-
-            
 
             return Task.CompletedTask;
         }

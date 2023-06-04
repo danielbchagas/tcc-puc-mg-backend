@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace ECommerce.Basket.Api
+namespace ECommerce.Baskets.Api
 {
     public class Program
     {

@@ -1,16 +1,16 @@
-﻿using ECommerce.Basket.Application.Commands;
-using ECommerce.Basket.Domain.Interfaces.Repositories;
+﻿using ECommerce.Baskets.Application.Commands.Basket;
+using ECommerce.Baskets.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECommerce.Basket.Application.Handlers.Commands
+namespace ECommerce.Baskets.Application.Handlers.Commands.Basket
 {
     public class CreateBasketCommandHandler : IRequestHandler<CreateBasketCommand, (ValidationResult, Domain.Models.Basket)>
     {
         private readonly IBasketRepository _repository;
-        
+
         public CreateBasketCommandHandler(IBasketRepository repository)
         {
             _repository = repository;

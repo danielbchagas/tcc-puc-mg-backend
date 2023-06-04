@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ECommerce.Basket.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230603140410_tables-item-renamed")]
-    partial class tablesitemrenamed
+    [Migration("20230603213815_productid-removed")]
+    partial class productidremoved
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,7 +59,7 @@ namespace ECommerce.Basket.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("BasketId")
+                    b.Property<Guid>("BasketId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Image")
@@ -68,9 +68,6 @@ namespace ECommerce.Basket.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(20)");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -89,7 +86,9 @@ namespace ECommerce.Basket.Infrastructure.Migrations
                 {
                     b.HasOne("ECommerce.Basket.Domain.Models.Basket", null)
                         .WithMany("Items")
-                        .HasForeignKey("BasketId");
+                        .HasForeignKey("BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ECommerce.Basket.Domain.Models.Basket", b =>

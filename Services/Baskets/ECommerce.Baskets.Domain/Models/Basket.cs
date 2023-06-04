@@ -1,12 +1,11 @@
-﻿using ECommerce.Basket.Domain.Interfaces.Entities;
+﻿using ECommerce.Baskets.Domain.Interfaces.Entities;
 using FluentValidation;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace ECommerce.Basket.Domain.Models
+namespace ECommerce.Baskets.Domain.Models
 {
     public class Basket : IAggregateRoot, IAuditable
     {
@@ -20,48 +19,72 @@ namespace ECommerce.Basket.Domain.Models
 
         public Guid Id { get; set; }
         public decimal Value { get; set; }
-        public Guid CustomerId { get; set; }
-        public bool IsEnded { get; set; }
+        public bool IsEnded { get; private set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
+        public Guid CustomerId { get; set; }
+
         public ICollection<Item> Items { get; set; }
 
-        public IList<ValidationResult> UpdatesItems(IEnumerable<Item> items)
+        public ValidationResult AddOrUpdateItem(Item item)
         {
-            var validationResult = new List<ValidationResult>();
+            var validation = item.Validate();
 
-            foreach(var item in items)
-                validationResult.Add(item.Validate());
+            if (!validation.IsValid)
+                return validation;
 
-            if(validationResult.Any(vr => !vr.IsValid))
-                return validationResult;
+            var index = Items.ToList().FindIndex(f => f.Id == item.Id && f.DeletedAt == null);
 
-            Items.Clear();
-            
-            foreach(var item in items)
+            if (index != -1)
+            {
+                Items.ElementAt(index).UpdatedAt = DateTime.Now;
+                Items.ElementAt(index).Quantity = item.Quantity;
+            }
+            else
+            {
+                item.LinkToBasket(Id);
                 Items.Add(item);
+            }
 
-            return validationResult;
+            UpdateBasketValue();
+
+            return validation;
         }
 
-        public ValidationResult Validate()
+        public ValidationResult RemoveItems(Item item)
         {
-            return new ShoppingBasketValidator().Validate(this);
+            var validation = item.Validate();
+
+            if (!validation.IsValid)
+                return validation;
+
+            var index = Items.ToList().FindIndex(i => i.Id == item.Id);
+
+            if (index != -1)
+            {
+                Items.ElementAt(index).DeletedAt = DateTime.Now;
+            }
+
+            UpdateBasketValue();
+
+            return validation;
         }
 
-        public ValidationResult UpdateBasketValue()
+        public void UpdateBasketValue()
         {
             Value = Items.Sum(i => i.Quantity * i.Value);
-
-            return Validate();
         }
+
+        public void EndBasket() => IsEnded = true;
+
+        public ValidationResult Validate() => new BasketValidator().Validate(this);
     }
 
-    public class ShoppingBasketValidator : AbstractValidator<Basket>
+    public class BasketValidator : AbstractValidator<Basket>
     {
-        public ShoppingBasketValidator()
+        public BasketValidator()
         {
             RuleFor(ci => ci.CustomerId)
                 .NotEqual(Guid.Empty)

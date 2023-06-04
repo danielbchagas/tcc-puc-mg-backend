@@ -1,6 +1,6 @@
-﻿using ECommerce.Basket.Domain.Interfaces.Data;
-using ECommerce.Basket.Domain.Interfaces.Repositories;
-using ECommerce.Basket.Infrastructure.Data;
+﻿using ECommerce.Baskets.Domain.Interfaces.Data;
+using ECommerce.Baskets.Domain.Interfaces.Repositories;
+using ECommerce.Baskets.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ECommerce.Basket.Infrastructure.Repositories
+namespace ECommerce.Baskets.Infrastructure.Repositories
 {
     public class BasketRepository : IBasketRepository
     {
@@ -23,18 +23,18 @@ namespace ECommerce.Basket.Infrastructure.Repositories
 
         public async Task Create(Domain.Models.Basket basket)
         {
-            await _context.ShoppingBaskets.AddAsync(basket);
+            await _context.Baskets.AddAsync(basket);
         }
 
         public Task Update(Domain.Models.Basket basket)
         {
-            _context.ShoppingBaskets.Update(basket);
+            _context.Baskets.Update(basket);
             return Task.CompletedTask;
         }
 
         public async Task<Domain.Models.Basket> Get(Guid id)
         {
-            return await _context.ShoppingBaskets
+            return await _context.Baskets
                 .Include(cb => cb.Items)
                 .FirstOrDefaultAsync(cb => cb.Id == id);
         }
@@ -48,19 +48,19 @@ namespace ECommerce.Basket.Infrastructure.Repositories
         {
             var basket = await Get(id);
 
-            _context.ShoppingBaskets.Remove(basket);
+            _context.Baskets.Remove(basket);
         }
 
         public async Task<Domain.Models.Basket> GetByCustomer(Guid customerId)
         {
-            return await _context.ShoppingBaskets
+            return await _context.Baskets
                 .Include(cb => cb.Items)
                 .FirstOrDefaultAsync(cb => cb.CustomerId == customerId);
         }
 
         public async Task<IList<Domain.Models.Basket>> Filter(Expression<Func<Domain.Models.Basket, bool>> expression)
         {
-            return await _context.ShoppingBaskets
+            return await _context.Baskets
                 .Where(expression)
                 .ToListAsync();
         }

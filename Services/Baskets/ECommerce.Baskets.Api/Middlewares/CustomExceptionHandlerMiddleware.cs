@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace ECommerce.Basket.Api.Middlewares
+namespace ECommerce.Baskets.Api.Middlewares
 {
     public class CustomExceptionHandlerMiddleware
     {

@@ -1,33 +1,59 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using ECommerce.Baskets.Domain.Interfaces.Entities;
 using FluentValidation;
 using FluentValidation.Results;
+using System;
 
-namespace ECommerce.Basket.Domain.Models
+namespace ECommerce.Baskets.Domain.Models
 {
-    public class Item
+    public class Item : IAuditable, IEquatable<Item>
     {
-        public Item(Guid id, string name, int quantity, decimal value, string image, Guid productId)
+        public Item(Guid id, string name, int quantity, decimal value, string image)
         {
             Id = id;
             Name = name;
             Quantity = quantity;
             Value = value;
             Image = image;
-            ProductId = productId;
         }
 
+        /// <summary>
+        /// Same id of product.
+        /// </summary>
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
         public decimal Value { get; set; }
         public string Image { get; set; }
-        public Guid ProductId { get; set; }
-        
-        public ValidationResult Validate()
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
+
+        public Guid BasketId { get; private set; }
+
+        #region IEquatable
+        public bool Equals(Item other)
         {
-            return new ItemValidator().Validate(this);
+            if (other is null)
+                return false;
+
+            return Id == other.Id
+                && Name == other.Name
+                && Quantity == other.Quantity
+                && Value == other.Value
+                && Image == other.Image
+                && CreatedAt == other.CreatedAt
+                && UpdatedAt == other.UpdatedAt
+                && DeletedAt == other.DeletedAt
+                && BasketId == other.BasketId;
         }
+
+        public override bool Equals(object obj) => Equals(obj as Item);
+        public override int GetHashCode() => (Id, Name, Quantity, Value, Image, CreatedAt, UpdatedAt, DeletedAt, BasketId).GetHashCode();
+        #endregion
+
+        public void LinkToBasket(Guid basketId) => BasketId = basketId;
+
+        public ValidationResult Validate() => new ItemValidator().Validate(this);
     }
 
     public class ItemValidator : AbstractValidator<Item>
@@ -49,10 +75,6 @@ namespace ECommerce.Basket.Domain.Models
             RuleFor(ic => ic.Value)
                 .GreaterThan(0)
                 .WithMessage(item => $"O value do {item.Name} precisa ser maior que 0");
-
-            RuleFor(ic => ic.ProductId)
-                .NotEqual(Guid.Empty)
-                .WithMessage("Id do produto inválido");
         }
     }
 }

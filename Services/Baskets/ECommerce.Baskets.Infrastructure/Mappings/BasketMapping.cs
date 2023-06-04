@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ECommerce.Basket.Infrastructure.Mappings
+namespace ECommerce.Baskets.Infrastructure.Mappings
 {
     public class BasketMapping : IEntityTypeConfiguration<Domain.Models.Basket>
     {
@@ -16,9 +16,11 @@ namespace ECommerce.Basket.Infrastructure.Mappings
             builder.Property(cc => cc.Value)
                 .HasColumnType("money");
 
-            builder.HasMany(cc => cc.Items);
+            builder.HasMany(cc => cc.Items)
+                .WithOne()
+                .HasForeignKey(cc => cc.BasketId);
 
-            builder.HasQueryFilter(cc => cc.DeletedAt == null || !cc.IsEnded);
+            builder.HasQueryFilter(cc => cc.DeletedAt == null);
         }
     }
 }

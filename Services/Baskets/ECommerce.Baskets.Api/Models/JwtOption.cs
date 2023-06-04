@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Basket.Api.Models
+﻿namespace ECommerce.Baskets.Api.Models
 {
     public class JwtOption
     {

@@ -1,11 +1,11 @@
 ﻿using System.Text;
-using ECommerce.Basket.Api.Models;
+using ECommerce.Baskets.Api.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ECommerce.Basket.Api.Configurations
+namespace ECommerce.Baskets.Api.Configurations
 {
     public static class IdentityConfiguration
     {

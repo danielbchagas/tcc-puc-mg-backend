@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace ECommerce.Basket.Api.Configurations
+namespace ECommerce.Baskets.Api.Configurations
 {
     public static class SwaggerConfiguration
     {

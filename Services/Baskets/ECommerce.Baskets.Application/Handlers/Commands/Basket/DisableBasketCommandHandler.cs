@@ -1,18 +1,18 @@
-﻿using ECommerce.Basket.Application.Commands;
-using ECommerce.Basket.Domain.Interfaces.Repositories;
+﻿using ECommerce.Baskets.Application.Commands.Basket;
+using ECommerce.Baskets.Application.Constants;
+using ECommerce.Baskets.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECommerce.Basket.Application.Handlers.Commands
+namespace ECommerce.Baskets.Application.Handlers.Commands.Basket
 {
     public class DisableBasketCommandHandler : IRequestHandler<DisableBasketCommand, ValidationResult>
     {
         private readonly IBasketRepository _repository;
-        
+
         public DisableBasketCommandHandler(IBasketRepository repository)
         {
             _repository = repository;
@@ -24,15 +24,14 @@ namespace ECommerce.Basket.Application.Handlers.Commands
 
             var basket = await _repository.Get(request.Id);
 
-            if(basket == null)
+            if (basket == null)
             {
                 var errors = new List<ValidationFailure>();
-                errors.Add(new ValidationFailure("", "Carrinho não encontrado."));
+                errors.Add(new ValidationFailure("", BasketMessages.BasketNotFound));
                 return new ValidationResult(errors);
             }
 
-            basket.DeletedAt = DateTime.Now;
-            basket.IsEnded = false;
+            basket.EndBasket();
 
             await _repository.Update(basket);
             await _repository.UnitOfWork.Commit();

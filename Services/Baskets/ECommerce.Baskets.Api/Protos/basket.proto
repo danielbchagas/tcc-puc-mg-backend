@@ -1,37 +1,16 @@
 syntax = "proto3";
 
-option csharp_namespace = "ECommerce.Basket.Api.Protos";
+option csharp_namespace = "ECommerce.Baskets.Api.Protos";
 
 package BasketApi;
 
-service ShoppingBasketService {
-	rpc GetBasketByCustomer(GetBasketByCustomerRequest) returns(GetBasketByCustomerResponse);
-	rpc GetBasketById(GetBasketByIdRequest) returns(GetBasketByIdResponse);
+service BasketService {
 	rpc CreateBasket(CreateBasketRequest) returns(CreateBasketResponse);
-	rpc DeleteBasket(DeleteBasketRequest) returns(DeleteBasketResponse);
-	rpc UpdateBasket(UpdateBasketRequest) returns(UpdateBasketResponse);
-	rpc GetAllBasket(GetAllBasketRequest) returns(GetAllBasketResponse);
+	rpc DisableBasket(DisableBasketRequest) returns(DisableBasketResponse);
+	rpc GetBasketById(GetBasketByIdRequest) returns(GetBasketByIdResponse);
 
-	rpc GetBasketItem(GetBasketItemRequest) returns(GetBasketItemResponse);
-	rpc GetBasketItemByProduct(GetBasketItemByProductRequest) returns(GetBasketItemByProductResponse);
-	rpc AddBasketItem(AddBasketItemRequest) returns(AddBasketItemResponse);
-	rpc RemoveBasketItem(RemoveBasketItemRequest) returns(RemoveBasketItemResponse);
-}
-
-message GetAllBasketRequest {
-	string customerid = 1;
-}
-
-message GetAllBasketResponse {
-	repeated ShoppingBasket baskets = 1;
-}
-
-message GetBasketByIdRequest {
-	string id = 1;
-}
-
-message GetBasketByIdResponse {
-	ShoppingBasket basket = 1;
+	rpc	IncludeItem(IncludeItemRequest) returns(IncludeItemResponse);
+	rpc RemoveItem(RemoveItemRequest) returns(RemoveItemResponse);
 }
 
 message CreateBasketRequest {
@@ -44,90 +23,59 @@ message CreateBasketResponse {
     string message = 2;
 }
 
-message GetBasketByCustomerRequest {
-	string customerid = 1;
-}
-
-message GetBasketByCustomerResponse {
-	ShoppingBasket basket = 1;
-}
-
-message DeleteBasketRequest {
+message DisableBasketRequest {
 	string id = 1;
 }
 
-message DeleteBasketResponse {
+message DisableBasketResponse {
 	bool isvalid = 1;
     string message = 2;
 }
 
-message UpdateBasketRequest {
+message GetBasketByIdRequest {
 	string id = 1;
-	bool isended = 2;
 }
 
-message UpdateBasketResponse {
+message GetBasketByIdResponse {
+	Basket basket = 1;
+}
+
+message IncludeItemRequest {
+	string basketid = 1;
+	repeated Item items = 2;
+}
+
+message IncludeItemResponse {
 	bool isvalid = 1;
     string message = 2;
 }
 
-message GetBasketItemByProductRequest {
-	string produtid = 1;
+message RemoveItemRequest {
+	string basketid = 1;
+	Item item = 2;
 }
 
-message GetBasketItemByProductResponse {
-	BasketItem item = 1;
-}
-
-message GetBasketItemRequest {
-	string id = 1;
-}
-
-message GetBasketItemResponse {
-	BasketItem item = 1;
-}
-
-message AddBasketItemRequest {
-	string id = 1;
-	string name = 2;
-    int32 quantity = 3;
-    double value = 4;
-    string image = 5;
-    string productid = 6;
-    string shoppingbasketid = 7;
-}
-
-message AddBasketItemResponse {
+message RemoveItemResponse {
 	bool isvalid = 1;
     string message = 2;
 }
 
-message RemoveBasketItemRequest {
-	string id = 1;
-	string basketid = 2;
-}
-
-message RemoveBasketItemResponse {
-	bool isvalid = 1;
-    string message = 2;
-}
-
-message ShoppingBasket {
+// Models
+message Basket {
 	string id = 1;
 	double value = 2;
 	string customerid = 3;
 	bool isended = 4;
-	repeated BasketItem items = 5;
+	repeated Item items = 5;
 }
 
-message BasketItem {
+message Item {
 	string id = 1;
 	string name = 2;
 	int32 quantity = 3;
 	double value = 4;
 	string image = 5;
-	string productid = 6;
-	string shoppingbasketid = 7;
+	string basketid = 6;
 }
 
 message date {

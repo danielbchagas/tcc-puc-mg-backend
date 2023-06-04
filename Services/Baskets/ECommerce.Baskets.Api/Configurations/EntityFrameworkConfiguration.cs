@@ -1,9 +1,9 @@
-﻿using ECommerce.Basket.Infrastructure.Data;
+﻿using ECommerce.Baskets.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ECommerce.Basket.Api.Configurations
+namespace ECommerce.Baskets.Api.Configurations
 {
     public static class EntityFrameworkConfiguration
     {

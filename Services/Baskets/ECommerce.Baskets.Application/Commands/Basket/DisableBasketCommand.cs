@@ -2,7 +2,7 @@
 using FluentValidation.Results;
 using MediatR;
 
-namespace ECommerce.Basket.Application.Commands
+namespace ECommerce.Baskets.Application.Commands.Basket
 {
     public class DisableBasketCommand : IRequest<ValidationResult>
     {
