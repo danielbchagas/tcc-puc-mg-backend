@@ -1,5 +1,4 @@
-﻿using ECommerce.Baskets.Domain.Interfaces.Data;
-using ECommerce.Baskets.Domain.Interfaces.Repositories;
+﻿using ECommerce.Baskets.Domain.Interfaces.Repositories;
 using ECommerce.Baskets.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,8 +17,6 @@ namespace ECommerce.Baskets.Infrastructure.Repositories
         {
             _context = context;
         }
-
-        public IUnitOfWork UnitOfWork => _context;
 
         public async Task Create(Domain.Models.Basket basket)
         {

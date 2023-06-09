@@ -1,5 +1,4 @@
-﻿using ECommerce.Baskets.Domain.Interfaces.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -8,8 +7,6 @@ namespace ECommerce.Baskets.Domain.Interfaces.Repositories
 {
     public interface IBasketRepository : IDisposable
     {
-        IUnitOfWork UnitOfWork { get; }
-
         Task<Models.Basket> Get(Guid id);
         Task Create(Models.Basket basket);
         Task Update(Models.Basket basket);

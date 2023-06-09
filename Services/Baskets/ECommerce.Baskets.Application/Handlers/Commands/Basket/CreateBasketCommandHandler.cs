@@ -1,4 +1,5 @@
 ﻿using ECommerce.Baskets.Application.Commands.Basket;
+using ECommerce.Baskets.Domain.Interfaces.Data;
 using ECommerce.Baskets.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -10,10 +11,12 @@ namespace ECommerce.Baskets.Application.Handlers.Commands.Basket
     public class CreateBasketCommandHandler : IRequestHandler<CreateBasketCommand, (ValidationResult, Domain.Models.Basket)>
     {
         private readonly IBasketRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateBasketCommandHandler(IBasketRepository repository)
+        public CreateBasketCommandHandler(IBasketRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<(ValidationResult, Domain.Models.Basket)> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
@@ -28,7 +31,7 @@ namespace ECommerce.Baskets.Application.Handlers.Commands.Basket
                 return (await Task.FromResult(validation), null);
 
             await _repository.Create(basket);
-            await _repository.UnitOfWork.Commit();
+            await _unitOfWork.Commit();
 
             return (await Task.FromResult(validation), basket);
         }

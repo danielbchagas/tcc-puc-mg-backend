@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using ECommerce.Baskets.Application.Commands.Item;
 using ECommerce.Baskets.Application.Constants;
+using ECommerce.Baskets.Domain.Interfaces.Data;
 using ECommerce.Baskets.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Storage;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,12 +15,14 @@ namespace ECommerce.Baskets.Application.Handlers.Commands.Item
         private readonly IBasketRepository _basketRepository;
         private readonly IItemRepository _itemRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public RemoveItemCommandHandler(IBasketRepository basketRepository, IItemRepository itemRepository, IMapper mapper)
+        public RemoveItemCommandHandler(IBasketRepository basketRepository, IItemRepository itemRepository, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _basketRepository = basketRepository;
             _itemRepository = itemRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<(ValidationResult, Domain.Models.Basket)> Handle(RemoveItemCommand request, CancellationToken cancellationToken)
@@ -40,29 +41,11 @@ namespace ECommerce.Baskets.Application.Handlers.Commands.Item
 
             validation = basket.Validate();
 
-            await Transaction(basket);
+            await _itemRepository.Update(basket.Items);
+            await _basketRepository.Update(basket);
+            await _unitOfWork.Commit();
 
             return (await Task.FromResult(validation), basket);
-        }
-
-        private async Task Transaction(Domain.Models.Basket basket)
-        {
-            IDbContextTransaction transaction = null;
-
-            try
-            {
-                transaction = await _basketRepository.UnitOfWork.OpenTransaction();
-
-                await _itemRepository.Update(basket.Items);
-                await _basketRepository.Update(basket);
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                transaction.Rollback();
-                throw;
-            }
         }
     }
 }

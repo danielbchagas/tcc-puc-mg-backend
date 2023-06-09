@@ -1,7 +1,7 @@
-﻿using ECommerce.Customers.Domain.Interfaces.Data;
+﻿using ECommerce.Baskets.Domain.Interfaces.Data;
 using System.Threading.Tasks;
 
-namespace ECommerce.Customers.Infrastructure.Data
+namespace ECommerce.Baskets.Infrastructure.Data
 {
     public class UnitOfWork : IUnitOfWork
     {

@@ -1,5 +1,4 @@
-﻿using ECommerce.Baskets.Domain.Interfaces.Data;
-using ECommerce.Baskets.Domain.Interfaces.Repositories;
+﻿using ECommerce.Baskets.Domain.Interfaces.Repositories;
 using ECommerce.Baskets.Domain.Models;
 using ECommerce.Baskets.Infrastructure.Data;
 using System.Collections.Generic;
@@ -15,8 +14,6 @@ namespace ECommerce.Baskets.Infrastructure.Repositories
         {
             _context = context;
         }
-
-        public IUnitOfWork UnitOfWork => _context;
 
         public async Task Create(IEnumerable<Item> item)
         {

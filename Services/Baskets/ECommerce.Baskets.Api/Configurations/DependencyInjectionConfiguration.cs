@@ -5,7 +5,9 @@ using ECommerce.Baskets.Application.Handlers.Commands.Basket;
 using ECommerce.Baskets.Application.Handlers.Commands.Item;
 using ECommerce.Baskets.Application.Handlers.Queries;
 using ECommerce.Baskets.Application.Queries;
+using ECommerce.Baskets.Domain.Interfaces.Data;
 using ECommerce.Baskets.Domain.Interfaces.Repositories;
+using ECommerce.Baskets.Infrastructure.Data;
 using ECommerce.Baskets.Infrastructure.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -33,6 +35,7 @@ namespace ECommerce.Baskets.Api.Configurations
 
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddHostedService<CloseAbandonedBasketService>();
         }

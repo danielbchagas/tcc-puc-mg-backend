@@ -1,13 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace ECommerce.Baskets.Domain.Interfaces.Data
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         Task<bool> Commit();
-        Task<IDbContextTransaction> OpenTransaction();
-        Task CommitTransaction();
-        Task RollbackTransaction();
     }
 }

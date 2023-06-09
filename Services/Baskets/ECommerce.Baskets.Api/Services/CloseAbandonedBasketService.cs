@@ -1,4 +1,5 @@
-﻿using ECommerce.Baskets.Domain.Interfaces.Repositories;
+﻿using ECommerce.Baskets.Domain.Interfaces.Data;
+using ECommerce.Baskets.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,7 @@ namespace ECommerce.Baskets.Api.Services
             using (var scope = _serviceProvider.CreateScope())
             {
                 var _repository = scope.ServiceProvider.GetRequiredService<IBasketRepository>();
+                var _unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
                 var baskets = _repository.Filter(b => !b.IsEnded && DateTime.Compare(b.CreatedAt, DateTime.Now.AddDays(5)) < 0).Result;
 
@@ -33,7 +35,7 @@ namespace ECommerce.Baskets.Api.Services
                     basket.DeletedAt = DateTime.Now;
 
                     _repository.Update(basket);
-                    _repository.UnitOfWork.Commit();
+                    _unitOfWork.Commit();
                 }
 
                 _logger.LogInformation(
