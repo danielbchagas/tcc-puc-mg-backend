@@ -1,5 +1,6 @@
 ﻿using ECommerce.Customers.Application.Commands.Address;
 using ECommerce.Customers.Application.Constants;
+using ECommerce.Customers.Domain.Interfaces.Data;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -11,12 +12,14 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Address
 {
     public class CreateAddressCommandHandler : IRequestHandler<CreateAddressCommand, ValidationResult>
     {
-        public CreateAddressCommandHandler(IAddressRepository repository)
+        public CreateAddressCommandHandler(IAddressRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         private readonly IAddressRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public async Task<ValidationResult> Handle(CreateAddressCommand request, CancellationToken cancellationToken)
         {
@@ -38,7 +41,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Address
             if (validation.IsValid)
             {
                 await _repository.Create(address);
-                await _repository.UnitOfWork.Commit();
+                await _unitOfWork.Commit();
             }
 
             return await Task.FromResult(validation);

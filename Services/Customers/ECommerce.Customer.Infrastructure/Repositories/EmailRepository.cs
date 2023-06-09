@@ -20,8 +20,6 @@ namespace ECommerce.Customers.Infrastructure.Repositories
 
         private readonly ApplicationDbContext _context;
 
-        public IUnitOfWork UnitOfWork => _context;
-
         public async Task Create(Email email)
         {
             await _context.Emails.AddAsync(email);

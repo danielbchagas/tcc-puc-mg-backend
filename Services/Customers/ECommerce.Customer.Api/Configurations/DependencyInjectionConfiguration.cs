@@ -14,8 +14,10 @@ using ECommerce.Customers.Application.Handlers.Commands.Phone;
 using ECommerce.Customers.Application.Handlers.Commands.User;
 using ECommerce.Customers.Application.Handlers.Queries;
 using ECommerce.Customers.Application.Queries;
+using ECommerce.Customers.Domain.Interfaces.Data;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using ECommerce.Customers.Domain.Models;
+using ECommerce.Customers.Infrastructure.Data;
 using ECommerce.Customers.Infrastructure.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -64,6 +66,8 @@ namespace ECommerce.Customer.Api.Configurations
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IEmailRepository, EmailRepository>();
             services.AddScoped<IPhoneRepository, PhoneRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 
 #if RABBITMQ

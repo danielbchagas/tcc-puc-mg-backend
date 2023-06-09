@@ -1,4 +1,5 @@
 ﻿using ECommerce.Customers.Application.Commands.Email;
+using ECommerce.Customers.Domain.Interfaces.Data;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -9,12 +10,14 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Email
 {
     public class UpdateEmailCommandHandler : IRequestHandler<UpdateEmailCommand, ValidationResult>
     {
-        public UpdateEmailCommandHandler(IEmailRepository repository)
+        public UpdateEmailCommandHandler(IEmailRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         private readonly IEmailRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public async Task<ValidationResult> Handle(UpdateEmailCommand request, CancellationToken cancellationToken)
         {
@@ -26,7 +29,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Email
             if (validation.IsValid)
             {
                 await _repository.Update(email);
-                await _repository.UnitOfWork.Commit();
+                await _unitOfWork.Commit();
             }
 
             return await Task.FromResult(validation);

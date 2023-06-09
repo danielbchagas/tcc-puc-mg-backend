@@ -1,11 +1,9 @@
-﻿using ECommerce.Customers.Domain.Interfaces.Data;
-using ECommerce.Customers.Domain.Interfaces.Repositories;
+﻿using ECommerce.Customers.Domain.Interfaces.Repositories;
 using ECommerce.Customers.Domain.Models;
 using ECommerce.Customers.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.Customers.Infrastructure.Repositories
@@ -18,8 +16,6 @@ namespace ECommerce.Customers.Infrastructure.Repositories
         }
 
         private readonly ApplicationDbContext _context;
-
-        public IUnitOfWork UnitOfWork => _context;
 
         public async Task Create(Customer person)
         {

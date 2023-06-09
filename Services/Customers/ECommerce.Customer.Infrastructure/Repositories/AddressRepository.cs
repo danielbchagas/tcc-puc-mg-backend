@@ -1,5 +1,4 @@
-﻿using ECommerce.Customers.Domain.Interfaces.Data;
-using ECommerce.Customers.Domain.Interfaces.Repositories;
+﻿using ECommerce.Customers.Domain.Interfaces.Repositories;
 using ECommerce.Customers.Domain.Models;
 using ECommerce.Customers.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +18,6 @@ namespace ECommerce.Customers.Infrastructure.Repositories
         }
 
         private readonly ApplicationDbContext _context;
-
-        public IUnitOfWork UnitOfWork => _context;
 
         public async Task Create(Address address)
         {

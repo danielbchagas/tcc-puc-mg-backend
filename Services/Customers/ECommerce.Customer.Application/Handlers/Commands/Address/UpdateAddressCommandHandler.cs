@@ -1,4 +1,5 @@
 ﻿using ECommerce.Customers.Application.Commands.Address;
+using ECommerce.Customers.Domain.Interfaces.Data;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -9,12 +10,14 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Address
 {
     public class UpdateAddressCommandHandler : IRequestHandler<UpdateAddressCommand, ValidationResult>
     {
-        public UpdateAddressCommandHandler(IAddressRepository repository)
+        public UpdateAddressCommandHandler(IAddressRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         private readonly IAddressRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public async Task<ValidationResult> Handle(UpdateAddressCommand request, CancellationToken cancellationToken)
         {
@@ -30,7 +33,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Address
             if (validation.IsValid)
             {
                 await _repository.Update(address);
-                await _repository.UnitOfWork.Commit();
+                await _unitOfWork.Commit();
             }
 
             return await Task.FromResult(validation);

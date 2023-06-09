@@ -1,4 +1,5 @@
 ﻿using ECommerce.Customers.Application.Commands.Document;
+using ECommerce.Customers.Domain.Interfaces.Data;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -9,12 +10,14 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Document
 {
     public class UpdateDocumentCommandHandler : IRequestHandler<UpdateDocumentCommand, ValidationResult>
     {
-        public UpdateDocumentCommandHandler(IDocumentRepository repository)
+        public UpdateDocumentCommandHandler(IDocumentRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         private readonly IDocumentRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public async Task<ValidationResult> Handle(UpdateDocumentCommand request, CancellationToken cancellationToken)
         {
@@ -26,7 +29,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Document
             if (validation.IsValid)
             {
                 await _repository.Update(document);
-                await _repository.UnitOfWork.Commit();
+                await _unitOfWork.Commit();
             }
 
             return await Task.FromResult(validation);

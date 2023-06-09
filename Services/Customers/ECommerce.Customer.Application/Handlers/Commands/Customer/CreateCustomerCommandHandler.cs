@@ -1,4 +1,5 @@
 ﻿using ECommerce.Customers.Application.Commands.User;
+using ECommerce.Customers.Domain.Interfaces.Data;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -11,12 +12,14 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
 {
     public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, ValidationResult>
     {
-        public CreateCustomerCommandHandler(IUserRepository repository)
+        public CreateCustomerCommandHandler(IUserRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         private readonly IUserRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public async Task<ValidationResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
@@ -46,7 +49,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
             if (validation.IsValid)
             {
                 await _repository.Create(customer);
-                await _repository.UnitOfWork.Commit();
+                await _unitOfWork.Commit();
             }
 
             return await Task.FromResult(validation);
