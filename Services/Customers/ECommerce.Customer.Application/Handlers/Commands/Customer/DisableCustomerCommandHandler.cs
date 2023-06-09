@@ -11,13 +11,13 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
 {
     public class DisableCustomerCommandHandler : IRequestHandler<DisableCustomerCommand, ValidationResult>
     {
-        public DisableCustomerCommandHandler(IUserRepository repository, IUnitOfWork unitOfWork)
+        public DisableCustomerCommandHandler(ICustomerRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
         }
 
-        private readonly IUserRepository _repository;
+        private readonly ICustomerRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
         public async Task<ValidationResult> Handle(DisableCustomerCommand request, CancellationToken cancellationToken)

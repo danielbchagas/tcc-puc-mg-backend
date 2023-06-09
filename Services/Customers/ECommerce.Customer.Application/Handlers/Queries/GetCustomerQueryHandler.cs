@@ -9,12 +9,12 @@ namespace ECommerce.Customers.Application.Handlers.Queries
 {
     public class GetCustomerQueryHandler : IRequestHandler<GetUserQuery, Customer>
     {
-        public GetCustomerQueryHandler(IUserRepository repository)
+        public GetCustomerQueryHandler(ICustomerRepository repository)
         {
             _repository = repository;
         }
 
-        private readonly IUserRepository _repository;
+        private readonly ICustomerRepository _repository;
 
         public async Task<Customer> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {

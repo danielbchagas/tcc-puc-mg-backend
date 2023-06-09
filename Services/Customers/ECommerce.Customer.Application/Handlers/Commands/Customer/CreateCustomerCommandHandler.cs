@@ -12,13 +12,13 @@ namespace ECommerce.Customers.Application.Handlers.Commands.User
 {
     public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, ValidationResult>
     {
-        public CreateCustomerCommandHandler(IUserRepository repository, IUnitOfWork unitOfWork)
+        public CreateCustomerCommandHandler(ICustomerRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
         }
 
-        private readonly IUserRepository _repository;
+        private readonly ICustomerRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
         public async Task<ValidationResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)

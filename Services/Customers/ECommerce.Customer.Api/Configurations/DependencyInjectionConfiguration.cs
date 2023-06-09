@@ -61,7 +61,7 @@ namespace ECommerce.Customer.Api.Configurations
             #endregion
 
             #region
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IEmailRepository, EmailRepository>();
