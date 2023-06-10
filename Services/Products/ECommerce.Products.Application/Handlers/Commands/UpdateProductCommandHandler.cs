@@ -1,4 +1,5 @@
 ﻿using ECommerce.Products.Application.Commands;
+using ECommerce.Products.Domain.Interfaces.Data;
 using ECommerce.Products.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
@@ -11,10 +12,12 @@ namespace ECommerce.Products.Application.Handlers.Commands
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, ValidationResult>
     {
         private readonly IProductRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateProductCommandHandler(IProductRepository repository)
+        public UpdateProductCommandHandler(IProductRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ValidationResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -36,7 +39,7 @@ namespace ECommerce.Products.Application.Handlers.Commands
             if (validation.IsValid)
             {
                 await _repository.Update(product);
-                await _repository.UnitOfWork.Commit();
+                await _unitOfWork.Commit();
             }
 
             return await Task.FromResult(validation);

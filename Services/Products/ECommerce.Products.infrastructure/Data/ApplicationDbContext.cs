@@ -8,16 +8,11 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Products.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext, IUnitOfWork
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Product> Products { get; set; }
-
-        public async Task<bool> Commit()
-        {
-            return await base.SaveChangesAsync() > 0;
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

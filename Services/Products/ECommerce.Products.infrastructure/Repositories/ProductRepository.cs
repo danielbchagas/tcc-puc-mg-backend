@@ -8,6 +8,7 @@ using ECommerce.Products.Domain.Interfaces.Repositories;
 using ECommerce.Products.Domain.Models;
 using ECommerce.Products.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace ECommerce.Products.Infrastructure.Repositories
 {
@@ -19,8 +20,6 @@ namespace ECommerce.Products.Infrastructure.Repositories
         }
 
         private readonly ApplicationDbContext _context;
-
-        public IUnitOfWork UnitOfWork => _context;
 
         public async Task Create(Product product)
         {
@@ -61,6 +60,28 @@ namespace ECommerce.Products.Infrastructure.Repositories
         public void Dispose()
         {
             _context?.Dispose();
+        }
+
+        public async Task<IEnumerable<Product>> Get(Expression<Func<Product, bool>> expression = null, 
+            Func<IQueryable<Product>, IIncludableQueryable<Product, object>> includes = null, 
+            int? skip = null, 
+            int? take = null)
+        {
+            var query = _context.Products.AsQueryable();
+
+            if (expression != null)
+                query = query.Where(expression);
+
+            if (includes != null)
+                query = includes(query);
+
+            if (skip.HasValue)
+                query = query.Skip(skip.Value);
+
+            if (take.HasValue)
+                query = query.Take(take.Value);
+
+            return await query.ToListAsync();
         }
     }
 }
