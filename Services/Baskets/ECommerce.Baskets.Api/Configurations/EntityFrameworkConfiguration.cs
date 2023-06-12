@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace ECommerce.Baskets.Api.Configurations
 {
@@ -11,7 +12,11 @@ namespace ECommerce.Baskets.Api.Configurations
         {
             services.AddDbContext<ApplicationDbContext>(optionsAction =>
             {
-                optionsAction.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+                optionsAction.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), opt =>
+                {
+                    opt.EnableRetryOnFailure();
+                })
+                .LogTo(Console.WriteLine);
             });
         }
     }
