@@ -10,6 +10,8 @@ namespace ECommerce.Products.Domain.Interfaces.Repositories
 {
     public interface IProductRepository : IDisposable
     {
+        Task<(Guid, string)> GetImage(Guid productId);
+
         Task Create(Product product);
         Task Update(Product product);
         Task Delete(Guid id);

@@ -73,5 +73,15 @@ namespace ECommerce.Products.Api.Controllers
 
             return Ok();
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetImage(Guid id)
+        {
+            var result = await _mediator.Send(new GetImageQuery(id));
+
+            return Ok(new { id = result.Item1, image = result.Item2 });
+        }
     }
 }

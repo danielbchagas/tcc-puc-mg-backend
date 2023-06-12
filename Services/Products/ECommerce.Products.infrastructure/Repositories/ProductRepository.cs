@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using ECommerce.Products.Domain.Interfaces.Data;
-using ECommerce.Products.Domain.Interfaces.Repositories;
+﻿using ECommerce.Products.Domain.Interfaces.Repositories;
 using ECommerce.Products.Domain.Models;
 using ECommerce.Products.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace ECommerce.Products.Infrastructure.Repositories
 {
@@ -82,6 +81,16 @@ namespace ECommerce.Products.Infrastructure.Repositories
                 query = query.Take(take.Value);
 
             return await query.ToListAsync();
+        }
+
+        public async Task<(Guid, string)> GetImage(Guid productId)
+        {
+            var result = await _context.Products
+                .Where(p => p.Id == productId)
+                .Select(p => new { Id = p.Id, Image = p.Image })
+                .FirstOrDefaultAsync();
+
+            return (result.Id, result.Image);
         }
     }
 }
