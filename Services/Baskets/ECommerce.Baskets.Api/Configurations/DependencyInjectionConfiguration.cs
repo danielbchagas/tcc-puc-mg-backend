@@ -1,4 +1,4 @@
-﻿using ECommerce.Baskets.Api.Services;
+﻿using ECommerce.Baskets.Api.Services.Workers;
 using ECommerce.Baskets.Application.Commands.Basket;
 using ECommerce.Baskets.Application.Commands.Item;
 using ECommerce.Baskets.Application.Handlers.Commands.Basket;

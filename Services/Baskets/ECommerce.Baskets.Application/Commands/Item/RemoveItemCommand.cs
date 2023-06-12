@@ -13,6 +13,6 @@ namespace ECommerce.Baskets.Application.Commands.Item
 
         public Guid BasketId { get; set; }
 
-        public ItemCommand Item { get; set; }
+        public Guid ItemId { get; set; }
     }
 }

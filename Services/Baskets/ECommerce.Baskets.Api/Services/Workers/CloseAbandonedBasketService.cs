@@ -7,13 +7,13 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECommerce.Baskets.Api.Services
+namespace ECommerce.Baskets.Api.Services.Workers
 {
     public class CloseAbandonedBasketService : IHostedService, IDisposable
     {
         private readonly ILogger<CloseAbandonedBasketService> _logger;
         private readonly IServiceProvider _serviceProvider;
-        private Timer? _timer = null;
+        private Timer _timer = null;
 
         public CloseAbandonedBasketService(ILogger<CloseAbandonedBasketService> logger, IServiceProvider serviceProvider)
         {
@@ -21,7 +21,7 @@ namespace ECommerce.Baskets.Api.Services
             _serviceProvider = serviceProvider;
         }
 
-        private void DoWork(object? state)
+        private void DoWork(object state)
         {
             using (var scope = _serviceProvider.CreateScope())
             {

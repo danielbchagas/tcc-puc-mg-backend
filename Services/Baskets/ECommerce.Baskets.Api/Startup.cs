@@ -1,6 +1,5 @@
 using ECommerce.Baskets.Api.Configurations;
 using ECommerce.Baskets.Api.Middlewares;
-using ECommerce.Baskets.Api.Services.gRPC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -37,8 +36,6 @@ namespace ECommerce.Baskets.Api
             services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers();
-
-            services.AddGrpc();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -77,7 +74,6 @@ namespace ECommerce.Baskets.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGrpcService<BasketGrpcService>().EnableGrpcWeb();
             });
         }
     }

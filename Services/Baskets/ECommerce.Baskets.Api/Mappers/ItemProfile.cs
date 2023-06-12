@@ -12,8 +12,7 @@ namespace ECommerce.Baskets.Api.Mappers
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
-                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Value))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image));
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Value));
         }
     }
 }

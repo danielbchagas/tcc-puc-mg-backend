@@ -5,6 +5,7 @@ using ECommerce.Baskets.Domain.Interfaces.Data;
 using ECommerce.Baskets.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
 using MediatR;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,7 +38,7 @@ namespace ECommerce.Baskets.Application.Handlers.Commands.Item
                 return (validation, basket);
             }
 
-            basket.RemoveItems(_mapper.Map<Domain.Models.Item>(request.Item));
+            basket.RemoveItems(_mapper.Map<Domain.Models.Item>(basket.Items.FirstOrDefault(f => f.Id == request.ItemId)));
 
             validation = basket.Validate();
 

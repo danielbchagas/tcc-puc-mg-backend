@@ -12,9 +12,6 @@ namespace ECommerce.Baskets.Infrastructure.Mappings
 
             builder.HasKey(ci => ci.Id);
 
-            builder.Property(ic => ic.Image)
-                .HasColumnType("text")
-                .IsRequired(false);
             builder.Property(ic => ic.Name)
                 .HasColumnType("varchar(20)")
                 .IsRequired();

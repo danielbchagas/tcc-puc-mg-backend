@@ -7,13 +7,12 @@ namespace ECommerce.Baskets.Domain.Models
 {
     public class Item : IAuditable, IEquatable<Item>
     {
-        public Item(Guid id, string name, int quantity, decimal value, string image)
+        public Item(Guid id, string name, int quantity, decimal value)
         {
             Id = id;
             Name = name;
             Quantity = quantity;
             Value = value;
-            Image = image;
         }
 
         /// <summary>
@@ -23,7 +22,6 @@ namespace ECommerce.Baskets.Domain.Models
         public string Name { get; set; }
         public int Quantity { get; set; }
         public decimal Value { get; set; }
-        public string Image { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
@@ -40,7 +38,6 @@ namespace ECommerce.Baskets.Domain.Models
                 && Name == other.Name
                 && Quantity == other.Quantity
                 && Value == other.Value
-                && Image == other.Image
                 && CreatedAt == other.CreatedAt
                 && UpdatedAt == other.UpdatedAt
                 && DeletedAt == other.DeletedAt
@@ -48,7 +45,7 @@ namespace ECommerce.Baskets.Domain.Models
         }
 
         public override bool Equals(object obj) => Equals(obj as Item);
-        public override int GetHashCode() => (Id, Name, Quantity, Value, Image, CreatedAt, UpdatedAt, DeletedAt, BasketId).GetHashCode();
+        public override int GetHashCode() => (Id, Name, Quantity, Value, CreatedAt, UpdatedAt, DeletedAt, BasketId).GetHashCode();
         #endregion
 
         public void LinkToBasket(Guid basketId) => BasketId = basketId;

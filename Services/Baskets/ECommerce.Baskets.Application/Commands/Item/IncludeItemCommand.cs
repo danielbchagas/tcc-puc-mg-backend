@@ -18,6 +18,5 @@ namespace ECommerce.Baskets.Application.Commands.Item
         public string Name { get; set; }
         public int Quantity { get; set; }
         public decimal Value { get; set; }
-        public string Image { get; set; }
     }
 }

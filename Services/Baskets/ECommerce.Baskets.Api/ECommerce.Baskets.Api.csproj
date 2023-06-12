@@ -34,8 +34,4 @@
     <ProjectReference Include="..\ECommerce.Baskets.Domain\ECommerce.Baskets.Domain.csproj" />
     <ProjectReference Include="..\ECommerce.Baskets.Infrastructure\ECommerce.Baskets.Infrastructure.csproj" />
   </ItemGroup>
-
-	<ItemGroup>
-		<Protobuf Include="Protos\basket.proto" GrpcServices="Server" />
-	</ItemGroup>
 </Project>
