@@ -11,11 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{56
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customers", "Customers", "{85E7C5CC-482A-4E86-BD33-C2F129B5D0EF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customers.Api", "Services\Customers\ECommerce.Customer.Api\ECommerce.Customers.Api.csproj", "{36999C05-FD8B-4E68-AFEC-D7BE69750E55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customers.Api", "Services\Customers\ECommerce.Customers.Api\ECommerce.Customers.Api.csproj", "{36999C05-FD8B-4E68-AFEC-D7BE69750E55}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customers.Domain", "Services\Customers\ECommerce.Customer.Domain\ECommerce.Customers.Domain.csproj", "{EC63E746-90E5-4DE0-BB66-601A195C4F2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customers.Domain", "Services\Customers\ECommerce.Customers.Domain\ECommerce.Customers.Domain.csproj", "{EC63E746-90E5-4DE0-BB66-601A195C4F2F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customers.Infrastructure", "Services\Customers\ECommerce.Customer.Infrastructure\ECommerce.Customers.Infrastructure.csproj", "{90A120AC-DE06-44B7-B0FB-25BABA0665D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customers.Infrastructure", "Services\Customers\ECommerce.Customers.Infrastructure\ECommerce.Customers.Infrastructure.csproj", "{90A120AC-DE06-44B7-B0FB-25BABA0665D6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Products.Api", "Services\Products\ECommerce.Products.Api\ECommerce.Products.Api.csproj", "{D32398C9-01E9-439A-BFC6-99DCDA75DE62}"
 EndProject
@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Baskets.Applicati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Products.Application", "Services\Products\ECommerce.Products.Application\ECommerce.Products.Application.csproj", "{1C046CD7-EB7A-4DD9-9140-47A297DA6DD1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customers.Application", "Services\Customers\ECommerce.Customer.Application\ECommerce.Customers.Application.csproj", "{46234CC9-BC00-4221-996A-81134C7D0FAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Customers.Application", "Services\Customers\ECommerce.Customers.Application\ECommerce.Customers.Application.csproj", "{46234CC9-BC00-4221-996A-81134C7D0FAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Baskets", "Baskets", "{74DF993F-6448-47CF-8A13-7DDE8822B807}"
 EndProject

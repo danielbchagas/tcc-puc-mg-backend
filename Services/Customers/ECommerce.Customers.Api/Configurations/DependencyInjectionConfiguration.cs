@@ -1,17 +1,13 @@
-﻿#define RABBITMQ
-
-using ECommerce.Customer.Api;
-using ECommerce.Customer.Api.Services.RabbitMQ;
-using ECommerce.Customers.Application.Commands.Address;
+﻿using ECommerce.Customers.Application.Commands.Address;
+using ECommerce.Customers.Application.Commands.Customer;
 using ECommerce.Customers.Application.Commands.Document;
 using ECommerce.Customers.Application.Commands.Email;
 using ECommerce.Customers.Application.Commands.Phone;
-using ECommerce.Customers.Application.Commands.User;
 using ECommerce.Customers.Application.Handlers.Commands.Address;
+using ECommerce.Customers.Application.Handlers.Commands.Customer;
 using ECommerce.Customers.Application.Handlers.Commands.Document;
 using ECommerce.Customers.Application.Handlers.Commands.Email;
 using ECommerce.Customers.Application.Handlers.Commands.Phone;
-using ECommerce.Customers.Application.Handlers.Commands.User;
 using ECommerce.Customers.Application.Handlers.Queries;
 using ECommerce.Customers.Application.Queries;
 using ECommerce.Customers.Domain.Interfaces.Data;
@@ -33,7 +29,7 @@ namespace ECommerce.Customer.Api.Configurations
             services.AddMediatR(typeof(Startup));
 
             #region
-            services.AddScoped<IRequestHandler<CreateCustomerCommand, ValidationResult>, CreateCustomerCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateCustomerCommand, (ValidationResult, Customers.Domain.Models.Customer) >, CreateCustomerCommandHandler>();
             services.AddScoped<IRequestHandler<DisableCustomerCommand, ValidationResult>, DisableCustomerCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateCustomerCommand, ValidationResult>, UpdateCustomerCommandHandler>();
 
@@ -69,10 +65,6 @@ namespace ECommerce.Customer.Api.Configurations
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
-
-#if RABBITMQ
-            services.AddHostedService<CustomerRabbitMqService>();
-#endif
         }
     }
 }

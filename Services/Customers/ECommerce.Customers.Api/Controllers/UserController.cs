@@ -1,5 +1,5 @@
 ﻿using ECommerce.Customer.Api.Constants;
-using ECommerce.Customers.Application.Commands.User;
+using ECommerce.Customers.Application.Commands.Customer;
 using ECommerce.Customers.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -56,10 +56,10 @@ namespace ECommerce.Customer.Api.Controllers
         {
             var result = await _mediator.Send(request);
 
-            if (!result.IsValid)
-                return BadRequest(result.Errors.Select(e => e.ErrorMessage));
+            if (!result.Item1.IsValid)
+                return BadRequest(result.Item1.Errors.Select(e => e.ErrorMessage));
 
-            return Ok();
+            return Ok(result.Item2);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]

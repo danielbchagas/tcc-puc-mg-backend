@@ -31,9 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ECommerce.Customer.Application\ECommerce.Customers.Application.csproj" />
-    <ProjectReference Include="..\ECommerce.Customer.Domain\ECommerce.Customers.Domain.csproj" />
-    <ProjectReference Include="..\ECommerce.Customer.Infrastructure\ECommerce.Customers.Infrastructure.csproj" />
+    <ProjectReference Include="..\ECommerce.Customers.Application\ECommerce.Customers.Application.csproj" />
+    <ProjectReference Include="..\ECommerce.Customers.Domain\ECommerce.Customers.Domain.csproj" />
+    <ProjectReference Include="..\ECommerce.Customers.Infrastructure\ECommerce.Customers.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

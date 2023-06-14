@@ -1,4 +1,4 @@
-﻿using ECommerce.Customers.Application.Commands.User;
+﻿using ECommerce.Customers.Application.Commands.Customer;
 using ECommerce.Customers.Domain.Interfaces.Data;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
@@ -7,7 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECommerce.Customers.Application.Handlers.Commands.User
+namespace ECommerce.Customers.Application.Handlers.Commands.Customer
 {
     public class DisableCustomerCommandHandler : IRequestHandler<DisableCustomerCommand, ValidationResult>
     {

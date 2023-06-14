@@ -2,7 +2,7 @@
 using FluentValidation.Results;
 using MediatR;
 
-namespace ECommerce.Customers.Application.Commands.User
+namespace ECommerce.Customers.Application.Commands.Customer
 {
     public class DisableCustomerCommand : IRequest<ValidationResult>
     {

@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ECommerce.Customer.Domain\ECommerce.Customers.Domain.csproj" />
+    <ProjectReference Include="..\ECommerce.Customers.Domain\ECommerce.Customers.Domain.csproj" />
   </ItemGroup>
 
 </Project>

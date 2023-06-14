@@ -3,9 +3,9 @@ using FluentValidation.Results;
 using MediatR;
 using System;
 
-namespace ECommerce.Customers.Application.Commands.User
+namespace ECommerce.Customers.Application.Commands.Customer
 {
-    public class CreateCustomerCommand : IRequest<ValidationResult>
+    public class CreateCustomerCommand : IRequest<(ValidationResult, Domain.Models.Customer)>
     {
         public CreateCustomerCommand(Guid id, string firstName, string lastName, CreateDocumentCommand document, CreateEmailCommand email, CreatePhoneCommand phone)
         {

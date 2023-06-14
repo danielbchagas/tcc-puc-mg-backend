@@ -2,7 +2,7 @@
 
 namespace ECommerce.Customer.Api.Services.gRPC.Validators
 {
-    public class CustomerGrpcValidator : AbstractValidator<Customers.Api.Protos.CreateUserRequest>
+    public class CustomerGrpcValidator : AbstractValidator<Customers.Api.Protos.CreateCustomerRequest>
     {
         public CustomerGrpcValidator()
         {
