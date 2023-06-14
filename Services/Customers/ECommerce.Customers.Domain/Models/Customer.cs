@@ -40,16 +40,42 @@ namespace ECommerce.Customers.Domain.Models
             Address = address;
         }
 
+        public void UpdateCustomer(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            UpdatedAt = DateTime.Now;
+        }
+
+        public void UpdateDocument(string number)
+        {
+            Document.Number = number;
+        }
+
+        public void UpdatePhone(string number)
+        {
+            Phone.Number = number;
+        }
+
+        public void UpdateAddress(string firstLine, string secondLine, string city, string zipCode, string state)
+        {
+            Address.FirstLine = firstLine;
+            Address.SecondLine = secondLine;
+            Address.City = city;
+            Address.ZipCode = zipCode;
+            Address.State = state;
+        }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public Document Document { get; set; }
-        public Email Email { get; set; }
-        public Phone Phone { get; set; }
-        public Address Address { get; set; }
+        public Document Document { get; private set; }
+        public Email Email { get; private set; }
+        public Phone Phone { get; private set; }
+        public Address Address { get; private set; }
         
         public ValidationResult Validate()
         {

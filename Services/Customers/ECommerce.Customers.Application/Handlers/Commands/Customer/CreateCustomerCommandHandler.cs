@@ -23,7 +23,22 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
 
         public async Task<(ValidationResult, Models.Customer)> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = new Models.Customer(
+            var customer = CreateCustomer(request);
+
+            var validation = customer.Validate();
+
+            if (validation.IsValid)
+            {
+                await _repository.Create(customer);
+                await _unitOfWork.Commit();
+            }
+
+            return await Task.FromResult((validation, customer));
+        }
+
+        private Models.Customer CreateCustomer(CreateCustomerCommand request)
+        {
+            return new Models.Customer(
                 id: request.Id,
                 firstName: request.FirstName,
                 lastName: request.LastName,
@@ -43,16 +58,6 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
                     Number = request.Phone.Number,
                     CustomerId = request.Phone.CustomerId
                 });
-
-            var validation = customer.Validate();
-
-            if (validation.IsValid)
-            {
-                await _repository.Create(customer);
-                await _unitOfWork.Commit();
-            }
-
-            return await Task.FromResult((validation, customer));
         }
     }
 }
