@@ -1,4 +1,6 @@
-﻿using ECommerce.Customers.Application.Commands.Customer;
+﻿using ECommerce.Customers.Application.Commands.Address;
+using ECommerce.Customers.Application.Commands.Customer;
+using ECommerce.Customers.Application.Handlers.Commands.Address;
 using ECommerce.Customers.Application.Handlers.Commands.Customer;
 using ECommerce.Customers.Application.Handlers.Queries;
 using ECommerce.Customers.Application.Queries;
@@ -24,6 +26,8 @@ namespace ECommerce.Customer.Api.Configurations
             services.AddScoped<IRequestHandler<CreateCustomerCommand, (ValidationResult, Customers.Domain.Models.Customer)>, CreateCustomerCommandHandler>();
             services.AddScoped<IRequestHandler<DisableCustomerCommand, ValidationResult>, DisableCustomerCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateCustomerCommand, (ValidationResult, Customers.Domain.Models.Customer)>, UpdateCustomerCommandHandler>();
+
+            services.AddScoped<IRequestHandler<CreateAddressCommand, (ValidationResult, Address)>, CreateAddressCommandHandler>();
             #endregion
 
             #region

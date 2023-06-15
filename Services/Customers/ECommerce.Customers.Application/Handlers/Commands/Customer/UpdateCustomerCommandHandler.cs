@@ -46,7 +46,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
 
         private void UpdateAddress(Domain.Models.Customer customer, UpdateAddressCommand request)
         {
-            if (customer.Address != null && request != null)
+            if (request != null)
                 customer.UpdateAddress(request.FirstLine, request.SecondLine, request.City, request.ZipCode, request.State);
         }
     }

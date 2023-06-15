@@ -49,16 +49,25 @@ namespace ECommerce.Customers.Domain.Models
 
         public void UpdateDocument(string number)
         {
+            if (Document == null)
+                return;
+
             Document.Number = number;
         }
 
         public void UpdatePhone(string number)
         {
+            if (Phone == null) 
+                return;
+
             Phone.Number = number;
         }
 
         public void UpdateAddress(string firstLine, string secondLine, string city, string zipCode, string state)
         {
+            if (Address == null) 
+                return;
+
             Address.FirstLine = firstLine;
             Address.SecondLine = secondLine;
             Address.City = city;
