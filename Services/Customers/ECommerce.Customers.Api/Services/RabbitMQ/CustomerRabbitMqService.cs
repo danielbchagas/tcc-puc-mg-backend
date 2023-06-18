@@ -18,9 +18,10 @@ namespace ECommerce.Customer.Api.Services.RabbitMQ
     public class CustomerRabbitMqService : IHostedService, IDisposable
     {
         private readonly ILogger<CustomerRabbitMqService> _logger;
-        private Timer _timer = null;
-        private readonly RabbitMqOption _rabbitMQOptions;
         private readonly IServiceProvider _serviceProvider;
+
+        private readonly RabbitMqOption _rabbitMQOptions;
+        
         private IConnection _connection;
         private IModel _channel;
         
@@ -29,47 +30,23 @@ namespace ECommerce.Customer.Api.Services.RabbitMQ
             _logger = logger;
             _rabbitMQOptions = rabbitMQOptions.Value;
             _serviceProvider = serviceProvider;
-            ConfigureChannel();
-        }
 
-        private void ConfigureChannel()
-        {
             var factory = new ConnectionFactory
             {
                 HostName = _rabbitMQOptions.Host,
                 UserName = _rabbitMQOptions.Username,
                 Password = _rabbitMQOptions.Password
             };
-
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
-
-            _channel.QueueDeclare(queue: _rabbitMQOptions.Queue,
-                                 durable: true,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-
-            _channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
         }
 
-        private void DoWork(object state)
+        private void Consumer_Received(object sender, BasicDeliverEventArgs e)
         {
-            var consumer = new EventingBasicConsumer(_channel);
+            var body = e.Body.ToArray();
+            var message = JsonSerializer.Deserialize<CreateCustomerCommand>(body);
 
-            consumer.Received += async (model, ea) =>
-            {
-                byte[] body = ea.Body.ToArray();
-                var message = JsonSerializer.Deserialize<CreateCustomerCommand>(body);
-
-                await AddCustomer(message);
-
-                _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
-            };
-
-            _channel.BasicConsume(queue: _rabbitMQOptions.Queue,
-                                 autoAck: true,
-                                 consumer: consumer);
+            _ = AddCustomer(message);
         }
 
         private async Task AddCustomer(CreateCustomerCommand request)
@@ -86,15 +63,11 @@ namespace ECommerce.Customer.Api.Services.RabbitMQ
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Hosted Service running...");
+            _logger.LogInformation("Timed Hosted Service is starting...");
 
-#if DEBUG
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                               TimeSpan.FromMinutes(1));
-#else
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromMinutes(5));
-#endif
+            var consumer = new EventingBasicConsumer(_channel);
+            consumer.Received += Consumer_Received;
+            _channel.BasicConsume(queue: _rabbitMQOptions.Queue, autoAck: true, consumer: consumer);
 
             return Task.CompletedTask;
         }
@@ -103,14 +76,16 @@ namespace ECommerce.Customer.Api.Services.RabbitMQ
         {
             _logger.LogInformation("Timed Hosted Service is stopping...");
 
-            _timer?.Change(Timeout.Infinite, 0);
+            _channel.Close();
+            _connection.Close();
 
             return Task.CompletedTask;
         }
 
         public void Dispose()
         {
-            _timer?.Dispose();
+            _channel.Close();
+            _connection.Close();
         }
     }
 }
