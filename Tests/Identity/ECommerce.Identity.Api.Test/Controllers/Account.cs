@@ -4,7 +4,7 @@ using ECommerce.Identity.Api.Models.Request;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 
-namespace ECommerce.Identity.Api.Test
+namespace ECommerce.Identity.Api.Test.Controllers
 {
     public class Account : IClassFixture<WebApplicationFactory<Startup>>
     {
