@@ -7,6 +7,11 @@ namespace ECommerce.Customers.Domain.Models
 {
     public class Address : Entity
     {
+        public Address()
+        {
+            
+        }
+
         public Address(string firstLine, string secondLine, string city, string zipCode, string state, Guid customerId)
         {
             FirstLine = firstLine;

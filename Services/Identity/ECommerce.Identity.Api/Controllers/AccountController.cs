@@ -1,6 +1,4 @@
-﻿#define gRPC
-
-using AutoMapper;
+﻿using AutoMapper;
 using ECommerce.Identity.Api.Constants;
 using ECommerce.Identity.Api.Handler;
 using ECommerce.Identity.Api.Interfaces;
@@ -23,14 +21,13 @@ namespace ECommerce.Identity.Api.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<AccountController> _logger;
         private readonly JwtHandler _jwtHandler;
-        private readonly ICustomerGrpcClient _customerGrpcClient;
+        private readonly ICustomerRabbitMqClient _customerRabbitMqClient;
         private readonly IMapper _mapper;
 
         public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
             ILogger<AccountController> logger,
             JwtHandler jwtHandler,
-            ICustomerGrpcClient customerGrpcClient,
             ICustomerRabbitMqClient customerRabbitMqClient,
             IMapper mapper)
         {
@@ -38,7 +35,7 @@ namespace ECommerce.Identity.Api.Controllers
             _userManager = userManager;
             _logger = logger;
             _jwtHandler = jwtHandler;
-            _customerGrpcClient = customerGrpcClient;
+            _customerRabbitMqClient = customerRabbitMqClient;
             _mapper = mapper;
         }
 
@@ -73,14 +70,7 @@ namespace ECommerce.Identity.Api.Controllers
 
                 user.Id = Guid.Parse(identityUser.Id);
 
-#if RABBITMQ
-                // Use ICustomerRabbitMqClient
-#elif gRPC
-                var createCustomerResult = await _customerGrpcClient.Create(_mapper.Map<Customers.Api.Protos.CreateUserRequest>(user));
-
-                if (!createCustomerResult.Isvalid)
-                    return BadRequest(createCustomerResult.Message);
-#endif
+                await _customerRabbitMqClient.CreateCustomer(_mapper.Map<CustomerRequest>(user));
             }
             catch (Exception e)
             {

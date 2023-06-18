@@ -4,9 +4,9 @@ using System;
 
 namespace ECommerce.Identity.Api.Mappers
 {
-    public class ProtoProfile : Profile
+    public class SignUpUserRequestToProtoProfile : Profile
     {
-        public ProtoProfile()
+        public SignUpUserRequestToProtoProfile()
         {
             CreateMap<SignUpUserRequest, Customers.Api.Protos.CreateUserRequest>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

@@ -21,6 +21,7 @@ namespace ECommerce.Customers.Application.Commands.Customer
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string ZipCode { get; set; }
 
         public CreateDocumentCommand Document { get; set; }
         public CreateEmailCommand Email { get; set; }

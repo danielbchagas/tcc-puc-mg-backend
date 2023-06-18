@@ -21,5 +21,7 @@ namespace ECommerce.Identity.Api.Models.Request
         [Required(ErrorMessage = "O campo confirmação de senha é obrigatório.")]
         [Compare(nameof(Password), ErrorMessage = "As senhas informadas são diferentes.")]
         public string PasswordConfirmation { get; set; }
+        [Required(ErrorMessage = "O campo código postal é obrigatório.")]
+        public string ZipCode { get; set; }
     }
 }
