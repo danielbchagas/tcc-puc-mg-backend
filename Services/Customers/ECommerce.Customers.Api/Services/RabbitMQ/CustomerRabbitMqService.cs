@@ -58,12 +58,14 @@ namespace ECommerce.Customer.Api.Services.RabbitMQ
 
                 if (!result.Item1.IsValid)
                     _logger.LogError(CustomerMessages.CREATE_CUSTOMER_ERROR, result.Item2);
+                else
+                    _logger.LogInformation(CustomerMessages.CREATE_CUSTOMER_SUCCESS, result.Item2);
             }
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Timed Hosted Service is starting...");
+            _logger.LogInformation("Hosted Service is starting...");
 
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += Consumer_Received;
@@ -74,7 +76,7 @@ namespace ECommerce.Customer.Api.Services.RabbitMQ
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Timed Hosted Service is stopping...");
+            _logger.LogInformation("Hosted Service is stopping...");
 
             _channel.Close();
             _connection.Close();
