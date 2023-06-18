@@ -66,7 +66,7 @@ namespace ECommerce.Identity.Api.Controllers
 
                 identityUser = await _userManager.FindByEmailAsync(user.Email);
 
-                await _userManager.AddToRoleAsync(identityUser, UserRoles.Customer);
+                await _userManager.AddToRoleAsync(identityUser, UserRoles.CUSTOMER);
 
                 user.Id = Guid.Parse(identityUser.Id);
 
@@ -78,7 +78,7 @@ namespace ECommerce.Identity.Api.Controllers
                     await _userManager.DeleteAsync(identityUser);
 
                 _logger.LogError(e.Message, e.InnerException);
-                return BadRequest(ResponseMessages.UserNotCreated);
+                return BadRequest(ResponseMessages.USER_NOT_CREATED);
             }
 
             var token = await _jwtHandler.GenerateNewToken(user.Email);
@@ -97,7 +97,7 @@ namespace ECommerce.Identity.Api.Controllers
             var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, isPersistent: false, lockoutOnFailure: true);
 
             if (!result.Succeeded)
-                return BadRequest(ResponseMessages.LoginFailed);
+                return BadRequest(ResponseMessages.LOGIN_FAILED);
 
             var token = await _jwtHandler.GenerateNewToken(user.Email);
 
@@ -112,13 +112,13 @@ namespace ECommerce.Identity.Api.Controllers
             var payload = await _jwtHandler.VerifyGoogleToken(externalAuth);
 
             if (payload == null)
-                return BadRequest(ResponseMessages.ExternalLoginFailed);
+                return BadRequest(ResponseMessages.EXTERNAL_LOGIN_FAILED);
             
             var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
             var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
             
             if (user == null)
-                return BadRequest(ResponseMessages.UserNotFound);
+                return BadRequest(ResponseMessages.USER_NOT_FOUND);
 
             var token = await _jwtHandler.GenerateNewToken(user.Email);
 

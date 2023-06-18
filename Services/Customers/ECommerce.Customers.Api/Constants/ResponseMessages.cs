@@ -2,6 +2,6 @@
 {
     public class ResponseMessages
     {
-        public const string InconsistentIdentifiers = "Identificadores inconsistentes.";
+        public const string INCONSISTENT_IDENTIFIERS = "Identificadores inconsistentes.";
     }
 }

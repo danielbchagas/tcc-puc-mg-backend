@@ -12,6 +12,15 @@ namespace ECommerce.Customers.Domain.Models
             
         }
 
+        /// <summary>
+        /// Customer address
+        /// </summary>
+        /// <param name="firstLine"></param>
+        /// <param name="secondLine"></param>
+        /// <param name="city"></param>
+        /// <param name="zipCode"></param>
+        /// <param name="state"></param>
+        /// <param name="customerId"></param>
         public Address(string firstLine, string secondLine, string city, string zipCode, string state, Guid customerId)
         {
             FirstLine = firstLine;

@@ -13,16 +13,14 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
 {
     public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, (ValidationResult, Models.Customer)>
     {
-        public CreateCustomerCommandHandler(ICustomerRepository repository, IUnitOfWork unitOfWork, IViaCepService viaCepService)
+        public CreateCustomerCommandHandler(ICustomerRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
-            _viaCepService = viaCepService;
         }
 
         private readonly ICustomerRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IViaCepService _viaCepService;
 
         public async Task<(ValidationResult, Models.Customer)> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
@@ -41,8 +39,11 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
 
         private async Task<Models.Customer> CreateCustomer(CreateCustomerCommand request)
         {
-            var response = await _viaCepService.Get(request.ZipCode);
+            var response = await new ViaCepService().GetAddress(request.ZipCode);
             
+            if (response != null)
+                response.CustomerId = request.Id;
+
             return new Models.Customer(
                 id: request.Id,
                 firstName: request.FirstName,
@@ -63,15 +64,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
                     Number = request.Phone.Number,
                     CustomerId = request.Phone.CustomerId
                 },
-                address: new Models.Address
-                {
-                    FirstLine = response.logradouro,
-                    SecondLine = response.complemento,
-                    City = response.localidade,
-                    State = response.uf,
-                    ZipCode = request.ZipCode,
-                    CustomerId = request.Id
-                });
+                address: response);
         }
     }
 }

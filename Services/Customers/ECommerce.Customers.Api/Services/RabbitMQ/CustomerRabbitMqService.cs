@@ -1,6 +1,6 @@
-﻿using ECommerce.Customer.Api.Models;
+﻿using ECommerce.Customer.Api.Constants;
+using ECommerce.Customer.Api.Models;
 using ECommerce.Customers.Application.Commands.Customer;
-using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,12 +18,12 @@ namespace ECommerce.Customer.Api.Services.RabbitMQ
     public class CustomerRabbitMqService : IHostedService, IDisposable
     {
         private readonly ILogger<CustomerRabbitMqService> _logger;
+        private Timer _timer = null;
         private readonly RabbitMqOption _rabbitMQOptions;
         private readonly IServiceProvider _serviceProvider;
         private IConnection _connection;
         private IModel _channel;
-        private Timer _timer = null;
-
+        
         public CustomerRabbitMqService(ILogger<CustomerRabbitMqService> logger, IOptions<RabbitMqOption> rabbitMQOptions, IServiceProvider serviceProvider)
         {
             _logger = logger;
@@ -72,14 +72,15 @@ namespace ECommerce.Customer.Api.Services.RabbitMQ
                                  consumer: consumer);
         }
 
-        private async Task<(ValidationResult, Customers.Domain.Models.Customer)> AddCustomer(CreateCustomerCommand request)
+        private async Task AddCustomer(CreateCustomerCommand request)
         {
             using (var scope = _serviceProvider.CreateScope())
             {
                 var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
                 var result = await mediator.Send(request);
 
-                return await Task.FromResult((result.Item1, result.Item2));
+                if (!result.Item1.IsValid)
+                    _logger.LogError(CustomerMessages.CREATE_CUSTOMER_ERROR, result.Item2);
             }
         }
 

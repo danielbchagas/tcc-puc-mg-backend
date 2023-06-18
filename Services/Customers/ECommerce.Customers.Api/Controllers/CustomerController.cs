@@ -68,7 +68,7 @@ namespace ECommerce.Customer.Api.Controllers
         public async Task<IActionResult> Update(Guid id, UpdateCustomerCommand request)
         {
             if (id != request.Id)
-                return BadRequest(ResponseMessages.InconsistentIdentifiers);
+                return BadRequest(ResponseMessages.INCONSISTENT_IDENTIFIERS);
 
             var result = await _mediator.Send(request);
 

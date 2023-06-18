@@ -5,8 +5,8 @@ namespace ECommerce.Customers.Application.Services.REST
 {
     public interface IViaCepService
     {
-        [Get("{zipCode}/json/")]
-        Task<ViaCepResponse> Get(string zipCode);
+        [Get("/{zipCode}/json/")]
+        Task<ViaCepResponse> Get([Query]string zipCode);
     }
 
     public class ViaCepResponse

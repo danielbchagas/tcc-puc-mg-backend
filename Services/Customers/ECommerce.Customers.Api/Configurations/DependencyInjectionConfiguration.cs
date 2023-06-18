@@ -1,7 +1,5 @@
 ﻿using ECommerce.Customer.Api.Services.RabbitMQ;
-using ECommerce.Customers.Application.Commands.Address;
 using ECommerce.Customers.Application.Commands.Customer;
-using ECommerce.Customers.Application.Handlers.Commands.Address;
 using ECommerce.Customers.Application.Handlers.Commands.Customer;
 using ECommerce.Customers.Application.Handlers.Queries;
 using ECommerce.Customers.Application.Queries;
@@ -13,8 +11,6 @@ using ECommerce.Customers.Infrastructure.Repositories;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Polly;
-using System;
 using System.Collections.Generic;
 
 namespace ECommerce.Customer.Api.Configurations
@@ -29,8 +25,6 @@ namespace ECommerce.Customer.Api.Configurations
             services.AddScoped<IRequestHandler<CreateCustomerCommand, (ValidationResult, Customers.Domain.Models.Customer)>, CreateCustomerCommandHandler>();
             services.AddScoped<IRequestHandler<DisableCustomerCommand, ValidationResult>, DisableCustomerCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateCustomerCommand, (ValidationResult, Customers.Domain.Models.Customer)>, UpdateCustomerCommandHandler>();
-
-            services.AddScoped<IRequestHandler<CreateAddressCommand, (ValidationResult, Address)>, CreateAddressCommandHandler>();
             #endregion
 
             #region
