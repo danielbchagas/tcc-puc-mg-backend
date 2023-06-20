@@ -9,6 +9,7 @@ Tecnologias empregadas:
 - [gRPC](https://grpc.io/)
 - [AutoFixture](https://github.com/AutoFixture/AutoFixture)
 - [AutoMapper](https://github.com/AutoMapper/AutoMapper)
+- [Bogus](https://github.com/bchavez/Bogus)
 
 ### Usuário para teste:
 Login: `admin@ecommerce.com`  
