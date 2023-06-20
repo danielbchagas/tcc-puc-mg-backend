@@ -6,5 +6,6 @@
         public const string LOGIN_FAILED = "Autenticação inválida.";
         public const string EXTERNAL_LOGIN_FAILED = "Autenticação externa inválida.";
         public const string USER_NOT_FOUND = "Usuário não encontrado.";
+        public const string ADDRESS_NOT_FOUND = "Endereço não encontrado.";
     }
 }

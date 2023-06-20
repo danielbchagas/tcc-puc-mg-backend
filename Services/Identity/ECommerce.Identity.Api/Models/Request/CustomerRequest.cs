@@ -8,10 +8,10 @@ namespace ECommerce.Identity.Api.Models.Request
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool Enabled { get; set; }
-        public string ZipCode { get; set; }
 
         public DocumentRequest Document { get; set; }
         public EmailRequest Email { get; set; }
         public PhoneRequest Phone { get; set; }
+        public AddressRequest Address { get; set; }
     }
 }

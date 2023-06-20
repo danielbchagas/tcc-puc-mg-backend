@@ -25,8 +25,7 @@ namespace ECommerce.Identity.Api.Mappers
                 {
                     Number = src.Phone,
                     UserId = src.Id
-                }))
-                .ForMember(dest => dest.ZipCode, opt => opt.MapFrom(src => src.ZipCode));
+                }));
         }
     }
 }

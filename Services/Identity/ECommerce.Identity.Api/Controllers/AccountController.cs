@@ -3,6 +3,7 @@ using ECommerce.Identity.Api.Constants;
 using ECommerce.Identity.Api.Handler;
 using ECommerce.Identity.Api.Interfaces;
 using ECommerce.Identity.Api.Models.Request;
+using ECommerce.Identity.Api.Services.REST;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,13 +24,15 @@ namespace ECommerce.Identity.Api.Controllers
         private readonly JwtHandler _jwtHandler;
         private readonly ICustomerRabbitMqClient _customerRabbitMqClient;
         private readonly IMapper _mapper;
+        private readonly IViaCepService _viaCepService;
 
         public AccountController(SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
             ILogger<AccountController> logger,
             JwtHandler jwtHandler,
             ICustomerRabbitMqClient customerRabbitMqClient,
-            IMapper mapper)
+            IMapper mapper,
+            IViaCepService viaCepService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -37,6 +40,7 @@ namespace ECommerce.Identity.Api.Controllers
             _jwtHandler = jwtHandler;
             _customerRabbitMqClient = customerRabbitMqClient;
             _mapper = mapper;
+            _viaCepService = viaCepService;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -70,7 +74,10 @@ namespace ECommerce.Identity.Api.Controllers
 
                 user.Id = Guid.Parse(identityUser.Id);
 
-                await _customerRabbitMqClient.CreateCustomer(_mapper.Map<CustomerRequest>(user));
+                var customer = _mapper.Map<CustomerRequest>(user);
+                customer.Address = _mapper.Map<AddressRequest>(await _viaCepService.GetAddress(user.ZipCode));
+
+                await _customerRabbitMqClient.CreateCustomer(customer);
             }
             catch (Exception e)
             {

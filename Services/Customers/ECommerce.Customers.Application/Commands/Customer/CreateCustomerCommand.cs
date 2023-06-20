@@ -26,6 +26,7 @@ namespace ECommerce.Customers.Application.Commands.Customer
         public CreateDocumentCommand Document { get; set; }
         public CreateEmailCommand Email { get; set; }
         public CreatePhoneCommand Phone { get; set; }
+        public CreateAddressCommand Address { get; set; }
     }
 
     public class CreateDocumentCommand
@@ -46,6 +47,16 @@ namespace ECommerce.Customers.Application.Commands.Customer
     {
         public Guid Id { get; set; }
         public string Number { get; set; }
+        public Guid CustomerId { get; set; }
+    }
+
+    public class CreateAddressCommand 
+    {
+        public string FirstLine { get; set; }
+        public string SecondLine { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string ZipCode { get; set; }
         public Guid CustomerId { get; set; }
     }
 

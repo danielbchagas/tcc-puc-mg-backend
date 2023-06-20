@@ -37,6 +37,7 @@ namespace ECommerce.Identity.Api
             services.AddGrpcConfiguration(Configuration);
             services.AddRabbitMqConfiguration(Configuration);
             services.AddAutoMapper(typeof(Startup));
+            services.AddRefitConfiguration(Configuration);
 
             services.AddControllers();
 

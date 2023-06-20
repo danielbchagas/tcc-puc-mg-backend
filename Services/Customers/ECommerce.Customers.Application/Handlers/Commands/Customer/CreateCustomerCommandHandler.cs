@@ -1,5 +1,4 @@
 ﻿using ECommerce.Customers.Application.Commands.Customer;
-using ECommerce.Customers.Application.Services.REST;
 using ECommerce.Customers.Domain.Interfaces.Data;
 using ECommerce.Customers.Domain.Interfaces.Repositories;
 using FluentValidation.Results;
@@ -24,7 +23,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
 
         public async Task<(ValidationResult, Models.Customer)> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = await CreateCustomer(request);
+            var customer = ToCustomer(request);
 
             var validation = customer.Validate();
 
@@ -37,13 +36,8 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
             return await Task.FromResult((validation, customer));
         }
 
-        private async Task<Models.Customer> CreateCustomer(CreateCustomerCommand request)
+        private static Models.Customer ToCustomer(CreateCustomerCommand request)
         {
-            var response = await new ViaCepService().GetAddress(request.ZipCode);
-            
-            if (response != null)
-                response.CustomerId = request.Id;
-
             return new Models.Customer(
                 id: request.Id,
                 firstName: request.FirstName,
@@ -64,7 +58,15 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
                     Number = request.Phone.Number,
                     CustomerId = request.Phone.CustomerId
                 },
-                address: response);
+                address: new Models.Address
+                {
+                    FirstLine = request.Address.FirstLine,
+                    SecondLine = request.Address.SecondLine,
+                    City = request.Address.City,
+                    State = request.Address.State,
+                    ZipCode = request.Address.ZipCode,
+                    CustomerId = request.Address.CustomerId
+                });
         }
     }
 }
