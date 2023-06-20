@@ -22,7 +22,7 @@ namespace ECommerce.Products.Api.Services.gRPC
 
         public override async Task<GetProductResponse> GetProduct(GetProductRequest request, ServerCallContext context)
         {
-            var result = await _mediator.Send(new GetProductQuery(Guid.Parse(request.Id)));
+            var result = await _mediator.Send(new GetProductByIdQuery(Guid.Parse(request.Id)));
 
             if (result == null)
             {

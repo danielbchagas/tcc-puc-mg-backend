@@ -26,20 +26,9 @@ namespace ECommerce.Products.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string name, int? page = null, int? pageSize = null)
         {
-            var result = await _mediator.Send(new GetProductsQuery());
-
-            return Ok(result);
-        }
-
-        [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpGet("{product:alpha}")]
-        public async Task<IActionResult> Get(string product)
-        {
-            var result = await _mediator.Send(new FilterProductsQuery(p => p.Name.Contains(product)));
+            var result = await _mediator.Send(new GetProductsQuery(name, page, pageSize));
 
             return Ok(result);
         }
@@ -50,7 +39,7 @@ namespace ECommerce.Products.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _mediator.Send(new GetProductQuery(id));
+            var result = await _mediator.Send(new GetProductByIdQuery(id));
 
             if (result is null)
                 return NotFound();

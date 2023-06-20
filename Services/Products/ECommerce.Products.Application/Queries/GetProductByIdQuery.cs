@@ -4,9 +4,9 @@ using MediatR;
 
 namespace ECommerce.Products.Application.Queries
 {
-    public class GetProductQuery : IRequest<Product>
+    public class GetProductByIdQuery : IRequest<Product>
     {
-        public GetProductQuery(Guid id)
+        public GetProductByIdQuery(Guid id)
         {
             Id = id;
         }

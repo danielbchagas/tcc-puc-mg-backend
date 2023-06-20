@@ -15,7 +15,7 @@ namespace ECommerce.Customers.Domain.Interfaces.Repositories
         Task Delete(Guid id);
         Task<Customer> Get(Guid id);
         Task<IList<Customer>> Get();
-        Task<IList<Customer>> GetData(
+        Task<IList<Customer>> Get(
             Expression<Func<Customer, bool>> expression = null, 
             Func<IQueryable<Customer>, IIncludableQueryable<Customer, object>> includes = null, 
             int? skip = null, 

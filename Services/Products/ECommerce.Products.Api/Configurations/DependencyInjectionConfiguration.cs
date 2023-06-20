@@ -23,11 +23,16 @@ namespace ECommerce.Products.Api.Configurations
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddMediatR(typeof(Startup));
-            services.AddScoped<IRequestHandler<GetProductQuery, Product>, GetProductQueryHandler>();
-            services.AddScoped<IRequestHandler<FilterProductsQuery, IEnumerable<Product>>, FilterProductsQueryHandler>();
-            services.AddScoped<IRequestHandler<GetProductsQuery, IEnumerable<Product>>, GetProductsQueryHandler>();
+
+            #region Commands
             services.AddScoped<IRequestHandler<UpdateProductCommand, ValidationResult>, UpdateProductCommandHandler>();
+            #endregion
+
+            #region Queries
+            services.AddScoped<IRequestHandler<GetProductByIdQuery, Product>, GetProductByIdQueryHandler>();
+            services.AddScoped<IRequestHandler<GetProductsQuery, IEnumerable<Product>>, GetProductsQueryHandler>();
             services.AddScoped<IRequestHandler<GetImageQuery, (Guid, string)>, GetImageQueryHandler>();
+            #endregion
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

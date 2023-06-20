@@ -63,7 +63,7 @@ namespace ECommerce.Customers.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IList<Customer>> GetData(Expression<Func<Customer, bool>> expression = null, 
+        public async Task<IList<Customer>> Get(Expression<Func<Customer, bool>> expression = null, 
             Func<IQueryable<Customer>, IIncludableQueryable<Customer, object>> includes = null, 
             int? skip = null, 
             int? take = null)

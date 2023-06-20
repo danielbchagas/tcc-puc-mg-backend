@@ -7,16 +7,16 @@ using MediatR;
 
 namespace ECommerce.Products.Application.Handlers.Queries
 {
-    public class GetProductQueryHandler : IRequestHandler<GetProductQuery, Product>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Product>
     {
-        public GetProductQueryHandler(IProductRepository repository)
+        public GetProductByIdQueryHandler(IProductRepository repository)
         {
             _repository = repository;
         }
 
         private readonly IProductRepository _repository;
 
-        public async Task<Product> Handle(GetProductQuery request, CancellationToken cancellationToken)
+        public async Task<Product> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
             return await _repository.Get(request.Id);
         }
