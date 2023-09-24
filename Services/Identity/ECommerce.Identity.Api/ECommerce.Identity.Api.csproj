@@ -47,4 +47,8 @@
 	  <Protobuf Include="Protos\customer.proto" GrpcServices="Client" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Services\RabbitMQ\UserRabbitMqService.cs" />
+  </ItemGroup>
+
 </Project>

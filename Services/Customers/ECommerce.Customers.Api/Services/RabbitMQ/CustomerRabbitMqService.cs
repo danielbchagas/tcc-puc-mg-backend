@@ -12,6 +12,7 @@ using System;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Polly;
 
 namespace ECommerce.Customer.Api.Services.RabbitMQ
 {
@@ -20,22 +21,22 @@ namespace ECommerce.Customer.Api.Services.RabbitMQ
         private readonly ILogger<CustomerRabbitMqService> _logger;
         private readonly IServiceProvider _serviceProvider;
 
-        private readonly RabbitMqOption _rabbitMQOptions;
+        private readonly RabbitMqOption _rabbitMqOptions;
         
-        private IConnection _connection;
-        private IModel _channel;
+        private readonly IConnection _connection;
+        private readonly IModel _channel;
         
         public CustomerRabbitMqService(ILogger<CustomerRabbitMqService> logger, IOptions<RabbitMqOption> rabbitMQOptions, IServiceProvider serviceProvider)
         {
             _logger = logger;
-            _rabbitMQOptions = rabbitMQOptions.Value;
+            _rabbitMqOptions = rabbitMQOptions.Value;
             _serviceProvider = serviceProvider;
 
             var factory = new ConnectionFactory
             {
-                HostName = _rabbitMQOptions.Host,
-                UserName = _rabbitMQOptions.Username,
-                Password = _rabbitMQOptions.Password
+                HostName = _rabbitMqOptions.Host,
+                UserName = _rabbitMqOptions.Username,
+                Password = _rabbitMqOptions.Password
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
@@ -67,10 +68,21 @@ namespace ECommerce.Customer.Api.Services.RabbitMQ
         {
             _logger.LogInformation("Hosted Service is starting...");
 
-            var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += Consumer_Received;
-            _channel.BasicConsume(queue: _rabbitMQOptions.Queue, autoAck: true, consumer: consumer);
+            var retryPolicy = Policy
+                .Handle<Exception>() 
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), onRetry: (exception, retryCount, context) =>
+                {
+                    _logger.LogError($"Retry counter: {retryCount}", JsonSerializer.Serialize(exception));
+                });
 
+            retryPolicy.ExecuteAsync(() =>
+            {
+                var consumer = new EventingBasicConsumer(_channel);
+                consumer.Received += Consumer_Received;
+                _channel.BasicConsume(queue: _rabbitMqOptions.Queue, autoAck: true, consumer: consumer);
+                return Task.CompletedTask;
+            });
+            
             return Task.CompletedTask;
         }
 
