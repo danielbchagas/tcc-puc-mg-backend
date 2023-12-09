@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace ECommerce.Baskets.Domain.Test.Models
+namespace ECommerce.Baskets.Domain.Test
 {
     public class AddItemsIntoBasket
     {
@@ -20,14 +20,14 @@ namespace ECommerce.Baskets.Domain.Test.Models
             // Arrange
             var basket = _fixture.Build<Basket>()
                 .Create();
-            
+
             var newItemsToAdd = _fixture.Build<Item>()
                .With(i => i.Quantity, quantity)
                .CreateMany();
 
             // Act
             var result = new List<ValidationResult>();
-            
+
             foreach (var item in newItemsToAdd)
                 result.Add(basket.AddOrUpdateItem(item));
 
@@ -42,7 +42,7 @@ namespace ECommerce.Baskets.Domain.Test.Models
             var basket = _fixture.Build<Basket>()
                 .Without(b => b.Items)
                 .Create();
-            
+
             var newItemsToAdd = _fixture.Build<Item>()
                 .With(i => i.Quantity, 1)
                 .CreateMany();
@@ -62,13 +62,13 @@ namespace ECommerce.Baskets.Domain.Test.Models
             var basket = _fixture.Build<Basket>()
                 .Without(b => b.Items)
                 .Create();
-            
+
             var newItemsToAdd = _fixture.Build<Item>()
                 .With(i => i.Quantity, 1)
                 .Without(i => i.UpdatedAt)
                 .Without(i => i.DeletedAt)
                 .CreateMany();
-            
+
             var selectedToRemove = newItemsToAdd.First();
 
             // Act
@@ -89,21 +89,21 @@ namespace ECommerce.Baskets.Domain.Test.Models
             var basket = _fixture.Build<Basket>()
                 .Without(b => b.Items)
                 .Create();
-            
+
             var newItemsToAdd = _fixture.Build<Item>()
                 .With(i => i.Quantity, 1)
                 .Without(i => i.UpdatedAt)
                 .Without(i => i.DeletedAt)
                 .CreateMany();
-            
+
             var selectedToRemove = newItemsToAdd.First();
-            
+
             var oneMoreToAdd = _fixture.Build<Item>()
                 .With(i => i.Quantity, 1)
                 .Without(i => i.UpdatedAt)
                 .Without(i => i.DeletedAt)
                 .Create();
-            
+
             // Act
             // 1 - Update basket [Including new items]
             foreach (var item in newItemsToAdd)
@@ -115,7 +115,7 @@ namespace ECommerce.Baskets.Domain.Test.Models
 
             // Asset
             Assert.True(newItemsToAdd.Count(i => i.DeletedAt != null) == 1);
-            Assert.True(basket.Items.Sum(s => s.Value) == (newItemsToAdd.Sum(s => s.Value) + oneMoreToAdd.Value));
+            Assert.True(basket.Items.Sum(s => s.Value) == newItemsToAdd.Sum(s => s.Value) + oneMoreToAdd.Value);
         }
     }
 }

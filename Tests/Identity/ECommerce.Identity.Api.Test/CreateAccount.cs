@@ -1,22 +1,23 @@
 using Bogus;
 using Bogus.Extensions.Brazil;
+using ECommerce.Customers.Api.Protos;
 using ECommerce.Identity.Api.Models.Request;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 
-namespace ECommerce.Identity.Api.Test.Controllers
+namespace ECommerce.Identity.Api.Test
 {
-    public class Account : IClassFixture<WebApplicationFactory<Startup>>
+    public class CreateAccount : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
 
-        public Account(WebApplicationFactory<Startup> factory)
+        public CreateAccount(WebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }
 
         [Fact]
-        public async Task CreateUser_MustCreate()
+        public async Task Create_User_Should_Be_True()
         {
             // Arrange
             var http = _factory.CreateClient();

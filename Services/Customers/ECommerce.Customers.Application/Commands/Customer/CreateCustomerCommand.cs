@@ -18,6 +18,18 @@ namespace ECommerce.Customers.Application.Commands.Customer
             Phone = phone;
         }
 
+        public CreateCustomerCommand(Guid id, string firstName, string lastName, CreateDocumentCommand document, CreateEmailCommand email, CreatePhoneCommand phone, CreateAddressCommand address)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+
+            Document = document;
+            Email = email;
+            Phone = phone;
+            Address = address;
+        }
+
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -27,6 +39,9 @@ namespace ECommerce.Customers.Application.Commands.Customer
         public CreateEmailCommand Email { get; set; }
         public CreatePhoneCommand Phone { get; set; }
         public CreateAddressCommand Address { get; set; }
+
+        public ValidationResult Validate()
+            => new CreateCustomerCommandValidator().Validate(this);
     }
 
     public class CreateDocumentCommand
@@ -69,6 +84,7 @@ namespace ECommerce.Customers.Application.Commands.Customer
             RuleFor(u => u.Document).NotNull();
             RuleFor(u => u.Email).NotNull();
             RuleFor(u => u.Phone).NotNull();
+            RuleFor(a => a.Address).NotNull();
         }
     }
 }

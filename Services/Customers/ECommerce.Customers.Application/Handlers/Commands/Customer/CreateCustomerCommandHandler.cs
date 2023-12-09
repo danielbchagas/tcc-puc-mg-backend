@@ -23,6 +23,9 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
 
         public async Task<(ValidationResult, Models.Customer)> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
+            if(!request.Validate().IsValid)
+                return await Task.FromResult((request.Validate(), default(Models.Customer)));
+
             var customer = ToCustomer(request);
 
             var validation = customer.Validate();
@@ -58,7 +61,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
                     Number = request.Phone.Number,
                     CustomerId = request.Phone.CustomerId
                 },
-                address: new Models.Address
+                address: request.Address != null ? new Models.Address
                 {
                     FirstLine = request.Address.FirstLine,
                     SecondLine = request.Address.SecondLine,
@@ -66,7 +69,7 @@ namespace ECommerce.Customers.Application.Handlers.Commands.Customer
                     State = request.Address.State,
                     ZipCode = request.Address.ZipCode,
                     CustomerId = request.Address.CustomerId
-                });
+                } : null);
         }
     }
 }
